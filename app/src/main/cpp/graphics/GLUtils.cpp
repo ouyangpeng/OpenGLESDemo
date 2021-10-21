@@ -1,5 +1,5 @@
 #include "GLUtils.h"
-#include "LogUtils.h"
+#include "../log/LogUtils.h"
 
 #include <android/asset_manager_jni.h>
 #include <stdlib.h>

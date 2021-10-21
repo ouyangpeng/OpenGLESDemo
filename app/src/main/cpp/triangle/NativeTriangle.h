@@ -11,8 +11,12 @@ public:
 
     void create();
 
+    void change(int width, int height);
+
     void draw();
 
 private:
     GLuint mProgram;
+    int mWidth;
+    int mHeight;
 };

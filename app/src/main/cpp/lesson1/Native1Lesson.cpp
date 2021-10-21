@@ -1,5 +1,5 @@
 #include "Native1Lesson.h"
-#include "../graphics/LogUtils.h"
+#include "../log/LogUtils.h"
 #include "../graphics/GLUtils.h"
 
 static void printGLString(const char *name, GLenum s) {

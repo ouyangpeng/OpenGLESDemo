@@ -27,7 +27,7 @@ add_library( # Sets the name of the library.
         graphics/GLUtils.cpp
         graphics/Matrix.h
         graphics/Matrix.cpp
-        graphics/LogUtils.h
+        log/LogUtils.h
 
         # lesson1
         lesson1/Native1Lesson.cpp

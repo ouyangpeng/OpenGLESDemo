@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.opengl.GLSurfaceView
 import android.os.Bundle
+import android.util.Log
 
 class HelloTriangleActivity : Activity() {
     /**
@@ -11,26 +12,28 @@ class HelloTriangleActivity : Activity() {
      */
     private var mGLSurfaceView: GLSurfaceView? = null
 
+    private val CONTEXT_CLIENT_VERSION = 3
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mGLSurfaceView = GLSurfaceView(this)
 
-        // Check if the system supports OpenGL ES 2.0.
-        val activityManager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
-        val configurationInfo = activityManager.deviceConfigurationInfo
-        val supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000
-        if (supportsEs2) {
-            // Request an OpenGL ES 2.0 compatible context.
-            mGLSurfaceView!!.setEGLContextClientVersion(2)
-
-            // Set the native renderer to our demo renderer,defined below.
+        if(detectOpenGLES30()){
+            // Tell the surface view we want to create an OpenGL ES 3.0-compatible
+            // context, and set an OpenGL ES 3.0-compatible renderer.
+            mGLSurfaceView!!.setEGLContextClientVersion(CONTEXT_CLIENT_VERSION)
             mGLSurfaceView!!.setRenderer(HelloTriangleNativeRenderer())
         } else {
-            // This is where you could create an OpenGL ES 1.x compatible
-            // renderer if you wanted to support both ES 1 and ES 2.
-            return
+            Log.e("HelloTriangle", "OpenGL ES 3.0 not supported on device.  Exiting...")
+            return;
         }
         setContentView(mGLSurfaceView)
+    }
+
+    private fun detectOpenGLES30(): Boolean {
+        val am = getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        val info = am.deviceConfigurationInfo
+        return info.reqGlEsVersion >= 0x30000
     }
 
     override fun onResume() {
