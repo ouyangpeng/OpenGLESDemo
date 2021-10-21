@@ -2,6 +2,8 @@
     <string name="app_name">OpenGLESDemo</string>
 
     <string name="tocHeader">Welcome to the Learn OpenGL ES tutorials! Please visit the website at: http://www.learnopengles.com/</string>
+    <string name="lesson_triangle">Lesson Triangle</string>
+    <string name="lesson_triangle_subtitle">This lesson shows Triangle</string>
     <string name="lesson_one">Lesson One: Getting Started</string>
     <string name="lesson_one_subtitle">This lesson shows the basics of drawing in OpenGL ES 2.</string>
     <string name="lesson_two">Lesson Two: An Intro to Lighting</string>

@@ -8,6 +8,7 @@ import android.util.SparseArray
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.SimpleAdapter
 import com.oyp.openglesdemo.lesson1.LessonOneActivity
+import com.oyp.openglesdemo.triangle.HelloTriangleActivity
 import java.util.*
 
 class MainActivity : ListActivity() {
@@ -25,6 +26,15 @@ class MainActivity : ListActivity() {
         val activityMapping = SparseArray<Class<out Activity?>>()
 
         var i = 0
+
+        val item0: MutableMap<String, Any?> = HashMap()
+        item0[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        item0[ITEM_TITLE] =
+            getText(R.string.lesson_triangle)
+        item0[ITEM_SUBTITLE] =
+            getText(R.string.lesson_triangle_subtitle)
+        data.add(item0)
+        activityMapping.put(i++, HelloTriangleActivity::class.java)
 
         val item1: MutableMap<String, Any?> = HashMap()
         item1[ITEM_IMAGE] = R.mipmap.ic_lesson_one
