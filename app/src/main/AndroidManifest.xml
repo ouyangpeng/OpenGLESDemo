@@ -37,6 +37,10 @@
             android:label="@string/lesson_one"/>
 
         <activity
+            android:name=".triangle.HelloTriangleVertexArrayObjectActivity"
+            android:label="@string/lesson_one"/>
+
+        <activity
             android:name=".lesson1.LessonOneActivity"
             android:label="@string/lesson_one"/>
     </application>

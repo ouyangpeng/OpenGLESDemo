@@ -8,10 +8,7 @@ import android.util.SparseArray
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.SimpleAdapter
 import com.oyp.openglesdemo.lesson1.LessonOneActivity
-import com.oyp.openglesdemo.triangle.HelloTriangle2Activity
-import com.oyp.openglesdemo.triangle.HelloTriangle3Activity
-import com.oyp.openglesdemo.triangle.HelloTriangleActivity
-import com.oyp.openglesdemo.triangle.HelloTriangleMapBuffersActivity
+import com.oyp.openglesdemo.triangle.*
 import java.util.*
 
 class MainActivity : ListActivity() {
@@ -65,6 +62,17 @@ class MainActivity : ListActivity() {
             getText(R.string.lesson_triangle_subtitle)
         data.add(itemHelloTriangleMapBuffers)
         activityMapping.put(i++, HelloTriangleMapBuffersActivity::class.java)
+
+
+        val itemHelloTriangleVertexArrayObject: MutableMap<String, Any?> = HashMap()
+        itemHelloTriangleVertexArrayObject[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemHelloTriangleVertexArrayObject[ITEM_TITLE] =
+            getText(R.string.lesson_triangle)
+        itemHelloTriangleVertexArrayObject[ITEM_SUBTITLE] =
+            getText(R.string.lesson_triangle_subtitle)
+        data.add(itemHelloTriangleVertexArrayObject)
+        activityMapping.put(i++, HelloTriangleVertexArrayObjectActivity::class.java)
+
 
         val item1: MutableMap<String, Any?> = HashMap()
         item1[ITEM_IMAGE] = R.mipmap.ic_lesson_one
