@@ -29,8 +29,7 @@ static GLuint loadShader(GLenum shaderType, const char **source) {
     // Create the shader object
     // shaderType 可以是  GL_VERTEX_SHADER  或者  GL_FRAGMENT_SHADER
     shader = glCreateShader(shaderType);
-    if (shader == 0)
-    {
+    if (shader == 0) {
         return 0;
     }
 
@@ -66,18 +65,18 @@ static GLuint loadShader(GLenum shaderType, const char **source) {
 GLuint GLUtils::createProgram(const char **vertexSource, const char **fragmentSource) {
     // Load the Vertex shader
     GLuint vertexShader = loadShader(GL_VERTEX_SHADER, vertexSource);
-    if (!vertexShader) {
+    if (vertexShader == 0) {
         return 0;
     }
     // Load the Fragment shader
     GLuint fragmentShader = loadShader(GL_FRAGMENT_SHADER, fragmentSource);
-    if (!fragmentShader) {
+    if (fragmentShader == 0) {
         return 0;
     }
 
     // Create the program object
     GLuint program = glCreateProgram();
-    if (program==0) {
+    if (program == 0) {
         return 0;
     }
 
@@ -110,6 +109,9 @@ GLuint GLUtils::createProgram(const char **vertexSource, const char **fragmentSo
         glDeleteProgram(program);
         return 0;
     }
+    // Free up no longer needed shader resources
+    glDeleteShader ( vertexShader );
+    glDeleteShader ( fragmentShader );
     return program;
 }
 
