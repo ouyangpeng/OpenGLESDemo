@@ -1,7 +1,6 @@
 #ifndef OPEN_GL_LESSON_NATIVE_1LESSON_H
 #define OPEN_GL_LESSON_NATIVE_1LESSON_H
-
-#include <GLES2/gl2.h>
+#include "../graphics/GLUtils.h"
 #include "../graphics/Matrix.h"
 
 class Native1Lesson {

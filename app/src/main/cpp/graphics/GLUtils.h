@@ -2,10 +2,7 @@
 #define OPEN_GL_LESSON_NATIVE_GL_UTILS_H_
 
 #include <jni.h>
-
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
+#include <GLES3/gl3.h>
 
 class GLUtils {
 public:

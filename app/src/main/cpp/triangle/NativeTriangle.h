@@ -1,5 +1,5 @@
 #pragma once
-#include <GLES2/gl2.h>
+#include "../graphics/GLUtils.h"
 #include "../graphics/Matrix.h"
 
 class NativeTriangle {
