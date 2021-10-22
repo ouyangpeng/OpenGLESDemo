@@ -2,12 +2,12 @@
 #include <GLES2/gl2.h>
 #include "../graphics/Matrix.h"
 
-class NativeTriangle {
+class NativeTriangle2 {
 
 public:
-	NativeTriangle();
+	NativeTriangle2();
 
-	~NativeTriangle();
+	~NativeTriangle2();
 
 	void create();
 

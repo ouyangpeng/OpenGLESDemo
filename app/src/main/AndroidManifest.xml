@@ -28,6 +28,11 @@
         <activity
             android:name=".triangle.HelloTriangleActivity"
             android:label="@string/lesson_one"/>
+
+        <activity
+            android:name=".triangle.HelloTriangle2Activity"
+            android:label="@string/lesson_one"/>
+
         <activity
             android:name=".lesson1.LessonOneActivity"
             android:label="@string/lesson_one"/>

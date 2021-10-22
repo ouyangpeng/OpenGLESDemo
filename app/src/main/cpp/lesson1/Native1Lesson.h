@@ -7,29 +7,29 @@
 class Native1Lesson {
 
 public:
-    Native1Lesson();
+	Native1Lesson();
 
-    ~Native1Lesson();
+	~Native1Lesson();
 
-    void create();
+	void create();
 
-    void change(int width, int height);
+	void change(int width, int height);
 
-    void draw();
+	void draw();
 
-    void drawTriangle(GLfloat *verticesData);
+	void drawTriangle(GLfloat* verticesData);
 
 private:
-    Matrix *mViewMatrix;
-    Matrix *mModelMatrix;
-    Matrix *mProjectionMatrix;
-    Matrix *mMVPMatrix;
+	Matrix* mViewMatrix;
+	Matrix* mModelMatrix;
+	Matrix* mProjectionMatrix;
+	Matrix* mMVPMatrix;
 
-    GLuint mProgram;
+	GLuint mProgram;
 
-    GLuint mMVPMatrixHandle;
-    GLuint mPositionHandle;
-    GLuint mColorHandle;
+	GLuint mMVPMatrixHandle;
+	GLuint mPositionHandle;
+	GLuint mColorHandle;
 };
 
 #endif //OPEN_GL_LESSON_NATIVE_1LESSON_H
