@@ -42,6 +42,9 @@ add_library( # Sets the name of the library.
 
         triangle/NativeTriangle3.cpp
         triangle/NativeTriangle3.h
+
+        triangle/NativeTriangleMapBuffers.cpp
+        triangle/NativeTriangleMapBuffers.h
        )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -63,8 +66,10 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
         opengles-lesson-lib
+
         EGL
-        GLESv2
+#        GLESv2  # 把opengl库文件添加进来，GLESv2
+        GLESv3   # 把opengl库文件添加进来，GLESv3
         android
 
         # Links the target library to the log library

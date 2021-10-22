@@ -1,11 +1,9 @@
 #include "GLUtils.h"
 #include "../log/LogUtils.h"
 
-#include <android/asset_manager_jni.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
-#include <GLES3/gl3ext.h>
 
 static JNIEnv* sEnv = nullptr;
 static jobject sAssetManager = nullptr;

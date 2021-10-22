@@ -11,6 +11,7 @@ import com.oyp.openglesdemo.lesson1.LessonOneActivity
 import com.oyp.openglesdemo.triangle.HelloTriangle2Activity
 import com.oyp.openglesdemo.triangle.HelloTriangle3Activity
 import com.oyp.openglesdemo.triangle.HelloTriangleActivity
+import com.oyp.openglesdemo.triangle.HelloTriangleMapBuffersActivity
 import java.util.*
 
 class MainActivity : ListActivity() {
@@ -55,6 +56,15 @@ class MainActivity : ListActivity() {
             getText(R.string.lesson_triangle_subtitle)
         data.add(itemHelloTriangle3)
         activityMapping.put(i++, HelloTriangle3Activity::class.java)
+
+        val itemHelloTriangleMapBuffers: MutableMap<String, Any?> = HashMap()
+        itemHelloTriangleMapBuffers[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemHelloTriangleMapBuffers[ITEM_TITLE] =
+            getText(R.string.lesson_triangle)
+        itemHelloTriangleMapBuffers[ITEM_SUBTITLE] =
+            getText(R.string.lesson_triangle_subtitle)
+        data.add(itemHelloTriangleMapBuffers)
+        activityMapping.put(i++, HelloTriangleMapBuffersActivity::class.java)
 
         val item1: MutableMap<String, Any?> = HashMap()
         item1[ITEM_IMAGE] = R.mipmap.ic_lesson_one
