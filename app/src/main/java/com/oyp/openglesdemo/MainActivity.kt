@@ -80,9 +80,8 @@ class MainActivity : ListActivity() {
 
         val itemHelloTriangleSimpleVertexShader: MutableMap<String, Any?> = HashMap()
         itemHelloTriangleSimpleVertexShader[ITEM_IMAGE] = R.mipmap.ic_lesson_one
-        itemHelloTriangleSimpleVertexShader[ITEM_TITLE] = " Hello Triangle SimpleVertexShader"
-        itemHelloTriangleSimpleVertexShader[ITEM_SUBTITLE] =
-            getText(R.string.lesson_triangle_subtitle)
+        itemHelloTriangleSimpleVertexShader[ITEM_TITLE] = " Hello Cube SimpleVertexShader"
+        itemHelloTriangleSimpleVertexShader[ITEM_SUBTITLE] =  " Show a cube translate"
         data.add(itemHelloTriangleSimpleVertexShader)
         activityMapping.put(i++, HelloCubeSimpleVertexShaderActivity::class.java)
 

@@ -2,21 +2,24 @@
 #include "../graphics/GLUtils.h"
 #include "../graphics/Matrix.h"
 
-class NativeTriangle {
+namespace NAMESPACE_NativeTriangle{
+	class NativeTriangle {
 
-public:
-	NativeTriangle();
+	public:
+		NativeTriangle();
 
-	~NativeTriangle();
+		~NativeTriangle();
 
-	void create();
+		void create();
 
-	void change(int width, int height);
+		void change(int width, int height);
 
-	void draw();
+		void draw();
 
-private:
-	GLuint mProgram;
-	int mWidth;
-	int mHeight;
-};
+	private:
+		GLuint mProgram;
+		int mWidth;
+		int mHeight;
+	};
+}
+

@@ -1,6 +1,8 @@
 #include "../log/LogUtils.h"
 #include "../graphics/GLUtils.h"
+#include "NativeTriangle.h"
 #include "NativeTriangle3.h"
+
 
 // 可以参考这篇讲解： https://learnopengl-cn.github.io/01%20Getting%20started/04%20Hello%20Triangle/
 namespace TRIANGLE3 {
@@ -59,16 +61,15 @@ namespace TRIANGLE3 {
     GLushort indices[3] = { 0, 1, 2 };
     GLfloat* vtxBuf[2] = { vertexPos, color };
 
-
-    NativeTriangle3::NativeTriangle3() {
-
-    }
-
-    NativeTriangle3::~NativeTriangle3() {
+    NativeTriangle::NativeTriangle() {
 
     }
 
-    void NativeTriangle3::create() {
+    NativeTriangle::~NativeTriangle() {
+
+    }
+
+    void NativeTriangle::create() {
         printGLString("Version", GL_VERSION);
         printGLString("Vendor", GL_VENDOR);
         printGLString("Renderer", GL_RENDERER);
@@ -88,7 +89,7 @@ namespace TRIANGLE3 {
         glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     }
 
-    void NativeTriangle3::draw() {
+    void NativeTriangle::draw() {
         // Set the viewport
         // 通知OpenGL ES 用于绘制的2D渲染表面的原点、宽度和高度。
         // 在OpenGL ES 中，视口(Viewport) 定义所有OpenGL ES 渲染操作最终显示的2D矩形
@@ -143,7 +144,7 @@ namespace TRIANGLE3 {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
     }
 
-    void NativeTriangle3::change(int width, int height) {
+    void NativeTriangle::change(int width, int height) {
         mWidth = width;
         mHeight = height;
         LOGD("change() width = %d , height = %d\n", width, height);
@@ -153,13 +154,13 @@ namespace TRIANGLE3 {
 
 // ====================================================================
 
-static TRIANGLE3::NativeTriangle3* nativeTriangle;
+static TRIANGLE3::NativeTriangle* nativeTriangle;
 
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_triangle_HelloTriangle3NativeRenderer_00024Companion_nativeSurfaceCreate(
         JNIEnv *env, jobject thiz) {
-    nativeTriangle = new TRIANGLE3::NativeTriangle3();
+    nativeTriangle = new TRIANGLE3::NativeTriangle();
     if (nativeTriangle != nullptr) {
         nativeTriangle->create();
     }

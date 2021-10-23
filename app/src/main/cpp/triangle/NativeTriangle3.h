@@ -8,12 +8,12 @@
 #define VERTEX_POS_INDX       0
 #define VERTEX_COLOR_INDX     1
 namespace TRIANGLE3 {
-	class NativeTriangle3 {
+	class NativeTriangle {
 
 	public:
-		NativeTriangle3();
+		NativeTriangle();
 
-		~NativeTriangle3();
+		~NativeTriangle();
 
 		void create();
 

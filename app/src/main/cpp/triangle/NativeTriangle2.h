@@ -1,22 +1,23 @@
 #pragma once
 #include "../graphics/GLUtils.h"
 #include "../graphics/Matrix.h"
+namespace NAMESPACE_NativeTriangle2{
+	class NativeTriangle {
 
-class NativeTriangle2 {
+	public:
+		NativeTriangle();
 
-public:
-	NativeTriangle2();
+		~NativeTriangle();
 
-	~NativeTriangle2();
+		void create();
 
-	void create();
+		void change(int width, int height);
 
-	void change(int width, int height);
+		void draw();
 
-	void draw();
-
-private:
-	GLuint mProgram;
-	int mWidth;
-	int mHeight;
-};
+	private:
+		GLuint mProgram;
+		int mWidth;
+		int mHeight;
+	};
+}
