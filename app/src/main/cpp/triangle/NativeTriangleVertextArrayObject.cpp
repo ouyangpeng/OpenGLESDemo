@@ -13,52 +13,52 @@ namespace TRIANGLE_VERTEXT_ARRAY_OBJECT {
 
 	// 顶点着色器
 	const char* vShaderStr =
-			"#version 300 es                            \n"
-			"layout(location = 0) in vec4 a_position;   \n"
-			"layout(location = 1) in vec4 a_color;      \n"
-			"out vec4 v_color;                          \n"
-			"void main()                                \n"
-			"{                                          \n"
-			"    v_color = a_color;                     \n"
-			"    gl_Position = a_position;              \n"
-			"}";
+		"#version 300 es                            \n"
+		"layout(location = 0) in vec4 a_position;   \n"
+		"layout(location = 1) in vec4 a_color;      \n"
+		"out vec4 v_color;                          \n"
+		"void main()                                \n"
+		"{                                          \n"
+		"    v_color = a_color;                     \n"
+		"    gl_Position = a_position;              \n"
+		"}";
 
 	// 片段着色器
 	const char* fShaderStr =
-			"#version 300 es            \n"
-			"precision mediump float;   \n"
-			"in vec4 v_color;           \n"
-			"out vec4 o_fragColor;      \n"
-			"void main()                \n"
-			"{                          \n"
-			"    o_fragColor = v_color; \n"
-			"}" ;
+		"#version 300 es            \n"
+		"precision mediump float;   \n"
+		"in vec4 v_color;           \n"
+		"out vec4 o_fragColor;      \n"
+		"void main()                \n"
+		"{                          \n"
+		"    o_fragColor = v_color; \n"
+		"}";
 
-    // 3 vertices, with (x,y,z) ,(r, g, b, a)  per-vertex
-    GLfloat vertices[3 * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE)] =
-            {
-                    // 逆时针 三个顶点
-                    0.0f, 0.5f, 0.0f,            // v0 上角
-                    1.0f, 0.0f, 0.0f, 1.0f,      // c0
+	// 3 vertices, with (x,y,z) ,(r, g, b, a)  per-vertex
+	GLfloat vertices[3 * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE)] =
+	{
+		// 逆时针 三个顶点
+		0.0f, 0.5f, 0.0f,            // v0 上角
+		1.0f, 0.0f, 0.0f, 1.0f,      // c0
 
-                    -0.5f, -0.5f, 0.0f,          // v1 左下角
-                    0.0f, 1.0f, 0.0f, 1.0f,      // c1
+		-0.5f, -0.5f, 0.0f,          // v1 左下角
+		0.0f, 1.0f, 0.0f, 1.0f,      // c1
 
-                    0.5f, -0.5f, 0.0f,           // v2 右下角
-                    0.0f, 0.0f, 1.0f, 1.0f       // c2
-            };
+		0.5f, -0.5f, 0.0f,           // v2 右下角
+		0.0f, 0.0f, 1.0f, 1.0f       // c2
+	};
 
-    // Index buffer data
-    GLushort indices[3] = { 0, 1, 2 };
+	// Index buffer data
+	GLushort indices[3] = { 0, 1, 2 };
 
 
-    NativeTriangle::NativeTriangle() {
+	NativeTriangle::NativeTriangle() {
 
-    }
+	}
 
-    NativeTriangle::~NativeTriangle() {
+	NativeTriangle::~NativeTriangle() {
 
-    }
+	}
 
 	void NativeTriangle::create() {
 		printGLString("Version", GL_VERSION);
@@ -72,35 +72,35 @@ namespace TRIANGLE_VERTEXT_ARRAY_OBJECT {
 			return;
 		}
 
-        //  Generate VBO Ids and load the VBOs with data
-        glGenBuffers(2,vboIds);
+		//  Generate VBO Ids and load the VBOs with data
+		glGenBuffers(2, vboIds);
 
-		glBindBuffer(GL_ARRAY_BUFFER,vboIds[0]);
-        glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,vboIds[1]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(indices),indices,GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-        // Generate VAO Id
-        glGenVertexArrays(1, &vaoId);
+		// Generate VAO Id
+		glGenVertexArrays(1, &vaoId);
 
-        // Bind the VAO and then setup the vertex attributes
-        glBindVertexArray(vaoId);
+		// Bind the VAO and then setup the vertex attributes
+		glBindVertexArray(vaoId);
 
-        glBindBuffer(GL_ARRAY_BUFFER,vboIds[0]);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,vboIds[1]);
+		glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
 
-        glEnableVertexAttribArray(VERTEX_POS_INDX);
-        glEnableVertexAttribArray(VERTEX_COLOR_INDX);
+		glEnableVertexAttribArray(VERTEX_POS_INDX);
+		glEnableVertexAttribArray(VERTEX_COLOR_INDX);
 
-        glVertexAttribPointer(VERTEX_POS_INDX,VERTEX_POS_SIZE,
-                GL_FLOAT,GL_FALSE,VERTEX_STRIDE,(const void *) 0);
+		glVertexAttribPointer(VERTEX_POS_INDX, VERTEX_POS_SIZE,
+			GL_FLOAT, GL_FALSE, VERTEX_STRIDE, (const void*)0);
 
-        glVertexAttribPointer(VERTEX_COLOR_INDX,VERTEX_COLOR_SIZE,
-                              GL_FLOAT,GL_FALSE,VERTEX_STRIDE,(const void *) (VERTEX_POS_SIZE * sizeof(GLfloat)));
+		glVertexAttribPointer(VERTEX_COLOR_INDX, VERTEX_COLOR_SIZE,
+			GL_FLOAT, GL_FALSE, VERTEX_STRIDE, (const void*)(VERTEX_POS_SIZE * sizeof(GLfloat)));
 
-        // Reset to the default VAO
-        glBindVertexArray(0);
+		// Reset to the default VAO
+		glBindVertexArray(0);
 
 		// 设置清除颜色
 		glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
@@ -131,17 +131,17 @@ namespace TRIANGLE_VERTEXT_ARRAY_OBJECT {
 		glBindVertexArray(vaoId);
 
 		// Draw with the VAO settins
-		glDrawElements(GL_TRIANGLES,3,GL_UNSIGNED_SHORT,(const void *) 0);
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, (const void*)0);
 
 		// Return to the default VAO
 		glBindVertexArray(0);
 	}
 
-    void NativeTriangle::change(int width, int height) {
-        mWidth = width;
-        mHeight = height;
-        LOGD("Welcome to changew() width = %d , height = %d\n", width, height);
-    }
+	void NativeTriangle::change(int width, int height) {
+		mWidth = width;
+		mHeight = height;
+		LOGD("Welcome to changew() width = %d , height = %d\n", width, height);
+	}
 }
 
 // ====================================================================

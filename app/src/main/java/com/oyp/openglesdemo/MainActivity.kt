@@ -29,8 +29,7 @@ class MainActivity : ListActivity() {
 
         val item0: MutableMap<String, Any?> = HashMap()
         item0[ITEM_IMAGE] = R.mipmap.ic_lesson_one
-        item0[ITEM_TITLE] =
-            getText(R.string.lesson_triangle)
+        item0[ITEM_TITLE] = " Hello Triangle "
         item0[ITEM_SUBTITLE] =
             getText(R.string.lesson_triangle_subtitle)
         data.add(item0)
@@ -38,8 +37,7 @@ class MainActivity : ListActivity() {
 
         val itemHelloTriangle2: MutableMap<String, Any?> = HashMap()
         itemHelloTriangle2[ITEM_IMAGE] = R.mipmap.ic_lesson_one
-        itemHelloTriangle2[ITEM_TITLE] =
-            getText(R.string.lesson_triangle)
+        itemHelloTriangle2[ITEM_TITLE] =" Hello Triangle 2"
         itemHelloTriangle2[ITEM_SUBTITLE] =
             getText(R.string.lesson_triangle_subtitle)
         data.add(itemHelloTriangle2)
@@ -47,8 +45,7 @@ class MainActivity : ListActivity() {
 
         val itemHelloTriangle3: MutableMap<String, Any?> = HashMap()
         itemHelloTriangle3[ITEM_IMAGE] = R.mipmap.ic_lesson_one
-        itemHelloTriangle3[ITEM_TITLE] =
-            getText(R.string.lesson_triangle)
+        itemHelloTriangle3[ITEM_TITLE] = " Hello Triangle 3"
         itemHelloTriangle3[ITEM_SUBTITLE] =
             getText(R.string.lesson_triangle_subtitle)
         data.add(itemHelloTriangle3)
@@ -56,8 +53,7 @@ class MainActivity : ListActivity() {
 
         val itemHelloTriangleMapBuffers: MutableMap<String, Any?> = HashMap()
         itemHelloTriangleMapBuffers[ITEM_IMAGE] = R.mipmap.ic_lesson_one
-        itemHelloTriangleMapBuffers[ITEM_TITLE] =
-            getText(R.string.lesson_triangle)
+        itemHelloTriangleMapBuffers[ITEM_TITLE] = " Hello Triangle MapBuffers"
         itemHelloTriangleMapBuffers[ITEM_SUBTITLE] =
             getText(R.string.lesson_triangle_subtitle)
         data.add(itemHelloTriangleMapBuffers)
@@ -66,12 +62,19 @@ class MainActivity : ListActivity() {
 
         val itemHelloTriangleVertexArrayObject: MutableMap<String, Any?> = HashMap()
         itemHelloTriangleVertexArrayObject[ITEM_IMAGE] = R.mipmap.ic_lesson_one
-        itemHelloTriangleVertexArrayObject[ITEM_TITLE] =
-            getText(R.string.lesson_triangle)
+        itemHelloTriangleVertexArrayObject[ITEM_TITLE] = " Hello Triangle VertexArrayObject"
         itemHelloTriangleVertexArrayObject[ITEM_SUBTITLE] =
             getText(R.string.lesson_triangle_subtitle)
         data.add(itemHelloTriangleVertexArrayObject)
         activityMapping.put(i++, HelloTriangleVertexArrayObjectActivity::class.java)
+
+        val itemHelloTriangleVertexBufferObject: MutableMap<String, Any?> = HashMap()
+        itemHelloTriangleVertexBufferObject[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemHelloTriangleVertexBufferObject[ITEM_TITLE] = " Hello TriangleVertexBufferObject"
+        itemHelloTriangleVertexBufferObject[ITEM_SUBTITLE] =
+            getText(R.string.lesson_triangle_subtitle)
+        data.add(itemHelloTriangleVertexBufferObject)
+        activityMapping.put(i++, HelloTriangleVertexBufferObjectActivity::class.java)
 
 
         val item1: MutableMap<String, Any?> = HashMap()
@@ -82,69 +85,6 @@ class MainActivity : ListActivity() {
             getText(R.string.lesson_one_subtitle)
         data.add(item1)
         activityMapping.put(i++, LessonOneActivity::class.java)
-
-//        val item2: MutableMap<String, Any?> = HashMap()
-//        item2[ITEM_IMAGE] =  R.mipmap.ic_lesson_two
-//        item2[ITEM_TITLE] =
-//            getText(R.string.lesson_two)
-//        item2[ITEM_SUBTITLE] =
-//            getText(R.string.lesson_two_subtitle)
-//        data.add(item2)
-//        activityMapping.put(i++, LessonTwoActivity::class.java)
-//
-//        val item3: MutableMap<String, Any?> = HashMap()
-//        item3[ITEM_IMAGE] =  R.mipmap.ic_lesson_three
-//        item3[ITEM_TITLE] =
-//            getText(R.string.lesson_three)
-//        item3[ITEM_SUBTITLE] =
-//            getText(R.string.lesson_three_subtitle)
-//        data.add(item3)
-//        activityMapping.put(i++, LessonThreeActivity::class.java)
-//
-//        val item4: MutableMap<String, Any?> = HashMap()
-//        item4[ITEM_IMAGE] =  R.mipmap.ic_lesson_four
-//        item4[ITEM_TITLE] =
-//            getText(R.string.lesson_four)
-//        item4[ITEM_SUBTITLE] =
-//            getText(R.string.lesson_four_subtitle)
-//        data.add(item4)
-//        activityMapping.put(i++, LessonFourActivity::class.java)
-//
-//        val item5: MutableMap<String, Any?> = HashMap()
-//        item5[ITEM_IMAGE] =  R.mipmap.ic_lesson_five
-//        item5[ITEM_TITLE] =
-//            getText(R.string.lesson_five)
-//        item5[ITEM_SUBTITLE] =
-//            getText(R.string.lesson_five_subtitle)
-//        data.add(item5)
-//        activityMapping.put(i++, LessonFiveActivity::class.java)
-//
-//        val item6: MutableMap<String, Any?> = HashMap()
-//        item6[ITEM_IMAGE] =  R.mipmap.ic_lesson_six
-//        item6[ITEM_TITLE] =
-//            getText(R.string.lesson_six)
-//        item6[ITEM_SUBTITLE] =
-//            getText(R.string.lesson_six_subtitle)
-//        data.add(item6)
-//        activityMapping.put(i++, LessonSixActivity::class.java)
-//
-//        val item7: MutableMap<String, Any?> = HashMap()
-//        item7[ITEM_IMAGE] =  R.mipmap.ic_lesson_seven
-//        item7[ITEM_TITLE] =
-//            getText(R.string.lesson_seven)
-//        item7[ITEM_SUBTITLE] =
-//            getText(R.string.lesson_seven_subtitle)
-//        data.add(item7)
-//        activityMapping.put(i++, LessonSevenActivity::class.java)
-//
-//        val item8: MutableMap<String, Any?> = HashMap()
-//        item8[ITEM_IMAGE] =  R.mipmap.ic_lesson_eight
-//        item8[ITEM_TITLE] =
-//            getText(R.string.lesson_eight)
-//        item8[ITEM_SUBTITLE] =
-//            getText(R.string.lesson_eight_subtitle)
-//        data.add(item8)
-//        activityMapping.put(i++, LessonEightActivity::class.java)
 
         val dataAdapter = SimpleAdapter(
             this,
