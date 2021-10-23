@@ -51,6 +51,9 @@ add_library( # Sets the name of the library.
 
         triangle/NativeTriangleVertextBufferObject.cpp
         triangle/NativeTriangleVertextBufferObject.h
+
+        cube/NativeCubeSimpleVertexShader.cpp
+        cube/NativeCubeSimpleVertexShader.h
        )
 
 # Searches for a specified prebuilt library and stores the path as a

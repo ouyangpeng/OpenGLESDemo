@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.SparseArray
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.SimpleAdapter
+import com.oyp.openglesdemo.cube.HelloCubeSimpleVertexShaderActivity
 import com.oyp.openglesdemo.lesson1.LessonOneActivity
 import com.oyp.openglesdemo.triangle.*
 import java.util.*
@@ -70,11 +71,20 @@ class MainActivity : ListActivity() {
 
         val itemHelloTriangleVertexBufferObject: MutableMap<String, Any?> = HashMap()
         itemHelloTriangleVertexBufferObject[ITEM_IMAGE] = R.mipmap.ic_lesson_one
-        itemHelloTriangleVertexBufferObject[ITEM_TITLE] = " Hello TriangleVertexBufferObject"
+        itemHelloTriangleVertexBufferObject[ITEM_TITLE] = " Hello Triangle VertexBufferObject"
         itemHelloTriangleVertexBufferObject[ITEM_SUBTITLE] =
             getText(R.string.lesson_triangle_subtitle)
         data.add(itemHelloTriangleVertexBufferObject)
         activityMapping.put(i++, HelloTriangleVertexBufferObjectActivity::class.java)
+
+
+        val itemHelloTriangleSimpleVertexShader: MutableMap<String, Any?> = HashMap()
+        itemHelloTriangleSimpleVertexShader[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemHelloTriangleSimpleVertexShader[ITEM_TITLE] = " Hello Triangle SimpleVertexShader"
+        itemHelloTriangleSimpleVertexShader[ITEM_SUBTITLE] =
+            getText(R.string.lesson_triangle_subtitle)
+        data.add(itemHelloTriangleSimpleVertexShader)
+        activityMapping.put(i++, HelloCubeSimpleVertexShaderActivity::class.java)
 
 
         val item1: MutableMap<String, Any?> = HashMap()
