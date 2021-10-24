@@ -1,5 +1,5 @@
 #include "../log/LogUtils.h"
-#include "../graphics/GLUtils.h"
+#include "../utils/GLUtils.h"
 #include "NativeTriangle.h"
 #include "NativeTriangle3.h"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "../graphics/GLUtils.h"
+#include "../utils/GLUtils.h"
 #include "../graphics/Matrix.h"
 namespace NAMESPACE_NativeTriangle2{
 	class NativeTriangle {

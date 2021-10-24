@@ -1,5 +1,5 @@
 #pragma once
-#include "../graphics/GLUtils.h"
+#include "../utils/GLUtils.h"
 #include "../graphics/Matrix.h"
 
 #define VERTEX_POS_SIZE       3 // x, y and z

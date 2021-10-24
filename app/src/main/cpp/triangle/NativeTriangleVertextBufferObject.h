@@ -1,6 +1,6 @@
 #pragma once
 #include "../graphics/Matrix.h"
-#include "../graphics/GLUtils.h"
+#include "../utils/GLUtils.h"
 namespace TRIANGLE_VERTEXT_BUFFER_OBJECT {
     #define VERTEX_POS_SIZE       3 // x, y and z
     #define VERTEX_COLOR_SIZE     4 // r, g, b, and a

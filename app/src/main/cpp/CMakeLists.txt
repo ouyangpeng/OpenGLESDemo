@@ -23,11 +23,21 @@ add_library( # Sets the name of the library.
         # Provides a relative path to your source file(s).
 
         # graphics
-        graphics/GLUtils.h
-        graphics/GLUtils.cpp
         graphics/Matrix.h
         graphics/Matrix.cpp
+
+        # log
         log/LogUtils.h
+
+        # utils
+        utils/esTransform.cpp
+        utils/esTransform.h
+
+        utils/esShapes.cpp
+        utils/esShapes.h
+
+        utils/GLUtils.h
+        utils/GLUtils.cpp
 
         # lesson1
         lesson1/Native1Lesson.cpp
