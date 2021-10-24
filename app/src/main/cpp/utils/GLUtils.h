@@ -41,6 +41,12 @@ public:
 		float* point1, float* point2, float* point3, float* point4,
 		float* point5, float* point6, float* point7, float* point8,
 		int elementsPerPoint);
+
+
+	static void printGLString(const char *name, GLenum s) {
+		const char *v = (const char *) glGetString(s);
+		LOGI("GL %s = %s \n", name, v);
+	}
 };
 
 #endif //OPEN_GL_LESSON_NATIVE_GL_UTILS_H_

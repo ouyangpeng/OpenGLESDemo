@@ -67,6 +67,10 @@ add_library( # Sets the name of the library.
 
         glesdemo/cube/NativeCubeSimpleVertexShader.cpp
         glesdemo/cube/NativeCubeSimpleVertexShader.h
+
+        # texture
+        glesdemo/texture/SimpleTexture2D.cpp
+        glesdemo/texture/SimpleTexture2D.h
        )
 
 # Searches for a specified prebuilt library and stores the path as a

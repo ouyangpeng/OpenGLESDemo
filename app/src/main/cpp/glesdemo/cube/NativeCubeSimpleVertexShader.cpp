@@ -5,10 +5,6 @@
 #include "NativeCubeSimpleVertexShader.h"
 
 namespace TRIANGLE_SIMPLE_VERTEXT_SHADER {
-    void printGLString(const char *name, GLenum s) {
-        const char *v = (const char *) glGetString(s);
-        LOGI("GL %s = %s \n", name, v);
-    }
 
     // 顶点着色器
     const char *VERTEX_SHADER_TRIANGLE =
@@ -43,10 +39,10 @@ namespace TRIANGLE_SIMPLE_VERTEXT_SHADER {
     }
 
     void NativeTriangle::create() {
-        printGLString("Version", GL_VERSION);
-        printGLString("Vendor", GL_VENDOR);
-        printGLString("Renderer", GL_RENDERER);
-        printGLString("Extensions", GL_EXTENSIONS);
+        GLUtils::printGLString("Version", GL_VERSION);
+        GLUtils::printGLString("Vendor", GL_VENDOR);
+        GLUtils::printGLString("Renderer", GL_RENDERER);
+        GLUtils::printGLString("Extensions", GL_EXTENSIONS);
 
         mProgram = GLUtils::createProgram(&VERTEX_SHADER_TRIANGLE, &FRAGMENT_SHADER_TRIANGLE);
         if (!mProgram) {

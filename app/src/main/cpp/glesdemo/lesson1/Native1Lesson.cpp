@@ -1,11 +1,6 @@
 #include "Native1Lesson.h"
 #include "../../utils/GLUtils.h"
 
-static void printGLString(const char* name, GLenum s) {
-	const char* v = (const char*)glGetString(s);
-	LOGI("GL %s = %s \n", name, v);
-}
-
 static void checkGlError(const char* op) {
 	for (GLint error = glGetError(); error; error = glGetError()) {
 		LOGI("after %s() glError (0x%x)\n", op, error);
@@ -93,10 +88,10 @@ Native1Lesson::~Native1Lesson() {
 }
 
 void Native1Lesson::create() {
-	printGLString("Version", GL_VERSION);
-	printGLString("Vendor", GL_VENDOR);
-	printGLString("Renderer", GL_RENDERER);
-	printGLString("Extensions", GL_EXTENSIONS);
+	GLUtils::printGLString("Version", GL_VERSION);
+	GLUtils::printGLString("Vendor", GL_VENDOR);
+	GLUtils::printGLString("Renderer", GL_RENDERER);
+	GLUtils::printGLString("Extensions", GL_EXTENSIONS);
 
 	mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 	if (!mProgram) {
