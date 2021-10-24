@@ -8,6 +8,12 @@
 #include <EGL/eglext.h>
 #include <android/asset_manager_jni.h>
 
+#include "/graphics/Matrix.h"
+#include "/log/LogUtils.h"
+#include "/time/TimeUtils.h"
+#include "esShapes.h"
+#include "esTransform.h"
+
 class GLUtils {
 public:
 	/**

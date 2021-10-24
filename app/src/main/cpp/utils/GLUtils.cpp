@@ -1,5 +1,4 @@
 #include "GLUtils.h"
-#include "../log/LogUtils.h"
 
 #include <stdlib.h>
 

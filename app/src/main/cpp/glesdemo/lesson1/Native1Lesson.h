@@ -1,8 +1,6 @@
 #ifndef OPEN_GL_LESSON_NATIVE_1LESSON_H
 #define OPEN_GL_LESSON_NATIVE_1LESSON_H
-#include "../utils/GLUtils.h"
-#include "../graphics/Matrix.h"
-
+#include "../../utils/GLUtils.h"
 class Native1Lesson {
 
 public:

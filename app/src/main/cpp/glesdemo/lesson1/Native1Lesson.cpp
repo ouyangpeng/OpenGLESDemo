@@ -1,6 +1,5 @@
 #include "Native1Lesson.h"
-#include "../log/LogUtils.h"
-#include "../time/TimeUtils.h"
+#include "../../utils/GLUtils.h"
 
 static void printGLString(const char* name, GLenum s) {
 	const char* v = (const char*)glGetString(s);

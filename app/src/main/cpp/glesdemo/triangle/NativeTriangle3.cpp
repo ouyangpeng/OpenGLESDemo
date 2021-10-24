@@ -1,6 +1,3 @@
-#include "../log/LogUtils.h"
-#include "../utils/GLUtils.h"
-#include "NativeTriangle.h"
 #include "NativeTriangle3.h"
 
 

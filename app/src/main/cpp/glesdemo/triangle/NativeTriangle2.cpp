@@ -1,57 +1,63 @@
-#include "NativeTriangle.h"
-#include "../log/LogUtils.h"
-#include "../utils/GLUtils.h"
+#include "NativeTriangle2.h"
 
 // 可以参考这篇讲解： https://learnopengl-cn.github.io/01%20Getting%20started/04%20Hello%20Triangle/
-namespace NAMESPACE_NativeTriangle {
-	static void printGLString(const char *name, GLenum s) {
-		const char *v = (const char *) glGetString(s);
+namespace NAMESPACE_NativeTriangle2{
+	void printGLString(const char* name, GLenum s) {
+		const char* v = (const char*)glGetString(s);
 		LOGI("GL %s = %s \n", name, v);
 	}
 
-// 顶点着色器
-	const char *VERTEX_SHADER_TRIANGLE =
-			"#version 300 es                          \n"
-			"layout(location = 0) in vec4 vPosition;  \n"
-			"void main()                              \n"
-			"{                                        \n"
-			"   gl_Position = vPosition;              \n"
-			"}                                        \n";
+	// 顶点着色器
+	const char* VERTEX_SHADER_TRIANGLE =
+		"#version 300 es                          \n"
+		"layout(location = 0) in vec4 a_position; \n"
+		"layout(location = 1) in vec4 a_color;    \n"
+		"out vec4 v_color;                        \n"
+		"void main()                              \n"
+		"{                                        \n"
+		"   v_color = a_color;                    \n"
+		"   gl_Position = a_position;             \n"
+		"}                                        \n";
 
-// 片段着色器
-	const char *FRAGMENT_SHADER_TRIANGLE =
-			"#version 300 es                              \n"
-			"precision mediump float;                     \n"
-			"out vec4 fragColor;                          \n"
-			"void main()                                  \n"
-			"{                                            \n"
-			"   fragColor = vec4 ( 1.0, 0.0, 0.0, 1.0 );  \n"
-			"}                                            \n";
+	// 片段着色器
+	const char* FRAGMENT_SHADER_TRIANGLE =
+		"#version 300 es                              \n"
+		"precision mediump float;                     \n"
+		"in vec4 v_color;                             \n"
+		"out vec4 o_fragColor;                        \n"
+		"void main()                                  \n"
+		"{                                            \n"
+		"   o_fragColor = v_color;                    \n"
+		"}                                            \n";
 
-// 我们在OpenGL中指定的所有坐标都是3D坐标（x、y和z）
-// 由于我们希望渲染一个三角形，我们一共要指定三个顶点，每个顶点都有一个3D位置。
-// 我们会将它们以标准化设备坐标的形式（OpenGL的可见区域）定义为一个float数组。
-// https://learnopengl-cn.github.io/img/01/04/ndc.png
+	// 我们在OpenGL中指定的所有坐标都是3D坐标（x、y和z）
+	// 由于我们希望渲染一个三角形，我们一共要指定三个顶点，每个顶点都有一个3D位置。
+	// 我们会将它们以标准化设备坐标的形式（OpenGL的可见区域）定义为一个float数组。
+	// https://learnopengl-cn.github.io/img/01/04/ndc.png
 
-// https://developer.android.com/guide/topics/graphics/opengl#kotlin
-// 在 OpenGL 中，形状的面是由三维空间中的三个或更多点定义的表面。
-// 一个包含三个或更多三维点（在 OpenGL 中被称为顶点）的集合具有一个正面和一个背面。
-// 如何知道哪一面为正面，哪一面为背面呢？这个问题问得好！答案与环绕（即您定义形状的点的方向）有关。
-// 查看图片 ： https://developer.android.com/images/opengl/ccw-winding.png
-// 或者查看本地图片：Android_Java/Chapter_2/Hello_Triangle/ccw-winding.png
-// 在此示例中，三角形的点按照使它们沿逆时针方向绘制的顺序定义。
-// 这些坐标的绘制顺序定义了该形状的环绕方向。默认情况下，在 OpenGL 中，沿逆时针方向绘制的面为正面。
-// 因此您看到的是该形状的正面（根据 OpenGL 解释），而另一面是背面。
-//
-// 知道形状的哪一面为正面为何如此重要呢？
-// 答案与 OpenGL 的“面剔除”这一常用功能有关。
-// 面剔除是 OpenGL 环境的一个选项，它允许渲染管道忽略（不计算或不绘制）形状的背面，从而节省时间和内存并缩短处理周期：
+	// https://developer.android.com/guide/topics/graphics/opengl#kotlin
+	// 在 OpenGL 中，形状的面是由三维空间中的三个或更多点定义的表面。
+	// 一个包含三个或更多三维点（在 OpenGL 中被称为顶点）的集合具有一个正面和一个背面。
+	// 如何知道哪一面为正面，哪一面为背面呢？这个问题问得好！答案与环绕（即您定义形状的点的方向）有关。
+	// 查看图片 ： https://developer.android.com/images/opengl/ccw-winding.png
+	// 或者查看本地图片：Android_Java/Chapter_2/Hello_Triangle/ccw-winding.png
+	// 在此示例中，三角形的点按照使它们沿逆时针方向绘制的顺序定义。
+	// 这些坐标的绘制顺序定义了该形状的环绕方向。默认情况下，在 OpenGL 中，沿逆时针方向绘制的面为正面。
+	// 因此您看到的是该形状的正面（根据 OpenGL 解释），而另一面是背面。
+	//
+	// 知道形状的哪一面为正面为何如此重要呢？
+	// 答案与 OpenGL 的“面剔除”这一常用功能有关。
+	// 面剔除是 OpenGL 环境的一个选项，它允许渲染管道忽略（不计算或不绘制）形状的背面，从而节省时间和内存并缩短处理周期：
 	GLfloat vVertices[] = {
-			// 逆时针 三个顶点
-			0.0f, 0.5f, 0.0f,            // 上角
-			-0.5f, -0.5f, 0.0f,          // 左下角
-			0.5f, -0.5f, 0.0f            // 右下角
+		// 逆时针 三个顶点
+		0.0f, 0.5f, 0.0f,            // 上角
+		-0.5f, -0.5f, 0.0f,          // 左下角
+		0.5f, -0.5f, 0.0f            // 右下角
 	};
+
+	// 设置顶点的颜色值  这里设置成蓝色
+	GLfloat color[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
+
 
 	NativeTriangle::NativeTriangle() {
 
@@ -60,6 +66,7 @@ namespace NAMESPACE_NativeTriangle {
 	NativeTriangle::~NativeTriangle() {
 
 	}
+
 
 	void NativeTriangle::create() {
 		printGLString("Version", GL_VERSION);
@@ -75,6 +82,7 @@ namespace NAMESPACE_NativeTriangle {
 		// 设置清除颜色
 		glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	}
+
 
 	void NativeTriangle::draw() {
 		// Set the viewport
@@ -111,6 +119,7 @@ namespace NAMESPACE_NativeTriangle {
 		// 有了这些信息我们就可以使用glVertexAttribPointer函数告诉OpenGL该如何解析顶点数据（应用到逐个顶点属性上）了：
 		// Load the vertex data
 
+		//  指定通用顶点属性数组
 		// 第一个参数指定我们要配置的顶点属性。因为我们希望把数据传递到这一个顶点属性中，所以这里我们传入0。
 		// 第二个参数指定顶点属性的大小。顶点属性是一个vec3，它由3个值组成，所以大小是3。
 		// 第三个参数指定数据的类型，这里是GL_FLOAT(GLSL中vec*都是由浮点数值组成的)。
@@ -125,6 +134,17 @@ namespace NAMESPACE_NativeTriangle {
 		// 我们现在应该使用glEnableVertexAttribArray，以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的。
 		glEnableVertexAttribArray(0);
 
+		// Set the vertex color to red
+		// 设置顶点的颜色值
+		// 加载index指定的通用顶点属性，加载(x,y,z,w)
+		// opengl各个坐标系理解与转换公式 https://blog.csdn.net/grace_yi/article/details/109341926
+		// x，y，z，w：指的不是四维，其中w指的是缩放因子
+		// X轴为水平方向，Y轴为垂直方向，X和Y相互垂直
+		// Z轴同时垂直于X和Y轴。Z轴的实际意义代表着三维物体的深度
+		glVertexAttrib4fv(1, color);
+		// 相对于下面这句   这里设置成蓝色
+//    glVertexAttrib4f(1,0.0,0.0,1.0f,1.0f);
+
 		// glDrawArrays函数第一个参数是我们打算绘制的OpenGL图元的类型。我们希望绘制的是一个三角形，这里传递GL_TRIANGLES给它。
 		// 第二个参数指定了顶点数组的起始索引，我们这里填0。
 		// 最后一个参数指定我们打算绘制多少个顶点，这里是3（我们只从我们的数据中渲染一个三角形，它只有3个顶点长）。
@@ -136,6 +156,9 @@ namespace NAMESPACE_NativeTriangle {
 		//        public static final int GL_TRIANGLE_STRIP                          = 0x0005;
 		//        public static final int GL_TRIANGLE_FAN                            = 0x0006;
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		// 禁用 通用顶点属性数组
+		glDisableVertexAttribArray(0);
 	}
 
 	void NativeTriangle::change(int width, int height) {
@@ -143,15 +166,18 @@ namespace NAMESPACE_NativeTriangle {
 		mHeight = height;
 		LOGD("change() width = %d , height = %d\n", width, height);
 	}
+
 }
+
 // ====================================================================
 
-static NAMESPACE_NativeTriangle::NativeTriangle* nativeTriangle;
+static NAMESPACE_NativeTriangle2::NativeTriangle* nativeTriangle;
+
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_triangle_HelloTriangle2NativeRenderer_00024Companion_nativeSurfaceCreate(
 	JNIEnv * env, jobject thiz) {
-	nativeTriangle = new NAMESPACE_NativeTriangle::NativeTriangle();
+	nativeTriangle = new NAMESPACE_NativeTriangle2::NativeTriangle();
 	if (nativeTriangle != nullptr) {
 		nativeTriangle->create();
 	}
@@ -159,7 +185,7 @@ Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_00024Companion_na
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_triangle_HelloTriangle2NativeRenderer_00024Companion_nativeSurfaceChange(
 	JNIEnv * env, jobject thiz, jint width, jint height) {
 	if (nativeTriangle != nullptr) {
 		nativeTriangle->change(width, height);
@@ -168,7 +194,7 @@ Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_00024Companion_na
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_triangle_HelloTriangle2NativeRenderer_00024Companion_nativeDrawFrame(
 	JNIEnv * env, jobject thiz) {
 	if (nativeTriangle != nullptr) {
 		nativeTriangle->draw();

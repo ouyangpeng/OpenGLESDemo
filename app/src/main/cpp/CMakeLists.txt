@@ -22,15 +22,15 @@ add_library( # Sets the name of the library.
 
         # Provides a relative path to your source file(s).
 
-        # graphics
-        graphics/Matrix.h
-        graphics/Matrix.cpp
+        # utils.graphics
+        utils/graphics/Matrix.h
+        utils/graphics/Matrix.cpp
 
-        # log
-        log/LogUtils.h
+        # utils.log
+        utils/log/LogUtils.h
 
-        # time
-        time/TimeUtils.h
+        # utils.time
+        utils/time/TimeUtils.h
 
         # utils
         utils/esTransform.cpp
@@ -42,31 +42,31 @@ add_library( # Sets the name of the library.
         utils/GLUtils.h
         utils/GLUtils.cpp
 
-        # lesson1
-        lesson1/Native1Lesson.cpp
-        lesson1/Native1Lesson.h
+        # glesdemo.lesson1
+        glesdemo/lesson1/Native1Lesson.cpp
+        glesdemo/lesson1/Native1Lesson.h
 
-        # triangle
-        triangle/NativeTriangle.cpp
-        triangle/NativeTriangle.h
+        # glesdemo.triangle
+        glesdemo/triangle/NativeTriangle.cpp
+        glesdemo/triangle/NativeTriangle.h
 
-        triangle/NativeTriangle2.cpp
-        triangle/NativeTriangle2.h
+        glesdemo/triangle/NativeTriangle2.cpp
+        glesdemo/triangle/NativeTriangle2.h
 
-        triangle/NativeTriangle3.cpp
-        triangle/NativeTriangle3.h
+        glesdemo/triangle/NativeTriangle3.cpp
+        glesdemo/triangle/NativeTriangle3.h
 
-        triangle/NativeTriangleMapBuffers.cpp
-        triangle/NativeTriangleMapBuffers.h
+        glesdemo/triangle/NativeTriangleMapBuffers.cpp
+        glesdemo/triangle/NativeTriangleMapBuffers.h
 
-        triangle/NativeTriangleVertextArrayObject.cpp
-        triangle/NativeTriangleVertextArrayObject.h
+        glesdemo/triangle/NativeTriangleVertextArrayObject.cpp
+        glesdemo/triangle/NativeTriangleVertextArrayObject.h
 
-        triangle/NativeTriangleVertextBufferObject.cpp
-        triangle/NativeTriangleVertextBufferObject.h
+        glesdemo/triangle/NativeTriangleVertextBufferObject.cpp
+        glesdemo/triangle/NativeTriangleVertextBufferObject.h
 
-        cube/NativeCubeSimpleVertexShader.cpp
-        cube/NativeCubeSimpleVertexShader.h
+        glesdemo/cube/NativeCubeSimpleVertexShader.cpp
+        glesdemo/cube/NativeCubeSimpleVertexShader.h
        )
 
 # Searches for a specified prebuilt library and stores the path as a

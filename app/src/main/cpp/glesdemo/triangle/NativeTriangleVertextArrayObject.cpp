@@ -1,5 +1,4 @@
 #include <cstring>
-#include "../log/LogUtils.h"
 #include "NativeTriangleMapBuffers.h"
 #include "NativeTriangleVertextArrayObject.h"
 

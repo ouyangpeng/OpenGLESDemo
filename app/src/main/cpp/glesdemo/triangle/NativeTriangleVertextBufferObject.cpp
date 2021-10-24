@@ -1,5 +1,4 @@
 #include <cstring>
-#include "../log/LogUtils.h"
 #include "NativeTriangleVertextBufferObject.h"
 
 // 可以参考这篇讲解： https://learnopengl-cn.github.io/01%20Getting%20started/04%20Hello%20Triangle/

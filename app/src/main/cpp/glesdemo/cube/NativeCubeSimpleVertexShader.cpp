@@ -1,11 +1,7 @@
 #include <cstring>
 #include <malloc.h>
 #include <math.h>
-#include "../log/LogUtils.h"
-#include "../utils/GLUtils.h"
-#include "../utils/esTransform.h"
-#include "../utils/esShapes.h"
-#include "../time/TimeUtils.h"
+
 #include "NativeCubeSimpleVertexShader.h"
 
 namespace TRIANGLE_SIMPLE_VERTEXT_SHADER {

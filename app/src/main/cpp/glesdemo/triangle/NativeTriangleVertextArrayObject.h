@@ -1,15 +1,16 @@
 #pragma once
-#include "../utils/GLUtils.h"
-#include "../graphics/Matrix.h"
-
+#include "../../utils/GLUtils.h"
+namespace TRIANGLE_VERTEXT_ARRAY_OBJECT {
 #define VERTEX_POS_SIZE       3 // x, y and z
 #define VERTEX_COLOR_SIZE     4 // r, g, b, and a
 
 #define VERTEX_POS_INDX       0
 #define VERTEX_COLOR_INDX     1
 
-namespace TRIANGLE_SIMPLE_VERTEXT_SHADER{
+#define VERTEX_STRIDE         ( sizeof(GLfloat) * ( VERTEX_POS_SIZE + VERTEX_COLOR_SIZE ) )
+
 	class NativeTriangle {
+
 	public:
 		NativeTriangle();
 
@@ -25,29 +26,14 @@ namespace TRIANGLE_SIMPLE_VERTEXT_SHADER{
 		// Handle to a program object
 		GLuint mProgram;
 
-		// Uniform locations
-		GLint mvpLoc;
+		// VertexBufferObject Ids
+		GLuint vboIds[2];
 
-		// Vertex daata
-		GLfloat * vertices;
-		GLuint * indices;
-
-		int numIndices;
-
-		// Rotation angle
-		GLfloat angle;
-
-        // MVP matrix
-        ESMatrix  mvpMatrix;
+		// VertexArrayObject Id
+		GLuint vaoId;
 
 		int mWidth;
 		int mHeight;
-
-		long mLastTime = 0;
-
-		void update(float deltaTime);
-
-		float getDeltaTime();
 	};
 }
 
