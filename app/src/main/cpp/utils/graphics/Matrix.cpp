@@ -1,7 +1,7 @@
 #include "Matrix.h"
 #include "../log/LogUtils.h"
 
-#include <string.h>
+#include <cstring>
 #include <cmath>
 
 Matrix::Matrix() {

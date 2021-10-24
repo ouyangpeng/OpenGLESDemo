@@ -1,6 +1,6 @@
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
+#include <cstdlib>
+#include <cstring>
+#include <cmath>
 #include "esShapes.h"
 
 /// \brief Generates geometry for a sphere.  Allocates memory for the vertex data and stores
@@ -24,22 +24,22 @@ int esGenSphere ( int numSlices, float radius, GLfloat **vertices, GLfloat **nor
    float angleStep = ( 2.0f * ES_PI ) / ( ( float ) numSlices );
 
    // Allocate memory for buffers
-   if ( vertices != NULL )
+   if ( vertices != nullptr )
    {
       *vertices = (GLfloat *)malloc ( sizeof ( GLfloat ) * 3 * numVertices );
    }
 
-   if ( normals != NULL )
+   if ( normals != nullptr )
    {
       *normals = (GLfloat *)malloc ( sizeof ( GLfloat ) * 3 * numVertices );
    }
 
-   if ( texCoords != NULL )
+   if ( texCoords != nullptr )
    {
       *texCoords = (GLfloat *)malloc ( sizeof ( GLfloat ) * 2 * numVertices );
    }
 
-   if ( indices != NULL )
+   if ( indices != nullptr )
    {
       *indices = (GLuint *)malloc ( sizeof ( GLuint ) * numIndices );
    }
@@ -76,7 +76,7 @@ int esGenSphere ( int numSlices, float radius, GLfloat **vertices, GLfloat **nor
    }
 
    // Generate the indices
-   if ( indices != NULL )
+   if ( indices != nullptr )
    {
       GLuint *indexBuf = ( *indices );
 

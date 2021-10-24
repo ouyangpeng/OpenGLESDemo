@@ -10,6 +10,7 @@ import android.widget.SimpleAdapter
 import com.oyp.openglesdemo.cube.HelloCubeSimpleVertexShaderActivity
 import com.oyp.openglesdemo.lesson1.LessonOneActivity
 import com.oyp.openglesdemo.texture.SimpleTexture2DActivity
+import com.oyp.openglesdemo.texture.SimpleTextureCubemapActivity
 import com.oyp.openglesdemo.triangle.*
 import java.util.*
 
@@ -93,6 +94,13 @@ class MainActivity : ListActivity() {
         itemSimpleTexture2D[ITEM_SUBTITLE] =  " Show a SimpleTexture2D"
         data.add(itemSimpleTexture2D)
         activityMapping.put(i++, SimpleTexture2DActivity::class.java)
+
+        val itemSimpleTextureCubemap: MutableMap<String, Any?> = HashMap()
+        itemSimpleTextureCubemap[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemSimpleTextureCubemap[ITEM_TITLE] = " Hello Simple TextureCubemap"
+        itemSimpleTextureCubemap[ITEM_SUBTITLE] =  " Show a Simple TextureCubemap"
+        data.add(itemSimpleTextureCubemap)
+        activityMapping.put(i++, SimpleTextureCubemapActivity::class.java)
 
 
         val item1: MutableMap<String, Any?> = HashMap()

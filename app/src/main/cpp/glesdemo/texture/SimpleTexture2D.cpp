@@ -98,10 +98,13 @@ namespace NAMESPACE_SimpleTexture2D {
         glEnableVertexAttribArray(1);
 
         // Bind the texture
+        // 激活当前纹理单元，以便后续的glBindTexture调用将纹理绑定到当前活动单元
         glActiveTexture(GL_TEXTURE0);
+        // 纹理绑定到纹理单元0
         glBindTexture(GL_TEXTURE_2D,textureId);
 
         // Set the sampler texture unit to 0
+        // 采样器设置为纹理单元0
         glUniform1i(samplerLoc,0);
 
         glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_SHORT,indices);

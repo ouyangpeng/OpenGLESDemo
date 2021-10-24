@@ -1,6 +1,5 @@
+#include <cstdlib>
 #include "GLUtils.h"
-
-#include <stdlib.h>
 
 static JNIEnv* sEnv = nullptr;
 static jobject sAssetManager = nullptr;
