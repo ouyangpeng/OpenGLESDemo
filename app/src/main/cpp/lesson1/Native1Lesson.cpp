@@ -1,5 +1,6 @@
 #include "Native1Lesson.h"
 #include "../log/LogUtils.h"
+#include "../time/TimeUtils.h"
 
 static void printGLString(const char* name, GLenum s) {
 	const char* v = (const char*)glGetString(s);
@@ -155,7 +156,7 @@ void Native1Lesson::draw() {
 	mPositionHandle = (GLuint)glGetAttribLocation(mProgram, "a_Position");
 	mColorHandle = (GLuint)glGetAttribLocation(mProgram, "a_Color");
 
-	long time = GLUtils::currentTimeMillis() % 10000L;
+	long time = TimeUtils::currentTimeMillis() % 10000L;
 	float angleInDegrees = (360.0f / 10000.0f) * ((int)time);
 
 	// Draw the triangle facing straight on.

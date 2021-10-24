@@ -1,11 +1,11 @@
 #include <cstring>
 #include <malloc.h>
 #include <math.h>
-#include <sys/time.h>
 #include "../log/LogUtils.h"
 #include "../utils/GLUtils.h"
 #include "../utils/esTransform.h"
 #include "../utils/esShapes.h"
+#include "../time/TimeUtils.h"
 #include "NativeCubeSimpleVertexShader.h"
 
 namespace TRIANGLE_SIMPLE_VERTEXT_SHADER {
@@ -100,14 +100,10 @@ namespace TRIANGLE_SIMPLE_VERTEXT_SHADER {
     }
 
     float NativeTriangle::getDeltaTime() {
-        struct timeval time{};
         if (mLastTime == 0) {
-            // C++获取时间，精确到毫秒
-            gettimeofday(&time, nullptr);
-            mLastTime = time.tv_sec * 1000 + time.tv_usec / 1000;
+            mLastTime = TimeUtils::currentTimeMillis();
         }
-        gettimeofday(&time, nullptr);
-        long currentTime = time.tv_sec * 1000 + time.tv_usec / 1000;
+        long currentTime = TimeUtils::currentTimeMillis();
         long elapsedTime = currentTime - mLastTime;
         float deltaTime = (float) elapsedTime / 1000.0f;
         mLastTime = currentTime;

@@ -29,6 +29,9 @@ add_library( # Sets the name of the library.
         # log
         log/LogUtils.h
 
+        # time
+        time/TimeUtils.h
+
         # utils
         utils/esTransform.cpp
         utils/esTransform.h

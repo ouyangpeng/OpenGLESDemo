@@ -2,8 +2,6 @@
 #include "../log/LogUtils.h"
 
 #include <stdlib.h>
-#include <sys/time.h>
-
 
 static JNIEnv* sEnv = nullptr;
 static jobject sAssetManager = nullptr;
@@ -113,12 +111,6 @@ GLuint GLUtils::createProgram(const char** vertexSource, const char** fragmentSo
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 	return program;
-}
-
-long GLUtils::currentTimeMillis() {
-	struct timeval tv {};
-	gettimeofday(&tv, (struct timezone*) nullptr);
-	return tv.tv_sec * 1000 + tv.tv_usec / 1000;
 }
 
 GLuint GLUtils::loadTexture(const char* path) {

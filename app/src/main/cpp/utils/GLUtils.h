@@ -31,11 +31,6 @@ public:
 	 */
 	static GLuint createProgram(const char** vertexSource, const char** fragmentSource);
 
-	/**
-	 * Current Time Millis
-	 */
-	static long currentTimeMillis();
-
 	static GLfloat* generateCubeData(
 		float* point1, float* point2, float* point3, float* point4,
 		float* point5, float* point6, float* point7, float* point8,
