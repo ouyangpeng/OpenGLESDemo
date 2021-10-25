@@ -115,6 +115,10 @@ void MipMap2D::draw() {
 	glUniform1i(samplerLoc, 0);
 
 	//Draw quad with nearest sampling
+	//GL_NEAREST（也叫邻近过滤，Nearest Neighbor Filtering）是OpenGL默认的纹理过滤方式。
+	// 当设置为GL_NEAREST的时候，OpenGL会选择中心点最接近纹理坐标的那个像素。
+	// 下图中你可以看到四个像素，加号代表纹理坐标。左上角那个纹理像素的中心距离纹理坐标最近，所以它会被选择为样本颜色：
+	// 图片地址：https://segmentfault.com/img/remote/1460000037542100
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glUniform1f(offsetLoc, -0.6f);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);

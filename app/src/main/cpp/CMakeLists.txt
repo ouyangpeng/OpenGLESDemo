@@ -77,6 +77,9 @@ add_library( # Sets the name of the library.
 
         glesdemo/texture/MipMap2D.cpp
         glesdemo/texture/MipMap2D.h
+
+        glesdemo/texture/TextureWrap.cpp
+        glesdemo/texture/TextureWrap.h
        )
 
 # Searches for a specified prebuilt library and stores the path as a
