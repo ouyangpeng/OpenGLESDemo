@@ -83,6 +83,9 @@ add_library( # Sets the name of the library.
 
         glesdemo/texture/MultiTexture.cpp
         glesdemo/texture/MultiTexture.h
+
+        glesdemo/texture/ParticleSystem.cpp
+        glesdemo/texture/ParticleSystem.h
        )
 
 # Searches for a specified prebuilt library and stores the path as a

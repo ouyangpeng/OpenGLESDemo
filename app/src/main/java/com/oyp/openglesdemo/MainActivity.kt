@@ -124,6 +124,14 @@ class MainActivity : ListActivity() {
         activityMapping.put(i++, MultiTextureActivity::class.java)
 
 
+        val itemParticleSystem: MutableMap<String, Any?> = HashMap()
+        itemParticleSystem[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemParticleSystem[ITEM_TITLE] = " Hello ParticleSystem"
+        itemParticleSystem[ITEM_SUBTITLE] =  " Show  ParticleSystem"
+        data.add(itemParticleSystem)
+        activityMapping.put(i++, ParticleSystemActivity::class.java)
+
+
         val item1: MutableMap<String, Any?> = HashMap()
         item1[ITEM_IMAGE] = R.mipmap.ic_lesson_one
         item1[ITEM_TITLE] =
