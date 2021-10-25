@@ -7,7 +7,7 @@
 #define VERTEX_POS_INDX       0
 #define VERTEX_COLOR_INDX     1
 
-namespace TRIANGLE_SIMPLE_VERTEXT_SHADER{
+namespace TRIANGLE_SIMPLE_VERTEXT_SHADER {
 	class NativeTriangle {
 	public:
 		NativeTriangle();
@@ -28,16 +28,16 @@ namespace TRIANGLE_SIMPLE_VERTEXT_SHADER{
 		GLint mvpLoc;
 
 		// Vertex daata
-		GLfloat * vertices;
-		GLuint * indices;
+		GLfloat* vertices;
+		GLuint* indices;
 
 		int numIndices;
 
 		// Rotation angle
 		GLfloat angle;
 
-        // MVP matrix
-        ESMatrix  mvpMatrix;
+		// MVP matrix
+		ESMatrix  mvpMatrix;
 
 		int mWidth;
 		int mHeight;

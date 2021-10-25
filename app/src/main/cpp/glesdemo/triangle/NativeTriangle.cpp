@@ -2,48 +2,48 @@
 
 // 可以参考这篇讲解： https://learnopengl-cn.github.io/01%20Getting%20started/04%20Hello%20Triangle/
 namespace NAMESPACE_NativeTriangle {
-// 顶点着色器
-	const char *VERTEX_SHADER_TRIANGLE =
-			"#version 300 es                          \n"
-			"layout(location = 0) in vec4 vPosition;  \n"
-			"void main()                              \n"
-			"{                                        \n"
-			"   gl_Position = vPosition;              \n"
-			"}                                        \n";
+	// 顶点着色器
+	const char* VERTEX_SHADER_TRIANGLE =
+		"#version 300 es                          \n"
+		"layout(location = 0) in vec4 vPosition;  \n"
+		"void main()                              \n"
+		"{                                        \n"
+		"   gl_Position = vPosition;              \n"
+		"}                                        \n";
 
-// 片段着色器
-	const char *FRAGMENT_SHADER_TRIANGLE =
-			"#version 300 es                              \n"
-			"precision mediump float;                     \n"
-			"out vec4 fragColor;                          \n"
-			"void main()                                  \n"
-			"{                                            \n"
-			"   fragColor = vec4 ( 1.0, 0.0, 0.0, 1.0 );  \n"
-			"}                                            \n";
+	// 片段着色器
+	const char* FRAGMENT_SHADER_TRIANGLE =
+		"#version 300 es                              \n"
+		"precision mediump float;                     \n"
+		"out vec4 fragColor;                          \n"
+		"void main()                                  \n"
+		"{                                            \n"
+		"   fragColor = vec4 ( 1.0, 0.0, 0.0, 1.0 );  \n"
+		"}                                            \n";
 
-// 我们在OpenGL中指定的所有坐标都是3D坐标（x、y和z）
-// 由于我们希望渲染一个三角形，我们一共要指定三个顶点，每个顶点都有一个3D位置。
-// 我们会将它们以标准化设备坐标的形式（OpenGL的可见区域）定义为一个float数组。
-// https://learnopengl-cn.github.io/img/01/04/ndc.png
+	// 我们在OpenGL中指定的所有坐标都是3D坐标（x、y和z）
+	// 由于我们希望渲染一个三角形，我们一共要指定三个顶点，每个顶点都有一个3D位置。
+	// 我们会将它们以标准化设备坐标的形式（OpenGL的可见区域）定义为一个float数组。
+	// https://learnopengl-cn.github.io/img/01/04/ndc.png
 
-// https://developer.android.com/guide/topics/graphics/opengl#kotlin
-// 在 OpenGL 中，形状的面是由三维空间中的三个或更多点定义的表面。
-// 一个包含三个或更多三维点（在 OpenGL 中被称为顶点）的集合具有一个正面和一个背面。
-// 如何知道哪一面为正面，哪一面为背面呢？这个问题问得好！答案与环绕（即您定义形状的点的方向）有关。
-// 查看图片 ： https://developer.android.com/images/opengl/ccw-winding.png
-// 或者查看本地图片：Android_Java/Chapter_2/Hello_Triangle/ccw-winding.png
-// 在此示例中，三角形的点按照使它们沿逆时针方向绘制的顺序定义。
-// 这些坐标的绘制顺序定义了该形状的环绕方向。默认情况下，在 OpenGL 中，沿逆时针方向绘制的面为正面。
-// 因此您看到的是该形状的正面（根据 OpenGL 解释），而另一面是背面。
-//
-// 知道形状的哪一面为正面为何如此重要呢？
-// 答案与 OpenGL 的“面剔除”这一常用功能有关。
-// 面剔除是 OpenGL 环境的一个选项，它允许渲染管道忽略（不计算或不绘制）形状的背面，从而节省时间和内存并缩短处理周期：
+	// https://developer.android.com/guide/topics/graphics/opengl#kotlin
+	// 在 OpenGL 中，形状的面是由三维空间中的三个或更多点定义的表面。
+	// 一个包含三个或更多三维点（在 OpenGL 中被称为顶点）的集合具有一个正面和一个背面。
+	// 如何知道哪一面为正面，哪一面为背面呢？这个问题问得好！答案与环绕（即您定义形状的点的方向）有关。
+	// 查看图片 ： https://developer.android.com/images/opengl/ccw-winding.png
+	// 或者查看本地图片：Android_Java/Chapter_2/Hello_Triangle/ccw-winding.png
+	// 在此示例中，三角形的点按照使它们沿逆时针方向绘制的顺序定义。
+	// 这些坐标的绘制顺序定义了该形状的环绕方向。默认情况下，在 OpenGL 中，沿逆时针方向绘制的面为正面。
+	// 因此您看到的是该形状的正面（根据 OpenGL 解释），而另一面是背面。
+	//
+	// 知道形状的哪一面为正面为何如此重要呢？
+	// 答案与 OpenGL 的“面剔除”这一常用功能有关。
+	// 面剔除是 OpenGL 环境的一个选项，它允许渲染管道忽略（不计算或不绘制）形状的背面，从而节省时间和内存并缩短处理周期：
 	GLfloat vVertices[] = {
-			// 逆时针 三个顶点
-			0.0f, 0.5f, 0.0f,            // 上角
-			-0.5f, -0.5f, 0.0f,          // 左下角
-			0.5f, -0.5f, 0.0f            // 右下角
+		// 逆时针 三个顶点
+		0.0f, 0.5f, 0.0f,            // 上角
+		-0.5f, -0.5f, 0.0f,          // 左下角
+		0.5f, -0.5f, 0.0f            // 右下角
 	};
 
 	NativeTriangle::NativeTriangle() {

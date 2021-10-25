@@ -1,6 +1,6 @@
 #pragma once
 #include "../../utils/GLUtils.h"
-namespace NAMESPACE_NativeTriangle2{
+namespace NAMESPACE_NativeTriangle2 {
 	class NativeTriangle {
 
 	public:

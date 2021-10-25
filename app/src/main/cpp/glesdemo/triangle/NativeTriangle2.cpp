@@ -1,7 +1,7 @@
 #include "NativeTriangle2.h"
 
 // 可以参考这篇讲解： https://learnopengl-cn.github.io/01%20Getting%20started/04%20Hello%20Triangle/
-namespace NAMESPACE_NativeTriangle2{
+namespace NAMESPACE_NativeTriangle2 {
 	// 顶点着色器
 	const char* VERTEX_SHADER_TRIANGLE =
 		"#version 300 es                          \n"

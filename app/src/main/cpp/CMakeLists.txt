@@ -74,6 +74,9 @@ add_library( # Sets the name of the library.
 
         glesdemo/texture/SimpleTextureCubemap.cpp
         glesdemo/texture/SimpleTextureCubemap.h
+
+        glesdemo/texture/MipMap2D.cpp
+        glesdemo/texture/MipMap2D.h
        )
 
 # Searches for a specified prebuilt library and stores the path as a

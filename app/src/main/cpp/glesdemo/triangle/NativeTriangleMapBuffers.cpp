@@ -5,26 +5,26 @@
 namespace TRIANGLE_MapBuffers {
 	// 顶点着色器
 	const char* vShaderStr =
-			"#version 300 es                            \n"
-			"layout(location = 0) in vec4 a_position;   \n"
-			"layout(location = 1) in vec4 a_color;      \n"
-			"out vec4 v_color;                          \n"
-			"void main()                                \n"
-			"{                                          \n"
-			"    v_color = a_color;                     \n"
-			"    gl_Position = a_position;              \n"
-			"}";
+		"#version 300 es                            \n"
+		"layout(location = 0) in vec4 a_position;   \n"
+		"layout(location = 1) in vec4 a_color;      \n"
+		"out vec4 v_color;                          \n"
+		"void main()                                \n"
+		"{                                          \n"
+		"    v_color = a_color;                     \n"
+		"    gl_Position = a_position;              \n"
+		"}";
 
 	// 片段着色器
 	const char* fShaderStr =
-			"#version 300 es            \n"
-			"precision mediump float;   \n"
-			"in vec4 v_color;           \n"
-			"out vec4 o_fragColor;      \n"
-			"void main()                \n"
-			"{                          \n"
-			"    o_fragColor = v_color; \n"
-			"}" ;
+		"#version 300 es            \n"
+		"precision mediump float;   \n"
+		"in vec4 v_color;           \n"
+		"out vec4 o_fragColor;      \n"
+		"void main()                \n"
+		"{                          \n"
+		"    o_fragColor = v_color; \n"
+		"}";
 
 	NativeTriangleMapBuffers::NativeTriangleMapBuffers() {
 
@@ -58,17 +58,17 @@ namespace TRIANGLE_MapBuffers {
 		LOGD("Welcome to NativeTriangleMapBuffers draw()");
 		// 3 vertices, with (x,y,z) ,(r, g, b, a)  per-vertex
 		GLfloat vertices[3 * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE)] =
-				{
-						// 逆时针 三个顶点
-						0.0f, 0.5f, 0.0f,            // v0 上角
-						1.0f, 0.0f, 0.0f, 1.0f,      // c0
+		{
+			// 逆时针 三个顶点
+			0.0f, 0.5f, 0.0f,            // v0 上角
+			1.0f, 0.0f, 0.0f, 1.0f,      // c0
 
-						-0.5f, -0.5f, 0.0f,          // v1 左下角
-						0.0f, 1.0f, 0.0f, 1.0f,      // c1
+			-0.5f, -0.5f, 0.0f,          // v1 左下角
+			0.0f, 1.0f, 0.0f, 1.0f,      // c1
 
-						0.5f, -0.5f, 0.0f,           // v2 右下角
-						0.0f, 0.0f, 1.0f, 1.0f       // c2
-				};
+			0.5f, -0.5f, 0.0f,           // v2 右下角
+			0.0f, 0.0f, 1.0f, 1.0f       // c2
+		};
 
 		// Index buffer data
 		GLushort indices[3] = { 0, 1, 2 };
@@ -94,13 +94,13 @@ namespace TRIANGLE_MapBuffers {
 		glUseProgram(mProgram);
 
 		DrawPrimitiveWithVBOsMapBuffers(3, vertices,
-				sizeof ( GLfloat ) * ( VERTEX_POS_SIZE + VERTEX_COLOR_SIZE ),
-				3, indices );
+			sizeof(GLfloat) * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE),
+			3, indices);
 	}
 
-	void NativeTriangleMapBuffers::DrawPrimitiveWithVBOsMapBuffers(GLint numVertices, GLfloat *vtxBuf,
-															  GLint vtxStride, GLint numIndices,
-															  GLushort *indices){
+	void NativeTriangleMapBuffers::DrawPrimitiveWithVBOsMapBuffers(GLint numVertices, GLfloat* vtxBuf,
+		GLint vtxStride, GLint numIndices,
+		GLushort* indices) {
 		LOGD("Welcome to NativeTriangleMapBuffers DrawPrimitiveWithVBOsMapBuffers()");
 		GLuint offset = 0;
 		// vboIds[0] - used to store vertex attribute data
@@ -116,22 +116,22 @@ namespace TRIANGLE_MapBuffers {
 			glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
 			glBufferData(GL_ARRAY_BUFFER, vtxStride * numVertices, nullptr, GL_STATIC_DRAW);
 
-			vtxMappedBuf = (GLfloat *) glMapBufferRange ( GL_ARRAY_BUFFER, 0,vtxStride * numVertices,
-														  GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT );
+			vtxMappedBuf = (GLfloat*)glMapBufferRange(GL_ARRAY_BUFFER, 0, vtxStride * numVertices,
+				GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
 
-			if(vtxMappedBuf == nullptr)
+			if (vtxMappedBuf == nullptr)
 			{
-				LOGE( "Error mapping vertex buffer object." );
+				LOGE("Error mapping vertex buffer object.");
 				return;
 			}
 
 			// Copy the data into the mapped buffer
-			memcpy(vtxMappedBuf,vtxBuf, vtxStride * numVertices);
+			memcpy(vtxMappedBuf, vtxBuf, vtxStride * numVertices);
 
 			// Unmap the buffer
-			if(glUnmapBuffer(GL_ARRAY_BUFFER) == GL_FALSE)
+			if (glUnmapBuffer(GL_ARRAY_BUFFER) == GL_FALSE)
 			{
-				LOGE ( "Error unmapping array buffer object." );
+				LOGE("Error unmapping array buffer object.");
 				return;
 			}
 
@@ -139,23 +139,23 @@ namespace TRIANGLE_MapBuffers {
 
 			// Map the index buffer
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER,  sizeof(GLushort) * numIndices, nullptr, GL_STATIC_DRAW);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * numIndices, nullptr, GL_STATIC_DRAW);
 
-			idxMappedBuf = (GLushort *) glMapBufferRange ( GL_ELEMENT_ARRAY_BUFFER, 0,sizeof(GLushort) * numIndices,
-														   GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT  );
+			idxMappedBuf = (GLushort*)glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(GLushort) * numIndices,
+				GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
 
-			if(idxMappedBuf == nullptr){
-				LOGE ( "Error mapping element array buffer object." );
+			if (idxMappedBuf == nullptr) {
+				LOGE("Error mapping element array buffer object.");
 				return;
 			}
 
 			// Copy the data into the mapped buffer
-			memcpy(idxMappedBuf,indices, sizeof(GLushort) * numIndices);
+			memcpy(idxMappedBuf, indices, sizeof(GLushort) * numIndices);
 
 			// Unmap the buffer
-			if(glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER) == GL_FALSE)
+			if (glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER) == GL_FALSE)
 			{
-				LOGE ( "Error unmapping element array buffer object." );
+				LOGE("Error unmapping element array buffer object.");
 				return;
 			}
 		}
@@ -167,15 +167,15 @@ namespace TRIANGLE_MapBuffers {
 		glEnableVertexAttribArray(VERTEX_COLOR_INDX);
 
 		glVertexAttribPointer(VERTEX_POS_INDX,
-				VERTEX_POS_SIZE,
-				GL_FLOAT, GL_FALSE, vtxStride,
-				(const void *) offset);
+			VERTEX_POS_SIZE,
+			GL_FLOAT, GL_FALSE, vtxStride,
+			(const void*)offset);
 
 		offset += VERTEX_POS_SIZE * sizeof(GLfloat);
 		glVertexAttribPointer(VERTEX_COLOR_INDX,
-				VERTEX_COLOR_SIZE,
-				GL_FLOAT, GL_FALSE, vtxStride,
-				(const void *) offset);
+			VERTEX_COLOR_SIZE,
+			GL_FLOAT, GL_FALSE, vtxStride,
+			(const void*)offset);
 
 		glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, 0);
 

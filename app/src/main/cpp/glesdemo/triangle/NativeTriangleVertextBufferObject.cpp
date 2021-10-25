@@ -63,14 +63,14 @@ namespace TRIANGLE_VERTEXT_BUFFER_OBJECT {
 		GLfloat vertices[3 * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE)] =
 		{
 			// 逆时针 三个顶点
-            -0.5f, 0.5f, 0.0f,       // v0
-            1.0f, 0.0f, 0.0f, 1.0f,  // c0
+			-0.5f, 0.5f, 0.0f,       // v0
+			1.0f, 0.0f, 0.0f, 1.0f,  // c0
 
-            -1.0f, -0.5f, 0.0f,        // v1
-            0.0f, 1.0f, 0.0f, 1.0f,  // c1
+			-1.0f, -0.5f, 0.0f,        // v1
+			0.0f, 1.0f, 0.0f, 1.0f,  // c1
 
-            0.0f, -0.5f, 0.0f,        // v2
-            0.0f, 0.0f, 1.0f, 1.0f,  // c2
+			0.0f, -0.5f, 0.0f,        // v2
+			0.0f, 0.0f, 1.0f, 1.0f,  // c2
 		};
 
 		// Index buffer data
@@ -136,7 +136,7 @@ namespace TRIANGLE_VERTEXT_BUFFER_OBJECT {
 	}
 
 	void NativeTriangle::DrawPrimitiveWithVBOs(GLint numVertices, GLfloat* vtxBuf,
-	        GLint vtxStride, GLint numIndices, GLushort* indices)
+		GLint vtxStride, GLint numIndices, GLushort* indices)
 	{
 		GLuint offset = 0;
 

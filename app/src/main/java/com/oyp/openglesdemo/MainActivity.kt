@@ -9,6 +9,7 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.SimpleAdapter
 import com.oyp.openglesdemo.cube.HelloCubeSimpleVertexShaderActivity
 import com.oyp.openglesdemo.lesson1.LessonOneActivity
+import com.oyp.openglesdemo.texture.Mipmap2DActivity
 import com.oyp.openglesdemo.texture.SimpleTexture2DActivity
 import com.oyp.openglesdemo.texture.SimpleTextureCubemapActivity
 import com.oyp.openglesdemo.triangle.*
@@ -101,6 +102,13 @@ class MainActivity : ListActivity() {
         itemSimpleTextureCubemap[ITEM_SUBTITLE] =  " Show a Simple TextureCubemap"
         data.add(itemSimpleTextureCubemap)
         activityMapping.put(i++, SimpleTextureCubemapActivity::class.java)
+
+        val itemMipmap2D: MutableMap<String, Any?> = HashMap()
+        itemMipmap2D[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemMipmap2D[ITEM_TITLE] = " Hello MipMap2D"
+        itemMipmap2D[ITEM_SUBTITLE] =  " Show  MipMap2D"
+        data.add(itemMipmap2D)
+        activityMapping.put(i++, Mipmap2DActivity::class.java)
 
 
         val item1: MutableMap<String, Any?> = HashMap()
