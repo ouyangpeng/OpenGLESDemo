@@ -1,4 +1,4 @@
-package com.oyp.openglesdemo.lesson1
+package com.oyp.openglesdemo.lesson
 
 import android.opengl.GLSurfaceView
 import javax.microedition.khronos.egl.EGLConfig

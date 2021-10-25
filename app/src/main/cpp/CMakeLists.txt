@@ -43,8 +43,11 @@ add_library( # Sets the name of the library.
         utils/GLUtils.cpp
 
         # glesdemo.lesson1
-        glesdemo/lesson1/Native1Lesson.cpp
-        glesdemo/lesson1/Native1Lesson.h
+        glesdemo/lesson/Native1Lesson.cpp
+        glesdemo/lesson/Native1Lesson.h
+
+        glesdemo/lesson/Native2Lesson.cpp
+        glesdemo/lesson/Native2Lesson.h
 
         # glesdemo.triangle
         glesdemo/triangle/NativeTriangle.cpp

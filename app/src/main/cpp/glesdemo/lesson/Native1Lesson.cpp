@@ -214,8 +214,8 @@ static Native1Lesson* native1Lesson;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson1_LessonOneNativeRenderer_00024Companion_nativeSurfaceCreate(
-	JNIEnv * env, jobject thiz) {
+Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_00024Companion_nativeSurfaceCreate(
+		JNIEnv *env, jobject thiz) {
 	native1Lesson = new Native1Lesson();
 	if (native1Lesson != nullptr) {
 		native1Lesson->create();
@@ -224,8 +224,8 @@ Java_com_oyp_openglesdemo_lesson1_LessonOneNativeRenderer_00024Companion_nativeS
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson1_LessonOneNativeRenderer_00024Companion_nativeSurfaceChange(
-	JNIEnv * env, jobject thiz, jint width, jint height) {
+Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_00024Companion_nativeSurfaceChange(
+		JNIEnv *env, jobject thiz, jint width, jint height) {
 	if (native1Lesson != nullptr) {
 		native1Lesson->change(width, height);
 	}
@@ -233,8 +233,8 @@ Java_com_oyp_openglesdemo_lesson1_LessonOneNativeRenderer_00024Companion_nativeS
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson1_LessonOneNativeRenderer_00024Companion_nativeDrawFrame(
-	JNIEnv * env, jobject thiz) {
+Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_00024Companion_nativeDrawFrame(JNIEnv *env,
+																						jobject thiz) {
 	if (native1Lesson != nullptr) {
 		native1Lesson->draw();
 	}
