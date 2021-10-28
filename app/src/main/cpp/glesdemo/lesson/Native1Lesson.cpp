@@ -1,5 +1,4 @@
 #include "Native1Lesson.h"
-#include "../../utils/GLUtils.h"
 
 static void checkGlError(const char* op) {
 	for (GLint error = glGetError(); error; error = glGetError()) {
@@ -8,24 +7,27 @@ static void checkGlError(const char* op) {
 }
 // 顶点着色器
 const char* VERTEX_SHADER =
-"uniform mat4 u_MVPMatrix;      \n"                 // A constant representing the combined model/view/projection matrix.
-"attribute vec4 a_Position;     \n"                 // Per-vertex position information we will pass in.
-"attribute vec4 a_Color;        \n"                 // Per-vertex color information we will pass in.
-"varying vec4 v_Color;          \n"                 // This will be passed into the fragment shader.
-"void main()                    \n"                 // The entry point for our vertex shader.
-"{                              \n"
-"   v_Color = a_Color;          \n"                 // Pass the color through to the fragment shader.
-"   gl_Position = u_MVPMatrix * a_Position; \n"     // gl_Position is a special variable used to store the final position.
-"}                              \n";                // normalized screen coordinates.
+	"#version 300 es                                \n"
+	"uniform mat4 u_MVPMatrix;                      \n"                 // A constant representing the combined model/view/projection matrix.
+	"layout(location = 0) in vec4 a_Position;     	\n"                 // Per-vertex position information we will pass in.
+	"layout(location = 1) in vec4 a_Color;        	\n"                 // Per-vertex color information we will pass in.
+	"out vec4 v_Color;          					\n"                 // This will be passed into the fragment shader.
+	"void main()                    				\n"                 // The entry point for our vertex shader.
+	"{                              				\n"
+	"   v_Color = a_Color;          				\n"                 // Pass the color through to the fragment shader.
+	"   gl_Position = u_MVPMatrix * a_Position; 	\n"     			// gl_Position is a special variable used to store the final position.
+	"}                              				\n";                // normalized screen coordinates.
 
 // 片段着色器
 const char* FRAGMENT_SHADER =
-"precision mediump float;       \n"     // Set the default precision to medium. We don't need as high of a
-"varying vec4 v_Color;          \n"     // This is the color from the vertex shader interpolated across the
-"void main()                    \n"     // The entry point for our fragment shader.
-"{                              \n"
-"   gl_FragColor = v_Color;     \n"     // Pass the color directly through the pipeline.
-"}                              \n";
+	"#version 300 es                \n"
+	"precision mediump float;       \n"     // Set the default precision to medium. We don't need as high of a
+	"in vec4 v_Color;               \n"     // This is the color from the vertex shader interpolated across the
+	"out vec4 o_fragColor;          \n"
+	"void main()                    \n"     // The entry point for our fragment shader.
+	"{                              \n"
+	"   o_fragColor = v_Color;     \n"     // Pass the color directly through the pipeline.
+	"}                              \n";
 
 // This triangle is red, green, and blue.
 GLfloat triangle1VerticesData[] = {
@@ -65,6 +67,9 @@ GLfloat triangle3VerticesData[] = {
 
 	0.0f, 0.559016994f, 0.0f,
 	0.0f, 0.0f, 0.0f, 1.0f };
+
+// Index buffer data
+GLushort indices[3] = { 0, 1, 2 };
 
 Native1Lesson::Native1Lesson() {
 	mModelMatrix = nullptr;
@@ -147,8 +152,6 @@ void Native1Lesson::draw() {
 
 	// 返回统一变量的位置
 	mMVPMatrixHandle = (GLuint)glGetUniformLocation(mProgram, "u_MVPMatrix");
-	mPositionHandle = (GLuint)glGetAttribLocation(mProgram, "a_Position");
-	mColorHandle = (GLuint)glGetAttribLocation(mProgram, "a_Color");
 
 	long time = TimeUtils::currentTimeMillis() % 10000L;
 	float angleInDegrees = (360.0f / 10000.0f) * ((int)time);
@@ -156,44 +159,55 @@ void Native1Lesson::draw() {
 	// Draw the triangle facing straight on.
 	mModelMatrix->identity();
 	mModelMatrix->rotate(angleInDegrees, 0.0f, 0.0f, 1.0f);
-	drawTriangle(triangle1VerticesData);
+	drawTriangle(triangle1VerticesData,sizeof(GLfloat) * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE),
+				 3, indices);
 
 	// Draw one translated a bit down and rotated to be flat on the ground.
 	mModelMatrix->identity();
 	mModelMatrix->translate(0.0f, -1.0f, 0.0f);
 	mModelMatrix->rotate(90.0f, 1.0f, 0.0f, 0.0f);
 	mModelMatrix->rotate(angleInDegrees, 0.0f, 0.0f, 1.0f);
-	drawTriangle(triangle2VerticesData);
+	drawTriangle(triangle2VerticesData,sizeof(GLfloat) * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE),
+				 3, indices);
 
 	// Draw one translated a bit to the right and rotated to be facing to the left.
 	mModelMatrix->identity();
 	mModelMatrix->translate(1.0f, 0.0f, 0.0f);
 	mModelMatrix->rotate(90.0f, 0.0f, 1.0f, 0.0f);
 	mModelMatrix->rotate(angleInDegrees, 0.0f, 0.0f, 1.0f);
-	drawTriangle(triangle3VerticesData);
+	drawTriangle(triangle3VerticesData,sizeof(GLfloat) * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE),
+				 3, indices);
 }
 
-void Native1Lesson::drawTriangle(GLfloat* verticesData) {
+void Native1Lesson::drawTriangle(GLfloat* vertices,
+								 GLint vtxStride, GLint numIndices,
+								 GLushort* mIndices) {
+
+	GLfloat* vtxBuf = vertices;
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	glEnableVertexAttribArray(VERTEX_POS_INDX);
+	glEnableVertexAttribArray(VERTEX_COLOR_INDX);
 
 	glVertexAttribPointer(
-		(GLuint)mPositionHandle,
-		3,
+		VERTEX_POS_INDX,
+		VERTEX_POS_SIZE,
 		GL_FLOAT,
 		GL_FALSE,
-		4 * 7,
-		verticesData
+		vtxStride,
+		vtxBuf
 	);
-	glEnableVertexAttribArray((GLuint)mPositionHandle);
 
+	vtxBuf += VERTEX_POS_SIZE;
 	glVertexAttribPointer(
-		(GLuint)mColorHandle,
-		4,
+		VERTEX_COLOR_INDX,
+		VERTEX_COLOR_SIZE,
 		GL_FLOAT,
 		GL_FALSE,
-		4 * 7,
-		verticesData + 3
+		vtxStride,
+		vtxBuf
 	);
-	glEnableVertexAttribArray((GLuint)mColorHandle);
 
 	// model * view
 	mMVPMatrix->multiply(*mViewMatrix, *mModelMatrix);
@@ -203,8 +217,12 @@ void Native1Lesson::drawTriangle(GLfloat* verticesData) {
 
 	glUniformMatrix4fv(mMVPMatrixHandle, 1, GL_FALSE, mMVPMatrix->mData);
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, mIndices);
+
 	checkGlError("glDrawArrays");
+
+	glDisableVertexAttribArray(VERTEX_POS_INDX);
+	glDisableVertexAttribArray(VERTEX_COLOR_INDX);
 }
 
 
@@ -236,8 +254,7 @@ Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_00024Companion_nativeSu
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_00024Companion_nativeDrawFrame(JNIEnv *env,
-																						jobject thiz) {
+Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_00024Companion_nativeDrawFrame(JNIEnv *env,jobject thiz) {
 	if (native1Lesson != nullptr) {
 		native1Lesson->draw();
 	}

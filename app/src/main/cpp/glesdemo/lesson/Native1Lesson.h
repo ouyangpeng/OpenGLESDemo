@@ -1,8 +1,14 @@
 #ifndef OPEN_GL_LESSON_NATIVE_1LESSON_H
 #define OPEN_GL_LESSON_NATIVE_1LESSON_H
 #include "../../utils/GLUtils.h"
-class Native1Lesson {
 
+#define VERTEX_POS_INDX       0
+#define VERTEX_COLOR_INDX     1
+
+#define VERTEX_POS_SIZE       3 // x, y and z
+#define VERTEX_COLOR_SIZE     4 // r, g, b, and a
+
+class Native1Lesson {
 public:
 	Native1Lesson();
 
@@ -14,7 +20,7 @@ public:
 
 	void draw();
 
-	void drawTriangle(GLfloat* verticesData);
+	void drawTriangle(GLfloat* vtxBuf, GLint vtxStride, GLint numIndices, GLushort* indices);
 
 private:
 	Matrix* mViewMatrix;
@@ -25,8 +31,6 @@ private:
 	GLuint mProgram;
 
 	GLuint mMVPMatrixHandle;
-	GLuint mPositionHandle;
-	GLuint mColorHandle;
 };
 
 #endif //OPEN_GL_LESSON_NATIVE_1LESSON_H

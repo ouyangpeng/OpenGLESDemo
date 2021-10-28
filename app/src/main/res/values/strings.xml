@@ -5,7 +5,7 @@
     <string name="lesson_triangle">Lesson Triangle</string>
     <string name="lesson_triangle_subtitle">This lesson shows Triangle</string>
     <string name="lesson_one">Lesson One: Getting Started</string>
-    <string name="lesson_one_subtitle">This lesson shows the basics of drawing in OpenGL ES 2.</string>
+    <string name="lesson_one_subtitle">This lesson shows the basics of drawing in OpenGL ES 3.</string>
     <string name="lesson_two">Lesson Two: An Intro to Lighting</string>
     <string name="lesson_two_subtitle">Learn about ambient and diffuse lighting in this lesson.</string>
     <string name="lesson_three">Lesson Three: Adding Per-Pixel Lighting</string>
