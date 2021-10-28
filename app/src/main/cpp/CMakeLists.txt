@@ -14,6 +14,49 @@ project("openglesdemo")
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 
+#设置包含的目录
+include_directories(
+        glesdemo/cube
+        glesdemo/lesson
+        glesdemo/texture
+        glesdemo/triangle
+
+        utils
+        utils/graphics
+        utils/log
+        utils/time
+)
+
+#自定义搜索规则
+file(GLOB src-files
+        ${CMAKE_SOURCE_DIR}/*.cpp
+        ${CMAKE_SOURCE_DIR}/*.h
+        ${CMAKE_SOURCE_DIR}/glesdemo/cube/*.cpp
+        ${CMAKE_SOURCE_DIR}/glesdemo/cube/*.h
+
+        ${CMAKE_SOURCE_DIR}/glesdemo/lesson/*.cpp
+        ${CMAKE_SOURCE_DIR}/glesdemo/lesson/*.h
+
+        ${CMAKE_SOURCE_DIR}/glesdemo/texture/*.cpp
+        ${CMAKE_SOURCE_DIR}/glesdemo/texture/*.h
+
+        ${CMAKE_SOURCE_DIR}/glesdemo/triangle/*.cpp
+        ${CMAKE_SOURCE_DIR}/glesdemo/triangle/*.h
+
+        ${CMAKE_SOURCE_DIR}/utils/*.cpp
+        ${CMAKE_SOURCE_DIR}/utils/*.h
+
+        ${CMAKE_SOURCE_DIR}/utils/graphics/*.cpp
+        ${CMAKE_SOURCE_DIR}/utils/graphics/*.h
+
+        ${CMAKE_SOURCE_DIR}/utils/log/*.cpp
+        ${CMAKE_SOURCE_DIR}/utils/log/*.h
+
+        ${CMAKE_SOURCE_DIR}/utils/time/*.cpp
+        ${CMAKE_SOURCE_DIR}/utils/time/*.h
+)
+
+
 add_library( # Sets the name of the library.
         opengles-lesson-lib
 
@@ -21,74 +64,7 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-
-        # utils.graphics
-        utils/graphics/Matrix.h
-        utils/graphics/Matrix.cpp
-
-        # utils.log
-        utils/log/LogUtils.h
-
-        # utils.time
-        utils/time/TimeUtils.h
-
-        # utils
-        utils/esTransform.cpp
-        utils/esTransform.h
-
-        utils/esShapes.cpp
-        utils/esShapes.h
-
-        utils/GLUtils.h
-        utils/GLUtils.cpp
-
-        # glesdemo.lesson1
-        glesdemo/lesson/Native1Lesson.cpp
-        glesdemo/lesson/Native1Lesson.h
-
-        glesdemo/lesson/Native2Lesson.cpp
-        glesdemo/lesson/Native2Lesson.h
-
-        # glesdemo.triangle
-        glesdemo/triangle/NativeTriangle.cpp
-        glesdemo/triangle/NativeTriangle.h
-
-        glesdemo/triangle/NativeTriangle2.cpp
-        glesdemo/triangle/NativeTriangle2.h
-
-        glesdemo/triangle/NativeTriangle3.cpp
-        glesdemo/triangle/NativeTriangle3.h
-
-        glesdemo/triangle/NativeTriangleMapBuffers.cpp
-        glesdemo/triangle/NativeTriangleMapBuffers.h
-
-        glesdemo/triangle/NativeTriangleVertextArrayObject.cpp
-        glesdemo/triangle/NativeTriangleVertextArrayObject.h
-
-        glesdemo/triangle/NativeTriangleVertextBufferObject.cpp
-        glesdemo/triangle/NativeTriangleVertextBufferObject.h
-
-        glesdemo/cube/NativeCubeSimpleVertexShader.cpp
-        glesdemo/cube/NativeCubeSimpleVertexShader.h
-
-        # texture
-        glesdemo/texture/SimpleTexture2D.cpp
-        glesdemo/texture/SimpleTexture2D.h
-
-        glesdemo/texture/SimpleTextureCubemap.cpp
-        glesdemo/texture/SimpleTextureCubemap.h
-
-        glesdemo/texture/MipMap2D.cpp
-        glesdemo/texture/MipMap2D.h
-
-        glesdemo/texture/TextureWrap.cpp
-        glesdemo/texture/TextureWrap.h
-
-        glesdemo/texture/MultiTexture.cpp
-        glesdemo/texture/MultiTexture.h
-
-        glesdemo/texture/ParticleSystem.cpp
-        glesdemo/texture/ParticleSystem.h
+        ${src-files}
        )
 
 # Searches for a specified prebuilt library and stores the path as a

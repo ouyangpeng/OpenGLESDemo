@@ -9,6 +9,7 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.SimpleAdapter
 import com.oyp.openglesdemo.cube.HelloCubeSimpleVertexShaderActivity
 import com.oyp.openglesdemo.lesson.LessonOneActivity
+import com.oyp.openglesdemo.lesson.LessonThreeActivity
 import com.oyp.openglesdemo.lesson.LessonTwoActivity
 import com.oyp.openglesdemo.texture.*
 import com.oyp.openglesdemo.triangle.*
@@ -142,12 +143,21 @@ class MainActivity : ListActivity() {
         data.add(item1)
         activityMapping.put(i++, LessonOneActivity::class.java)
 
-        val item: MutableMap<String, Any> = HashMap()
-        item[ITEM_IMAGE] = R.mipmap.ic_lesson_two
-        item[ITEM_TITLE] = getText(R.string.lesson_two)
-        item[ITEM_SUBTITLE] = getText(R.string.lesson_two_subtitle)
-        data.add(item)
+        val item2: MutableMap<String, Any> = HashMap()
+        item2[ITEM_IMAGE] = R.mipmap.ic_lesson_two
+        item2[ITEM_TITLE] = getText(R.string.lesson_two)
+        item2[ITEM_SUBTITLE] = getText(R.string.lesson_two_subtitle)
+        data.add(item2)
         activityMapping.put(i++, LessonTwoActivity::class.java)
+
+        val item3: MutableMap<String, Any> = HashMap()
+        item3[ITEM_IMAGE] = R.mipmap.ic_lesson_three
+        item3[ITEM_TITLE] =
+            getText(R.string.lesson_three)
+        item3[ITEM_SUBTITLE] =
+            getText(R.string.lesson_three_subtitle)
+        data.add(item3)
+        activityMapping.put(i++, LessonThreeActivity::class.java)
 
         val dataAdapter = SimpleAdapter(
             this,

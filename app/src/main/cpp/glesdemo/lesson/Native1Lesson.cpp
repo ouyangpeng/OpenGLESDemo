@@ -216,10 +216,13 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_00024Companion_nativeSurfaceCreate(
 		JNIEnv *env, jobject thiz) {
-	native1Lesson = new Native1Lesson();
-	if (native1Lesson != nullptr) {
-		native1Lesson->create();
+
+	if (native1Lesson) {
+		delete native1Lesson;
+		native1Lesson = nullptr;
 	}
+	native1Lesson = new Native1Lesson();
+	native1Lesson->create();
 }
 
 extern "C"
