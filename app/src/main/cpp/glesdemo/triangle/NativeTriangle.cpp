@@ -70,12 +70,6 @@ namespace NAMESPACE_NativeTriangle {
 	}
 
 	void NativeTriangle::draw() {
-		// Set the viewport
-		// 通知OpenGL ES 用于绘制的2D渲染表面的原点、宽度和高度。
-		// 在OpenGL ES 中，视口(Viewport) 定义所有OpenGL ES 渲染操作最终显示的2D矩形
-		// 视口(Viewport) 由原点坐标(x,y)和宽度(width) 、高度(height)定义。
-		glViewport(0, 0, mWidth, mHeight);
-
 		// Clear the color buffer
 		// 清除屏幕
 		// 在OpenGL ES中，绘图中涉及多种缓冲区类型：颜色、深度、模板。
@@ -129,12 +123,20 @@ namespace NAMESPACE_NativeTriangle {
 		//        public static final int GL_TRIANGLE_STRIP                          = 0x0005;
 		//        public static final int GL_TRIANGLE_FAN                            = 0x0006;
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+        // 禁用 通用顶点属性数组
+        glDisableVertexAttribArray(0);
 	}
 
 	void NativeTriangle::change(int width, int height) {
 		mWidth = width;
 		mHeight = height;
 		LOGD("change() width = %d , height = %d\n", width, height);
+		// Set the viewport
+		// 通知OpenGL ES 用于绘制的2D渲染表面的原点、宽度和高度。
+		// 在OpenGL ES 中，视口(Viewport) 定义所有OpenGL ES 渲染操作最终显示的2D矩形
+		// 视口(Viewport) 由原点坐标(x,y)和宽度(width) 、高度(height)定义。
+		glViewport(0, 0, mWidth, mHeight);
 	}
 }
 // ====================================================================

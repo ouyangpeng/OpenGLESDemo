@@ -63,8 +63,6 @@ namespace NAMESPACE_SimpleTextureCubemap {
 
 
 	void SimpleTextureCubemap::draw() {
-		// Set the viewport
-		glViewport(0, 0, mWidth, mHeight);
 
 		// Clear the color buffer
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -103,6 +101,8 @@ namespace NAMESPACE_SimpleTextureCubemap {
 		mWidth = width;
 		mHeight = height;
 		LOGD("change() width = %d , height = %d\n", width, height);
+		// Set the viewport
+		glViewport(0, 0, mWidth, mHeight);
 	}
 
 	// Create a simple cubemap with a 1x1 face with a different color for each face

@@ -65,6 +65,9 @@ void TextureWrap::change(int width, int height) {
     mWidth = width;
     mHeight = height;
     LOGD("change() width = %d , height = %d\n", width, height);
+
+    // Set the viewport
+    glViewport(0, 0, mWidth, mHeight);
 }
 
 void TextureWrap::draw() {
@@ -83,9 +86,6 @@ void TextureWrap::draw() {
     };
     GLushort indices[] = { 0, 1, 2, 0, 2, 3 };
 
-
-    // Set the viewport
-    glViewport(0, 0, mWidth, mHeight);
 
     // Clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT);

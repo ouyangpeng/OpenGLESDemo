@@ -109,14 +109,14 @@ void ParticleSystem::change(int width, int height) {
     mWidth = width;
     mHeight = height;
     LOGD("change() width = %d , height = %d\n", width, height);
+
+    // Set the viewport
+    glViewport ( 0, 0, mWidth, mHeight );
 }
 
 void ParticleSystem::draw() {
     // 每次更新一下
     update(getDeltaTime());
-
-    // Set the viewport
-    glViewport ( 0, 0, mWidth, mHeight );
 
     // Clear the color buffer
     glClear ( GL_COLOR_BUFFER_BIT );

@@ -66,9 +66,6 @@ namespace TRIANGLE_SIMPLE_VERTEXT_SHADER {
 	void NativeTriangle::draw() {
 		update(getDeltaTime());
 
-		// Set the viewport
-		glViewport(0, 0, mWidth, mHeight);
-
 		// Clear the color buffer
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -106,6 +103,8 @@ namespace TRIANGLE_SIMPLE_VERTEXT_SHADER {
 		mWidth = width;
 		mHeight = height;
 		LOGD("change() width = %d , height = %d\n", width, height);
+		// Set the viewport
+		glViewport(0, 0, mWidth, mHeight);
 	}
 
 	void NativeTriangle::update(float deltaTime) {

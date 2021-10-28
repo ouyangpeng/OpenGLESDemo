@@ -65,6 +65,7 @@ void MipMap2D::change(int width, int height) {
 	mWidth = width;
 	mHeight = height;
 	LOGD("change() width = %d , height = %d\n", width, height);
+	glViewport(0, 0, mWidth, mHeight);
 }
 
 void MipMap2D::shutdown() {
@@ -91,9 +92,6 @@ void MipMap2D::draw() {
 		1.0f,  0.0f					// TexCoord 3
 	};
 	GLushort indices[] = { 0, 1, 2, 0, 2, 3 };
-
-
-	glViewport(0, 0, mWidth, mHeight);
 
 	glClear(GL_COLOR_BUFFER_BIT);
 

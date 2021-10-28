@@ -77,9 +77,6 @@ namespace NAMESPACE_SimpleTexture2D {
 		};
 		GLushort indices[] = { 0, 1, 2, 0, 2, 3 };
 
-		// Set the viewport
-		glViewport(0, 0, mWidth, mHeight);
-
 		// Clear the color buffer
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -114,6 +111,8 @@ namespace NAMESPACE_SimpleTexture2D {
 		mWidth = width;
 		mHeight = height;
 		LOGD("change() width = %d , height = %d\n", width, height);
+		// Set the viewport
+		glViewport(0, 0, mWidth, mHeight);
 	}
 
 	// Create a simple 2x2 texture image with four different colors
