@@ -31,29 +31,12 @@ include_directories(
 file(GLOB src-files
         ${CMAKE_SOURCE_DIR}/*.cpp
         ${CMAKE_SOURCE_DIR}/*.h
-        ${CMAKE_SOURCE_DIR}/glesdemo/cube/*.cpp
-        ${CMAKE_SOURCE_DIR}/glesdemo/cube/*.h
 
-        ${CMAKE_SOURCE_DIR}/glesdemo/lesson/*.cpp
-        ${CMAKE_SOURCE_DIR}/glesdemo/lesson/*.h
+        ${CMAKE_SOURCE_DIR}/*/*.cpp
+        ${CMAKE_SOURCE_DIR}/*/*.h
 
-        ${CMAKE_SOURCE_DIR}/glesdemo/texture/*.cpp
-        ${CMAKE_SOURCE_DIR}/glesdemo/texture/*.h
-
-        ${CMAKE_SOURCE_DIR}/glesdemo/triangle/*.cpp
-        ${CMAKE_SOURCE_DIR}/glesdemo/triangle/*.h
-
-        ${CMAKE_SOURCE_DIR}/utils/*.cpp
-        ${CMAKE_SOURCE_DIR}/utils/*.h
-
-        ${CMAKE_SOURCE_DIR}/utils/graphics/*.cpp
-        ${CMAKE_SOURCE_DIR}/utils/graphics/*.h
-
-        ${CMAKE_SOURCE_DIR}/utils/log/*.cpp
-        ${CMAKE_SOURCE_DIR}/utils/log/*.h
-
-        ${CMAKE_SOURCE_DIR}/utils/time/*.cpp
-        ${CMAKE_SOURCE_DIR}/utils/time/*.h
+        ${CMAKE_SOURCE_DIR}/*/*/*.cpp
+        ${CMAKE_SOURCE_DIR}/*/*/*.h
 )
 
 
