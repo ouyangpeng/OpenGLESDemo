@@ -139,7 +139,7 @@ void MultiTexture::shutdown() {
 
 
 //////////////////////////////////////////////////////////////////////////////////////
-static MultiTexture* multiTexture;
+MultiTexture* multiTexture;
 
 extern "C"
 JNIEXPORT void JNICALL
@@ -148,10 +148,12 @@ Java_com_oyp_openglesdemo_texture_MultiTextureRenderer_00024Companion_nativeSurf
     // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
     GLUtils::setEnvAndAssetManager(env, assetManager);
 
-    multiTexture = new MultiTexture();
-    if(multiTexture != nullptr){
-        multiTexture->create();
+    if(multiTexture){
+        delete multiTexture;
+        multiTexture = nullptr;
     }
+    multiTexture = new MultiTexture();
+    multiTexture->create();
 }
 
 extern "C"

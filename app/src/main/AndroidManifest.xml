@@ -78,11 +78,15 @@
 
         <activity
             android:name=".lesson.LessonTwoActivity"
-            android:label="@string/lesson_one"/>
+            android:label="@string/lesson_two"/>
 
         <activity
             android:name=".lesson.LessonThreeActivity"
-            android:label="@string/lesson_one"/>
+            android:label="@string/lesson_three"/>
+
+        <activity
+            android:name=".lesson.LessonFourActivity"
+            android:label="@string/lesson_four"/>
     </application>
 
 </manifest>

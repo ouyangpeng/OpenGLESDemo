@@ -7,7 +7,7 @@ import android.app.ActivityManager
 import android.util.Log
 
 
-class LessonTwoActivity : Activity() {
+class LessonFourActivity : Activity() {
     /**
      * Hold a reference to our GLSurfaceView
      */
@@ -23,7 +23,7 @@ class LessonTwoActivity : Activity() {
             // Tell the surface view we want to create an OpenGL ES 3.0-compatible
             // context, and set an OpenGL ES 3.0-compatible renderer.
             mGLSurfaceView!!.setEGLContextClientVersion(CONTEXT_CLIENT_VERSION)
-            mGLSurfaceView!!.setRenderer(LessonTwoNativeRenderer())
+            mGLSurfaceView!!.setRenderer(LessonFourNativeRenderer(this))
         } else {
             Log.e("HelloTriangle", "OpenGL ES 3.0 not supported on device.  Exiting...")
             return;

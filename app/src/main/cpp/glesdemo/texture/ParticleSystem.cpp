@@ -211,7 +211,7 @@ float ParticleSystem::getDeltaTime() {
 
 
 ////////
-static ParticleSystem* particleSystem;
+ParticleSystem* particleSystem;
 
 extern "C"
 JNIEXPORT void JNICALL
@@ -220,10 +220,12 @@ Java_com_oyp_openglesdemo_texture_ParticleSystemRenderer_00024Companion_nativeSu
     // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
     GLUtils::setEnvAndAssetManager(env, assetManager);
 
-    particleSystem = new ParticleSystem();
-    if(particleSystem != nullptr){
-        particleSystem->create();
+    if(particleSystem){
+        delete particleSystem;
+        particleSystem = nullptr;
     }
+    particleSystem = new ParticleSystem();
+    particleSystem->create();
 }
 
 extern "C"
