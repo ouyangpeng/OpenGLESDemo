@@ -12,6 +12,7 @@ import com.oyp.openglesdemo.lesson.*
 import com.oyp.openglesdemo.lesson.lesson5.LessonFiveActivity
 import com.oyp.openglesdemo.lesson.lesson6.LessonSixActivity
 import com.oyp.openglesdemo.lesson.lesson7.LessonSevenActivity
+import com.oyp.openglesdemo.lesson.lesson8.LessonEightActivity
 import com.oyp.openglesdemo.texture.*
 import com.oyp.openglesdemo.triangle.*
 import java.util.*
@@ -192,7 +193,15 @@ class MainActivity : ListActivity() {
             getText(R.string.lesson_seven_subtitle)
         data.add(item7)
         activityMapping.put(i++, LessonSevenActivity::class.java)
-        
+
+
+        val item8: MutableMap<String, Any> = HashMap()
+        item8[ITEM_IMAGE] = R.mipmap.ic_lesson_eight
+        item8[ITEM_TITLE] = getText(R.string.lesson_eight)
+        item8[ITEM_SUBTITLE] =
+            getText(R.string.lesson_eight_subtitle)
+        data.add(item8)
+        activityMapping.put(i++, LessonEightActivity::class.java)
 
         val dataAdapter = SimpleAdapter(
             this,
