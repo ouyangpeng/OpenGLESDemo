@@ -92,6 +92,10 @@
         <activity
             android:name=".lesson.lesson5.LessonFiveActivity"
             android:label="@string/lesson_five"/>
+
+        <activity
+            android:name=".lesson.lesson6.LessonSixActivity"
+            android:label="@string/lesson_six"/>
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import android.widget.SimpleAdapter
 import com.oyp.openglesdemo.cube.HelloCubeSimpleVertexShaderActivity
 import com.oyp.openglesdemo.lesson.*
 import com.oyp.openglesdemo.lesson.lesson5.LessonFiveActivity
+import com.oyp.openglesdemo.lesson.lesson6.LessonSixActivity
 import com.oyp.openglesdemo.texture.*
 import com.oyp.openglesdemo.triangle.*
 import java.util.*
@@ -173,6 +174,15 @@ class MainActivity : ListActivity() {
             getText(R.string.lesson_five_subtitle)
         data.add(item5)
         activityMapping.put(i++, LessonFiveActivity::class.java)
+
+        val item6: MutableMap<String, Any> = HashMap()
+        item6[ITEM_IMAGE] = R.mipmap.ic_lesson_six
+        item6[ITEM_TITLE] = getText(R.string.lesson_six)
+        item6[ITEM_SUBTITLE] =
+            getText(R.string.lesson_six_subtitle)
+        data.add(item6)
+        activityMapping.put(i++, LessonSixActivity::class.java)
+        
 
         val dataAdapter = SimpleAdapter(
             this,
