@@ -13,31 +13,31 @@ public abstract class BaseGLActivity extends Activity {
     /**
      * Hold a reference to our GLSurfaceView
      */
-    private GLSurfaceView mGLSurfaceVie;
+    protected GLSurfaceView mGLSurfaceView;
 
-    private GLSurfaceView.Renderer renderer;
-
-    protected abstract GLSurfaceView getSurfaceView();
+    protected GLSurfaceView.Renderer renderer;
 
     protected abstract GLSurfaceView.Renderer getRender();
+
+    protected abstract GLSurfaceView getSurfaceView();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mGLSurfaceVie = getSurfaceView();
+        renderer = getRender();
+        mGLSurfaceView = getSurfaceView();
 
         if(detectOpenGLES30()){
             // Tell the surface view we want to create an OpenGL ES 3.0-compatible
             // context, and set an OpenGL ES 3.0-compatible renderer.
             int CONTEXT_CLIENT_VERSION = 3;
-            mGLSurfaceVie.setEGLContextClientVersion(CONTEXT_CLIENT_VERSION);
-            renderer = getRender();
-            mGLSurfaceVie.setRenderer(renderer);
+            mGLSurfaceView.setEGLContextClientVersion(CONTEXT_CLIENT_VERSION);
+            mGLSurfaceView.setRenderer(renderer);
         } else {
             Log.e("HelloTriangle", "OpenGL ES 3.0 not supported on device.  Exiting...");
             return;
         }
-        setContentView(mGLSurfaceVie);
+        setContentView(mGLSurfaceView);
     }
 
     private Boolean detectOpenGLES30(){
@@ -50,13 +50,13 @@ public abstract class BaseGLActivity extends Activity {
     protected void onResume() {
         // The activity must call the GL surface view's onResume() on activity onResume().
         super.onResume();
-        mGLSurfaceVie.onResume();
+        mGLSurfaceView.onResume();
     }
 
     @Override
     protected void onPause() {
         // The activity must call the GL surface view's onPause() on activity onPause().
         super.onPause();
-        mGLSurfaceVie.onPause();
+        mGLSurfaceView.onPause();
     }
 }
