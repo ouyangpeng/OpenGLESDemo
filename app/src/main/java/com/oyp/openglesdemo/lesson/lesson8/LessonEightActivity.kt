@@ -12,7 +12,7 @@ class LessonEightActivity : BaseGLActivity() {
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         // Set the renderer to out demo renderer, define below
-        mGLSurfaceView!!.setRenderer(renderer, displayMetrics.density)
+        mGLSurfaceView.setRenderer(renderer, displayMetrics.density)
         return mGLSurfaceView
     }
 
