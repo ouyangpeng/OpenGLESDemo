@@ -96,6 +96,10 @@
         <activity
             android:name=".lesson.lesson6.LessonSixActivity"
             android:label="@string/lesson_six"/>
+
+        <activity
+            android:name=".lesson.lesson7.LessonSevenActivity"
+            android:label="@string/lesson_seven"/>
     </application>
 
 </manifest>

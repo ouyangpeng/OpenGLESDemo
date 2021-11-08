@@ -18,6 +18,7 @@ project("openglesdemo")
 include_directories(
         glesdemo/cube
         glesdemo/lesson
+        glesdemo/lesson/lesson7
         glesdemo/texture
         glesdemo/triangle
 
@@ -37,6 +38,9 @@ file(GLOB src-files
 
         ${CMAKE_SOURCE_DIR}/*/*/*.cpp
         ${CMAKE_SOURCE_DIR}/*/*/*.h
+
+        ${CMAKE_SOURCE_DIR}/*/*/*/*.cpp
+        ${CMAKE_SOURCE_DIR}/*/*/*/*.h
 )
 
 

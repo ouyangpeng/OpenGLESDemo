@@ -1,7 +1,3 @@
-//
-// Created by biezhihua on 2017/7/15.
-//
-
 #include "Native5Lesson.h"
 
 Native5Lesson::Native5Lesson() :

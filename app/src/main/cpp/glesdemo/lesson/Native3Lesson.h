@@ -1,7 +1,3 @@
-//
-// Created by biezhihua on 2017/7/15.
-//
-
 #ifndef OPENGLLESSON_NATIVE3LESSON_H
 #define OPENGLLESSON_NATIVE3LESSON_H
 

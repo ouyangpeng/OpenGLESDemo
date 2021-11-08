@@ -1,7 +1,3 @@
-//
-// Created by biezhihua on 2017/7/16.
-//
-
 #include "Native6Lesson.h"
 
 const static GLfloat CUBE_POSITION_DATA[] = {

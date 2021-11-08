@@ -11,6 +11,7 @@ import com.oyp.openglesdemo.cube.HelloCubeSimpleVertexShaderActivity
 import com.oyp.openglesdemo.lesson.*
 import com.oyp.openglesdemo.lesson.lesson5.LessonFiveActivity
 import com.oyp.openglesdemo.lesson.lesson6.LessonSixActivity
+import com.oyp.openglesdemo.lesson.lesson7.LessonSevenActivity
 import com.oyp.openglesdemo.texture.*
 import com.oyp.openglesdemo.triangle.*
 import java.util.*
@@ -182,6 +183,15 @@ class MainActivity : ListActivity() {
             getText(R.string.lesson_six_subtitle)
         data.add(item6)
         activityMapping.put(i++, LessonSixActivity::class.java)
+
+
+        val item7: MutableMap<String, Any> = HashMap()
+        item7[ITEM_IMAGE] = R.mipmap.ic_lesson_seven
+        item7[ITEM_TITLE] = getText(R.string.lesson_seven)
+        item7[ITEM_SUBTITLE] =
+            getText(R.string.lesson_seven_subtitle)
+        data.add(item7)
+        activityMapping.put(i++, LessonSevenActivity::class.java)
         
 
         val dataAdapter = SimpleAdapter(
