@@ -1,4 +1,4 @@
-package com.oyp.openglesdemo.lesson
+package com.oyp.openglesdemo.lesson.lesson5
 
 import android.content.Context
 import android.opengl.GLSurfaceView

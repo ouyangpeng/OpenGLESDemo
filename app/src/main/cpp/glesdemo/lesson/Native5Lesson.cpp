@@ -260,7 +260,7 @@ Native5Lesson *lesson5;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonFiveNativeRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_lesson_lesson5_LessonFiveNativeRenderer_00024Companion_nativeSurfaceCreate(
         JNIEnv *env, jobject thiz, jobject asset_manager) {
     GLUtils::setEnvAndAssetManager(env, asset_manager);
     if (lesson5) {
@@ -275,7 +275,7 @@ Java_com_oyp_openglesdemo_lesson_LessonFiveNativeRenderer_00024Companion_nativeS
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonFiveNativeRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_lesson_lesson5_LessonFiveNativeRenderer_00024Companion_nativeSurfaceChange(
         JNIEnv *env, jobject thiz, jint width, jint height) {
     if (lesson5) {
         lesson5->change(width, height);
@@ -284,7 +284,7 @@ Java_com_oyp_openglesdemo_lesson_LessonFiveNativeRenderer_00024Companion_nativeS
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonFiveNativeRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_lesson_lesson5_LessonFiveNativeRenderer_00024Companion_nativeDrawFrame(
         JNIEnv *env, jobject thiz) {
     if (lesson5) {
         lesson5->draw();
@@ -293,7 +293,7 @@ Java_com_oyp_openglesdemo_lesson_LessonFiveNativeRenderer_00024Companion_nativeD
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonFiveNativeRenderer_00024Companion_nativeSwitchMode(
+Java_com_oyp_openglesdemo_lesson_lesson5_LessonFiveNativeRenderer_00024Companion_nativeSwitchMode(
         JNIEnv *env, jobject thiz) {
     if (lesson5) {
         lesson5->switchMode();

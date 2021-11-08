@@ -1,4 +1,4 @@
-package com.oyp.openglesdemo.lesson
+package com.oyp.openglesdemo.lesson.lesson5
 
 import android.app.Activity
 import android.content.res.AssetManager
@@ -6,11 +6,7 @@ import android.opengl.GLSurfaceView
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-internal interface BlendingMode {
-    fun switchMode()
-}
-
-class LessonFiveNativeRenderer(activity:Activity) : GLSurfaceView.Renderer,BlendingMode {
+class LessonFiveNativeRenderer(activity:Activity) : GLSurfaceView.Renderer, BlendingMode {
 
     private var mActivity: Activity = activity
 

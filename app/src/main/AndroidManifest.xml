@@ -90,7 +90,7 @@
 
 
         <activity
-            android:name=".lesson.LessonFiveActivity"
+            android:name=".lesson.lesson5.LessonFiveActivity"
             android:label="@string/lesson_five"/>
     </application>
 
