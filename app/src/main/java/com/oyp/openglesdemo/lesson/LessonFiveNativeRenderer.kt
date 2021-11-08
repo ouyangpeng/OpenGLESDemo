@@ -6,6 +6,10 @@ import android.opengl.GLSurfaceView
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
+internal interface BlendingMode {
+    fun switchMode()
+}
+
 class LessonFiveNativeRenderer(activity:Activity) : GLSurfaceView.Renderer,BlendingMode {
 
     private var mActivity: Activity = activity
