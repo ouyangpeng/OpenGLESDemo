@@ -599,12 +599,13 @@ Native6Lesson *lesson6;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_nativeSurfaceCreate(
         JNIEnv *env, jobject thiz, jobject asset_manager) {
+    // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
     GLUtils::setEnvAndAssetManager(env, asset_manager);
     if (lesson6) {
         delete lesson6;
-        lesson6 = NULL;
+        lesson6 = nullptr;
     }
     lesson6 = new Native6Lesson();
     lesson6->create();
@@ -612,7 +613,7 @@ Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_00024Companion_
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_nativeSurfaceChange(
         JNIEnv *env, jobject thiz, jint width, jint height) {
     if (lesson6) {
         lesson6->change(width, height);
@@ -621,7 +622,7 @@ Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_00024Companion_
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_nativeDrawFrame(
         JNIEnv *env, jobject thiz) {
     if (lesson6) {
         lesson6->draw();
@@ -630,7 +631,7 @@ Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_00024Companion_
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_00024Companion_nativeSetDelta(
+Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_nativeSetDelta(
         JNIEnv *env, jobject thiz, jfloat x, jfloat y) {
     if (lesson6) {
         lesson6->setDelta(x, y);
@@ -639,7 +640,7 @@ Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_00024Companion_
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_00024Companion_nativeSetMinFilter(
+Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_nativeSetMinFilter(
         JNIEnv *env, jobject thiz, jint filter) {
     if (lesson6) {
         lesson6->setMagFilter(filter);
@@ -648,7 +649,7 @@ Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_00024Companion_
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_00024Companion_nativeSetMagFilter(
+Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_nativeSetMagFilter(
         JNIEnv *env, jobject thiz, jint filter) {
     if (lesson6) {
         lesson6->setMinFilter(filter);

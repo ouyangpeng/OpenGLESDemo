@@ -228,11 +228,11 @@ void Native1Lesson::drawTriangle(GLfloat* vertices,
 
 /// =======================================================
 
-static Native1Lesson* native1Lesson;
+Native1Lesson* native1Lesson;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_nativeSurfaceCreate(
 		JNIEnv *env, jobject thiz) {
 
 	if (native1Lesson) {
@@ -245,7 +245,7 @@ Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_00024Companion_nativeSu
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_nativeSurfaceChange(
 		JNIEnv *env, jobject thiz, jint width, jint height) {
 	if (native1Lesson != nullptr) {
 		native1Lesson->change(width, height);
@@ -254,7 +254,7 @@ Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_00024Companion_nativeSu
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_00024Companion_nativeDrawFrame(JNIEnv *env,jobject thiz) {
+Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_nativeDrawFrame(JNIEnv *env,jobject thiz) {
 	if (native1Lesson != nullptr) {
 		native1Lesson->draw();
 	}

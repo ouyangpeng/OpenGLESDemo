@@ -558,7 +558,7 @@ Native4Lesson *lesson4;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonFourNativeRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_lesson_LessonFourNativeRenderer_nativeSurfaceCreate(
         JNIEnv *env, jobject thiz, jobject assetManager) {
     // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
     GLUtils::setEnvAndAssetManager(env, assetManager);
@@ -574,14 +574,14 @@ Java_com_oyp_openglesdemo_lesson_LessonFourNativeRenderer_00024Companion_nativeS
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonFourNativeRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_lesson_LessonFourNativeRenderer_nativeSurfaceChange(
         JNIEnv *env, jobject thiz, jint width, jint height) {
     if (lesson4) {
         lesson4->change(width, height);
     }
 }extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonFourNativeRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_lesson_LessonFourNativeRenderer_nativeDrawFrame(
         JNIEnv *env, jobject thiz) {
     if (lesson4) {
         lesson4->draw();

@@ -526,30 +526,29 @@ void Native2Lesson::drawLight() {
 
 ///=============================================================================
 
-static Native2Lesson *native2Lesson;
+Native2Lesson *native2Lesson;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonTwoNativeRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_lesson_LessonTwoNativeRenderer_nativeSurfaceCreate(
         JNIEnv *env, jobject thiz) {
-    if (native2Lesson) {
-        delete native2Lesson;
-        native2Lesson = nullptr;
-    }
-
     // Print some OpenGL info
     GLUtils::printGLString("Version", GL_VERSION);
     GLUtils::printGLString("Vendor", GL_VENDOR);
     GLUtils::printGLString("Renderer", GL_RENDERER);
     GLUtils::printGLString("Extensions", GL_EXTENSIONS);
 
+    if (native2Lesson) {
+        delete native2Lesson;
+        native2Lesson = nullptr;
+    }
     native2Lesson = new Native2Lesson();
     native2Lesson->create();
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonTwoNativeRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_lesson_LessonTwoNativeRenderer_nativeSurfaceChange(
         JNIEnv *env, jobject thiz, jint width, jint height) {
     if (native2Lesson) {
         native2Lesson->change(width, height);
@@ -558,7 +557,7 @@ Java_com_oyp_openglesdemo_lesson_LessonTwoNativeRenderer_00024Companion_nativeSu
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonTwoNativeRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_lesson_LessonTwoNativeRenderer_nativeDrawFrame(
         JNIEnv *env,jobject thiz) {
     if (native2Lesson) {
         native2Lesson->draw();

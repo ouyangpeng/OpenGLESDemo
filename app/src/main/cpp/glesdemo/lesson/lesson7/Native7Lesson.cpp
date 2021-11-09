@@ -342,6 +342,7 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_lesson_lesson7_LessonSevenNativeRenderer_nativeSurfaceCreate(
         JNIEnv *env, jobject thiz, jobject asset_manager) {
+    // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
     GLUtils::setEnvAndAssetManager(env, asset_manager);
     lesson7 = new Native7Lesson();
     genData = new GenData(lesson7);

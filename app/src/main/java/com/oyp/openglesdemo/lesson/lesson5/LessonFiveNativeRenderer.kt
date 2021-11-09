@@ -10,15 +10,13 @@ class LessonFiveNativeRenderer(activity:Activity) : GLSurfaceView.Renderer, Blen
 
     private var mActivity: Activity = activity
 
-    companion object {
-        external fun nativeSurfaceCreate(assetManager: AssetManager)
-        external fun nativeSurfaceChange(width: Int, height: Int)
-        external fun nativeDrawFrame()
-        external fun nativeSwitchMode()
+    external fun nativeSurfaceCreate(assetManager: AssetManager)
+    external fun nativeSurfaceChange(width: Int, height: Int)
+    external fun nativeDrawFrame()
+    external fun nativeSwitchMode()
 
-        init {
-            System.loadLibrary("opengles-lesson-lib")
-        }
+    init {
+        System.loadLibrary("opengles-lesson-lib")
     }
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
