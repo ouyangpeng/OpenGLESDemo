@@ -145,32 +145,35 @@ namespace TRIANGLE3 {
 
 // ====================================================================
 
-static TRIANGLE3::NativeTriangle* nativeTriangle;
+static TRIANGLE3::NativeTriangle* nativeTriangle3;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangle3NativeRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_triangle_HelloTriangle3NativeRenderer_nativeSurfaceCreate(
 	JNIEnv * env, jobject thiz) {
-	nativeTriangle = new TRIANGLE3::NativeTriangle();
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->create();
+
+	if (nativeTriangle3) {
+		delete nativeTriangle3;
+		nativeTriangle3 = nullptr;
 	}
+	nativeTriangle3 = new TRIANGLE3::NativeTriangle();
+	nativeTriangle3->create();
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangle3NativeRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_triangle_HelloTriangle3NativeRenderer_nativeSurfaceChange(
 	JNIEnv * env, jobject thiz, jint width, jint height) {
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->change(width, height);
+	if (nativeTriangle3 != nullptr) {
+		nativeTriangle3->change(width, height);
 	}
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangle3NativeRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_triangle_HelloTriangle3NativeRenderer_nativeDrawFrame(
 	JNIEnv * env, jobject thiz) {
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->draw();
+	if (nativeTriangle3 != nullptr) {
+		nativeTriangle3->draw();
 	}
 }

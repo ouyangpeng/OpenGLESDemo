@@ -346,23 +346,25 @@ GLubyte* MipMap2D::GenCheckImage(int width, int height, int checkSize)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static MipMap2D* mipMap2D;
+MipMap2D* mipMap2D;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_Mipmap2DRenderer_00024Companion_nativeSurfaceCreate(JNIEnv * env, jobject thiz) {
-	mipMap2D = new MipMap2D();
-	if (mipMap2D != nullptr) {
-		mipMap2D->create();
+Java_com_oyp_openglesdemo_texture_Mipmap2DRenderer_nativeSurfaceCreate(JNIEnv * env,
+	jobject thiz) {
+
+	if (mipMap2D) {
+		delete mipMap2D;
+		mipMap2D = nullptr;
 	}
+	mipMap2D = new MipMap2D();
+	mipMap2D->create();
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_Mipmap2DRenderer_00024Companion_nativeSurfaceChange(JNIEnv * env,
-	jobject thiz,
-	jint width,
-	jint height) {
+Java_com_oyp_openglesdemo_texture_Mipmap2DRenderer_nativeSurfaceChange(JNIEnv * env,
+	jobject thiz, jint width, jint height) {
 
 	if (mipMap2D != nullptr) {
 		mipMap2D->change(width, height);
@@ -371,7 +373,7 @@ Java_com_oyp_openglesdemo_texture_Mipmap2DRenderer_00024Companion_nativeSurfaceC
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_Mipmap2DRenderer_00024Companion_nativeDrawFrame(JNIEnv * env,
+Java_com_oyp_openglesdemo_texture_Mipmap2DRenderer_nativeDrawFrame(JNIEnv * env,
 	jobject thiz) {
 	if (mipMap2D != nullptr) {
 		mipMap2D->draw();

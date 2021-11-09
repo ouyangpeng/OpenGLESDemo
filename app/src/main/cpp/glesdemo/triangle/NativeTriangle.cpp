@@ -124,8 +124,8 @@ namespace NAMESPACE_NativeTriangle {
 		//        public static final int GL_TRIANGLE_FAN                            = 0x0006;
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-        // 禁用 通用顶点属性数组
-        glDisableVertexAttribArray(0);
+		// 禁用 通用顶点属性数组
+		glDisableVertexAttribArray(0);
 	}
 
 	void NativeTriangle::change(int width, int height) {
@@ -141,20 +141,23 @@ namespace NAMESPACE_NativeTriangle {
 }
 // ====================================================================
 
-static NAMESPACE_NativeTriangle::NativeTriangle* nativeTriangle;
+NAMESPACE_NativeTriangle::NativeTriangle* nativeTriangle;
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_nativeSurfaceCreate(
 	JNIEnv * env, jobject thiz) {
-	nativeTriangle = new NAMESPACE_NativeTriangle::NativeTriangle();
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->create();
+	if (nativeTriangle) {
+		delete nativeTriangle;
+		nativeTriangle = nullptr;
 	}
+
+	nativeTriangle = new NAMESPACE_NativeTriangle::NativeTriangle();
+	nativeTriangle->create();
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_nativeSurfaceChange(
 	JNIEnv * env, jobject thiz, jint width, jint height) {
 	if (nativeTriangle != nullptr) {
 		nativeTriangle->change(width, height);
@@ -163,7 +166,7 @@ Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_00024Companion_na
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_nativeDrawFrame(
 	JNIEnv * env, jobject thiz) {
 	if (nativeTriangle != nullptr) {
 		nativeTriangle->draw();

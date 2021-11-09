@@ -10,14 +10,12 @@ class MultiTextureRenderer(activity: Activity) : GLSurfaceView.Renderer {
 
     private val mActivity: Activity = activity
 
-    companion object {
-        external fun nativeSurfaceCreate(assetManager: AssetManager)
-        external fun nativeSurfaceChange(width: Int, height: Int)
-        external fun nativeDrawFrame()
+    external fun nativeSurfaceCreate(assetManager: AssetManager)
+    external fun nativeSurfaceChange(width: Int, height: Int)
+    external fun nativeDrawFrame()
 
-        init {
-            System.loadLibrary("opengles-lesson-lib")
-        }
+    init {
+        System.loadLibrary("opengles-lesson-lib")
     }
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {

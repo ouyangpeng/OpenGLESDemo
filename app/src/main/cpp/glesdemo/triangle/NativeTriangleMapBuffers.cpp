@@ -197,32 +197,35 @@ namespace TRIANGLE_MapBuffers {
 
 // ====================================================================
 
-static TRIANGLE_MapBuffers::NativeTriangleMapBuffers* nativeTriangle;
+TRIANGLE_MapBuffers::NativeTriangleMapBuffers* nativeTriangleMapBuffers;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangleMapBuffersNativeRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_triangle_HelloTriangleMapBuffersNativeRenderer_nativeSurfaceCreate(
 	JNIEnv * env, jobject thiz) {
-	nativeTriangle = new  TRIANGLE_MapBuffers::NativeTriangleMapBuffers();
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->create();
+
+	if (nativeTriangleMapBuffers) {
+		delete nativeTriangleMapBuffers;
+		nativeTriangleMapBuffers = nullptr;
 	}
+	nativeTriangleMapBuffers = new  TRIANGLE_MapBuffers::NativeTriangleMapBuffers();
+	nativeTriangleMapBuffers->create();
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangleMapBuffersNativeRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_triangle_HelloTriangleMapBuffersNativeRenderer_nativeSurfaceChange(
 	JNIEnv * env, jobject thiz, jint width, jint height) {
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->change(width, height);
+	if (nativeTriangleMapBuffers != nullptr) {
+		nativeTriangleMapBuffers->change(width, height);
 	}
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangleMapBuffersNativeRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_triangle_HelloTriangleMapBuffersNativeRenderer_nativeDrawFrame(
 	JNIEnv * env, jobject thiz) {
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->draw();
+	if (nativeTriangleMapBuffers != nullptr) {
+		nativeTriangleMapBuffers->draw();
 	}
 }

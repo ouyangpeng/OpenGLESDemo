@@ -149,32 +149,35 @@ namespace TRIANGLE_SIMPLE_VERTEXT_SHADER {
 
 // ====================================================================
 
-static TRIANGLE_SIMPLE_VERTEXT_SHADER::NativeTriangle* nativeTriangle;
+TRIANGLE_SIMPLE_VERTEXT_SHADER::NativeTriangle* nativeTriangleCubeSimpleVertexShader;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_cube_HelloCubeSimpleVertexShaderNativeRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_cube_HelloCubeSimpleVertexShaderNativeRenderer_nativeSurfaceCreate(
 	JNIEnv * env, jobject thiz) {
-	nativeTriangle = new TRIANGLE_SIMPLE_VERTEXT_SHADER::NativeTriangle();
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->create();
+
+	if (nativeTriangleCubeSimpleVertexShader) {
+		delete nativeTriangleCubeSimpleVertexShader;
+		nativeTriangleCubeSimpleVertexShader = nullptr;
 	}
+	nativeTriangleCubeSimpleVertexShader = new TRIANGLE_SIMPLE_VERTEXT_SHADER::NativeTriangle();
+	nativeTriangleCubeSimpleVertexShader->create();
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_cube_HelloCubeSimpleVertexShaderNativeRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_cube_HelloCubeSimpleVertexShaderNativeRenderer_nativeSurfaceChange(
 	JNIEnv * env, jobject thiz, jint width, jint height) {
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->change(width, height);
+	if (nativeTriangleCubeSimpleVertexShader != nullptr) {
+		nativeTriangleCubeSimpleVertexShader->change(width, height);
 	}
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_cube_HelloCubeSimpleVertexShaderNativeRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_cube_HelloCubeSimpleVertexShaderNativeRenderer_nativeDrawFrame(
 	JNIEnv * env, jobject thiz) {
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->draw();
+	if (nativeTriangleCubeSimpleVertexShader != nullptr) {
+		nativeTriangleCubeSimpleVertexShader->draw();
 	}
 }

@@ -182,33 +182,36 @@ namespace TRIANGLE_VERTEXT_BUFFER_OBJECT {
 
 // ====================================================================
 
-static TRIANGLE_VERTEXT_BUFFER_OBJECT::NativeTriangle* nativeTriangle;
+TRIANGLE_VERTEXT_BUFFER_OBJECT::NativeTriangle* nativeTriangleVBO;
 
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangleVertexBufferObjectNativeRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_triangle_HelloTriangleVertexBufferObjectNativeRenderer_nativeSurfaceCreate(
 	JNIEnv * env, jobject thiz) {
-	nativeTriangle = new TRIANGLE_VERTEXT_BUFFER_OBJECT::NativeTriangle();
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->create();
+
+	if (nativeTriangleVBO) {
+		delete nativeTriangleVBO;
+		nativeTriangleVBO = nullptr;
 	}
+	nativeTriangleVBO = new TRIANGLE_VERTEXT_BUFFER_OBJECT::NativeTriangle();
+	nativeTriangleVBO->create();
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangleVertexBufferObjectNativeRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_triangle_HelloTriangleVertexBufferObjectNativeRenderer_nativeSurfaceChange(
 	JNIEnv * env, jobject thiz, jint width, jint height) {
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->change(width, height);
+	if (nativeTriangleVBO != nullptr) {
+		nativeTriangleVBO->change(width, height);
 	}
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_triangle_HelloTriangleVertexBufferObjectNativeRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_triangle_HelloTriangleVertexBufferObjectNativeRenderer_nativeDrawFrame(
 	JNIEnv * env, jobject thiz) {
-	if (nativeTriangle != nullptr) {
-		nativeTriangle->draw();
+	if (nativeTriangleVBO != nullptr) {
+		nativeTriangleVBO->draw();
 	}
 }

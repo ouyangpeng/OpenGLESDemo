@@ -215,7 +215,7 @@ ParticleSystem* particleSystem;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_ParticleSystemRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_texture_ParticleSystemRenderer_nativeSurfaceCreate(
         JNIEnv *env, jobject thiz, jobject assetManager) {
     // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
     GLUtils::setEnvAndAssetManager(env, assetManager);
@@ -230,7 +230,7 @@ Java_com_oyp_openglesdemo_texture_ParticleSystemRenderer_00024Companion_nativeSu
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_ParticleSystemRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_texture_ParticleSystemRenderer_nativeSurfaceChange(
         JNIEnv *env, jobject thiz, jint width, jint height) {
     if(particleSystem != nullptr){
         particleSystem->change(width,height);
@@ -239,7 +239,7 @@ Java_com_oyp_openglesdemo_texture_ParticleSystemRenderer_00024Companion_nativeSu
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_ParticleSystemRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_texture_ParticleSystemRenderer_nativeDrawFrame(
         JNIEnv *env, jobject thiz) {
     if(particleSystem != nullptr){
         particleSystem->draw();

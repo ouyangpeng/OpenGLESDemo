@@ -5,14 +5,12 @@ import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 class HelloTriangle2NativeRenderer : GLSurfaceView.Renderer {
-    companion object {
-        external fun nativeSurfaceCreate()
-        external fun nativeSurfaceChange(width: Int, height: Int)
-        external fun nativeDrawFrame()
+    external fun nativeSurfaceCreate()
+    external fun nativeSurfaceChange(width: Int, height: Int)
+    external fun nativeDrawFrame()
 
-        init {
-            System.loadLibrary("opengles-lesson-lib")
-        }
+    init {
+        System.loadLibrary("opengles-lesson-lib")
     }
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {

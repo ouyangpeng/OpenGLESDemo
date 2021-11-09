@@ -154,20 +154,24 @@ namespace NAMESPACE_SimpleTexture2D {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static NAMESPACE_SimpleTexture2D::SimpleTexture2D* simpleTexture2D;
+NAMESPACE_SimpleTexture2D::SimpleTexture2D* simpleTexture2D;
+
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_SimpleTexture2DRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_texture_SimpleTexture2DRenderer_nativeSurfaceCreate(
 	JNIEnv * env, jobject thiz) {
-	simpleTexture2D = new NAMESPACE_SimpleTexture2D::SimpleTexture2D();
-	if (simpleTexture2D != nullptr) {
-		simpleTexture2D->create();
+	
+	if (simpleTexture2D) {
+		delete simpleTexture2D;
+		simpleTexture2D = nullptr;
 	}
+	simpleTexture2D = new NAMESPACE_SimpleTexture2D::SimpleTexture2D();
+	simpleTexture2D->create();
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_SimpleTexture2DRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_texture_SimpleTexture2DRenderer_nativeSurfaceChange(
 	JNIEnv * env, jobject thiz, jint width, jint height) {
 	if (simpleTexture2D != nullptr) {
 		simpleTexture2D->change(width, height);
@@ -176,7 +180,7 @@ Java_com_oyp_openglesdemo_texture_SimpleTexture2DRenderer_00024Companion_nativeS
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_SimpleTexture2DRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_texture_SimpleTexture2DRenderer_nativeDrawFrame(
 	JNIEnv * env, jobject thiz) {
 	if (simpleTexture2D != nullptr) {
 		simpleTexture2D->draw();

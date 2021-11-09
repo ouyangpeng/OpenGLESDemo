@@ -167,21 +167,24 @@ namespace NAMESPACE_SimpleTextureCubemap {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-static NAMESPACE_SimpleTextureCubemap::SimpleTextureCubemap* simpleTextureCubemap;
+NAMESPACE_SimpleTextureCubemap::SimpleTextureCubemap* simpleTextureCubemap;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_SimpleTextureCubemapRenderer_00024Companion_nativeSurfaceCreate(
+Java_com_oyp_openglesdemo_texture_SimpleTextureCubemapRenderer_nativeSurfaceCreate(
 	JNIEnv * env, jobject thiz) {
-	simpleTextureCubemap = new  NAMESPACE_SimpleTextureCubemap::SimpleTextureCubemap();
-	if (simpleTextureCubemap != nullptr) {
-		simpleTextureCubemap->create();
+
+	if (simpleTextureCubemap) {
+		delete simpleTextureCubemap;
+		simpleTextureCubemap = nullptr;
 	}
+	simpleTextureCubemap = new  NAMESPACE_SimpleTextureCubemap::SimpleTextureCubemap();
+	simpleTextureCubemap->create();
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_SimpleTextureCubemapRenderer_00024Companion_nativeSurfaceChange(
+Java_com_oyp_openglesdemo_texture_SimpleTextureCubemapRenderer_nativeSurfaceChange(
 	JNIEnv * env, jobject thiz, jint width, jint height) {
 	if (simpleTextureCubemap != nullptr) {
 		simpleTextureCubemap->change(width, height);
@@ -190,7 +193,7 @@ Java_com_oyp_openglesdemo_texture_SimpleTextureCubemapRenderer_00024Companion_na
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_SimpleTextureCubemapRenderer_00024Companion_nativeDrawFrame(
+Java_com_oyp_openglesdemo_texture_SimpleTextureCubemapRenderer_nativeDrawFrame(
 	JNIEnv * env, jobject thiz) {
 	if (simpleTextureCubemap != nullptr) {
 		simpleTextureCubemap->draw();
