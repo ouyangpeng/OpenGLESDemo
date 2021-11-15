@@ -9,6 +9,6 @@ class HelloTriangleActivity : BaseGLActivity() {
     }
 
     override fun getRender(): GLSurfaceView.Renderer {
-        return HelloTriangleNativeRenderer()
+        return HelloTriangleNativeRenderer(this)
     }
 }

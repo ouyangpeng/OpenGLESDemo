@@ -2,25 +2,6 @@
 
 // 可以参考这篇讲解： https://learnopengl-cn.github.io/01%20Getting%20started/04%20Hello%20Triangle/
 namespace NAMESPACE_NativeTriangle {
-	// 顶点着色器
-	const char* VERTEX_SHADER_TRIANGLE =
-		"#version 300 es                          \n"
-		"layout(location = 0) in vec4 vPosition;  \n"
-		"void main()                              \n"
-		"{                                        \n"
-		"   gl_Position = vPosition;              \n"
-		"}                                        \n";
-
-	// 片段着色器
-	const char* FRAGMENT_SHADER_TRIANGLE =
-		"#version 300 es                              \n"
-		"precision mediump float;                     \n"
-		"out vec4 fragColor;                          \n"
-		"void main()                                  \n"
-		"{                                            \n"
-		"   fragColor = vec4 ( 1.0, 0.0, 0.0, 1.0 );  \n"
-		"}                                            \n";
-
 	// 我们在OpenGL中指定的所有坐标都是3D坐标（x、y和z）
 	// 由于我们希望渲染一个三角形，我们一共要指定三个顶点，每个顶点都有一个3D位置。
 	// 我们会将它们以标准化设备坐标的形式（OpenGL的可见区域）定义为一个float数组。
@@ -59,6 +40,10 @@ namespace NAMESPACE_NativeTriangle {
 		GLUtils::printGLString("Vendor", GL_VENDOR);
 		GLUtils::printGLString("Renderer", GL_RENDERER);
 		GLUtils::printGLString("Extensions", GL_EXTENSIONS);
+
+		// Main Program
+		const char *VERTEX_SHADER_TRIANGLE = GLUtils::openTextFile("vertex/vertex_shader_hello_triangle.glsl");
+		const char *FRAGMENT_SHADER_TRIANGLE = GLUtils::openTextFile("fragment/fragment_shader_hello_triangle.glsl");
 
 		mProgram = GLUtils::createProgram(&VERTEX_SHADER_TRIANGLE, &FRAGMENT_SHADER_TRIANGLE);
 		if (!mProgram) {
@@ -145,7 +130,10 @@ NAMESPACE_NativeTriangle::NativeTriangle* nativeTriangle;
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_nativeSurfaceCreate(
-	JNIEnv * env, jobject thiz) {
+	JNIEnv * env, jobject thiz,jobject assetManager) {
+	// 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
+	GLUtils::setEnvAndAssetManager(env, assetManager);
+
 	if (nativeTriangle) {
 		delete nativeTriangle;
 		nativeTriangle = nullptr;
@@ -159,6 +147,8 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_triangle_HelloTriangleNativeRenderer_nativeSurfaceChange(
 	JNIEnv * env, jobject thiz, jint width, jint height) {
+
+
 	if (nativeTriangle != nullptr) {
 		nativeTriangle->change(width, height);
 	}
