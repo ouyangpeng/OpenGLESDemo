@@ -38,10 +38,7 @@ namespace NAMESPACE_SimpleTexture2D {
 	}
 
 	void SimpleTexture2D::create() {
-		GLUtils::printGLString("Version", GL_VERSION);
-		GLUtils::printGLString("Vendor", GL_VENDOR);
-		GLUtils::printGLString("Renderer", GL_RENDERER);
-		GLUtils::printGLString("Extensions", GL_EXTENSIONS);
+		GLUtils::printGLInfo();
 
 		programObject = GLUtils::createProgram(&VERTEX_SHADER_TRIANGLE, &FRAGMENT_SHADER_TRIANGLE);
 		if (!programObject) {

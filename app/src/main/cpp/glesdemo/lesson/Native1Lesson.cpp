@@ -93,10 +93,7 @@ Native1Lesson::~Native1Lesson() {
 }
 
 void Native1Lesson::create() {
-	GLUtils::printGLString("Version", GL_VERSION);
-	GLUtils::printGLString("Vendor", GL_VENDOR);
-	GLUtils::printGLString("Renderer", GL_RENDERER);
-	GLUtils::printGLString("Extensions", GL_EXTENSIONS);
+	GLUtils::printGLInfo();
 
 	mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 	if (!mProgram) {

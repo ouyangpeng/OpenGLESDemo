@@ -64,10 +64,7 @@ namespace NAMESPACE_NativeTriangle2 {
 
 
 	void NativeTriangle::create() {
-		GLUtils::printGLString("Version", GL_VERSION);
-		GLUtils::printGLString("Vendor", GL_VENDOR);
-		GLUtils::printGLString("Renderer", GL_RENDERER);
-		GLUtils::printGLString("Extensions", GL_EXTENSIONS);
+		GLUtils::printGLInfo();
 
 		mProgram = GLUtils::createProgram(&VERTEX_SHADER_TRIANGLE, &FRAGMENT_SHADER_TRIANGLE);
 		if (!mProgram) {

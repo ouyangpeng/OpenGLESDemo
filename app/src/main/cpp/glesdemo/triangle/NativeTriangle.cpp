@@ -36,10 +36,7 @@ namespace NAMESPACE_NativeTriangle {
 	}
 
 	void NativeTriangle::create() {
-		GLUtils::printGLString("Version", GL_VERSION);
-		GLUtils::printGLString("Vendor", GL_VENDOR);
-		GLUtils::printGLString("Renderer", GL_RENDERER);
-		GLUtils::printGLString("Extensions", GL_EXTENSIONS);
+		GLUtils::printGLInfo();
 
 		// Main Program
 		const char *VERTEX_SHADER_TRIANGLE = GLUtils::openTextFile("vertex/vertex_shader_hello_triangle.glsl");

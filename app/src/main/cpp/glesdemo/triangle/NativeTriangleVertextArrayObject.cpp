@@ -55,10 +55,7 @@ namespace TRIANGLE_VERTEXT_ARRAY_OBJECT {
 	}
 
 	void NativeTriangle::create() {
-		GLUtils::printGLString("Version", GL_VERSION);
-		GLUtils::printGLString("Vendor", GL_VENDOR);
-		GLUtils::printGLString("Renderer", GL_RENDERER);
-		GLUtils::printGLString("Extensions", GL_EXTENSIONS);
+		GLUtils::printGLInfo();
 
 		mProgram = GLUtils::createProgram(&vShaderStr, &fShaderStr);
 		if (!mProgram) {
@@ -118,7 +115,7 @@ namespace TRIANGLE_VERTEXT_ARRAY_OBJECT {
 		// Bind the VAO
 		glBindVertexArray(vaoId);
 
-		// Draw with the VAO settins
+		// Draw with the VAO settings
 		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, (const void*)0);
 
 		// Return to the default VAO

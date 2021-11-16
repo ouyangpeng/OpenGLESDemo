@@ -47,7 +47,7 @@ static GLuint loadShader(GLenum shaderType, const char** source) {
 			char* infoLog = (char*)malloc(sizeof(char) * infoLen);
 			// 检索信息日志
 			glGetShaderInfoLog(shader, infoLen, nullptr, infoLog);
-			LOGE("Error compiling shader:\n%s\n", infoLog);
+			LOGE("Error compiling shader:\n%s\n", infoLog)
 
 			free(infoLog);
 		}
@@ -97,7 +97,7 @@ GLuint GLUtils::createProgram(const char** vertexSource, const char** fragmentSo
 			char* infoLog = (char*)malloc(sizeof(char) * infoLen);
 			//获取信息
 			glGetProgramInfoLog(program, infoLen, nullptr, infoLog);
-			LOGE("Error linking program:\n%s\n", infoLog);
+			LOGE("Error linking program:\n%s\n", infoLog)
 
 			free(infoLog);
 		}
@@ -112,21 +112,20 @@ GLuint GLUtils::createProgram(const char** vertexSource, const char** fragmentSo
 }
 
 GLuint GLUtils::loadTexture(const char* path) {
-	GLuint textureId = 0;
 	jclass utilsClass = sEnv->FindClass(
 		"com/oyp/openglesdemo/Utils");  //com.oyp.openglesdemo.Utils类
 	if (utilsClass == nullptr) {
-		LOGE("Couldn't find utils class");
+		LOGE("Couldn't find utils class")
 		return (GLuint)-1;
 	}
 	jmethodID loadTexture = sEnv->GetStaticMethodID(utilsClass, "loadTexture",
 		"(Landroid/content/res/AssetManager;Ljava/lang/String;)I");
 	if (loadTexture == nullptr) {
-		LOGE("Couldn't find loadTexture method");
+		LOGE("Couldn't find loadTexture method")
 		return (GLuint)-1;
 	}
 	jstring pathStr = sEnv->NewStringUTF(path);
-	textureId = (GLuint)sEnv->CallStaticIntMethod(utilsClass, loadTexture, sAssetManager, pathStr);
+	auto textureId = (GLuint)sEnv->CallStaticIntMethod(utilsClass, loadTexture, sAssetManager, pathStr);
 	sEnv->DeleteLocalRef(pathStr);
 	return textureId;
 }
@@ -139,7 +138,7 @@ void GLUtils::setEnvAndAssetManager(JNIEnv* env, jobject assetManager) {
 char* GLUtils::openTextFile(const char* path) {
 	AAsset* asset = loadAsset(path);
 	if (asset == nullptr) {
-		LOGE("Couldn't load %s", path);
+		LOGE("Couldn't load %s", path)
 		return nullptr;
 	}
 	off_t length = AAsset_getLength(asset);
@@ -147,13 +146,12 @@ char* GLUtils::openTextFile(const char* path) {
 	int num = AAsset_read(asset, buffer, length);
 	AAsset_close(asset);
 	if (num != length) {
-		LOGE("Couldn't read %s", path);
+		LOGE("Couldn't read %s", path)
 		delete[] buffer;
 		return nullptr;
 	}
 	buffer[length] = '\0';
 	return buffer;
-	return NULL;
 }
 
 GLfloat* GLUtils::generateCubeData(float* point1,
@@ -179,7 +177,7 @@ GLfloat* GLUtils::generateCubeData(float* point1,
 	//    int BOTTOM = 5;
 
 	int size = elementsPerPoint * 6 * 6;
-	float* cubeData = new float[size];
+	auto* cubeData = new float[size];
 
 	for (int face = 0; face < 6; face++) {
 		// Relative to the side,

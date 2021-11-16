@@ -14,10 +14,7 @@ ParticleSystem::~ParticleSystem() {
 }
 
 void ParticleSystem::create() {
-    GLUtils::printGLString("Version", GL_VERSION);
-    GLUtils::printGLString("Vendor", GL_VENDOR);
-    GLUtils::printGLString("Renderer", GL_RENDERER);
-    GLUtils::printGLString("Extensions", GL_EXTENSIONS);
+    GLUtils::printGLInfo();
 
     const char* VERTEX_SHADER_TRIANGLE =
             "#version 300 es                                      \n"

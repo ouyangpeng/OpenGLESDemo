@@ -47,6 +47,14 @@ public:
 		const char *v = (const char *) glGetString(s);
 		LOGI("GL %s = %s \n", name, v);
 	}
+
+	// Print some OpenGL info
+	static void printGLInfo(){
+		printGLString("Version", GL_VERSION);
+		printGLString("Vendor", GL_VENDOR);
+		printGLString("Renderer", GL_RENDERER);
+		printGLString("Extensions", GL_EXTENSIONS);
+	}
 };
 
 #endif //OPEN_GL_LESSON_NATIVE_GL_UTILS_H_

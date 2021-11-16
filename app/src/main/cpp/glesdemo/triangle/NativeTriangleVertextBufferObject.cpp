@@ -37,10 +37,7 @@ namespace TRIANGLE_VERTEXT_BUFFER_OBJECT {
 	}
 
 	void NativeTriangle::create() {
-		GLUtils::printGLString("Version", GL_VERSION);
-		GLUtils::printGLString("Vendor", GL_VENDOR);
-		GLUtils::printGLString("Renderer", GL_RENDERER);
-		GLUtils::printGLString("Extensions", GL_EXTENSIONS);
+        GLUtils::printGLInfo();
 
 		mProgram = GLUtils::createProgram(&vShaderStr, &fShaderStr);
 
