@@ -13,6 +13,7 @@ import com.oyp.openglesdemo.lesson.lesson5.LessonFiveActivity
 import com.oyp.openglesdemo.lesson.lesson6.LessonSixActivity
 import com.oyp.openglesdemo.lesson.lesson7.LessonSevenActivity
 import com.oyp.openglesdemo.lesson.lesson8.LessonEightActivity
+import com.oyp.openglesdemo.mrt.MRTActivity
 import com.oyp.openglesdemo.texture.*
 import com.oyp.openglesdemo.triangle.*
 import java.util.*
@@ -129,6 +130,13 @@ class MainActivity : ListActivity() {
         itemParticleSystem[ITEM_SUBTITLE] =  " Show  ParticleSystem"
         data.add(itemParticleSystem)
         activityMapping.put(i++, ParticleSystemActivity::class.java)
+
+        val itemMRT: MutableMap<String, Any?> = HashMap()
+        itemMRT[ITEM_IMAGE] = R.mipmap.ic_mrt
+        itemMRT[ITEM_TITLE] = " Hello MRT"
+        itemMRT[ITEM_SUBTITLE] =  "Show MRT(多重渲染目标)"
+        data.add(itemMRT)
+        activityMapping.put(i++, MRTActivity::class.java)
 
 
         val item1: MutableMap<String, Any?> = HashMap()
