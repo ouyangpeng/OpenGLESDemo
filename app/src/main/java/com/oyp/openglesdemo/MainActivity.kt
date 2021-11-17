@@ -18,11 +18,6 @@ import com.oyp.openglesdemo.triangle.*
 import java.util.*
 
 class MainActivity : ListActivity() {
-
-    private val ITEM_IMAGE = "item_image"
-    private val ITEM_TITLE = "item_title"
-    private val ITEM_SUBTITLE = "item_subtitle"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,7 +29,7 @@ class MainActivity : ListActivity() {
         var i = 0
 
         val item0: MutableMap<String, Any?> = HashMap()
-        item0[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        item0[ITEM_IMAGE] = R.mipmap.ic_trangle
         item0[ITEM_TITLE] = " Hello Triangle "
         item0[ITEM_SUBTITLE] =
             getText(R.string.lesson_triangle_subtitle)
@@ -42,7 +37,7 @@ class MainActivity : ListActivity() {
         activityMapping.put(i++, HelloTriangleActivity::class.java)
 
         val itemHelloTriangle2: MutableMap<String, Any?> = HashMap()
-        itemHelloTriangle2[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemHelloTriangle2[ITEM_IMAGE] = R.mipmap.ic_trangle2
         itemHelloTriangle2[ITEM_TITLE] =" Hello Triangle 2"
         itemHelloTriangle2[ITEM_SUBTITLE] =
             getText(R.string.lesson_triangle_subtitle)
@@ -50,7 +45,7 @@ class MainActivity : ListActivity() {
         activityMapping.put(i++, HelloTriangle2Activity::class.java)
 
         val itemHelloTriangle3: MutableMap<String, Any?> = HashMap()
-        itemHelloTriangle3[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemHelloTriangle3[ITEM_IMAGE] = R.mipmap.ic_trangle3
         itemHelloTriangle3[ITEM_TITLE] = " Hello Triangle 3"
         itemHelloTriangle3[ITEM_SUBTITLE] =
             getText(R.string.lesson_triangle_subtitle)
@@ -58,7 +53,7 @@ class MainActivity : ListActivity() {
         activityMapping.put(i++, HelloTriangle3Activity::class.java)
 
         val itemHelloTriangleMapBuffers: MutableMap<String, Any?> = HashMap()
-        itemHelloTriangleMapBuffers[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemHelloTriangleMapBuffers[ITEM_IMAGE] = R.mipmap.ic_trangle_mapbuffer
         itemHelloTriangleMapBuffers[ITEM_TITLE] = " Hello Triangle MapBuffers"
         itemHelloTriangleMapBuffers[ITEM_SUBTITLE] =
             getText(R.string.lesson_triangle_subtitle)
@@ -67,7 +62,7 @@ class MainActivity : ListActivity() {
 
 
         val itemHelloTriangleVertexArrayObject: MutableMap<String, Any?> = HashMap()
-        itemHelloTriangleVertexArrayObject[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemHelloTriangleVertexArrayObject[ITEM_IMAGE] = R.mipmap.ic_trangle_mapbuffer
         itemHelloTriangleVertexArrayObject[ITEM_TITLE] = " Hello Triangle VertexArrayObject"
         itemHelloTriangleVertexArrayObject[ITEM_SUBTITLE] =
             getText(R.string.lesson_triangle_subtitle)
@@ -75,7 +70,7 @@ class MainActivity : ListActivity() {
         activityMapping.put(i++, HelloTriangleVertexArrayObjectActivity::class.java)
 
         val itemHelloTriangleVertexBufferObject: MutableMap<String, Any?> = HashMap()
-        itemHelloTriangleVertexBufferObject[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemHelloTriangleVertexBufferObject[ITEM_IMAGE] = R.mipmap.ic_triangle_vbo
         itemHelloTriangleVertexBufferObject[ITEM_TITLE] = " Hello Triangle VertexBufferObject"
         itemHelloTriangleVertexBufferObject[ITEM_SUBTITLE] =
             getText(R.string.lesson_triangle_subtitle)
@@ -84,7 +79,7 @@ class MainActivity : ListActivity() {
 
 
         val itemHelloTriangleSimpleVertexShader: MutableMap<String, Any?> = HashMap()
-        itemHelloTriangleSimpleVertexShader[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemHelloTriangleSimpleVertexShader[ITEM_IMAGE] = R.mipmap.ic_cube
         itemHelloTriangleSimpleVertexShader[ITEM_TITLE] = " Hello Cube SimpleVertexShader"
         itemHelloTriangleSimpleVertexShader[ITEM_SUBTITLE] =  " Show a cube translate"
         data.add(itemHelloTriangleSimpleVertexShader)
@@ -92,28 +87,28 @@ class MainActivity : ListActivity() {
 
 
         val itemSimpleTexture2D: MutableMap<String, Any?> = HashMap()
-        itemSimpleTexture2D[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemSimpleTexture2D[ITEM_IMAGE] = R.mipmap.ic_texture_2d
         itemSimpleTexture2D[ITEM_TITLE] = " Hello SimpleTexture2D"
         itemSimpleTexture2D[ITEM_SUBTITLE] =  " Show a SimpleTexture2D"
         data.add(itemSimpleTexture2D)
         activityMapping.put(i++, SimpleTexture2DActivity::class.java)
 
         val itemSimpleTextureCubemap: MutableMap<String, Any?> = HashMap()
-        itemSimpleTextureCubemap[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemSimpleTextureCubemap[ITEM_IMAGE] = R.mipmap.ic_texture_cubemap
         itemSimpleTextureCubemap[ITEM_TITLE] = " Hello Simple TextureCubemap"
         itemSimpleTextureCubemap[ITEM_SUBTITLE] =  " Show a Simple TextureCubemap"
         data.add(itemSimpleTextureCubemap)
         activityMapping.put(i++, SimpleTextureCubemapActivity::class.java)
 
         val itemMipmap2D: MutableMap<String, Any?> = HashMap()
-        itemMipmap2D[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemMipmap2D[ITEM_IMAGE] = R.mipmap.ic_mimmap_2d
         itemMipmap2D[ITEM_TITLE] = " Hello MipMap2D"
         itemMipmap2D[ITEM_SUBTITLE] =  " Show  MipMap2D"
         data.add(itemMipmap2D)
         activityMapping.put(i++, Mipmap2DActivity::class.java)
 
         val itemTextureWrap: MutableMap<String, Any?> = HashMap()
-        itemTextureWrap[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemTextureWrap[ITEM_IMAGE] = R.mipmap.ic_texture_wrap
         itemTextureWrap[ITEM_TITLE] = " Hello TextureWrap"
         itemTextureWrap[ITEM_SUBTITLE] =  " Show  TextureWrap"
         data.add(itemTextureWrap)
@@ -121,7 +116,7 @@ class MainActivity : ListActivity() {
 
 
         val itemMultiTexture: MutableMap<String, Any?> = HashMap()
-        itemMultiTexture[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemMultiTexture[ITEM_IMAGE] = R.mipmap.ic_multi_texture
         itemMultiTexture[ITEM_TITLE] = " Hello MultiTexture"
         itemMultiTexture[ITEM_SUBTITLE] =  " Show  MultiTexture"
         data.add(itemMultiTexture)
@@ -129,7 +124,7 @@ class MainActivity : ListActivity() {
 
 
         val itemParticleSystem: MutableMap<String, Any?> = HashMap()
-        itemParticleSystem[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        itemParticleSystem[ITEM_IMAGE] = R.mipmap.ic_particle_system
         itemParticleSystem[ITEM_TITLE] = " Hello ParticleSystem"
         itemParticleSystem[ITEM_SUBTITLE] =  " Show  ParticleSystem"
         data.add(itemParticleSystem)
@@ -224,5 +219,11 @@ class MainActivity : ListActivity() {
                 startActivity(launchIntent)
             }
         }
+    }
+
+    companion object {
+        private val ITEM_IMAGE = "item_image"
+        private val ITEM_TITLE = "item_title"
+        private val ITEM_SUBTITLE = "item_subtitle"
     }
 }
