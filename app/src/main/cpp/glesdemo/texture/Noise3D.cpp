@@ -13,6 +13,12 @@
 static float   gradientTable[256 * 3];
 
 // permTable describes a random permutatin of 8-bit values from 0 to 255.
+// 梯度噪音算法以一个3D坐标作为输入，返回一个浮点噪音值。为了用(x,y,z)输入生成噪音值，
+// 我们将 x,y,z值映射到一个网格中的对应整数位置。 网格单元的数量是可以编程，我们将其设置为256个。
+// 对于网格中的每个单元，需要生成和存储一个伪随机梯度向量。
+
+
+// 下面代码生成 梯度向量
 static unsigned char permTable[256] =
 {
    0xE1, 0x9B, 0xD2, 0x6C, 0xAF, 0xC7, 0xDD, 0x90, 0xCB, 0x74, 0x46, 0xD5, 0x45, 0x9E, 0x21, 0xFC,
@@ -37,7 +43,7 @@ void initNoiseTable()
 {
    int            i;
    float          a;
-   float          x, y, z, r;
+   float          x, y, z, r, theta;
    float          gradients[256 * 3];
    unsigned int   *p, *psrc;
 
@@ -55,6 +61,7 @@ void initNoiseTable()
       r = sqrtf ( 1.0f - z * z ); // r is radius of circle
 
       a = ( random() % 32768 ) / 32768.0f;
+      theta = ( 2.0f * ( float ) M_PI * a );
       x = ( r * cosf ( a ) );
       y = ( r * sinf ( a ) );
 
@@ -76,6 +83,11 @@ void initNoiseTable()
       p[i * 3 + 2] = psrc[indx * 3 + 2];
    }
 }
+
+
+
+// 下面代码 用 伪随机梯度向量和输入的3D坐标计算梯度噪音
+
 //
 // generate the value of gradient noise for a given lattice point
 //
@@ -99,6 +111,9 @@ static float glattice3D ( int ix, int iy, int iz, float fx, float fy, float fz )
 // generate the 3D noise value
 // f describes the input (x, y, z) position for which the noise value needs to be computed
 // noise3D returns the scalar noise value
+
+// noise3D 函数返回一个 -1.0到1.0 之间的值。 梯度噪音值在整数网格点上总是为0.
+// 对于两者之间的点，在该点周围的8个整数网格点中进行梯度值的三线性插值用于生成标量噪声值。
 //
 float noise3D ( float *f )
 {
@@ -141,11 +156,13 @@ float noise3D ( float *f )
    return lerp ( wz, vz0, vz1 );;
 }
 
+// textureSize :  Size of the 3D nosie texture
+// frequency   :  Frequency of the noise.
 unsigned int Create3DNoiseTexture ( int textureSize, float frequency )
 {
    GLuint textureId;
    auto *texBuf = ( GLfloat * ) malloc ( sizeof ( GLfloat ) * textureSize * textureSize * textureSize ) ;
-   auto *uploadBuf = ( GLubyte * ) malloc ( sizeof ( GLubyte ) * textureSize * textureSize * textureSize ) ;
+   auto *texBufUbyte = ( GLubyte * ) malloc ( sizeof ( GLubyte ) * textureSize * textureSize * textureSize ) ;
    int x, y, z;
    int index = 0;
    float min = 1000;
@@ -194,7 +211,7 @@ unsigned int Create3DNoiseTexture ( int textureSize, float frequency )
          {
             float noiseVal = texBuf[index];
             noiseVal = ( noiseVal - min ) / range;
-            uploadBuf[index++] = ( GLubyte ) ( noiseVal * 255.0f );
+            texBufUbyte[index++] = ( GLubyte ) ( noiseVal * 255.0f );
          }
       }
    }
@@ -202,7 +219,7 @@ unsigned int Create3DNoiseTexture ( int textureSize, float frequency )
    glGenTextures ( 1, &textureId );
    glBindTexture ( GL_TEXTURE_3D, textureId );
    glTexImage3D ( GL_TEXTURE_3D, 0, GL_R8, textureSize, textureSize, textureSize, 0,
-                  GL_RED, GL_UNSIGNED_BYTE, uploadBuf );
+                  GL_RED, GL_UNSIGNED_BYTE, texBufUbyte );
 
    glTexParameteri ( GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
    glTexParameteri ( GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
@@ -213,7 +230,7 @@ unsigned int Create3DNoiseTexture ( int textureSize, float frequency )
    glBindTexture ( GL_TEXTURE_3D, 0 );
 
    free ( texBuf );
-   free ( uploadBuf );
+   free ( texBufUbyte );
 
    return textureId;
 }

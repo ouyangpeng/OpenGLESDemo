@@ -77,6 +77,9 @@
             android:label="@string/lesson_one"/>
 
         <activity
+            android:name=".texture.Noise3DActivity"
+            android:label="@string/lesson_one"/>
+        <activity
             android:name=".mrt.MRTActivity"
             android:label="@string/lesson_one"/>
 
