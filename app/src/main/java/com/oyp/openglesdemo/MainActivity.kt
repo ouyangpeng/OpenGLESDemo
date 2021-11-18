@@ -127,7 +127,7 @@ class MainActivity : ListActivity() {
         val itemParticleSystem: MutableMap<String, Any?> = HashMap()
         itemParticleSystem[ITEM_IMAGE] = R.mipmap.ic_particle_system
         itemParticleSystem[ITEM_TITLE] = " Hello ParticleSystem"
-        itemParticleSystem[ITEM_SUBTITLE] =  " Show  ParticleSystem"
+        itemParticleSystem[ITEM_SUBTITLE] =  "用点精灵渲染粒子爆炸效果"
         data.add(itemParticleSystem)
         activityMapping.put(i++, ParticleSystemActivity::class.java)
 
