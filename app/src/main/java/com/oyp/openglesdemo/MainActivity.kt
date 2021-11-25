@@ -160,6 +160,13 @@ class MainActivity : ListActivity() {
         data.add(itemTerrainRender)
         activityMapping.put(i++, TerrainRenderingActivity::class.java)
 
+        val itemShadows: MutableMap<String, Any?> = HashMap()
+        itemShadows[ITEM_IMAGE] = R.mipmap.ic_shadows
+        itemShadows[ITEM_TITLE] = " Hello Shadows"
+        itemShadows[ITEM_SUBTITLE] =  "使用深度纹理的阴影"
+        data.add(itemShadows)
+        activityMapping.put(i++, ShadowsActivity::class.java)
+
         val item1: MutableMap<String, Any?> = HashMap()
         item1[ITEM_IMAGE] = R.mipmap.ic_lesson_one
         item1[ITEM_TITLE] =

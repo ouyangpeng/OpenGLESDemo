@@ -4,6 +4,7 @@
 typedef AAsset esFile;
 
 // 注意点：保证内存是连续的，不然读取错误  使用  #pragma pack(1)  或者  __attribute__ ( ( packed ) ) 都可以
+// 【我的C语言学习进阶之旅】关于C/C++内存对齐读取文件产生的问题以及解决方法  https://blog.csdn.net/qq446282412/article/details/121539330
 // C/C++内存对齐详解  https://zhuanlan.zhihu.com/p/30007037
 // #pragma的常用方法讲解   https://blog.csdn.net/weixin_39640298/article/details/84503428
 //#pragma pack(push,x1)                            // Byte alignment (8-bit)
