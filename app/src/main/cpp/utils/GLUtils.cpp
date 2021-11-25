@@ -179,12 +179,14 @@ GLuint GLUtils::createProgram(const char** vertexSource, const char** fragmentSo
 	return program;
 }
 
-
-//
-// esLoadTGA()
-//
-//    Loads a 8-bit, 24-bit or 32-bit TGA image from a file
-//
+/**
+ * Loads a 8-bit, 24-bit or 32-bit TGA image from a file
+ * 从文件中加载一个  8-bit, 24-bit or 32-bit TGA图像
+ * @param fileName  文件名
+ * @param width		以像素表示的加载图像宽度
+ * @param height	以像素表示的加载图像高度
+ * @return	指向加载图像的指针；失败时返回NULL
+ */
 char * esLoadTGA (const char *fileName, int *width, int *height )
 {
 	char        *buffer;
