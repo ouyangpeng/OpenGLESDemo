@@ -52,6 +52,7 @@ public:
 	// Print some OpenGL info
 	static void printGLInfo(){
 		printGLString("Version", GL_VERSION);
+		printGLString("GLSL Version", GL_SHADING_LANGUAGE_VERSION);
 		printGLString("Vendor", GL_VENDOR);
 		printGLString("Renderer", GL_RENDERER);
 		printGLString("Extensions", GL_EXTENSIONS);
