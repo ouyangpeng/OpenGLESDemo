@@ -260,7 +260,7 @@ int esGenSquareGrid ( int size, GLfloat **vertices, GLuint **indices )
    int numIndices = ( size - 1 ) * ( size - 1 ) * 2 * 3;
 
    // Allocate memory for buffers
-   if ( vertices != NULL )
+   if ( vertices != nullptr )
    {
       int numVertices = size * size;
       float stepSize = ( float ) size - 1;
@@ -278,7 +278,7 @@ int esGenSquareGrid ( int size, GLfloat **vertices, GLuint **indices )
    }
 
    // Generate the indices
-   if ( indices != NULL )
+   if ( indices != nullptr )
    {
       *indices =  (GLuint *) malloc ( sizeof ( GLuint ) * numIndices );
 

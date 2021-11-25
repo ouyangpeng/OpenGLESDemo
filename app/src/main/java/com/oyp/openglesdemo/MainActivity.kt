@@ -153,6 +153,13 @@ class MainActivity : ListActivity() {
         activityMapping.put(i++, MRTActivity::class.java)
 
 
+        val itemTerrainRender: MutableMap<String, Any?> = HashMap()
+        itemTerrainRender[ITEM_IMAGE] = R.mipmap.ic_terrainrender
+        itemTerrainRender[ITEM_TITLE] = " Hello TerrainRender"
+        itemTerrainRender[ITEM_SUBTITLE] =  "用顶点纹理读取渲染地形"
+        data.add(itemTerrainRender)
+        activityMapping.put(i++, TerrainRenderingActivity::class.java)
+
         val item1: MutableMap<String, Any?> = HashMap()
         item1[ITEM_IMAGE] = R.mipmap.ic_lesson_one
         item1[ITEM_TITLE] =

@@ -31,6 +31,7 @@ public:
 	 */
 	static GLuint loadTexture(const char* name);
 
+	static GLuint loadTgaTexture(const char *fileName);
 	/**
 	 * Create a program with the given vertex and framgent
 	 * shader source code.

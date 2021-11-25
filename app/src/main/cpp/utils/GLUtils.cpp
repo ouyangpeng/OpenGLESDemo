@@ -1,6 +1,36 @@
 #include <cstdlib>
 #include "GLUtils.h"
 
+typedef AAsset esFile;
+
+// 注意点：保证内存是连续的，不然读取错误  使用  #pragma pack(1)  或者  __attribute__ ( ( packed ) ) 都可以
+// C/C++内存对齐详解  https://zhuanlan.zhihu.com/p/30007037
+// #pragma的常用方法讲解   https://blog.csdn.net/weixin_39640298/article/details/84503428
+//#pragma pack(push,x1)                            // Byte alignment (8-bit)
+//#pragma pack(1)           // 如果前面加上#pragma pack(1)，那么此时有效对齐值为1字节
+typedef struct
+//  C语言__attribute__的使用  https://blog.csdn.net/qlexcel/article/details/92656797
+//  使用该属性对struct 或者union 类型进行定义，设定其类型的每一个变量的内存约束。
+//  就是告诉编译器取消结构在编译过程中的优化对齐（使用1字节对齐）,按照实际占用字节数进行对齐，是GCC特有的语法。
+//  这个功能是跟操作系统没关系，跟编译器有关，gcc编译器不是紧凑模式的
+__attribute__ ( ( packed ) )
+{
+    unsigned char IdSize,
+            MapType,
+            ImageType;
+    unsigned short PaletteStart,
+            PaletteSize;
+    unsigned char PaletteEntryDepth;
+    unsigned short X,
+            Y,
+            Width,
+            Height;
+    unsigned char ColorDepth,
+            Descriptor;
+} TGA_HEADER;
+//#pragma pack(pop,x1)
+
+
 static JNIEnv* sEnv = nullptr;
 static jobject sAssetManager = nullptr;
 
@@ -10,6 +40,43 @@ static AAsset* loadAsset(const char* path) {
 		return nullptr;
 	}
 	return AAssetManager_open(nativeManager, path, AASSET_MODE_UNKNOWN);
+}
+
+//
+// File open
+//
+static esFile *esFileOpen ( const char *fileName )
+{
+	AAssetManager* nativeManager = AAssetManager_fromJava(sEnv, sAssetManager);
+	if (nativeManager == nullptr) {
+		return nullptr;
+	}
+    return AAssetManager_open(nativeManager, fileName, AASSET_MODE_BUFFER);
+}
+
+//
+// File close
+//
+static void esFileClose ( esFile *pFile )
+{
+	if ( pFile != nullptr )
+	{
+		AAsset_close ( pFile );
+	}
+}
+
+//
+// File read
+//
+static int esFileRead ( esFile *pFile, int bytesToRead, void *buffer )
+{
+	int bytesRead = 0;
+	if ( pFile == nullptr )
+	{
+		return bytesRead;
+	}
+	bytesRead = AAsset_read ( pFile, buffer, bytesToRead );
+	return bytesRead;
 }
 
 /**
@@ -110,6 +177,84 @@ GLuint GLUtils::createProgram(const char** vertexSource, const char** fragmentSo
 	glDeleteShader(fragmentShader);
 	return program;
 }
+
+
+//
+// esLoadTGA()
+//
+//    Loads a 8-bit, 24-bit or 32-bit TGA image from a file
+//
+char * esLoadTGA (const char *fileName, int *width, int *height )
+{
+	char        *buffer;
+	esFile      *fp;
+	TGA_HEADER   Header;
+	int          bytesRead;
+
+	// Open the file for reading
+	fp = esFileOpen (fileName );
+
+	if ( fp == nullptr )
+	{
+		// Log error as 'error in opening the input file from apk'
+		LOGE ( "esLoadTGA FAILED to load : { %s }\n", fileName )
+		return nullptr;
+	}
+    LOGD ( "sizeof ( TGA_HEADER ) : { %d }\n", sizeof ( TGA_HEADER ) )
+	bytesRead = esFileRead ( fp, sizeof ( TGA_HEADER ), &Header );
+
+	*width = Header.Width;
+	*height = Header.Height;
+
+	if ( Header.ColorDepth == 8 ||
+		 Header.ColorDepth == 24 || Header.ColorDepth == 32 )
+	{
+		int bytesToRead = sizeof ( char ) * ( *width ) * ( *height ) * Header.ColorDepth / 8;
+
+		// Allocate the image data buffer
+		buffer = ( char * ) malloc ( bytesToRead );
+
+		if ( buffer )
+		{
+			bytesRead = esFileRead ( fp, bytesToRead, buffer );
+			esFileClose ( fp );
+
+			return ( buffer );
+		}
+	}
+
+	return ( nullptr );
+}
+
+//
+// Load texture from disk
+//
+GLuint GLUtils::loadTgaTexture (const char *fileName )
+{
+	int width, height;
+	char *buffer = esLoadTGA (fileName, &width, &height );
+	GLuint texId;
+
+	if ( buffer == nullptr )
+	{
+		LOGI ( "Error loading (%s) image.\n", fileName )
+		return 0;
+	}
+
+	glGenTextures ( 1, &texId );
+	glBindTexture ( GL_TEXTURE_2D, texId );
+
+	glTexImage2D ( GL_TEXTURE_2D, 0, GL_ALPHA, width, height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, buffer );
+	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+	glTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+
+	free ( buffer );
+
+	return texId;
+}
+
 
 GLuint GLUtils::loadTexture(const char* path) {
 	jclass utilsClass = sEnv->FindClass(
