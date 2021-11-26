@@ -1,4 +1,4 @@
-package com.oyp.openglesdemo.triangle
+package com.oyp.openglesdemo
 
 import android.app.Activity
 import android.content.res.AssetManager
@@ -6,12 +6,14 @@ import android.opengl.GLSurfaceView
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class HelloTriangleNativeRenderer (activity: Activity): GLSurfaceView.Renderer {
+class MyNativeRenderer(activity: Activity): GLSurfaceView.Renderer{
     private var mActivity: Activity = activity
+    private var mSampleType = 0
 
     external fun nativeSurfaceCreate(assetManager: AssetManager)
     external fun nativeSurfaceChange(width: Int, height: Int)
     external fun nativeDrawFrame()
+    external fun nativeSetParamsInt(paramType: Int, value0: Int, value1: Int)
 
     init {
         System.loadLibrary("opengles-lesson-lib")
@@ -28,5 +30,12 @@ class HelloTriangleNativeRenderer (activity: Activity): GLSurfaceView.Renderer {
 
     override fun onDrawFrame(gl: GL10) {
         nativeDrawFrame()
+    }
+
+    fun setParamsInt(sampleType: Int, type: Int, i: Int) {
+        if (sampleType == IMyNativeRendererType.SAMPLE_TYPE) {
+            mSampleType = type
+        }
+        nativeSetParamsInt(sampleType, type, i)
     }
 }

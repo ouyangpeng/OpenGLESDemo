@@ -1,24 +1,19 @@
 #pragma once
 #include "../../utils/GLUtils.h"
+#include "../BaseGLSample.h"
 
-namespace NAMESPACE_NativeTriangle {
-	class NativeTriangle {
+class NativeTriangle : public BaseGLSample {
 
-	public:
-		NativeTriangle();
+public:
+    NativeTriangle();
 
-		~NativeTriangle();
+    virtual ~NativeTriangle();
 
-		void create();
+    virtual void create();
 
-		void change(int width, int height);
+    virtual void change(int width, int height);
 
-		void draw();
+    virtual void draw();
 
-	private:
-		GLuint mProgram;
-		int mWidth;
-		int mHeight;
-	};
-}
-
+    virtual void shutdown();
+};

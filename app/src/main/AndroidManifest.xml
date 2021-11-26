@@ -21,7 +21,7 @@
         </activity>
 
         <activity
-            android:name=".triangle.HelloTriangleActivity"
+            android:name=".NativeRenderActivity"
             android:label="@string/lesson_one"/>
 
         <activity
