@@ -205,8 +205,8 @@ void Native5Lesson::createCubeData() {
     float p7p[] = {-1.0f, -1.0f, -1.0f};
     float p8p[] = {1.0f, -1.0f, -1.0f};
 
-    mCubePositionData = GLUtils::generateCubeData(p1p, p2p, p3p, p4p, p5p, p6p, p7p, p8p,
-                                                  (sizeof(p1p) / sizeof(*p1p)));
+    mCubePositionData = esGenerateCubeData(p1p, p2p, p3p, p4p, p5p, p6p, p7p, p8p,
+                                           (sizeof(p1p) / sizeof(*p1p)));
 
     // Points of the cube: color information
     // R, G, B, A
@@ -219,8 +219,8 @@ void Native5Lesson::createCubeData() {
     float p7c[] = {0.0f, 1.0f, 0.0f, 1.0f};        // green
     float p8c[] = {0.0f, 1.0f, 1.0f, 1.0f};        // cyan
 
-    mCubeColorData = GLUtils::generateCubeData(p1c, p2c, p3c, p4c, p5c, p6c, p7c, p8c,
-                                               (sizeof(p1c) / sizeof(*p1c)));
+    mCubeColorData = esGenerateCubeData(p1c, p2c, p3c, p4c, p5c, p6c, p7c, p8c,
+                                        (sizeof(p1c) / sizeof(*p1c)));
 }
 
 void Native5Lesson::switchMode() {

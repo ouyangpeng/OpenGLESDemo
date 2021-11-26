@@ -27,6 +27,11 @@ int esGenSphere ( int numSlices, float radius, GLfloat **vertices, GLfloat **nor
 int esGenCube ( float scale, GLfloat **vertices, GLfloat **normals,
                            GLfloat **texCoords, GLuint **indices );
 
+GLfloat* esGenerateCubeData(
+        float* point1, float* point2, float* point3, float* point4,
+        float* point5, float* point6, float* point7, float* point8,
+        int elementsPerPoint);
+
 /**
  * 生成由三角形组成的方格网。为顶点数据分配内存并将结果保存在数组中。为 GL_TRIANGLE_STRIP 生成索引列表
  * @param size          立方体的大小，单位立方体为1.0

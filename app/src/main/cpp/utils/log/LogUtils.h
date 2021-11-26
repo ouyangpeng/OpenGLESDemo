@@ -7,6 +7,7 @@
 // 导入 头文件 android/log.h
 #include <android/log.h>
 #include <string.h>
+#include <sys/time.h>
 
 // 文件名
 #define __FILENAME__ (strrchr(__FILE__, '/') + 1)
@@ -34,5 +35,30 @@
 #define LOGW(format, ...);
 #define LOGE(format, ...);
 #endif
+
+
+#define FUN_BEGIN_TIME(FUN) {\
+    LOGE("[%s] func start", FUN); \
+    long long t0 = GetSysCurrentTime();
+
+#define FUN_END_TIME(FUN) \
+    long long t1 = GetSysCurrentTime(); \
+    LOGE("[%s] func cost time %ldms", FUN, (long)(t1-t0));}
+
+#define BEGIN_TIME(FUN) {\
+    LOGE("[%s] func start", FUN); \
+    long long t0 = GetSysCurrentTime();
+
+#define END_TIME(FUN) \
+    long long t1 = GetSysCurrentTime(); \
+    LOGE("[%s] func cost time %ldms", FUN, (long)(t1-t0));}
+
+static long long GetSysCurrentTime()
+{
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    long long curTime = ((long long)(time.tv_sec))*1000+time.tv_usec/1000;
+    return curTime;
+}
 
 #endif //OPEN_GL_LESSON_NATIVE_LOG_UTILS_H_

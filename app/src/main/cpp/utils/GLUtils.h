@@ -38,11 +38,6 @@ public:
 	 */
 	static GLuint createProgram(const char** vertexSource, const char** fragmentSource);
 
-	static GLfloat* generateCubeData(
-		float* point1, float* point2, float* point3, float* point4,
-		float* point5, float* point6, float* point7, float* point8,
-		int elementsPerPoint);
-
 
 	static void printGLString(const char *name, GLenum s) {
 		const char *v = (const char *) glGetString(s);
