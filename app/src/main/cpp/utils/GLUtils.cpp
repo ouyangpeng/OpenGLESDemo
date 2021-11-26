@@ -148,10 +148,10 @@ GLuint GLUtils::createProgram(const char **vertexSource, const char **fragmentSo
 
         // Bind the vertex shader to the program
         glAttachShader(program, vertexShader);
-
+        checkGlError("glAttachShader");
         // Bind the fragment shader to the program.
         glAttachShader(program, fragmentShader);
-
+        checkGlError("glAttachShader");
         // Link the program
         glLinkProgram(program);
 
@@ -310,4 +310,11 @@ char *GLUtils::openTextFile(const char *path) {
         buffer[length] = '\0';
     FUN_END_TIME("GLUtils::openTextFile")
     return buffer;
+}
+
+void GLUtils::checkGlError(const char* pGLOperation) {
+    for (GLint error = glGetError(); error; error = glGetError())
+    {
+        LOGE("GLUtils::CheckGLError after GL Operation %s() glError (0x%x)\n", pGLOperation, error);
+    }
 }

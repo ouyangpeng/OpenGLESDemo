@@ -38,6 +38,7 @@ public:
 	 */
 	static GLuint createProgram(const char** vertexSource, const char** fragmentSource);
 
+	static void checkGlError(const char* pGLOperation);
 
 	static void printGLString(const char *name, GLenum s) {
 		const char *v = (const char *) glGetString(s);

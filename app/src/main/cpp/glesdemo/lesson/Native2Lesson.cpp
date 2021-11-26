@@ -4,11 +4,6 @@ static GLint POSITION_DATA_SIZE = 3;
 static GLint COLOR_DATA_SIZE = 4;
 static GLint NORMAL_DATA_SIZE = 3;
 
-static void checkGlError(const char *op) {
-    for (GLint error = glGetError(); error; error = glGetError()) {
-        LOGI("after %s() glError (0x%x)\n", op, error);
-    }
-}
 
 static const char *POINT_VERTEX_SHADER_CODE =
         "uniform mat4 u_MVPMatrix;                      \n"

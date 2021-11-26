@@ -1,10 +1,6 @@
 #include "Native1Lesson.h"
 
-static void checkGlError(const char* op) {
-	for (GLint error = glGetError(); error; error = glGetError()) {
-		LOGI("after %s() glError (0x%x)\n", op, error);
-	}
-}
+
 // 顶点着色器
 const char* VERTEX_SHADER =
 	"#version 300 es                                \n"
@@ -143,7 +139,7 @@ void Native1Lesson::change(int width, int height) {
 void Native1Lesson::draw() {
 	glClearColor(0.5F, 0.5F, 0.5F, 0.5F);
 	glClear(GL_COLOR_BUFFER_BIT);
-	checkGlError("glClear");
+	GLUtils::checkGlError("glClear");
 
 	glUseProgram(mProgram);
 
@@ -216,7 +212,7 @@ void Native1Lesson::drawTriangle(GLfloat* vertices,
 
 	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, mIndices);
 
-	checkGlError("glDrawArrays");
+	GLUtils::checkGlError("glDrawArrays");
 
 	glDisableVertexAttribArray(VERTEX_POS_INDX);
 	glDisableVertexAttribArray(VERTEX_COLOR_INDX);
