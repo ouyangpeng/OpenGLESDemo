@@ -23,6 +23,7 @@
 #include <Native1Lesson.h>
 #include <Native2Lesson.h>
 #include <Native3Lesson.h>
+#include <Native4Lesson.h>
 
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
@@ -125,6 +126,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
                 break;
             case SAMPLE_TYPE_KEY_LESSON_THREE:
                 m_pCurSample = new Native3Lesson();
+                break;
+            case SAMPLE_TYPE_KEY_LESSON_FOUR:
+                m_pCurSample = new Native4Lesson();
                 break;
             default:
                 m_pCurSample = nullptr;

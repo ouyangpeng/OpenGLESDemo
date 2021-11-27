@@ -57,10 +57,12 @@ void Native3Lesson::create() {
         return;
     }
 
+    // 顶点着色器
     const char *POINT_VERTEX_SHADER_CODE = GLUtils::openTextFile(
-            "vertex/vertex_shader_lesson_2_point.glsl");
+            "vertex/vertex_shader_lesson_point.glsl");
+    // 片段着色器
     const char *POINT_FRAGMENT_SHADER_CODE = GLUtils::openTextFile(
-            "fragment/fragment_shader_lesson_2_point.glsl");
+            "fragment/fragment_shader_lesson_point.glsl");
     // Set Point program handle
     mPointProgramHandle = GLUtils::createProgram(&POINT_VERTEX_SHADER_CODE,
                                                  &POINT_FRAGMENT_SHADER_CODE);

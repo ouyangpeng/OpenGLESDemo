@@ -1,241 +1,5 @@
 #include "Native4Lesson.h"
 
-
-static GLint POSITION_DATA_SIZE = 3;
-static GLint COLOR_DATA_SIZE = 4;
-static GLint NORMAL_DATA_SIZE = 3;
-
-static const char *POINT_VERTEX_SHADER_CODE =
-        "uniform mat4 u_MVPMatrix;                      \n"
-        "attribute vec4 a_Position;                     \n"
-        "void main()                                    \n"
-        "{                                              \n"
-        "   gl_Position = u_MVPMatrix * a_Position;     \n"
-        "   gl_PointSize = 5.0;                         \n"
-        "}                                              \n";
-
-static const char *POINT_FRAGMENT_SHADER_CODE =
-        "precision mediump float;                               \n"
-                "void main()                                    \n"
-                "{                                              \n"
-                "   gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);    \n"
-                "}                                              \n";
-
-const static GLfloat CUBE_POSITION_DATA[] = {
-        // Front face
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, -1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, -1.0f, 1.0f,
-        1.0f, -1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-
-        // Right face
-        1.0f, 1.0f, 1.0f,
-        1.0f, -1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f,
-        1.0f, -1.0f, 1.0f,
-        1.0f, -1.0f, -1.0f,
-        1.0f, 1.0f, -1.0f,
-
-        // Back face
-        1.0f, 1.0f, -1.0f,
-        1.0f, -1.0f, -1.0f,
-        -1.0f, 1.0f, -1.0f,
-        1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, 1.0f, -1.0f,
-
-        // Left face
-        -1.0f, 1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f,
-
-        // Top face
-        -1.0f, 1.0f, -1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f,
-
-        // Bottom face
-        1.0f, -1.0f, -1.0f,
-        1.0f, -1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,
-        1.0f, -1.0f, 1.0f,
-        -1.0f, -1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,
-};
-
-static const GLfloat CUBE_COLOR_DATA[] = {
-        // R, G, B, A
-
-        // Front face (red)
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-
-        // Right face (green)
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-
-        // Back face (blue)
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-
-        // Left face (yellow)
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-
-        // Top face (cyan)
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-
-        // Bottom face (magenta)
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f
-};
-
-// X, Y, Z
-// The normal is used in light calculations and is a vector which points
-// orthogonal to the plane of the surface. For a cube model, the normals
-// should be orthogonal to the points of each face.
-static const GLfloat CUBE_NORMAL_DATA[] = {
-        // Front face
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-
-        // Right face
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-
-        // Back face
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-
-        // Left face
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-
-        // Top face
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-
-        // Bottom face
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f
-};
-
-/**
-     * S,T (X,Y)
-     * Texture coordinate data.
-     * Because images have a Y axis pointing downward,
-     * while OpenGL has a Y axis pointing upward, we adjust for
-     * that here by flipping the Y axis.
-     * What's more is that the texture coordinates are the same for every face.
-     */
-static const GLfloat CUBE_TEXTURE_COORDINATE_DATA[] =
-        {
-                // Front face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f,
-
-                // Right face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f,
-
-                // Back face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f,
-
-                // Left face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f,
-
-                // Top face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f,
-
-                // Bottom face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-
 Native4Lesson::Native4Lesson() {
     mWidth = 0;
     mHeight = 0;
@@ -249,9 +13,6 @@ Native4Lesson::Native4Lesson() {
     mMVPMatrixHandle = 0;
     mMVMatrixHandle = 0;
     mLightPosHandle = 0;
-    mPositionHandle = 0;
-    mColorHandle = 0;
-    mNormalHandle = 0;
 
     mPerVertexProgramHandle = 0;
     mPointProgramHandle = 0;
@@ -272,19 +33,10 @@ Native4Lesson::Native4Lesson() {
     mLightPosInEyeSpace[3] = 0.0f;
 }
 
-Native4Lesson::~Native4Lesson() {
-    delete mModelMatrix;
-    mModelMatrix = nullptr;
-    delete mViewMatrix;
-    mViewMatrix = nullptr;
-    delete mProjectionMatrix;
-    mProjectionMatrix = nullptr;
-    delete mLightModelMatrix;
-    mLightModelMatrix = nullptr;
-}
+Native4Lesson::~Native4Lesson() = default;
 
 void Native4Lesson::create() {
-    LOGD("Native4Lesson create");
+    LOGD("Native4Lesson create")
 
     // Use culling to remove back face.
     glEnable(GL_CULL_FACE);
@@ -293,22 +45,23 @@ void Native4Lesson::create() {
     glEnable(GL_DEPTH_TEST);
 
     // Main Program
-    const char *vertex = GLUtils::openTextFile("vertex/per_pixel_vertex_shader.glsl");
-    const char *fragment = GLUtils::openTextFile("fragment/per_pixel_fragment_shader.glsl");
+    VERTEX_SHADER = GLUtils::openTextFile("vertex/vertex_shader_lesson_4.glsl");
+    FRAGMENT_SHADER = GLUtils::openTextFile("fragment/fragment_shader_lesson_4.glsl");
 
     // Set program handles
-    mPerVertexProgramHandle = GLUtils::createProgram(&vertex, &fragment);
+    mPerVertexProgramHandle = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (!mPerVertexProgramHandle) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
 
+    const char *POINT_VERTEX_SHADER_CODE = GLUtils::openTextFile(
+            "vertex/vertex_shader_lesson_point.glsl");
+    const char *POINT_FRAGMENT_SHADER_CODE = GLUtils::openTextFile(
+            "fragment/fragment_shader_lesson_point.glsl");
     // Set Point program handle
-    mPointProgramHandle = GLUtils::createProgram(&POINT_VERTEX_SHADER_CODE, &POINT_FRAGMENT_SHADER_CODE);
-    if (!mPointProgramHandle) {
-        LOGD("Could not create program");
-        return;
-    }
+    mPointProgramHandle = GLUtils::createProgram(&POINT_VERTEX_SHADER_CODE,
+                                                 &POINT_FRAGMENT_SHADER_CODE);
 
     mTextureDataHandle = GLUtils::loadTexture("texture/bumpy_bricks_public_domain.jpg");
 
@@ -372,13 +125,9 @@ void Native4Lesson::draw() {
     // Set program handle for cube drawing.
     mMVPMatrixHandle = (GLuint) glGetUniformLocation(mPerVertexProgramHandle, "u_MVPMatrix");
     mMVMatrixHandle = (GLuint) glGetUniformLocation(mPerVertexProgramHandle, "u_MVMatrix");
+
     mLightPosHandle = (GLuint) glGetUniformLocation(mPerVertexProgramHandle, "u_LightPos");
-    mPositionHandle = (GLuint) glGetAttribLocation(mPerVertexProgramHandle, "a_Position");
-    mColorHandle = (GLuint) glGetAttribLocation(mPerVertexProgramHandle, "a_Color");
-    mNormalHandle = (GLuint) glGetAttribLocation(mPerVertexProgramHandle, "a_Normal");
     mTextureUniformHandle = (GLuint) glGetUniformLocation(mPerVertexProgramHandle, "u_Texture");
-    mTextureCoordinateHandle = (GLuint) glGetAttribLocation(mPerVertexProgramHandle,
-                                                            "a_TexCoordinate");
 
     // Set the active texture unit to texture unit 0.
     glActiveTexture(GL_TEXTURE0);
@@ -431,7 +180,7 @@ void Native4Lesson::draw() {
     mModelMatrix->rotate(angleInDegrees, 1.0f, 1.0f, 1.0f);
     drawCube();
 
-    //////////////////////////////////////
+
 
     // Draw a pint to indicate the light
     glUseProgram(mPointProgramHandle);
@@ -441,47 +190,47 @@ void Native4Lesson::draw() {
 void Native4Lesson::drawCube() {
     // Pass in the position info
     glVertexAttribPointer(
-            mPositionHandle,
-            POSITION_DATA_SIZE,
+            NATIVE_LESSON_ATTRIB_LOCATION_POS,
+            NATIVE_LESSON_POSITION_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_POSITION_DATA
     );
-    glEnableVertexAttribArray(mPositionHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_POS);
 
     // Pass in the color info
     glVertexAttribPointer(
-            mColorHandle,
-            COLOR_DATA_SIZE,
+            NATIVE_LESSON_ATTRIB_LOCATION_COLOR,
+            NATIVE_LESSON_COLOR_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_COLOR_DATA
     );
-    glEnableVertexAttribArray(mColorHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_COLOR);
 
     // Pass in the normal information
     glVertexAttribPointer(
-            mNormalHandle,
-            NORMAL_DATA_SIZE,
+            NATIVE_LESSON_ATTRIB_LOCATION_NORMAL,
+            NATIVE_LESSON_NORMAL_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_NORMAL_DATA
     );
-    glEnableVertexAttribArray(mNormalHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_NORMAL);
 
     // Pass in the texture coordinate information
     glVertexAttribPointer(
-            mTextureCoordinateHandle,
+            NATIVE_LESSON_ATTRIB_LOCATION_TEXTURE_COORDINATE,
             2,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_TEXTURE_COORDINATE_DATA
     );
-    glEnableVertexAttribArray(mTextureCoordinateHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_TEXTURE_COORDINATE);
 
 
     // This multiplies the view by the model matrix
@@ -552,38 +301,13 @@ void Native4Lesson::drawLight() {
     glDrawArrays(GL_POINTS, 0, 1);
 }
 
-////////////////////////////
-
-Native4Lesson *lesson4;
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonFourNativeRenderer_nativeSurfaceCreate(
-        JNIEnv *env, jobject thiz, jobject assetManager) {
-    // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
-    GLUtils::setEnvAndAssetManager(env, assetManager);
-
-    if (lesson4) {
-        delete lesson4;
-        lesson4 = nullptr;
-    }
-    lesson4 = new Native4Lesson();
-    lesson4->create();
-
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonFourNativeRenderer_nativeSurfaceChange(
-        JNIEnv *env, jobject thiz, jint width, jint height) {
-    if (lesson4) {
-        lesson4->change(width, height);
-    }
-}extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonFourNativeRenderer_nativeDrawFrame(
-        JNIEnv *env, jobject thiz) {
-    if (lesson4) {
-        lesson4->draw();
-    }
+void Native4Lesson::shutdown() {
+    delete mModelMatrix;
+    mModelMatrix = nullptr;
+    delete mViewMatrix;
+    mViewMatrix = nullptr;
+    delete mProjectionMatrix;
+    mProjectionMatrix = nullptr;
+    delete mLightModelMatrix;
+    mLightModelMatrix = nullptr;
 }

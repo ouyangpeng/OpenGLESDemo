@@ -6,11 +6,12 @@
 #define OPENGLESDEMO_LESSON_CUBE_DATA_H
 
 // Attribute locations
-#define NATIVE_LESSON_ATTRIB_LOCATION_POINT_POS     0
+#define NATIVE_LESSON_ATTRIB_LOCATION_POINT_POS                 0
 
-#define NATIVE_LESSON_ATTRIB_LOCATION_POS           0
-#define NATIVE_LESSON_ATTRIB_LOCATION_COLOR         1
-#define NATIVE_LESSON_ATTRIB_LOCATION_NORMAL        2
+#define NATIVE_LESSON_ATTRIB_LOCATION_POS                       0
+#define NATIVE_LESSON_ATTRIB_LOCATION_COLOR                     1
+#define NATIVE_LESSON_ATTRIB_LOCATION_NORMAL                    2
+#define NATIVE_LESSON_ATTRIB_LOCATION_TEXTURE_COORDINATE        3
 
 #define  NATIVE_LESSON_POSITION_DATA_SIZE    3
 #define  NATIVE_LESSON_COLOR_DATA_SIZE       4
@@ -171,5 +172,65 @@ static const GLfloat CUBE_NORMAL_DATA[] = {
         0.0f, -1.0f, 0.0f,
         0.0f, -1.0f, 0.0f
 };
+
+
+/**
+     * S,T (X,Y)
+     * Texture coordinate data.
+     * Because images have a Y axis pointing downward,
+     * while OpenGL has a Y axis pointing upward, we adjust for
+     * that here by flipping the Y axis.
+     * What's more is that the texture coordinates are the same for every face.
+     */
+static const GLfloat CUBE_TEXTURE_COORDINATE_DATA[] =
+        {
+                // Front face
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f,
+
+                // Right face
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f,
+
+                // Back face
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f,
+
+                // Left face
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f,
+
+                // Top face
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f,
+
+                // Bottom face
+                0.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 0.0f,
+                0.0f, 1.0f,
+                1.0f, 1.0f,
+                1.0f, 0.0f
+        };
 
 #endif //OPENGLESDEMO_LESSON_CUBE_DATA_H
