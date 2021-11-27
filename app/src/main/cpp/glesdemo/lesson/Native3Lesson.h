@@ -2,26 +2,24 @@
 #define OPENGLLESSON_NATIVE3LESSON_H
 
 #include "../../utils/GLUtils.h"
+#include "lesson_cube_data.h"
 
-class Native3Lesson {
+class Native3Lesson : public BaseGLSample {
 
 public:
-
     Native3Lesson();
 
-    ~Native3Lesson();
+    virtual ~Native3Lesson();
 
-    void create();
+    virtual void create();
 
-    void change(int width, int height);
+    virtual void change(int width, int height);
 
-    void draw();
+    virtual void draw();
+
+    virtual void shutdown();
 
 private:
-
-    GLsizei mWidth;
-    GLsizei mHeight;
-
     Matrix *mViewMatrix;
     Matrix *mModelMatrix;
     Matrix *mProjectionMatrix;
@@ -31,9 +29,6 @@ private:
     GLuint mMVPMatrixHandle;
     GLuint mMVMatrixHandle;
     GLuint mLightPosHandle;
-    GLuint mPositionHandle;
-    GLuint mColorHandle;
-    GLuint mNormalHandle;
 
     GLuint mPerVertexProgramHandle;
     GLuint mPointProgramHandle;

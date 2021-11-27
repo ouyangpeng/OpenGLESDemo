@@ -1,234 +1,5 @@
 #include "Native3Lesson.h"
 
-static GLint POSITION_DATA_SIZE = 3;
-static GLint COLOR_DATA_SIZE = 4;
-static GLint NORMAL_DATA_SIZE = 3;
-
-static const char *POINT_VERTEX_SHADER_CODE =
-        "uniform mat4 u_MVPMatrix;                      \n"
-        "attribute vec4 a_Position;                     \n"
-        "void main()                                    \n"
-        "{                                              \n"
-        "   gl_Position = u_MVPMatrix  * a_Position;    \n"
-        "   gl_PointSize = 5.0;                         \n"
-        "}                                              \n";
-
-static const char *POINT_FRAGMENT_SHADER_CODE =
-        "precision mediump float;                       \n"
-        "void main()                                    \n"
-        "{                                              \n"
-        "   gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);    \n"
-        "}                                              \n";
-
-static const char *VERTEX_SHADER_CODE =
-        "uniform mat4 u_MVPMatrix;      \n"        // A constant representing the combined model/view/projection matrix.
-        "uniform mat4 u_MVMatrix;       \n"        // A constant representing the combined model/view matrix.
-
-        "attribute vec4 a_Position;     \n"        // Per-vertex position information we will pass in.
-        "attribute vec4 a_Color;        \n"        // Per-vertex color information we will pass in.
-        "attribute vec3 a_Normal;       \n"        // Per-vertex normal information we will pass in.
-
-        "varying vec3 v_Position;       \n"        // This will be passed into the fragment shader.
-        "varying vec4 v_Color;          \n"        // This will be passed into the fragment shader.
-        "varying vec3 v_Normal;         \n"        // This will be passed into the fragment shader.
-
-        // The entry point for our vertex shader.
-        "void main()                                                \n"
-        "{                                                          \n"
-        // Transform the vertex into eye space.
-        "   v_Position = vec3(u_MVMatrix * a_Position);             \n"
-        // Pass through the color.
-        "   v_Color = a_Color;                                      \n"
-        // Transform the normal's orientation into eye space.
-        "   v_Normal = vec3(u_MVMatrix * vec4(a_Normal, 0.0));      \n"
-        // gl_Position is a special variable used to store the final position.
-        // Multiply the vertex by the matrix to get the final point in normalized screen coordinates.
-        "   gl_Position = u_MVPMatrix * a_Position;                 \n"
-        "}";
-
-static const char *FRAGMENT_SHADER_CODE =
-        "precision mediump float;       \n"        // Set the default precision to medium. We don't need as high of a
-        // precision in the fragment shader.
-        "uniform vec3 u_LightPos;       \n"        // The position of the light in eye space.
-
-        "varying vec3 v_Position;		\n"        // Interpolated position for this fragment.
-        "varying vec4 v_Color;          \n"        // This is the color from the vertex shader interpolated across the
-        // triangle per fragment.
-        "varying vec3 v_Normal;         \n"        // Interpolated normal for this fragment.
-
-        // The entry point for our fragment shader.
-        "void main()                    \n"
-        "{                              \n"
-        // Will be used for attenuation.
-        "   float distance = length(u_LightPos - v_Position);                  \n"
-        // Get a lighting direction vector from the light to the vertex.
-        "   vec3 lightVector = normalize(u_LightPos - v_Position);             \n"
-        // Calculate the dot product of the light vector and vertex normal. If the normal and light vector are
-        // pointing in the same direction then it will get max illumination.
-        "   float diffuse = max(dot(v_Normal, lightVector), 0.1);              \n"
-        // Add attenuation.
-        "   diffuse = diffuse * (1.0 / (1.0 + (0.25 * distance * distance)));  \n"
-        // Multiply the color by the diffuse illumination level to get final output color.
-        "   gl_FragColor = v_Color * diffuse;                                  \n"
-        "}                                                                     \n";
-
-
-const static GLfloat CUBE_POSITION_DATA[] = {
-        // Front face
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, -1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, -1.0f, 1.0f,
-        1.0f, -1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-
-        // Right face
-        1.0f, 1.0f, 1.0f,
-        1.0f, -1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f,
-        1.0f, -1.0f, 1.0f,
-        1.0f, -1.0f, -1.0f,
-        1.0f, 1.0f, -1.0f,
-
-        // Back face
-        1.0f, 1.0f, -1.0f,
-        1.0f, -1.0f, -1.0f,
-        -1.0f, 1.0f, -1.0f,
-        1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, 1.0f, -1.0f,
-
-        // Left face
-        -1.0f, 1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f,
-
-        // Top face
-        -1.0f, 1.0f, -1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f,
-
-        // Bottom face
-        1.0f, -1.0f, -1.0f,
-        1.0f, -1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,
-        1.0f, -1.0f, 1.0f,
-        -1.0f, -1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,
-};
-
-static const GLfloat CUBE_COLOR_DATA[] = {
-        // R, G, B, A
-
-        // Front face (red)
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-
-        // Right face (green)
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-
-        // Back face (blue)
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-
-        // Left face (yellow)
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-
-        // Top face (cyan)
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-
-        // Bottom face (magenta)
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f
-};
-
-// X, Y, Z
-// The normal is used in light calculations and is a vector which points
-// orthogonal to the plane of the surface. For a cube model, the normals
-// should be orthogonal to the points of each face.
-static const GLfloat CUBE_NORMAL_DATA[] = {
-        // Front face
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-
-        // Right face
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-
-        // Back face
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-
-        // Left face
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-
-        // Top face
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-
-        // Bottom face
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f
-};
-
 Native3Lesson::Native3Lesson() {
     mWidth = 0;
     mHeight = 0;
@@ -242,9 +13,6 @@ Native3Lesson::Native3Lesson() {
     mMVPMatrixHandle = 0;
     mMVMatrixHandle = 0;
     mLightPosHandle = 0;
-    mPositionHandle = 0;
-    mColorHandle = 0;
-    mNormalHandle = 0;
 
     mPerVertexProgramHandle = 0;
     mPointProgramHandle = 0;
@@ -265,19 +33,10 @@ Native3Lesson::Native3Lesson() {
     mLightPosInEyeSpace[3] = 0.0f;
 }
 
-Native3Lesson::~Native3Lesson() {
-    delete mModelMatrix;
-    mModelMatrix = nullptr;
-    delete mViewMatrix;
-    mViewMatrix = nullptr;
-    delete mProjectionMatrix;
-    mProjectionMatrix = nullptr;
-    delete mLightModelMatrix;
-    mLightModelMatrix = nullptr;
-}
+Native3Lesson::~Native3Lesson() = default;
 
 void Native3Lesson::create() {
-    LOGD("Native3Lesson create");
+    LOGD("Native3Lesson create")
 
     // Use culling to remove back face.
     glEnable(GL_CULL_FACE);
@@ -285,18 +44,28 @@ void Native3Lesson::create() {
     // Enable depth testing
     glEnable(GL_DEPTH_TEST);
 
-    // Set program handles
-    mPerVertexProgramHandle = GLUtils::createProgram(&VERTEX_SHADER_CODE, &FRAGMENT_SHADER_CODE);
+
+    // 顶点着色器
+    VERTEX_SHADER = GLUtils::openTextFile(
+            "vertex/vertex_shader_lesson_3.glsl");
+    // 片段着色器
+    FRAGMENT_SHADER = GLUtils::openTextFile(
+            "fragment/fragment_shader_lesson_3.glsl");
+    mPerVertexProgramHandle = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (!mPerVertexProgramHandle) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
 
+    const char *POINT_VERTEX_SHADER_CODE = GLUtils::openTextFile(
+            "vertex/vertex_shader_lesson_2_point.glsl");
+    const char *POINT_FRAGMENT_SHADER_CODE = GLUtils::openTextFile(
+            "fragment/fragment_shader_lesson_2_point.glsl");
     // Set Point program handle
     mPointProgramHandle = GLUtils::createProgram(&POINT_VERTEX_SHADER_CODE,
                                                  &POINT_FRAGMENT_SHADER_CODE);
     if (!mPointProgramHandle) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
 
@@ -358,12 +127,9 @@ void Native3Lesson::draw() {
     glUseProgram(mPerVertexProgramHandle);
 
     // Set program handle for cube drawing.
-    mMVPMatrixHandle = (GLuint) glGetUniformLocation(mPerVertexProgramHandle, "u_MVPMatrix");
-    mMVMatrixHandle = (GLuint) glGetUniformLocation(mPerVertexProgramHandle, "u_MVMatrix");
-    mLightPosHandle = (GLuint) glGetUniformLocation(mPerVertexProgramHandle, "u_LightPos");
-    mPositionHandle = (GLuint) glGetAttribLocation(mPerVertexProgramHandle, "a_Position");
-    mColorHandle = (GLuint) glGetAttribLocation(mPerVertexProgramHandle, "a_Color");
-    mNormalHandle = (GLuint) glGetAttribLocation(mPerVertexProgramHandle, "a_Normal");
+    mMVPMatrixHandle = glGetUniformLocation(mPerVertexProgramHandle, "u_MVPMatrix");
+    mMVMatrixHandle = glGetUniformLocation(mPerVertexProgramHandle, "u_MVMatrix");
+    mLightPosHandle = glGetUniformLocation(mPerVertexProgramHandle, "u_LightPos");
 
     // Calculate position of the light
     // Rotate and then push into the distance.
@@ -414,36 +180,36 @@ void Native3Lesson::drawCube() {
 
     // Pass in the position info
     glVertexAttribPointer(
-            mPositionHandle,
-            POSITION_DATA_SIZE,
+            NATIVE_LESSON_ATTRIB_LOCATION_POS,
+            NATIVE_LESSON_POSITION_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_POSITION_DATA
     );
-    glEnableVertexAttribArray(mPositionHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_POS);
 
     // Pass in the color info
     glVertexAttribPointer(
-            mColorHandle,
-            COLOR_DATA_SIZE,
+            NATIVE_LESSON_ATTRIB_LOCATION_COLOR,
+            NATIVE_LESSON_COLOR_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_COLOR_DATA
     );
-    glEnableVertexAttribArray(mColorHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_COLOR);
 
     // Pass in the normal information
     glVertexAttribPointer(
-            mNormalHandle,
-            NORMAL_DATA_SIZE,
+            NATIVE_LESSON_ATTRIB_LOCATION_NORMAL,
+            NATIVE_LESSON_NORMAL_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_NORMAL_DATA
     );
-    glEnableVertexAttribArray(mNormalHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_NORMAL);
 
     // This multiplies the view by the model matrix
     // and stores the result the MVP matrix.
@@ -485,18 +251,17 @@ void Native3Lesson::drawCube() {
 void Native3Lesson::drawLight() {
 
     GLint pointMVPMatrixHandle = glGetUniformLocation(mPointProgramHandle, "u_MVPMatrix");
-    GLint pointPositionHandle = glGetAttribLocation(mPointProgramHandle, "a_Position");
 
     // Pass in the position
     glVertexAttrib3f(
-            pointPositionHandle,
+            NATIVE_LESSON_ATTRIB_LOCATION_POINT_POS,
             mLightPosInModelSpace[0],
             mLightPosInModelSpace[1],
             mLightPosInModelSpace[2]);
 
     // Since we are not using a buffer object,
     // disable vertex arrays for the attribute
-    glDisableVertexAttribArray(pointPositionHandle);
+    glDisableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_POINT_POS);
 
     // Pass in the transformation matrix.
     mMVPMatrix->identity();
@@ -513,38 +278,13 @@ void Native3Lesson::drawLight() {
     glDrawArrays(GL_POINTS, 0, 1);
 }
 
-
-//////////////////////
-
-
-Native3Lesson *lesson3;
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonThreeNativeRenderer_nativeSurfaceCreate(
-        JNIEnv *env, jobject thiz) {
-    if (lesson3) {
-        delete lesson3;
-        lesson3 = nullptr;
-    }
-    lesson3 = new Native3Lesson();
-    lesson3->create();
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonThreeNativeRenderer_nativeSurfaceChange(
-        JNIEnv *env, jobject thiz, jint width, jint height) {
-    if (lesson3) {
-        lesson3->change(width, height);
-    }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonThreeNativeRenderer_nativeDrawFrame(
-        JNIEnv *env, jobject thiz) {
-    if (lesson3) {
-        lesson3->draw();
-    }
+void Native3Lesson::shutdown() {
+    delete mModelMatrix;
+    mModelMatrix = nullptr;
+    delete mViewMatrix;
+    mViewMatrix = nullptr;
+    delete mProjectionMatrix;
+    mProjectionMatrix = nullptr;
+    delete mLightModelMatrix;
+    mLightModelMatrix = nullptr;
 }

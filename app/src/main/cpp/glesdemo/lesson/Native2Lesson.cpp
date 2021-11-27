@@ -198,36 +198,36 @@ Native2Lesson::~Native2Lesson() = default;
 void Native2Lesson::drawCube() {
     // Pass in the position info
     glVertexAttribPointer(
-            NATIVE_LESSON_TWO_ATTRIB_LOCATION_POS,
-            NATIVE_LESSON_TWO_POSITION_DATA_SIZE,
+            NATIVE_LESSON_ATTRIB_LOCATION_POS,
+            NATIVE_LESSON_POSITION_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_POSITION_DATA
     );
-    glEnableVertexAttribArray(NATIVE_LESSON_TWO_ATTRIB_LOCATION_POS);
+    glEnableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_POS);
 
     // Pass in the color info
     glVertexAttribPointer(
-            NATIVE_LESSON_TWO_ATTRIB_LOCATION_COLOR,
-            NATIVE_LESSON_TWO_COLOR_DATA_SIZE,
+            NATIVE_LESSON_ATTRIB_LOCATION_COLOR,
+            NATIVE_LESSON_COLOR_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_COLOR_DATA
     );
-    glEnableVertexAttribArray(NATIVE_LESSON_TWO_ATTRIB_LOCATION_COLOR);
+    glEnableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_COLOR);
 
     // Pass in the normal information
     glVertexAttribPointer(
-            NATIVE_LESSON_TWO_ATTRIB_LOCATION_NORMAL,
-            NATIVE_LESSON_TWO_NORMAL_DATA_SIZE,
+            NATIVE_LESSON_ATTRIB_LOCATION_NORMAL,
+            NATIVE_LESSON_NORMAL_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_NORMAL_DATA
     );
-    glEnableVertexAttribArray(NATIVE_LESSON_TWO_ATTRIB_LOCATION_NORMAL);
+    glEnableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_NORMAL);
 
     // This multiplies the view by the model matrix
     // and stores the result the MVP matrix.
@@ -272,14 +272,14 @@ void Native2Lesson::drawLight() {
 
     // Pass in the position
     glVertexAttrib3f(
-            NATIVE_LESSON_TWO_ATTRIB_LOCATION_POINT_POS,
+            NATIVE_LESSON_ATTRIB_LOCATION_POINT_POS,
             mLightPosInModelSpace[0],
             mLightPosInModelSpace[1],
             mLightPosInModelSpace[2]);
 
     // Since we are not using a buffer object,
     // disable vertex arrays for the attribute
-    glDisableVertexAttribArray(NATIVE_LESSON_TWO_ATTRIB_LOCATION_POINT_POS);
+    glDisableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_POINT_POS);
 
     // Pass in the transformation matrix.
     mMVPMatrix->identity();

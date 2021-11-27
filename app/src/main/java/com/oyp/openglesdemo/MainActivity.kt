@@ -203,15 +203,15 @@ class MainActivity : ListActivity() {
         item2[ITEM_SUBTITLE] = getText(R.string.lesson_two_subtitle)
         data.add(item2)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_TWO)
-        //
-        //        val item3: MutableMap<String, Any> = HashMap()
-        //        item3[ITEM_IMAGE] = R.mipmap.ic_lesson_three
-        //        item3[ITEM_TITLE] =
-        //            getText(R.string.lesson_three)
-        //        item3[ITEM_SUBTITLE] =
-        //            getText(R.string.lesson_three_subtitle)
-        //        data.add(item3)
-        //        activityMapping.put(i++, LessonThreeActivity::class.java)
+
+        val item3: MutableMap<String, Any> = HashMap()
+        item3[ITEM_IMAGE] = R.mipmap.ic_lesson_three
+        item3[ITEM_TITLE] =
+            getText(R.string.lesson_three)
+        item3[ITEM_SUBTITLE] =
+            getText(R.string.lesson_three_subtitle)
+        data.add(item3)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_THREE)
         //
         //        val item4: MutableMap<String, Any> = HashMap()
         //        item4[ITEM_IMAGE] = R.mipmap.ic_lesson_four
