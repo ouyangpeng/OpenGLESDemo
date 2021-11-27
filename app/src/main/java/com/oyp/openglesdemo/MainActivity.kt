@@ -62,15 +62,15 @@ class MainActivity : ListActivity() {
         itemHelloTriangleVertexBufferObject[ITEM_SUBTITLE] = "一个使用VBO绘制，另外一个不使用VBO绘制"
         data.add(itemHelloTriangleVertexBufferObject)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TRIANGLE_VERTEX_BUFFER_OBJECT)
-//
-//
-//        val itemHelloTriangleSimpleVertexShader: MutableMap<String, Any?> = HashMap()
-//        itemHelloTriangleSimpleVertexShader[ITEM_IMAGE] = R.mipmap.ic_cube
-//        itemHelloTriangleSimpleVertexShader[ITEM_TITLE] = " Hello Cube SimpleVertexShader"
-//        itemHelloTriangleSimpleVertexShader[ITEM_SUBTITLE] =  " Show a cube translate"
-//        data.add(itemHelloTriangleSimpleVertexShader)
-//        activityMapping.put(i++, HelloCubeSimpleVertexShaderActivity::class.java)
-//
+
+
+        val itemHelloTriangleSimpleVertexShader: MutableMap<String, Any?> = HashMap()
+        itemHelloTriangleSimpleVertexShader[ITEM_IMAGE] = R.mipmap.ic_cube
+        itemHelloTriangleSimpleVertexShader[ITEM_TITLE] = " 展示一个在不停旋转的红色立方体"
+        itemHelloTriangleSimpleVertexShader[ITEM_SUBTITLE] =  "使用到了MVP矩阵（模型矩阵，观察矩阵和投影矩阵）技术"
+        data.add(itemHelloTriangleSimpleVertexShader)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_CUBE_SIMPLE_VERTEX_SHADER)
+
 //
 //        val itemSimpleTexture2D: MutableMap<String, Any?> = HashMap()
 //        itemSimpleTexture2D[ITEM_IMAGE] = R.mipmap.ic_texture_2d

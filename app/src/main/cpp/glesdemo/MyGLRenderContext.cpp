@@ -10,6 +10,7 @@
 #include "./triangle/NativeTriangleMapBuffers.h"
 #include "./triangle/NativeTriangleVertextArrayObject.h"
 #include "./triangle/NativeTriangleVertextBufferObject.h"
+#include "./cube/NativeCubeSimpleVertexShader.h"
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
 
@@ -60,6 +61,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
                 break;
             case SAMPLE_TYPE_KEY_TRIANGLE_VERTEX_BUFFER_OBJECT:
                 m_pCurSample = new NativeTriangleVBO();
+                break;
+            case SAMPLE_TYPE_KEY_CUBE_SIMPLE_VERTEX_SHADER:
+                m_pCurSample = new NativeCubeSimpleVertexShader();
                 break;
             default:
                 m_pCurSample = nullptr;

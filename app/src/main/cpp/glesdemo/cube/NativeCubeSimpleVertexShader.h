@@ -1,53 +1,46 @@
 #pragma once
-#include "../../utils/GLUtils.h"
 
-#define VERTEX_POS_SIZE       3 // x, y and z
-#define VERTEX_COLOR_SIZE     4 // r, g, b, and a
+#include "../../utils/GLUtils.h"
 
 #define VERTEX_POS_INDX       0
 #define VERTEX_COLOR_INDX     1
 
-namespace TRIANGLE_SIMPLE_VERTEXT_SHADER {
-	class NativeTriangle {
-	public:
-		NativeTriangle();
+class NativeCubeSimpleVertexShader : public BaseGLSample{
 
-		~NativeTriangle();
+public:
+    NativeCubeSimpleVertexShader();
 
-		void create();
+    virtual ~NativeCubeSimpleVertexShader();
 
-		void change(int width, int height);
+    virtual void create();
 
-		void draw();
+    virtual void change(int width, int height);
 
-	private:
-		// Handle to a program object
-		GLuint mProgram;
+    virtual void draw();
 
-		// Uniform locations
-		GLint mvpLoc;
+    virtual void shutdown();
 
-		// Vertex daata
-		GLfloat* vertices;
-		GLuint* indices;
+private:
+    // Uniform locations
+    GLint mvpLoc;
 
-		int numIndices;
+    // Vertex daata
+    GLfloat *vertices;
+    GLuint *indices;
 
-		// Rotation angle
-		GLfloat angle;
+    int numIndices;
 
-		// MVP matrix
-		ESMatrix  mvpMatrix;
+    // Rotation angle
+    GLfloat angle;
 
-		int mWidth;
-		int mHeight;
+    // MVP matrix
+    ESMatrix mvpMatrix;
 
-		long mLastTime = 0;
+    long mLastTime = 0;
 
-		void update(float deltaTime);
+    void update(float deltaTime);
 
-		float getDeltaTime();
-	};
-}
+    float getDeltaTime();
+};
 
 
