@@ -25,27 +25,23 @@ class MainActivity : ListActivity() {
 
         // Initialize data
         val data: MutableList<Map<String, Any?>> = ArrayList()
-        val activityMapping = SparseArray<Class<out Activity?>>()
         val typeMapping = SparseArray<Int>()
 
         var i = 0
 
         val item0: MutableMap<String, Any?> = HashMap()
         item0[ITEM_IMAGE] = R.mipmap.ic_trangle
-        item0[ITEM_TITLE] = " Hello Triangle "
-        item0[ITEM_SUBTITLE] =
-            getText(R.string.lesson_triangle_subtitle)
+        item0[ITEM_TITLE] = "展示一个基本的红色三角形"
+        item0[ITEM_SUBTITLE] = "颜色在片段着色器写死的红色"
         data.add(item0)
-//        activityMapping.put(i++, HelloTriangleActivity::class.java)
-        typeMapping.put(i++,IMyNativeRendererType.SAMPLE_TYPE)
-//
-//        val itemHelloTriangle2: MutableMap<String, Any?> = HashMap()
-//        itemHelloTriangle2[ITEM_IMAGE] = R.mipmap.ic_trangle2
-//        itemHelloTriangle2[ITEM_TITLE] =" Hello Triangle 2"
-//        itemHelloTriangle2[ITEM_SUBTITLE] =
-//            getText(R.string.lesson_triangle_subtitle)
-//        data.add(itemHelloTriangle2)
-//        activityMapping.put(i++, HelloTriangle2Activity::class.java)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_TRIANGLE)
+
+        val itemHelloTriangle2: MutableMap<String, Any?> = HashMap()
+        itemHelloTriangle2[ITEM_IMAGE] = R.mipmap.ic_trangle2
+        itemHelloTriangle2[ITEM_TITLE] = "展示一个基本的蓝色三角形"
+        itemHelloTriangle2[ITEM_SUBTITLE] = "颜色由glVertexAttrib4fv传给片段着色器"
+        data.add(itemHelloTriangle2)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_TRIANGLE2)
 //
 //        val itemHelloTriangle3: MutableMap<String, Any?> = HashMap()
 //        itemHelloTriangle3[ITEM_IMAGE] = R.mipmap.ic_trangle3
@@ -253,9 +249,9 @@ class MainActivity : ListActivity() {
         getListView().onItemClickListener = OnItemClickListener { _, _, position, _ ->
 
             val type = typeMapping[position]
-            if(type != 0){
+            if (type != 0) {
                 val launchIntent = Intent(this@MainActivity, NativeRenderActivity::class.java)
-                launchIntent.putExtra(IMyNativeRendererType.RENDER_TYPE,type)
+                launchIntent.putExtra(IMyNativeRendererType.RENDER_TYPE, type)
                 startActivity(launchIntent)
             }
 

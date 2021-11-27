@@ -6,19 +6,17 @@
 #define OPENGLESDEMO_BASEGLSAMPLE_H
 
 #include "../utils/GLUtils.h"
+#include "BaseGLSampleType.h"
 
-#define SAMPLE_TYPE                             100
-#define SAMPLE_TYPE_KEY_TRIANGLE                SAMPLE_TYPE + 0
-
-class BaseGLSample{
+class BaseGLSample {
 public:
-    BaseGLSample(){
+    BaseGLSample() {
         mProgram = 0;
         mWidth = 0;
         mHeight = 0;
     }
 
-    virtual ~BaseGLSample(){
+    virtual ~BaseGLSample() {
 
     }
 
@@ -34,6 +32,9 @@ protected:
     GLuint mProgram;
     int mWidth;
     int mHeight;
+
+    const char *VERTEX_SHADER;
+    const char *FRAGMENT_SHADER;
 };
 
 

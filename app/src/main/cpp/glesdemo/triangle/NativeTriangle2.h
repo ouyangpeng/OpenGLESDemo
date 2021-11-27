@@ -1,22 +1,25 @@
 #pragma once
+
 #include "../../utils/GLUtils.h"
-namespace NAMESPACE_NativeTriangle2 {
-	class NativeTriangle {
 
-	public:
-		NativeTriangle();
+class NativeTriangle2 : public BaseGLSample {
 
-		~NativeTriangle();
+#define VERTEX_POS_INDX       0
+#define VERTEX_COLOR_INDX     1
 
-		void create();
+#define VERTEX_POS_SIZE       3 // x, y and z
+#define VERTEX_COLOR_SIZE     4 // r, g, b, and a
 
-		void change(int width, int height);
+public:
+    NativeTriangle2();
 
-		void draw();
+    virtual ~NativeTriangle2();
 
-	private:
-		GLuint mProgram;
-		int mWidth;
-		int mHeight;
-	};
-}
+    virtual void create();
+
+    virtual void change(int width, int height);
+
+    virtual void draw();
+
+    virtual void shutdown();
+};

@@ -2,8 +2,10 @@
 // Created by OuyangPeng on 2021/11/26.
 //
 #include "MyGLRenderContext.h"
-#include "./triangle/NativeTriangle.h"
 #include "../utils/GLUtils.h"
+
+#include "./triangle/NativeTriangle.h"
+#include "./triangle/NativeTriangle2.h"
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
 
@@ -38,8 +40,12 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
 
         switch (value0) {
             case SAMPLE_TYPE_KEY_TRIANGLE:
-                m_pCurSample = (BaseGLSample *) new NativeTriangle();
+                m_pCurSample = new NativeTriangle();
                 break;
+            case SAMPLE_TYPE_KEY_TRIANGLE2:
+                m_pCurSample = new NativeTriangle2();
+                break;
+
             default:
                 m_pCurSample = nullptr;
                 break;
@@ -76,14 +82,14 @@ void MyGLRenderContext::OnSurfaceChanged(int width, int height) {
 }
 
 void MyGLRenderContext::OnDrawFrame() {
-    LOGD("MyGLRenderContext::OnDrawFrame")
+//    LOGD("MyGLRenderContext::OnDrawFrame")
     if (m_pCurSample) {
         m_pCurSample->draw();
     }
 }
 
 MyGLRenderContext *MyGLRenderContext::GetInstance() {
-    LOGD("MyGLRenderContext::GetInstance")
+//    LOGD("MyGLRenderContext::GetInstance")
     if (m_pContext == nullptr) {
         m_pContext = new MyGLRenderContext();
     }
@@ -91,7 +97,7 @@ MyGLRenderContext *MyGLRenderContext::GetInstance() {
 }
 
 void MyGLRenderContext::DestroyInstance() {
-    LOGD("MyGLRenderContext::DestroyInstance")
+//    LOGD("MyGLRenderContext::DestroyInstance")
     if (m_pContext) {
         delete m_pContext;
         m_pContext = nullptr;

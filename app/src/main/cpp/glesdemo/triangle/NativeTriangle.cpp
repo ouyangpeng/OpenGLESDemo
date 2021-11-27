@@ -19,7 +19,7 @@
 // 知道形状的哪一面为正面为何如此重要呢？
 // 答案与 OpenGL 的“面剔除”这一常用功能有关。
 // 面剔除是 OpenGL 环境的一个选项，它允许渲染管道忽略（不计算或不绘制）形状的背面，从而节省时间和内存并缩短处理周期：
-GLfloat vVertices[] = {
+static GLfloat vVertices[] = {
         // 逆时针 三个顶点
         0.0f, 0.5f, 0.0f,            // 上角
         -0.5f, -0.5f, 0.0f,          // 左下角
@@ -38,12 +38,12 @@ void NativeTriangle::create() {
     GLUtils::printGLInfo();
 
     // Main Program
-    const char *VERTEX_SHADER_TRIANGLE = GLUtils::openTextFile(
+    VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_hello_triangle.glsl");
-    const char *FRAGMENT_SHADER_TRIANGLE = GLUtils::openTextFile(
+    FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_hello_triangle.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER_TRIANGLE, &FRAGMENT_SHADER_TRIANGLE);
+    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (!mProgram) {
         LOGD("Could not create program");
         return;
@@ -89,11 +89,11 @@ void NativeTriangle::draw() {
     //      一旦我们有更多的顶点属性，我们就必须更小心地定义每个顶点属性之间的间隔，
     //      （译注: 这个参数的意思简单说就是从这个属性第二次出现的地方到整个数组0位置之间有多少字节）。
     // 最后一个参数的类型是void*，所以需要我们进行这个奇怪的强制类型转换。它表示位置数据在缓冲中起始位置的偏移量(Offset)。
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
+    glVertexAttribPointer(VERTEX_POS_INDX, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
 
     // 现在我们已经定义了OpenGL该如何解释顶点数据，
     // 我们现在应该使用glEnableVertexAttribArray，以顶点属性位置值作为参数，启用顶点属性；顶点属性默认是禁用的。
-    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(VERTEX_POS_INDX);
 
     // glDrawArrays函数第一个参数是我们打算绘制的OpenGL图元的类型。我们希望绘制的是一个三角形，这里传递GL_TRIANGLES给它。
     // 第二个参数指定了顶点数组的起始索引，我们这里填0。

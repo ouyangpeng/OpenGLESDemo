@@ -14,6 +14,8 @@
 #include "esShapes.h"
 #include "esTransform.h"
 
+#include "../glesdemo/BaseGLSample.h"
+
 class GLUtils {
 public:
 	/**

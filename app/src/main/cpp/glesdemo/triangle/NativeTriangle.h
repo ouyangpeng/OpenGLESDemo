@@ -1,8 +1,10 @@
 #pragma once
+
 #include "../../utils/GLUtils.h"
-#include "../BaseGLSample.h"
 
 class NativeTriangle : public BaseGLSample {
+
+#define VERTEX_POS_INDX       0
 
 public:
     NativeTriangle();
