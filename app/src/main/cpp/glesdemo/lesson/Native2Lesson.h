@@ -30,9 +30,6 @@ private:
     GLuint mMVPMatrixHandle;
     GLuint mMVMatrixHandle;
     GLuint mLightPosHandle;
-    GLuint mPositionHandle;
-    GLuint mColorHandle;
-    GLuint mNormalHandle;
 
     GLuint mPerVertexProgramHandle;
     GLuint mPointProgramHandle;
@@ -46,9 +43,16 @@ private:
     void drawLight();
 };
 
-static GLint POSITION_DATA_SIZE = 3;
-static GLint COLOR_DATA_SIZE = 4;
-static GLint NORMAL_DATA_SIZE = 3;
+// Attribute locations
+#define NATIVE_LESSON_TWO_ATTRIB_LOCATION_POINT_POS     0
+
+#define NATIVE_LESSON_TWO_ATTRIB_LOCATION_POS           0
+#define NATIVE_LESSON_TWO_ATTRIB_LOCATION_COLOR         1
+#define NATIVE_LESSON_TWO_ATTRIB_LOCATION_NORMAL        2
+
+#define  NATIVE_LESSON_TWO_POSITION_DATA_SIZE    3
+#define  NATIVE_LESSON_TWO_COLOR_DATA_SIZE       4
+#define  NATIVE_LESSON_TWO_NORMAL_DATA_SIZE      3
 
 const static GLfloat CUBE_POSITION_DATA[] = {
         // Front face

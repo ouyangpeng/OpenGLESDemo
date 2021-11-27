@@ -13,9 +13,6 @@ Native2Lesson::Native2Lesson() {
     mMVPMatrixHandle = 0;
     mMVMatrixHandle = 0;
     mLightPosHandle = 0;
-    mPositionHandle = 0;
-    mColorHandle = 0;
-    mNormalHandle = 0;
 
     mPerVertexProgramHandle = 0;
     mPointProgramHandle = 0;
@@ -57,7 +54,7 @@ void Native2Lesson::create() {
             "fragment/fragment_shader_lesson_2.glsl");
     mPerVertexProgramHandle = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (!mPerVertexProgramHandle) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
 
@@ -66,7 +63,8 @@ void Native2Lesson::create() {
     const char *POINT_FRAGMENT_SHADER_CODE = GLUtils::openTextFile(
             "fragment/fragment_shader_lesson_2_point.glsl");
     // Set Point program handle
-    mPointProgramHandle = GLUtils::createProgram(&POINT_VERTEX_SHADER_CODE,&POINT_FRAGMENT_SHADER_CODE);
+    mPointProgramHandle = GLUtils::createProgram(&POINT_VERTEX_SHADER_CODE,
+                                                 &POINT_FRAGMENT_SHADER_CODE);
     if (!mPointProgramHandle) {
         LOGD("Could not create program")
         return;
@@ -131,12 +129,9 @@ void Native2Lesson::draw() {
     glUseProgram(mPerVertexProgramHandle);
 
     // Set program handle for cube drawing.
-    mMVPMatrixHandle = (GLuint) glGetUniformLocation(mPerVertexProgramHandle, "u_MVPMatrix");
-    mMVMatrixHandle = (GLuint) glGetUniformLocation(mPerVertexProgramHandle, "u_MVMatrix");
-    mLightPosHandle = (GLuint) glGetUniformLocation(mPerVertexProgramHandle, "u_LightPos");
-    mPositionHandle = (GLuint) glGetAttribLocation(mPerVertexProgramHandle, "a_Position");
-    mColorHandle = (GLuint) glGetAttribLocation(mPerVertexProgramHandle, "a_Color");
-    mNormalHandle = (GLuint) glGetAttribLocation(mPerVertexProgramHandle, "a_Normal");
+    mMVPMatrixHandle = glGetUniformLocation(mPerVertexProgramHandle, "u_MVPMatrix");
+    mMVMatrixHandle = glGetUniformLocation(mPerVertexProgramHandle, "u_MVMatrix");
+    mLightPosHandle = glGetUniformLocation(mPerVertexProgramHandle, "u_LightPos");
 
     // Calculate position of the light
     // Rotate and then push into the distance.
@@ -178,6 +173,7 @@ void Native2Lesson::draw() {
     mModelMatrix->rotate(angleInDegrees, 1.0f, 1.0f, 1.0f);
     drawCube();
 
+
     // Draw a pint to indicate the light
     glUseProgram(mPointProgramHandle);
     drawLight();
@@ -202,36 +198,36 @@ Native2Lesson::~Native2Lesson() = default;
 void Native2Lesson::drawCube() {
     // Pass in the position info
     glVertexAttribPointer(
-            mPositionHandle,
-            POSITION_DATA_SIZE,
+            NATIVE_LESSON_TWO_ATTRIB_LOCATION_POS,
+            NATIVE_LESSON_TWO_POSITION_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_POSITION_DATA
     );
-    glEnableVertexAttribArray(mPositionHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_TWO_ATTRIB_LOCATION_POS);
 
     // Pass in the color info
     glVertexAttribPointer(
-            mColorHandle,
-            COLOR_DATA_SIZE,
+            NATIVE_LESSON_TWO_ATTRIB_LOCATION_COLOR,
+            NATIVE_LESSON_TWO_COLOR_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_COLOR_DATA
     );
-    glEnableVertexAttribArray(mColorHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_TWO_ATTRIB_LOCATION_COLOR);
 
     // Pass in the normal information
     glVertexAttribPointer(
-            mNormalHandle,
-            NORMAL_DATA_SIZE,
+            NATIVE_LESSON_TWO_ATTRIB_LOCATION_NORMAL,
+            NATIVE_LESSON_TWO_NORMAL_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_NORMAL_DATA
     );
-    glEnableVertexAttribArray(mNormalHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_TWO_ATTRIB_LOCATION_NORMAL);
 
     // This multiplies the view by the model matrix
     // and stores the result the MVP matrix.
@@ -273,18 +269,17 @@ void Native2Lesson::drawCube() {
 void Native2Lesson::drawLight() {
 
     GLint pointMVPMatrixHandle = glGetUniformLocation(mPointProgramHandle, "u_MVPMatrix");
-    GLint pointPositionHandle = glGetAttribLocation(mPointProgramHandle, "a_Position");
 
     // Pass in the position
     glVertexAttrib3f(
-            pointPositionHandle,
+            NATIVE_LESSON_TWO_ATTRIB_LOCATION_POINT_POS,
             mLightPosInModelSpace[0],
             mLightPosInModelSpace[1],
             mLightPosInModelSpace[2]);
 
     // Since we are not using a buffer object,
     // disable vertex arrays for the attribute
-    glDisableVertexAttribArray(pointPositionHandle);
+    glDisableVertexAttribArray(NATIVE_LESSON_TWO_ATTRIB_LOCATION_POINT_POS);
 
     // Pass in the transformation matrix.
     mMVPMatrix->identity();

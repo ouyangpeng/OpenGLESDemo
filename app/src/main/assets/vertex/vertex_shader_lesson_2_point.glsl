@@ -1,7 +1,11 @@
+#version 300 es
+
 uniform mat4 u_MVPMatrix;
-attribute vec4 a_Position;
+
+layout(location = 0) in vec4 a_Position;
+
 void main()
 {
    gl_Position = u_MVPMatrix  * a_Position;
-   gl_PointSize = 5.0;
+   gl_PointSize = 10.0;
 }
