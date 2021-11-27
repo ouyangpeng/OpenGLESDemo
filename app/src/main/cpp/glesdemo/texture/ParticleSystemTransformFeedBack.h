@@ -7,7 +7,7 @@
 #include "../../utils/GLUtils.h"
 #include "Noise3D.h"
 
-#define NUM_PARTICLES   200
+#define PARTICLE_SYSTEM_NUM_PARTICLES   200
 #define EMISSION_RATE   0.3f
 #define ACCELERATION   -1.0f
 
@@ -65,7 +65,7 @@ private:
     GLuint noiseTextureId;
 
     // Particle vertex data
-    Particle particleData[ NUM_PARTICLES ];
+    Particle particleData[ PARTICLE_SYSTEM_NUM_PARTICLES ];
 
     // Particle VBOs
     GLuint particleVBOs[2];

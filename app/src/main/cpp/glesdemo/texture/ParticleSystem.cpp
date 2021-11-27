@@ -17,24 +17,24 @@ void ParticleSystem::create() {
     GLUtils::printGLInfo();
 
     // Main Program
-    const char *vertex = GLUtils::openTextFile("vertex/vertex_shader_particlesystem.glsl");
-    const char *fragment = GLUtils::openTextFile(
+    VERTEX_SHADER = GLUtils::openTextFile(
+            "vertex/vertex_shader_particlesystem.glsl");
+    FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_particlesystem.glsl");
 
-    // Set program handles
-    programObject = GLUtils::createProgram(&vertex, &fragment);
+    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (!programObject) {
-        LOGD("Could not create program");
+    if (!mProgram) {
+        LOGD("Could not create program")
         return;
     }
 
     // Get the uniform locations
-    mTimeLoc = glGetUniformLocation ( programObject, "u_time" );
-    mCenterPositionLoc = glGetUniformLocation ( programObject, "u_centerPosition" );
+    mTimeLoc = glGetUniformLocation ( mProgram, "u_time" );
+    mCenterPositionLoc = glGetUniformLocation ( mProgram, "u_centerPosition" );
 
-    mColorLoc = glGetUniformLocation ( programObject, "u_color" );
-    mSamplerLoc = glGetUniformLocation ( programObject, "s_texture" );
+    mColorLoc = glGetUniformLocation ( mProgram, "u_color" );
+    mSamplerLoc = glGetUniformLocation ( mProgram, "s_texture" );
 
     glClearColor ( 0.0f, 0.0f, 0.0f, 0.0f );
 
@@ -42,7 +42,7 @@ void ParticleSystem::create() {
     srand(0);
 
     int i;
-    for(i = 0; i < NUM_PARTICLES; i++)
+    for(i = 0; i < PARTICLE_SYSTEM_NUM_PARTICLES; i++)
     {
         float *particleData = &mParticleData[i * PARTICLE_SIZE];
 
@@ -71,7 +71,7 @@ void ParticleSystem::create() {
 void ParticleSystem::change(int width, int height) {
     mWidth = width;
     mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height);
+    LOGD("change() width = %d , height = %d\n", width, height)
 
     // Set the viewport
     glViewport ( 0, 0, mWidth, mHeight );
@@ -85,28 +85,28 @@ void ParticleSystem::draw() {
     glClear ( GL_COLOR_BUFFER_BIT );
 
     // Use the program object
-    glUseProgram ( programObject );
+    glUseProgram ( mProgram );
 
     
     // Load the vertex attributes
 
     // a_lifetime
-    glVertexAttribPointer ( ATTRIBUTE_LIFETIME_LOCATION, 1, GL_FLOAT,
-                            GL_FALSE, PARTICLE_SIZE * sizeof ( GLfloat ),
-                            mParticleData );
+    glVertexAttribPointer (PARTICLE_SYSTEM_ATTRIBUTE_LIFETIME_LOCATION, 1, GL_FLOAT,
+                           GL_FALSE, PARTICLE_SIZE * sizeof ( GLfloat ),
+                           mParticleData );
     // a_endPosition
-    glVertexAttribPointer (ATTRIBUTE_END_POSITION_LOCATION, 3, GL_FLOAT,
+    glVertexAttribPointer (PARTICLE_SYSTEM_ATTRIBUTE_END_POSITION_LOCATION, 3, GL_FLOAT,
                            GL_FALSE, PARTICLE_SIZE * sizeof ( GLfloat ),
                            &mParticleData[1] );
 
     // a_startPosition
-    glVertexAttribPointer (ATTRIBUTE_START_POSITION_LOCATION, 3, GL_FLOAT,
+    glVertexAttribPointer (PARTICLE_SYSTEM_ATTRIBUTE_START_POSITION_LOCATION, 3, GL_FLOAT,
                            GL_FALSE, PARTICLE_SIZE * sizeof ( GLfloat ),
                            &mParticleData[4] );
 
-    glEnableVertexAttribArray ( ATTRIBUTE_LIFETIME_LOCATION );
-    glEnableVertexAttribArray (ATTRIBUTE_END_POSITION_LOCATION );
-    glEnableVertexAttribArray (ATTRIBUTE_START_POSITION_LOCATION );
+    glEnableVertexAttribArray (PARTICLE_SYSTEM_ATTRIBUTE_LIFETIME_LOCATION );
+    glEnableVertexAttribArray (PARTICLE_SYSTEM_ATTRIBUTE_END_POSITION_LOCATION );
+    glEnableVertexAttribArray (PARTICLE_SYSTEM_ATTRIBUTE_START_POSITION_LOCATION );
 
     // Blend particles   启用Alpha混合
     // 片段着色器中产生的Alpha值与片段的颜色进行调制。
@@ -122,7 +122,7 @@ void ParticleSystem::draw() {
     glUniform1i ( mSamplerLoc, 0 );
 
     // 绘制粒子
-    glDrawArrays ( GL_POINTS, 0, NUM_PARTICLES );
+    glDrawArrays (GL_POINTS, 0, PARTICLE_SYSTEM_NUM_PARTICLES );
     
 }
 
@@ -131,14 +131,14 @@ void ParticleSystem::shutdown() {
     glDeleteTextures ( 1, &mTextureId );
 
     // Delete program object
-    glDeleteProgram ( programObject );
+    glDeleteProgram ( mProgram );
 }
 
 void ParticleSystem::update(float deltaTime) {
 
     mTime += deltaTime;
 
-    glUseProgram(programObject);
+    glUseProgram(mProgram);
 
     // 一秒之后 重置时间，然后设置另一次爆炸的新的中心位置和时间
     if (mTime >= 1.0f )
@@ -177,41 +177,4 @@ float ParticleSystem::getDeltaTime() {
     float deltaTime = (float)elapsedTime / 1000.0f;
     mLastTime = currentTime;
     return deltaTime;
-}
-
-
-////////
-ParticleSystem* particleSystem;
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_ParticleSystemRenderer_nativeSurfaceCreate(
-        JNIEnv *env, jobject thiz, jobject assetManager) {
-    // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
-    GLUtils::setEnvAndAssetManager(env, assetManager);
-
-    if(particleSystem){
-        delete particleSystem;
-        particleSystem = nullptr;
-    }
-    particleSystem = new ParticleSystem();
-    particleSystem->create();
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_ParticleSystemRenderer_nativeSurfaceChange(
-        JNIEnv *env, jobject thiz, jint width, jint height) {
-    if(particleSystem != nullptr){
-        particleSystem->change(width,height);
-    }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_ParticleSystemRenderer_nativeDrawFrame(
-        JNIEnv *env, jobject thiz) {
-    if(particleSystem != nullptr){
-        particleSystem->draw();
-    }
 }

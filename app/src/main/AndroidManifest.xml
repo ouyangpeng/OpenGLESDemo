@@ -25,14 +25,6 @@
             android:label="@string/lesson_one"/>
 
         <activity
-            android:name=".texture.MultiTextureActivity"
-            android:label="@string/lesson_one"/>
-
-        <activity
-            android:name=".texture.ParticleSystemActivity"
-            android:label="@string/lesson_one"/>
-
-        <activity
             android:name=".texture.ParticleSystemTransformFeedBackActivity"
             android:label="@string/lesson_one"/>
 

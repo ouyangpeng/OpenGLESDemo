@@ -144,14 +144,15 @@ class MainActivity : ListActivity() {
         itemMultiTexture[ITEM_SUBTITLE] =  "学习如何使用多重纹理"
         data.add(itemMultiTexture)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_TEXTURE)
-        //
-        //
-        //        val itemParticleSystem: MutableMap<String, Any?> = HashMap()
-        //        itemParticleSystem[ITEM_IMAGE] = R.mipmap.ic_particle_system
-        //        itemParticleSystem[ITEM_TITLE] = " Hello ParticleSystem"
-        //        itemParticleSystem[ITEM_SUBTITLE] =  "用点精灵渲染粒子爆炸效果"
-        //        data.add(itemParticleSystem)
-        //        activityMapping.put(i++, ParticleSystemActivity::class.java)
+
+
+        val itemParticleSystem: MutableMap<String, Any?> = HashMap()
+        itemParticleSystem[ITEM_IMAGE] = R.mipmap.ic_particle_system
+        itemParticleSystem[ITEM_TITLE] = "展示一个不停变化位置的爆炸效果"
+        itemParticleSystem[ITEM_SUBTITLE] =  "学习如何用点精灵渲染粒子爆炸效果"
+        data.add(itemParticleSystem)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM)
+
         //
         //        val itemParticleSystemTransformFeed: MutableMap<String, Any?> = HashMap()
         //        itemParticleSystemTransformFeed[ITEM_IMAGE] = R.mipmap.ic_particle_system_transform_feedback

@@ -15,7 +15,7 @@ ParticleSystemTransformFeedBack::~ParticleSystemTransformFeedBack() {
 void ParticleSystemTransformFeedBack::create() {
     GLUtils::printGLInfo();
 
-    Particle particleData[ NUM_PARTICLES ];
+    Particle particleData[ PARTICLE_SYSTEM_NUM_PARTICLES ];
     int i;
 
     // 初始化发射粒子
@@ -51,7 +51,7 @@ void ParticleSystemTransformFeedBack::create() {
     noiseTextureId = Create3DNoiseTexture ( 128, 50.0 );
 
     // Initialize particle data
-    for ( i = 0; i < NUM_PARTICLES; i++ )
+    for ( i = 0; i < PARTICLE_SYSTEM_NUM_PARTICLES; i++ )
     {
         Particle *particle = &particleData[i];
         particle->position[0] = 0.0f;
@@ -72,7 +72,7 @@ void ParticleSystemTransformFeedBack::create() {
     for ( i = 0; i < 2; i++ )
     {
         glBindBuffer ( GL_ARRAY_BUFFER, particleVBOs[i] );
-        glBufferData ( GL_ARRAY_BUFFER, sizeof ( Particle ) * NUM_PARTICLES, particleData, GL_DYNAMIC_COPY );
+        glBufferData (GL_ARRAY_BUFFER, sizeof ( Particle ) * PARTICLE_SYSTEM_NUM_PARTICLES, particleData, GL_DYNAMIC_COPY );
     }
 }
 
@@ -171,7 +171,7 @@ void ParticleSystemTransformFeedBack::draw() {
     // Set the sampler texture unit to 0
     glUniform1i ( samplerLoc, 0 );
 
-    glDrawArrays ( GL_POINTS, 0, NUM_PARTICLES );
+    glDrawArrays (GL_POINTS, 0, PARTICLE_SYSTEM_NUM_PARTICLES );
 }
 
 void ParticleSystemTransformFeedBack::shutdown() {
@@ -251,7 +251,7 @@ void ParticleSystemTransformFeedBack::emitParticles(float deltaTime) {
     // 后续 用 GL_POINTS 对 glDrawArrays 的调用将被记录在变化反馈缓冲区中，
     // 直到调用glEndTransformFeedback
     glBeginTransformFeedback ( GL_POINTS );
-    glDrawArrays ( GL_POINTS, 0, NUM_PARTICLES );
+    glDrawArrays (GL_POINTS, 0, PARTICLE_SYSTEM_NUM_PARTICLES );
     glEndTransformFeedback();
 
     // Create a sync object to ensure transform feedback results are completed before the draw that uses them.

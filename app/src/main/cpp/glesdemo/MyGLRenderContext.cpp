@@ -13,6 +13,7 @@
 #include <MipMap2D.h>
 #include <TextureWrap.h>
 #include <MultiTexture.h>
+#include <ParticleSystem.h>
 
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
@@ -85,6 +86,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
                 break;
             case SAMPLE_TYPE_KEY_MULTI_TEXTURE:
                 m_pCurSample = new MultiTexture();
+                break;
+            case SAMPLE_TYPE_KEY_PARTICLE_SYSTEM:
+                m_pCurSample = new ParticleSystem();
                 break;
             default:
                 m_pCurSample = nullptr;

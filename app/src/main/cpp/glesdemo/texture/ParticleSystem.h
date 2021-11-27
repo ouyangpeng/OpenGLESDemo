@@ -7,31 +7,28 @@
 
 #include "../../utils/GLUtils.h"
 
-#define NUM_PARTICLES   1000
+#define PARTICLE_SYSTEM_NUM_PARTICLES   1000
 #define PARTICLE_SIZE   7
 
-#define ATTRIBUTE_LIFETIME_LOCATION       0
-#define ATTRIBUTE_START_POSITION_LOCATION  1
-#define ATTRIBUTE_END_POSITION_LOCATION    2
+#define PARTICLE_SYSTEM_ATTRIBUTE_LIFETIME_LOCATION       0
+#define PARTICLE_SYSTEM_ATTRIBUTE_START_POSITION_LOCATION  1
+#define PARTICLE_SYSTEM_ATTRIBUTE_END_POSITION_LOCATION    2
 
-class ParticleSystem {
+class ParticleSystem : public BaseGLSample{
 public:
     ParticleSystem();
 
-    ~ParticleSystem();
+    virtual ~ParticleSystem();
 
-    void create();
+    virtual void create();
 
-    void change(int width, int height);
+    virtual void change(int width, int height);
 
-    void draw();
+    virtual void draw();
 
-    void shutdown();
+    virtual void shutdown();
 
 private:
-    // Handle to a program object
-    GLuint programObject;
-
     // Uniform location
     GLint mTimeLoc;
     GLint mCenterPositionLoc;
@@ -42,15 +39,12 @@ private:
     GLuint mTextureId;
 
     // Particle vertex data
-    float mParticleData[ NUM_PARTICLES * PARTICLE_SIZE ];
+    float mParticleData[PARTICLE_SYSTEM_NUM_PARTICLES * PARTICLE_SIZE ];
 
     long mLastTime = 0;
 
     // Current time
     float mTime;
-
-    int mWidth;
-    int mHeight;
 
     float getDeltaTime();
 

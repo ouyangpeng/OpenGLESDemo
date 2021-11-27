@@ -19,5 +19,6 @@
 #define SAMPLE_TYPE_KEY_MIPMAP_2D                                   SAMPLE_TYPE + 9
 #define SAMPLE_TYPE_KEY_TEXTURE_WRAP                                SAMPLE_TYPE + 10
 #define SAMPLE_TYPE_KEY_MULTI_TEXTURE                               SAMPLE_TYPE + 11
+#define SAMPLE_TYPE_KEY_PARTICLE_SYSTEM                             SAMPLE_TYPE + 12
 
 #endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H
