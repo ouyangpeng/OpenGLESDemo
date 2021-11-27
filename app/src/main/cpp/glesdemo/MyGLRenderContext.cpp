@@ -14,6 +14,7 @@
 #include <TextureWrap.h>
 #include <MultiTexture.h>
 #include <ParticleSystem.h>
+#include <ParticleSystemTransformFeedBack.h>
 
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
@@ -22,12 +23,14 @@
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
 
 MyGLRenderContext::MyGLRenderContext() {
-    m_pCurSample =  new NativeTriangle();
+    LOGD("MyGLRenderContext::MyGLRenderContext")
+    m_pCurSample = new NativeTriangle();
     m_pBeforeSample = nullptr;
 
 }
 
 MyGLRenderContext::~MyGLRenderContext() {
+    LOGD("MyGLRenderContext::~MyGLRenderContext")
     if (m_pCurSample) {
         delete m_pCurSample;
         m_pCurSample = nullptr;
@@ -90,6 +93,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
             case SAMPLE_TYPE_KEY_PARTICLE_SYSTEM:
                 m_pCurSample = new ParticleSystem();
                 break;
+            case SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK:
+                m_pCurSample = new ParticleSystemTransformFeedBack();
+                break;
             default:
                 m_pCurSample = nullptr;
                 break;
@@ -141,7 +147,7 @@ MyGLRenderContext *MyGLRenderContext::GetInstance() {
 }
 
 void MyGLRenderContext::DestroyInstance() {
-//    LOGD("MyGLRenderContext::DestroyInstance")
+    LOGD("MyGLRenderContext::DestroyInstance")
     if (m_pContext) {
         delete m_pContext;
         m_pContext = nullptr;

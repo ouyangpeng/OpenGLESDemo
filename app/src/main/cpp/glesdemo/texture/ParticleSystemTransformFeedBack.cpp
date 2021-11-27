@@ -13,9 +13,9 @@ ParticleSystemTransformFeedBack::~ParticleSystemTransformFeedBack() {
 }
 
 void ParticleSystemTransformFeedBack::create() {
+    LOGD("create()")
     GLUtils::printGLInfo();
 
-    Particle particleData[ PARTICLE_SYSTEM_NUM_PARTICLES ];
     int i;
 
     // 初始化发射粒子
@@ -51,7 +51,7 @@ void ParticleSystemTransformFeedBack::create() {
     noiseTextureId = Create3DNoiseTexture ( 128, 50.0 );
 
     // Initialize particle data
-    for ( i = 0; i < PARTICLE_SYSTEM_NUM_PARTICLES; i++ )
+    for ( i = 0; i < NUM_PARTICLES; i++ )
     {
         Particle *particle = &particleData[i];
         particle->position[0] = 0.0f;
@@ -72,7 +72,7 @@ void ParticleSystemTransformFeedBack::create() {
     for ( i = 0; i < 2; i++ )
     {
         glBindBuffer ( GL_ARRAY_BUFFER, particleVBOs[i] );
-        glBufferData (GL_ARRAY_BUFFER, sizeof ( Particle ) * PARTICLE_SYSTEM_NUM_PARTICLES, particleData, GL_DYNAMIC_COPY );
+        glBufferData (GL_ARRAY_BUFFER, sizeof ( Particle ) * NUM_PARTICLES, particleData, GL_DYNAMIC_COPY );
     }
 }
 
@@ -88,7 +88,7 @@ void ParticleSystemTransformFeedBack::initEmitParticles() {
     emitProgramObject = GLUtils::createProgram(&vertex, &fragment);
 
     if (!emitProgramObject) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
 
@@ -123,13 +123,14 @@ void ParticleSystemTransformFeedBack::initEmitParticles() {
 void ParticleSystemTransformFeedBack::change(int width, int height) {
     mWidth = width;
     mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height);
+    LOGD("change() width = %d , height = %d\n", width, height)
 
     // Set the viewport
     glViewport ( 0, 0, mWidth, mHeight );
 }
 
 void ParticleSystemTransformFeedBack::draw() {
+    LOGD("draw()")
     // 每次更新一下
     update(getDeltaTime());
 
@@ -171,7 +172,7 @@ void ParticleSystemTransformFeedBack::draw() {
     // Set the sampler texture unit to 0
     glUniform1i ( samplerLoc, 0 );
 
-    glDrawArrays (GL_POINTS, 0, PARTICLE_SYSTEM_NUM_PARTICLES );
+    glDrawArrays (GL_POINTS, 0, NUM_PARTICLES );
 }
 
 void ParticleSystemTransformFeedBack::shutdown() {
@@ -187,10 +188,9 @@ void ParticleSystemTransformFeedBack::shutdown() {
 
 
 void ParticleSystemTransformFeedBack::update(float deltaTime) {
-
+    LOGD("update()")
     time += deltaTime;
-
-    emitParticles ( deltaTime );
+    emitParticles ();
 }
 
 float ParticleSystemTransformFeedBack::getDeltaTime() {
@@ -205,7 +205,8 @@ float ParticleSystemTransformFeedBack::getDeltaTime() {
 }
 
 // 用变化反馈发射粒子
-void ParticleSystemTransformFeedBack::emitParticles(float deltaTime) {
+void ParticleSystemTransformFeedBack::emitParticles() {
+    LOGD("emitParticles()")
     /**
      * 粒子系统用变化反馈更新，然后按如下步骤进行渲染：
      * 1. 在每一帧中，选择某一个粒子VBO作为输入，并绑定为 GL_ARRAY_BUFFER。 输出则绑定为 GL_TRANSFORM_FEEDBACK_BUFFER
@@ -251,7 +252,7 @@ void ParticleSystemTransformFeedBack::emitParticles(float deltaTime) {
     // 后续 用 GL_POINTS 对 glDrawArrays 的调用将被记录在变化反馈缓冲区中，
     // 直到调用glEndTransformFeedback
     glBeginTransformFeedback ( GL_POINTS );
-    glDrawArrays (GL_POINTS, 0, PARTICLE_SYSTEM_NUM_PARTICLES );
+    glDrawArrays (GL_POINTS, 0, NUM_PARTICLES );
     glEndTransformFeedback();
 
     // Create a sync object to ensure transform feedback results are completed before the draw that uses them.
@@ -270,6 +271,7 @@ void ParticleSystemTransformFeedBack::emitParticles(float deltaTime) {
 }
 
 void ParticleSystemTransformFeedBack::setupVertexAttributes(GLuint vboID) {
+    LOGD("setupVertexAttributes()")
     glBindBuffer ( GL_ARRAY_BUFFER, vboID );
     glVertexAttribPointer ( ATTRIBUTE_POSITION, 2, GL_FLOAT,
                             GL_FALSE, sizeof ( Particle ),
@@ -296,43 +298,4 @@ void ParticleSystemTransformFeedBack::setupVertexAttributes(GLuint vboID) {
     glEnableVertexAttribArray ( ATTRIBUTE_SIZE );
     glEnableVertexAttribArray ( ATTRIBUTE_CURTIME );
     glEnableVertexAttribArray ( ATTRIBUTE_LIFETIME );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-
-ParticleSystemTransformFeedBack* particleSystemTransformFeedBack;
-
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_ParticleSystemTransformFeedbackRenderer_nativeSurfaceCreate(
-        JNIEnv *env, jobject thiz, jobject asset_manager) {
-    // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
-    GLUtils::setEnvAndAssetManager(env, asset_manager);
-
-    if(particleSystemTransformFeedBack){
-        delete particleSystemTransformFeedBack;
-        particleSystemTransformFeedBack = nullptr;
-    }
-    particleSystemTransformFeedBack = new ParticleSystemTransformFeedBack();
-    particleSystemTransformFeedBack->create();
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_ParticleSystemTransformFeedbackRenderer_nativeSurfaceChange(
-        JNIEnv *env, jobject thiz, jint width, jint height) {
-    if(particleSystemTransformFeedBack != nullptr){
-        particleSystemTransformFeedBack->change(width,height);
-    }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_ParticleSystemTransformFeedbackRenderer_nativeDrawFrame(
-        JNIEnv *env, jobject thiz) {
-    if(particleSystemTransformFeedBack != nullptr){
-        particleSystemTransformFeedBack->draw();
-    }
 }

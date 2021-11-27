@@ -13,7 +13,8 @@ class MyNativeRenderer(activity: Activity): GLSurfaceView.Renderer{
     external fun nativeSurfaceCreate(assetManager: AssetManager)
     external fun nativeSurfaceChange(width: Int, height: Int)
     external fun nativeDrawFrame()
-    external fun nativeSetParamsInt(paramType: Int, value0: Int, value1: Int)
+    private external fun nativeSetParamsInt(paramType: Int, value0: Int, value1: Int)
+    private external fun nativeOnDestroy()
 
     init {
         System.loadLibrary("opengles-lesson-lib")
@@ -37,5 +38,9 @@ class MyNativeRenderer(activity: Activity): GLSurfaceView.Renderer{
             mSampleType = type
         }
         nativeSetParamsInt(sampleType, type, i)
+    }
+
+    fun onDestroy(){
+        nativeOnDestroy()
     }
 }

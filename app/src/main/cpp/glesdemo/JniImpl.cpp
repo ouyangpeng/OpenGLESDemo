@@ -30,3 +30,9 @@ Java_com_oyp_openglesdemo_MyNativeRenderer_nativeSetParamsInt(
         JNIEnv *env, jobject thiz, jint paramType, jint value0,jint value1) {
     MyGLRenderContext::GetInstance()->SetParamsInt(paramType, value0, value1);
 }
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_oyp_openglesdemo_MyNativeRenderer_nativeOnDestroy(JNIEnv *env, jobject thiz) {
+    MyGLRenderContext::DestroyInstance();
+}

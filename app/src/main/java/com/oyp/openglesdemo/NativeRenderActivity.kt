@@ -57,4 +57,9 @@ class NativeRenderActivity : Activity() {
         super.onPause()
         mGLSurfaceView!!.onPause()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        renderer?.onDestroy()
+    }
 }

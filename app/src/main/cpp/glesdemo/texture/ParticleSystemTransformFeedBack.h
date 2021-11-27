@@ -7,7 +7,7 @@
 #include "../../utils/GLUtils.h"
 #include "Noise3D.h"
 
-#define PARTICLE_SYSTEM_NUM_PARTICLES   200
+#define NUM_PARTICLES   200
 #define EMISSION_RATE   0.3f
 #define ACCELERATION   -1.0f
 
@@ -18,19 +18,19 @@
 #define ATTRIBUTE_LIFETIME      4
 
 
-class ParticleSystemTransformFeedBack {
+class ParticleSystemTransformFeedBack : public BaseGLSample{
 public:
     ParticleSystemTransformFeedBack();
 
-    ~ParticleSystemTransformFeedBack();
+    virtual ~ParticleSystemTransformFeedBack();
 
-    void create();
+    virtual void create();
 
-    void change(int width, int height);
+    virtual void change(int width, int height);
 
-    void draw();
+    virtual void draw();
 
-    void shutdown();
+    virtual void shutdown();
 
 private:
     // 定义粒子的顶点结构
@@ -65,7 +65,7 @@ private:
     GLuint noiseTextureId;
 
     // Particle vertex data
-    Particle particleData[ PARTICLE_SYSTEM_NUM_PARTICLES ];
+    Particle particleData[ NUM_PARTICLES ];
 
     // Particle VBOs
     GLuint particleVBOs[2];
@@ -82,9 +82,6 @@ private:
     // synch object to synchronize the transform feedback results and the draw
     GLsync emitSync;
 
-    int mWidth;
-    int mHeight;
-
     // 获取时间
     float getDeltaTime();
 
@@ -95,8 +92,8 @@ private:
     void initEmitParticles();
 
     // 用变化反馈发射粒子
-    void emitParticles(float deltaTime);
+    void emitParticles();
 
     // 初始化顶点属性
-    void setupVertexAttributes(GLuint vboID);
+    static void setupVertexAttributes(GLuint vboID);
 };
