@@ -20,6 +20,8 @@
 #include <MRT.h>
 #include <Shadows.h>
 
+#include <Native1Lesson.h>
+
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
 
@@ -112,6 +114,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
                 break;
             case SAMPLE_TYPE_KEY_SHADOWS:
                 m_pCurSample = new Shadows();
+                break;
+            case SAMPLE_TYPE_KEY_LESSON_ONE:
+                m_pCurSample = new Native1Lesson();
                 break;
             default:
                 m_pCurSample = nullptr;

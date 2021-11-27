@@ -1,30 +1,6 @@
 #include "Native1Lesson.h"
 
 
-// 顶点着色器
-const char* VERTEX_SHADER =
-	"#version 300 es                                \n"
-	"uniform mat4 u_MVPMatrix;                      \n"                 // A constant representing the combined model/view/projection matrix.
-	"layout(location = 0) in vec4 a_Position;     	\n"                 // Per-vertex position information we will pass in.
-	"layout(location = 1) in vec4 a_Color;        	\n"                 // Per-vertex color information we will pass in.
-	"out vec4 v_Color;          					\n"                 // This will be passed into the fragment shader.
-	"void main()                    				\n"                 // The entry point for our vertex shader.
-	"{                              				\n"
-	"   v_Color = a_Color;          				\n"                 // Pass the color through to the fragment shader.
-	"   gl_Position = u_MVPMatrix * a_Position; 	\n"     			// gl_Position is a special variable used to store the final position.
-	"}                              				\n";                // normalized screen coordinates.
-
-// 片段着色器
-const char* FRAGMENT_SHADER =
-	"#version 300 es                \n"
-	"precision mediump float;       \n"     // Set the default precision to medium. We don't need as high of a
-	"in vec4 v_Color;               \n"     // This is the color from the vertex shader interpolated across the
-	"out vec4 o_fragColor;          \n"
-	"void main()                    \n"     // The entry point for our fragment shader.
-	"{                              \n"
-	"   o_fragColor = v_Color;     \n"     // Pass the color directly through the pipeline.
-	"}                              \n";
-
 // This triangle is red, green, and blue.
 GLfloat triangle1VerticesData[] = {
 	// X, Y, Z,
@@ -74,26 +50,20 @@ Native1Lesson::Native1Lesson() {
 	mViewMatrix = nullptr;
 }
 
-Native1Lesson::~Native1Lesson() {
-	delete mModelMatrix;
-	mModelMatrix = nullptr;
-
-	delete mMVPMatrix;
-	mMVPMatrix = nullptr;
-
-	delete mProjectionMatrix;
-	mProjectionMatrix = nullptr;
-
-	delete mViewMatrix;
-	mViewMatrix = nullptr;
-}
+Native1Lesson::~Native1Lesson() = default;
 
 void Native1Lesson::create() {
 	GLUtils::printGLInfo();
 
+	// Main Program
+	VERTEX_SHADER = GLUtils::openTextFile(
+			"vertex/vertex_shader_lesson_1.glsl");
+	FRAGMENT_SHADER = GLUtils::openTextFile(
+			"fragment/fragment_shader_lesson_1.glsl");
+
 	mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 	if (!mProgram) {
-		LOGD("Could not create program");
+		LOGD("Could not create program")
 		return;
 	}
 
@@ -128,9 +98,9 @@ void Native1Lesson::change(int width, int height) {
 	float ratio = (float)width / height;
 	float left = -ratio;
 	float right = ratio;
-	float bottom = -1.0f;
-	float top = 1.0f;
-	float near = 1.0f;
+	float bottom = -0.8f;
+	float top = 0.8f;
+	float near = 0.5f;
 	float far = 2.0f;
 
 	mProjectionMatrix = Matrix::newFrustum(left, right, bottom, top, near, far);
@@ -218,37 +188,22 @@ void Native1Lesson::drawTriangle(GLfloat* vertices,
 	glDisableVertexAttribArray(VERTEX_COLOR_INDX);
 }
 
-
-/// =======================================================
-
-Native1Lesson* native1Lesson;
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_nativeSurfaceCreate(
-		JNIEnv *env, jobject thiz) {
-
-	if (native1Lesson) {
-		delete native1Lesson;
-		native1Lesson = nullptr;
+void Native1Lesson::shutdown() {
+	if(mModelMatrix){
+		delete mModelMatrix;
+		mModelMatrix = nullptr;
 	}
-	native1Lesson = new Native1Lesson();
-	native1Lesson->create();
-}
 
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_nativeSurfaceChange(
-		JNIEnv *env, jobject thiz, jint width, jint height) {
-	if (native1Lesson != nullptr) {
-		native1Lesson->change(width, height);
+	if(mMVPMatrix){
+		delete mMVPMatrix;
+		mMVPMatrix = nullptr;
 	}
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonOneNativeRenderer_nativeDrawFrame(JNIEnv *env,jobject thiz) {
-	if (native1Lesson != nullptr) {
-		native1Lesson->draw();
+	if(mProjectionMatrix){
+		delete mProjectionMatrix;
+		mProjectionMatrix = nullptr;
+	}
+	if(mViewMatrix){
+		delete mViewMatrix;
+		mViewMatrix = nullptr;
 	}
 }

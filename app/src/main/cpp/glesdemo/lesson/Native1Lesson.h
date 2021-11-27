@@ -8,17 +8,19 @@
 #define VERTEX_POS_SIZE       3 // x, y and z
 #define VERTEX_COLOR_SIZE     4 // r, g, b, and a
 
-class Native1Lesson {
+class Native1Lesson : public BaseGLSample {
 public:
 	Native1Lesson();
 
-	~Native1Lesson();
+	virtual ~Native1Lesson();
 
-	void create();
+	virtual void create();
 
-	void change(int width, int height);
+	virtual void change(int width, int height);
 
-	void draw();
+	virtual void draw();
+
+	virtual void shutdown();
 
 	void drawTriangle(GLfloat* vtxBuf, GLint vtxStride, GLint numIndices, GLushort* indices);
 
@@ -27,8 +29,6 @@ private:
 	Matrix* mModelMatrix;
 	Matrix* mProjectionMatrix;
 	Matrix* mMVPMatrix;
-
-	GLuint mProgram;
 
 	GLuint mMVPMatrixHandle;
 };

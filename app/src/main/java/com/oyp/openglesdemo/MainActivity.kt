@@ -187,15 +187,15 @@ class MainActivity : ListActivity() {
         itemShadows[ITEM_SUBTITLE] =  "使用深度纹理的阴影"
         data.add(itemShadows)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADOWS)
-        //
-        //        val item1: MutableMap<String, Any?> = HashMap()
-        //        item1[ITEM_IMAGE] = R.mipmap.ic_lesson_one
-        //        item1[ITEM_TITLE] =
-        //            getText(R.string.lesson_one)
-        //        item1[ITEM_SUBTITLE] =
-        //            getText(R.string.lesson_one_subtitle)
-        //        data.add(item1)
-        //        activityMapping.put(i++, LessonOneActivity::class.java)
+
+        val item1: MutableMap<String, Any?> = HashMap()
+        item1[ITEM_IMAGE] = R.mipmap.ic_lesson_one
+        item1[ITEM_TITLE] =
+            getText(R.string.lesson_one)
+        item1[ITEM_SUBTITLE] =
+            getText(R.string.lesson_one_subtitle)
+        data.add(item1)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_ONE)
         //
         //        val item2: MutableMap<String, Any> = HashMap()
         //        item2[ITEM_IMAGE] = R.mipmap.ic_lesson_two
@@ -258,8 +258,8 @@ class MainActivity : ListActivity() {
     }
 
     companion object {
-        private val ITEM_IMAGE = "item_image"
-        private val ITEM_TITLE = "item_title"
-        private val ITEM_SUBTITLE = "item_subtitle"
+        private const val ITEM_IMAGE = "item_image"
+        private const val ITEM_TITLE = "item_title"
+        private const val ITEM_SUBTITLE = "item_subtitle"
     }
 }

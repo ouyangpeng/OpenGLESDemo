@@ -14,9 +14,7 @@ Shadows::Shadows() {
 
 }
 
-Shadows::~Shadows() {
-
-}
+Shadows::~Shadows() = default;
 
 void Shadows::create() {
     GLUtils::printGLInfo();
@@ -38,7 +36,7 @@ void Shadows::create() {
     sceneProgramObject = GLUtils::createProgram(&vSceneShaderStr, &fSceneShaderStr);
 
     if (!shadowMapProgramObject || !sceneProgramObject) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
 
@@ -370,7 +368,7 @@ void Shadows::drawScene(GLint mvpLoc, GLint mvpLightLoc) {
 void Shadows::change(int width, int height) {
     mWidth = width;
     mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height);
+    LOGD("change() width = %d , height = %d\n", width, height)
 
     // Set the viewport
     glViewport(0, 0, mWidth, mHeight);
