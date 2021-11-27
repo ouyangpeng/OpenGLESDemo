@@ -6,6 +6,7 @@
 
 #include "./triangle/NativeTriangle.h"
 #include "./triangle/NativeTriangle2.h"
+#include "./triangle/NativeTriangle3.h"
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
 
@@ -45,7 +46,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
             case SAMPLE_TYPE_KEY_TRIANGLE2:
                 m_pCurSample = new NativeTriangle2();
                 break;
-
+            case SAMPLE_TYPE_KEY_TRIANGLE3:
+                m_pCurSample = new NativeTriangle3();
+                break;
             default:
                 m_pCurSample = nullptr;
                 break;

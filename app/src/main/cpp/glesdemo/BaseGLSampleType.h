@@ -9,5 +9,6 @@
 #define SAMPLE_TYPE                             100
 #define SAMPLE_TYPE_KEY_TRIANGLE                SAMPLE_TYPE + 0
 #define SAMPLE_TYPE_KEY_TRIANGLE2               SAMPLE_TYPE + 1
+#define SAMPLE_TYPE_KEY_TRIANGLE3               SAMPLE_TYPE + 2
 
 #endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H

@@ -9,9 +9,9 @@ in vec4 v_color;
 
 // 声明一个输出变量fragColor，这是一个4分量的向量，
 // 写入这个变量的值将被输出到颜色缓冲器
-out vec4 fragColor;
+out vec4 o_fragColor;
 
 void main()
 {
-	fragColor = v_color;
+	o_fragColor = v_color;
 }

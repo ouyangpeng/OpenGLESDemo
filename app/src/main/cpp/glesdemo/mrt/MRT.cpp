@@ -158,12 +158,16 @@ void MRT::draw() {
 }
 
 void MRT::drawGeometry() {
-	GLfloat vVertices[] = { -1.0f,  1.0f, 0.0f,
-							-1.0f, -1.0f, 0.0f,
-							1.0f, -1.0f, 0.0f,
-							1.0f,  1.0f, 0.0f,
+	GLfloat vVertices[] = { -1.0f,  1.0f, 0.0f,		// 右上角
+							-1.0f, -1.0f, 0.0f,		// 右下角
+							1.0f, -1.0f, 0.0f,		// 左下角
+							1.0f,  1.0f, 0.0f,		// 左上角
 	};
-	GLushort indices[] = { 0, 1, 2, 0, 2, 3 };
+	// 注意索引从0开始!
+	GLushort indices[] = {
+			0, 1, 2,		// 第一个三角形
+			0, 2, 3			// 第二个三角形
+	};
 
 	// Clear the color buffer
 	glClear ( GL_COLOR_BUFFER_BIT );

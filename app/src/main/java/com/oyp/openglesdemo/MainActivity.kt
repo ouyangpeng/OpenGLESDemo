@@ -42,14 +42,13 @@ class MainActivity : ListActivity() {
         itemHelloTriangle2[ITEM_SUBTITLE] = "颜色由glVertexAttrib4fv传给片段着色器"
         data.add(itemHelloTriangle2)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_TRIANGLE2)
-//
-//        val itemHelloTriangle3: MutableMap<String, Any?> = HashMap()
-//        itemHelloTriangle3[ITEM_IMAGE] = R.mipmap.ic_trangle3
-//        itemHelloTriangle3[ITEM_TITLE] = " Hello Triangle 3"
-//        itemHelloTriangle3[ITEM_SUBTITLE] =
-//            getText(R.string.lesson_triangle_subtitle)
-//        data.add(itemHelloTriangle3)
-//        activityMapping.put(i++, HelloTriangle3Activity::class.java)
+
+        val itemHelloTriangle3: MutableMap<String, Any?> = HashMap()
+        itemHelloTriangle3[ITEM_IMAGE] = R.mipmap.ic_trangle3
+        itemHelloTriangle3[ITEM_TITLE] = "展示一个基本的由红、绿、蓝三种颜色绘制而成的三角形"
+        itemHelloTriangle3[ITEM_SUBTITLE] = "使用了顶点缓冲对象(Vertex Buffer Objects, VBO)技术"
+        data.add(itemHelloTriangle3)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_TRIANGLE3)
 //
 //        val itemHelloTriangleMapBuffers: MutableMap<String, Any?> = HashMap()
 //        itemHelloTriangleMapBuffers[ITEM_IMAGE] = R.mipmap.ic_trangle_mapbuffer

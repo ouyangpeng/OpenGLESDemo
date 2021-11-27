@@ -7,5 +7,6 @@ object IMyNativeRendererType{
 
     const val SAMPLE_TYPE_TRIANGLE: Int = SAMPLE_TYPE
     const val SAMPLE_TYPE_TRIANGLE2: Int = SAMPLE_TYPE + 1
+    const val SAMPLE_TYPE_TRIANGLE3: Int = SAMPLE_TYPE + 2
 
 }
