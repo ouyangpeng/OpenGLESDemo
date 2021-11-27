@@ -16,40 +16,24 @@ MipMap2D::~MipMap2D() {
 void MipMap2D::create() {
 	GLUtils::printGLInfo();
 
-	const char* VERTEX_SHADER_TRIANGLE =
-		"#version 300 es                            \n"
-		"uniform float u_offset;                    \n"
-		"layout(location = 0) in vec4 a_position;   \n"
-		"layout(location = 1) in vec2 a_texCoord;   \n"
-		"out vec2 v_texCoord;                       \n"
-		"void main()                                \n"
-		"{                                          \n"
-		"   gl_Position = a_position;               \n"
-		"   gl_Position.x += u_offset;              \n"
-		"   v_texCoord = a_texCoord;                \n"
-		"}                                          \n";
+	// Main Program
+	VERTEX_SHADER = GLUtils::openTextFile(
+			"vertex/vertex_shader_texture_mipmap_2d.glsl");
+	FRAGMENT_SHADER = GLUtils::openTextFile(
+			"fragment/fragment_shader_texture_mipmap_2d.glsl");
 
-	const char* FRAGMENT_SHADER_TRIANGLE =
-		"#version 300 es                                     \n"
-		"precision mediump float;                            \n"
-		"in vec2 v_texCoord;                                 \n"
-		"layout(location = 0) out vec4 outColor;             \n"
-		"uniform sampler2D s_texture;                        \n"
-		"void main()                                         \n"
-		"{                                                   \n"
-		"   outColor = texture( s_texture, v_texCoord );     \n"
-		"}                                                   \n";
+	mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-	programObject = GLUtils::createProgram(&VERTEX_SHADER_TRIANGLE, &FRAGMENT_SHADER_TRIANGLE);
-	if (!programObject) {
-		LOGD("Could not create program");
+	if (!mProgram) {
+		LOGD("Could not create program")
 		return;
 	}
+
 	// Get the sampler location
-	samplerLoc = glGetUniformLocation(programObject, "s_texture");
+	samplerLoc = glGetUniformLocation(mProgram, "s_texture");
 
 	// Get the offset location
-	offsetLoc = glGetUniformLocation(programObject, "u_offset");
+	offsetLoc = glGetUniformLocation(mProgram, "u_offset");
 
 	// Load the texture  加载纹理
 	textureId = CreateMipMappedTexture2D();
@@ -70,7 +54,7 @@ void MipMap2D::shutdown() {
 	glDeleteTextures(1, &textureId);
 
 	// Delete program object
-	glDeleteProgram(programObject);
+	glDeleteProgram(mProgram);
 }
 
 void MipMap2D::draw() {
@@ -88,11 +72,16 @@ void MipMap2D::draw() {
 		0.5f,  0.5f, 0.0f, 1.5f,	// Position 3
 		1.0f,  0.0f					// TexCoord 3
 	};
-	GLushort indices[] = { 0, 1, 2, 0, 2, 3 };
+
+    // 注意索引从0开始!
+    GLushort indices[] = {
+            0, 1, 2,		// 第一个三角形
+            0, 2, 3			// 第二个三角形
+    };
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glUseProgram(programObject);
+	glUseProgram(mProgram);
 
 	// Load the vertex position
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), vVertices);
@@ -180,10 +169,21 @@ GLuint MipMap2D::CreateMipMappedTexture2D() {
 	level = 1;
 	preImage = &pixels[0];
 
+	// 当缩小和放大过滤设置为GL_NEAREST时，会发送这样的情况：
+	// 一个纹素在提供的纹理坐标位置上读取。这称作 点采样或者最近采样。
+	// 但是，最近采样可能产生严重的视觉伪像，这是因为三角形在屏幕空间中变得较小，
+	// 在不同像素的插值中，纹理坐标有很大的跳跃。结果是：从一个大的纹理贴图中取得少量样本，造成巨大的性能损失。
+	// OpenGL ES 中解决这类伪像的方案被称作 mip贴图(mipmapping)。
+
+	// mip贴图的思路是构建一个图像链------mip贴图链。
+	// mip贴图链始于原来指定的图像，后续的每个图像在每个维度上是前一个图像的一半，一直持续到最后达到链底部的1X1纹理。
+	// mip贴图级别可以编程生成，一个mip级别中的每个像素通常根据上一级别中相同位置的4个像素的平均值计算(盒式过滤)
+
 	while (width > 1 && height > 1)
 	{
 		int newWidth, newHeight;
 
+        // 加载一个2D mip贴图链
 		//Generate the next mipmap level
 		GenMipMap2D(preImage, &newImage, width, height, &newWidth, &newHeight);
 
@@ -206,7 +206,9 @@ GLuint MipMap2D::CreateMipMappedTexture2D() {
 
 	free(newImage);
 
-	// Set the filtering mode
+	// 加载mip贴图链之后，便可以设置过滤模式，以使用mip贴图。
+	// 结果是我们实现了屏幕像素和纹理像素间的更好比率，从而减少了锯齿伪像。
+	// 图像的锯齿也减少了，这是因为mip贴图链中的每个图像连续进行过滤，使得高频元素随着贴图链的下移而越来越少。
 
 	// Set the filtering mode
 	// 关于 纹理过滤的区别  可以参考链接：  https://segmentfault.com/a/1190000037542097
@@ -238,6 +240,7 @@ GLuint MipMap2D::CreateMipMappedTexture2D() {
 }
 
 
+// 加载一个2D mip贴图链
 //  From an RGB8 source image, generate the next level mipmap
 GLboolean MipMap2D::GenMipMap2D(const GLubyte* src, GLubyte** dst, int srcWidth, int srcHeight, int* dstWidth, int* dstHeight)
 {
@@ -338,41 +341,4 @@ GLubyte* MipMap2D::GenCheckImage(int width, int height, int checkSize)
 		}
 
 	return pixels;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-MipMap2D* mipMap2D;
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_Mipmap2DRenderer_nativeSurfaceCreate(JNIEnv * env,
-	jobject thiz) {
-
-	if (mipMap2D) {
-		delete mipMap2D;
-		mipMap2D = nullptr;
-	}
-	mipMap2D = new MipMap2D();
-	mipMap2D->create();
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_Mipmap2DRenderer_nativeSurfaceChange(JNIEnv * env,
-	jobject thiz, jint width, jint height) {
-
-	if (mipMap2D != nullptr) {
-		mipMap2D->change(width, height);
-	}
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_Mipmap2DRenderer_nativeDrawFrame(JNIEnv * env,
-	jobject thiz) {
-	if (mipMap2D != nullptr) {
-		mipMap2D->draw();
-	}
 }

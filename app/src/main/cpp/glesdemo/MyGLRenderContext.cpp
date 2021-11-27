@@ -10,6 +10,7 @@
 #include <NativeTriangleVertextBufferObject.h>
 #include <NativeCubeSimpleVertexShader.h>
 #include <SimpleTextureCubeMap.h>
+#include <MipMap2D.h>
 
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
@@ -73,6 +74,10 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
                 break;
             case SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_CUBE_MAP:
                 m_pCurSample = new SimpleTextureCubeMap();
+                break;
+
+            case SAMPLE_TYPE_KEY_MIPMAP_2D:
+                m_pCurSample = new MipMap2D();
                 break;
             default:
                 m_pCurSample = nullptr;

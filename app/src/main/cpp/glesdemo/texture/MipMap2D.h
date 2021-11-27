@@ -7,23 +7,21 @@
 
 #include "../../utils/GLUtils.h"
 
-class MipMap2D {
+class MipMap2D : public BaseGLSample{
 public:
 	MipMap2D();
 
-	~MipMap2D();
+	virtual ~MipMap2D();
 
-	void create();
+	virtual void create();
 
-	void change(int width, int height);
+	virtual void change(int width, int height);
 
-	void draw();
+	virtual void draw();
 
-	void shutdown();
+	virtual void shutdown();
 
 private:
-	// Handle to a program object
-	GLuint programObject;
 
 	// Sampler location
 	GLint samplerLoc;
@@ -33,9 +31,6 @@ private:
 
 	// Texture handle
 	GLuint textureId;
-
-	int mWidth;
-	int mHeight;
 
 	GLuint CreateMipMappedTexture2D();
 
