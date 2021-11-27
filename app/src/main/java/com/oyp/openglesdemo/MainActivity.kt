@@ -129,14 +129,14 @@ class MainActivity : ListActivity() {
         data.add(itemMipmap2D)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MIPMAP_2D)
 
-        //
-        //        val itemTextureWrap: MutableMap<String, Any?> = HashMap()
-        //        itemTextureWrap[ITEM_IMAGE] = R.mipmap.ic_texture_wrap
-        //        itemTextureWrap[ITEM_TITLE] = " Hello TextureWrap"
-        //        itemTextureWrap[ITEM_SUBTITLE] =  " Show  TextureWrap"
-        //        data.add(itemTextureWrap)
-        //        activityMapping.put(i++, TextureWrapActivity::class.java)
-        //
+
+        val itemTextureWrap: MutableMap<String, Any?> = HashMap()
+        itemTextureWrap[ITEM_IMAGE] = R.mipmap.ic_texture_wrap
+        itemTextureWrap[ITEM_TITLE] = "对比 三种不同纹理包装模式"
+        itemTextureWrap[ITEM_SUBTITLE] =  "学习GL_REPEAT、GL_CLAMP_TO_EDGE、GL_MIRRORED_REPEAT三种不同纹理包装模式"
+        data.add(itemTextureWrap)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_WRAP)
+
         //
         //        val itemMultiTexture: MutableMap<String, Any?> = HashMap()
         //        itemMultiTexture[ITEM_IMAGE] = R.mipmap.ic_multi_texture

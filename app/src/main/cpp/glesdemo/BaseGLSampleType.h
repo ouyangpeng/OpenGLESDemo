@@ -17,5 +17,6 @@
 #define SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_2D                           SAMPLE_TYPE + 7
 #define SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_CUBE_MAP                     SAMPLE_TYPE + 8
 #define SAMPLE_TYPE_KEY_MIPMAP_2D                                   SAMPLE_TYPE + 9
+#define SAMPLE_TYPE_KEY_TEXTURE_WRAP                                SAMPLE_TYPE + 10
 
 #endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H

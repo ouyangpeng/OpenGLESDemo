@@ -6,24 +6,21 @@
 #define OPENGLESDEMO_TEXTUREWRAP_H
 
 #include "../../utils/GLUtils.h"
-class TextureWrap {
+class TextureWrap : public BaseGLSample{
 public:
     TextureWrap();
 
-    ~TextureWrap();
+    virtual ~TextureWrap();
 
-    void create();
+    virtual void create();
 
-    void change(int width, int height);
+    virtual void change(int width, int height);
 
-    void draw();
+    virtual void draw();
 
-    void shutdown();
+    virtual void shutdown();
 
 private:
-    // Handle to a program object
-    GLuint programObject;
-
     // Sampler location
     GLint samplerLoc;
 
@@ -32,9 +29,6 @@ private:
 
     // Texture handle
     GLuint textureId;
-
-    int mWidth;
-    int mHeight;
 
     GLuint CreateTexture2D();
 

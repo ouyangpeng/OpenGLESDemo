@@ -11,6 +11,7 @@
 #include <NativeCubeSimpleVertexShader.h>
 #include <SimpleTextureCubeMap.h>
 #include <MipMap2D.h>
+#include <TextureWrap.h>
 
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
@@ -75,10 +76,13 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
             case SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_CUBE_MAP:
                 m_pCurSample = new SimpleTextureCubeMap();
                 break;
-
             case SAMPLE_TYPE_KEY_MIPMAP_2D:
                 m_pCurSample = new MipMap2D();
                 break;
+            case SAMPLE_TYPE_KEY_TEXTURE_WRAP:
+                m_pCurSample = new TextureWrap();
+                break;
+
             default:
                 m_pCurSample = nullptr;
                 break;

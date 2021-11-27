@@ -16,40 +16,24 @@ TextureWrap::~TextureWrap() {
 void TextureWrap::create() {
 	GLUtils::printGLInfo();
 
-	const char* VERTEX_SHADER_TRIANGLE =
-		"#version 300 es                            \n"
-		"uniform float u_offset;                    \n"
-		"layout(location = 0) in vec4 a_position;   \n"
-		"layout(location = 1) in vec2 a_texCoord;   \n"
-		"out vec2 v_texCoord;                       \n"
-		"void main()                                \n"
-		"{                                          \n"
-		"   gl_Position = a_position;               \n"
-		"   gl_Position.x += u_offset;              \n"
-		"   v_texCoord = a_texCoord;                \n"
-		"}                                          \n";
+	// Main Program
+	VERTEX_SHADER = GLUtils::openTextFile(
+			"vertex/vertex_shader_texture_mipmap_2d.glsl");
+	FRAGMENT_SHADER = GLUtils::openTextFile(
+			"fragment/fragment_shader_texture_mipmap_2d.glsl");
 
-	const char* FRAGMENT_SHADER_TRIANGLE =
-		"#version 300 es                                     \n"
-		"precision mediump float;                            \n"
-		"in vec2 v_texCoord;                                 \n"
-		"layout(location = 0) out vec4 outColor;             \n"
-		"uniform sampler2D s_texture;                        \n"
-		"void main()                                         \n"
-		"{                                                   \n"
-		"   outColor = texture( s_texture, v_texCoord );     \n"
-		"}                                                   \n";
+	mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-	programObject = GLUtils::createProgram(&VERTEX_SHADER_TRIANGLE, &FRAGMENT_SHADER_TRIANGLE);
-	if (!programObject) {
-		LOGD("Could not create program");
+	if (!mProgram) {
+		LOGD("Could not create program")
 		return;
 	}
+
 	// Get the sampler location
-	samplerLoc = glGetUniformLocation(programObject, "s_texture");
+	samplerLoc = glGetUniformLocation(mProgram, "s_texture");
 
 	// Get the offset location
-	offsetLoc = glGetUniformLocation(programObject, "u_offset");
+	offsetLoc = glGetUniformLocation(mProgram, "u_offset");
 
 	// Load the texture  加载纹理
 	textureId = CreateTexture2D();
@@ -61,7 +45,7 @@ void TextureWrap::create() {
 void TextureWrap::change(int width, int height) {
 	mWidth = width;
 	mHeight = height;
-	LOGD("change() width = %d , height = %d\n", width, height);
+	LOGD("change() width = %d , height = %d\n", width, height)
 
 	// Set the viewport
 	glViewport(0, 0, mWidth, mHeight);
@@ -81,14 +65,18 @@ void TextureWrap::draw() {
 			0.3f,  0.3f, 0.0f, 1.0f,    // Position 3
 			2.0f,  -1.0f                // TexCoord 3
 	};
-	GLushort indices[] = { 0, 1, 2, 0, 2, 3 };
 
+	// 注意索引从0开始!
+	GLushort indices[] = {
+			0, 1, 2,		// 第一个三角形
+			0, 2, 3			// 第二个三角形
+	};
 
 	// Clear the color buffer
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// Use the program object
-	glUseProgram(programObject);
+	glUseProgram(mProgram);
 
 	// Load the vertex position
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), vVertices);
@@ -147,13 +135,13 @@ void TextureWrap::shutdown() {
 	glDeleteTextures(1, &textureId);
 
 	// Delete program object
-	glDeleteProgram(programObject);
+	glDeleteProgram(mProgram);
 }
 
 // Create a mipmapped 2D texture image
 GLuint TextureWrap::CreateTexture2D() {
 	// Texture object handle
-	GLuint textureId;
+	GLuint texture2dId;
 	int width = 256, height = 256;
 	GLubyte* pixels;
 
@@ -165,10 +153,10 @@ GLuint TextureWrap::CreateTexture2D() {
 	}
 
 	// Generate a texture object
-	glGenTextures(1, &textureId);
+	glGenTextures(1, &texture2dId);
 
 	// Bind the texture object
-	glBindTexture(GL_TEXTURE_2D, textureId);
+	glBindTexture(GL_TEXTURE_2D, texture2dId);
 
 	// Load mipmap level 0
 	//第一个参数     指定了纹理目标(Target)。设置为GL_TEXTURE_2D意味着会生成与当前绑定的纹理对象在同一个目标上的纹理（任何绑定到GL_TEXTURE_1D和GL_TEXTURE_3D的纹理不会受到影响）。
@@ -187,7 +175,7 @@ GLuint TextureWrap::CreateTexture2D() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	return textureId;
+	return texture2dId;
 }
 
 //  Generate an RGB8 checkerboard image
@@ -203,8 +191,8 @@ GLubyte* TextureWrap::GenCheckImage(int width, int height, int checkSize) {
 	for (y = 0; y < height; y++)
 		for (x = 0; x < width; x++)
 		{
-			GLubyte rColor = 0;
-			GLubyte bColor = 0;
+			GLubyte rColor;
+			GLubyte bColor;
 
 			if ((x / checkSize) % 2 == 0)
 			{
@@ -223,36 +211,4 @@ GLubyte* TextureWrap::GenCheckImage(int width, int height, int checkSize) {
 		}
 
 	return pixels;
-}
-
-TextureWrap* textureWrap;
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_TextureWrapRenderer_nativeSurfaceCreate(
-	JNIEnv * env, jobject thiz) {
-	if (textureWrap) {
-		delete textureWrap;
-		textureWrap = nullptr;
-	}
-	textureWrap = new TextureWrap();
-	textureWrap->create();
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_TextureWrapRenderer_nativeSurfaceChange(
-	JNIEnv * env, jobject thiz, jint width, jint height) {
-	if (textureWrap != nullptr) {
-		textureWrap->change(width, height);
-	}
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_TextureWrapRenderer_nativeDrawFrame(
-	JNIEnv * env, jobject thiz) {
-	if (textureWrap != nullptr) {
-		textureWrap->draw();
-	}
 }
