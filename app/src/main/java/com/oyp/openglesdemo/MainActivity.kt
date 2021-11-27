@@ -78,13 +78,13 @@ class MainActivity : ListActivity() {
         itemSimpleTexture2D[ITEM_SUBTITLE] =  "学习如何绘制一个2D纹理"
         data.add(itemSimpleTexture2D)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_2D)
-//
-//        val itemSimpleTextureCubemap: MutableMap<String, Any?> = HashMap()
-//        itemSimpleTextureCubemap[ITEM_IMAGE] = R.mipmap.ic_texture_cubemap
-//        itemSimpleTextureCubemap[ITEM_TITLE] = " Hello Simple TextureCubemap"
-//        itemSimpleTextureCubemap[ITEM_SUBTITLE] =  " Show a Simple TextureCubemap"
-//        data.add(itemSimpleTextureCubemap)
-//        activityMapping.put(i++, SimpleTextureCubemapActivity::class.java)
+
+        val itemSimpleTextureCubemap: MutableMap<String, Any?> = HashMap()
+        itemSimpleTextureCubemap[ITEM_IMAGE] = R.mipmap.ic_texture_cubemap
+        itemSimpleTextureCubemap[ITEM_TITLE] = " 展示一个立方体贴图Cubemap"
+        itemSimpleTextureCubemap[ITEM_SUBTITLE] =  "学习如何绘制一个立方体贴图Cubemap"
+        data.add(itemSimpleTextureCubemap)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_CUBE_MAP)
 //
 //        val itemMipmap2D: MutableMap<String, Any?> = HashMap()
 //        itemMipmap2D[ITEM_IMAGE] = R.mipmap.ic_mimmap_2d
