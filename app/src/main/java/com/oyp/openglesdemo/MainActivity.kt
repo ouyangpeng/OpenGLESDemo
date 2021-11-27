@@ -156,32 +156,31 @@ class MainActivity : ListActivity() {
 
         val itemParticleSystemTransformFeed: MutableMap<String, Any?> = HashMap()
         itemParticleSystemTransformFeed[ITEM_IMAGE] = R.mipmap.ic_particle_system_transform_feedback
-        itemParticleSystemTransformFeed[ITEM_TITLE] = " Hello ParticleSystemTransformFeed"
+        itemParticleSystemTransformFeed[ITEM_TITLE] = "使用变化反馈的粒子系统实现源源不断喷射的爆炸效果"
         itemParticleSystemTransformFeed[ITEM_SUBTITLE] =  "使用变化反馈的粒子系统"
         data.add(itemParticleSystemTransformFeed)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK)
 
         val itemNoise3D: MutableMap<String, Any?> = HashMap()
         itemNoise3D[ITEM_IMAGE] = R.mipmap.ic_noise3d
-        itemNoise3D[ITEM_TITLE] = " Hello Noise3D "
-        itemNoise3D[ITEM_SUBTITLE] =  "使用3D纹理噪音"
+        itemNoise3D[ITEM_TITLE] = "展示 3D纹理噪音 "
+        itemNoise3D[ITEM_SUBTITLE] =  "学习实现3D纹理噪音"
         data.add(itemNoise3D)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_NOISE3D)
 
         val itemMRT: MutableMap<String, Any?> = HashMap()
         itemMRT[ITEM_IMAGE] = R.mipmap.ic_mrt
-        itemMRT[ITEM_TITLE] = " Hello MRT"
-        itemMRT[ITEM_SUBTITLE] =  "Show MRT(多重渲染目标)"
+        itemMRT[ITEM_TITLE] = "展示 多重渲染技术同时渲染到4个目标"
+        itemMRT[ITEM_SUBTITLE] =  "学习 MRT(多重渲染目标) 技术"
         data.add(itemMRT)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MRT)
-        //
-        //
-        //        val itemTerrainRender: MutableMap<String, Any?> = HashMap()
-        //        itemTerrainRender[ITEM_IMAGE] = R.mipmap.ic_terrainrender
-        //        itemTerrainRender[ITEM_TITLE] = " Hello TerrainRender"
-        //        itemTerrainRender[ITEM_SUBTITLE] =  "用顶点纹理读取渲染地形"
-        //        data.add(itemTerrainRender)
-        //        activityMapping.put(i++, TerrainRenderingActivity::class.java)
+
+        val itemTerrainRender: MutableMap<String, Any?> = HashMap()
+        itemTerrainRender[ITEM_IMAGE] = R.mipmap.ic_terrainrender
+        itemTerrainRender[ITEM_TITLE] = "展示一幅立体地形画"
+        itemTerrainRender[ITEM_SUBTITLE] =  "学习 用顶点纹理读取渲染地形 技术"
+        data.add(itemTerrainRender)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TERRAIN_RENDER)
         //
         //        val itemShadows: MutableMap<String, Any?> = HashMap()
         //        itemShadows[ITEM_IMAGE] = R.mipmap.ic_shadows

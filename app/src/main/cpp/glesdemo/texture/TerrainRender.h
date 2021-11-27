@@ -7,26 +7,25 @@
 
 #define POSITION_LOC  0
 
-class TerrainRender {
+class TerrainRender : public BaseGLSample {
 public:
     TerrainRender();
 
-    ~TerrainRender();
+    virtual ~TerrainRender();
 
-    void create();
+    virtual void create();
 
-    void change(int width, int height);
+    virtual void change(int width, int height);
 
-    void draw();
+    virtual void draw();
 
-    void shutdown();
+    virtual void shutdown();
 
 private:
-    // Handle to a program object
-    GLuint programObject;
+
 // Uniform locations
-    GLint  mvpLoc;
-    GLint  lightDirectionLoc;
+    GLint mvpLoc;
+    GLint lightDirectionLoc;
 
     // Sampler location
     GLint samplerLoc;
@@ -39,16 +38,13 @@ private:
     GLuint indicesIBO;
 
     // Number of indices
-    int    numIndices;
+    int numIndices;
 
     // dimension of grid
-    int    gridSize;
+    int gridSize;
 
     // MVP matrix
-    ESMatrix  mvpMatrix;
-
-    int mWidth;
-    int mHeight;
+    ESMatrix mvpMatrix;
 
     void initMVP();
 };

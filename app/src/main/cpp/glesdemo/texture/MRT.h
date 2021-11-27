@@ -5,7 +5,7 @@
 #ifndef OPENGLESDEMO_MRT_H
 #define OPENGLESDEMO_MRT_H
 
-#include "GLUtils.h"
+#include "../../utils/GLUtils.h"
 
 class MRT : public BaseGLSample{
 public:

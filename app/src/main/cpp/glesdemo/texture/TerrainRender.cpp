@@ -19,24 +19,23 @@ void TerrainRender::create() {
     GLfloat *positions;
     GLuint *indices;
 
-    const char *vertex = GLUtils::openTextFile(
+    VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_terrainrender.glsl");
-
-    const char *fragment = GLUtils::openTextFile(
+    FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_terrinrender.glsl");
 
-    programObject = GLUtils::createProgram(&vertex, &fragment);
-    if (!programObject) {
-        LOGD("Could not create program");
+    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!mProgram) {
+        LOGD("Could not create program")
         return;
     }
 
     // Get the uniform locations
-    mvpLoc = glGetUniformLocation(programObject, "u_mvpMatrix");
-    lightDirectionLoc = glGetUniformLocation(programObject, "u_lightDirection");
+    mvpLoc = glGetUniformLocation(mProgram, "u_mvpMatrix");
+    lightDirectionLoc = glGetUniformLocation(mProgram, "u_lightDirection");
 
     // Get the sampler location
-    samplerLoc = glGetUniformLocation(programObject, "s_texture");
+    samplerLoc = glGetUniformLocation(mProgram, "s_texture");
 
     textureId = GLUtils::loadTgaTexture("texture/heightmap.tga");
     if (textureId == 0) {
@@ -73,7 +72,7 @@ void TerrainRender::create() {
 void TerrainRender::change(int width, int height) {
     mWidth = width;
     mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height);
+    LOGD("change() width = %d , height = %d\n", width, height)
 
     // Set the viewport
     glViewport(0, 0, mWidth, mHeight);
@@ -114,7 +113,7 @@ void TerrainRender::draw() {
     // Clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glUseProgram(programObject);
+    glUseProgram(mProgram);
 
     // Load the vertex position
     glBindBuffer(GL_ARRAY_BUFFER, positionVBO);
@@ -147,40 +146,5 @@ void TerrainRender::shutdown() {
     glDeleteBuffers(1, &positionVBO);
     glDeleteBuffers(1, &indicesIBO);
 
-    glDeleteProgram(programObject);
-}
-
-TerrainRender *terrainRender;
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_TerrainRenderer_nativeSurfaceCreate(
-        JNIEnv *env, jobject thiz, jobject asset_manager) {
-    // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
-    GLUtils::setEnvAndAssetManager(env, asset_manager);
-
-    if (terrainRender) {
-        delete terrainRender;
-        terrainRender = nullptr;
-    }
-    terrainRender = new TerrainRender();
-    terrainRender->create();
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_TerrainRenderer_nativeSurfaceChange(
-        JNIEnv *env, jobject thiz, jint width, jint height) {
-    if (terrainRender != nullptr) {
-        terrainRender->change(width, height);
-    }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_TerrainRenderer_nativeDrawFrame(
-        JNIEnv *env, jobject thiz) {
-    if (terrainRender != nullptr) {
-        terrainRender->draw();
-    }
+    glDeleteProgram(mProgram);
 }
