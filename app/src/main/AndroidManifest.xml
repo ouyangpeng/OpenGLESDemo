@@ -25,10 +25,6 @@
             android:label="@string/lesson_one"/>
 
         <activity
-            android:name=".triangle.HelloTriangleVertexBufferObjectActivity"
-            android:label="@string/lesson_one"/>
-
-        <activity
             android:name=".cube.HelloCubeSimpleVertexShaderActivity"
             android:label="@string/lesson_one"/>
 

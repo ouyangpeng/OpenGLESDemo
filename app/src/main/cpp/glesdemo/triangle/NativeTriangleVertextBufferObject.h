@@ -1,44 +1,41 @@
 #pragma once
+
 #include "../../utils/GLUtils.h"
-namespace TRIANGLE_VERTEXT_BUFFER_OBJECT {
+
 #define VERTEX_POS_SIZE       3 // x, y and z
 #define VERTEX_COLOR_SIZE     4 // r, g, b, and a
 
 #define VERTEX_POS_INDX       0
 #define VERTEX_COLOR_INDX     1
 
-	class NativeTriangle {
+class NativeTriangleVBO : public BaseGLSample{
 
-	public:
-		NativeTriangle();
+public:
+    NativeTriangleVBO();
 
-		~NativeTriangle();
+    virtual ~NativeTriangleVBO();
 
-		void create();
+    virtual void create();
 
-		void change(int width, int height);
+    virtual void change(int width, int height);
 
-		void draw();
+    virtual void draw();
 
-	private:
-		// Handle to a program object
-		GLuint mProgram;
+    virtual void shutdown();
 
-		// VertexBufferObject Ids
-		GLuint vboIds[2];
+private:
 
-		// x-offset uniform location
-		GLuint offsetLoc;
+    // VertexBufferObject Ids
+    GLuint vboIds[2];
 
-		int mWidth;
-		int mHeight;
+    // x-offset uniform location
+    GLuint offsetLoc;
 
-		void DrawPrimitiveWithoutVBOs(GLfloat* vertices, GLint vtxStride,
-			GLint numIndices, GLushort* indices);
+    void DrawPrimitiveWithoutVBOs(GLfloat *vertices, GLint vtxStride,
+                                  GLint numIndices, GLushort *indices);
 
-		void DrawPrimitiveWithVBOs(GLint numVertices, GLfloat* vtxBuf,
-			GLint vtxStride, GLint numIndices, GLushort* indices);
-	};
-}
+    void DrawPrimitiveWithVBOs(GLint numVertices, GLfloat *vtxBuf,
+                               GLint vtxStride, GLint numIndices, GLushort *indices);
+};
 
 

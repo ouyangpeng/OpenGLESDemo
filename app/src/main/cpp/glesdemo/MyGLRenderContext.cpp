@@ -9,6 +9,7 @@
 #include "./triangle/NativeTriangle3.h"
 #include "./triangle/NativeTriangleMapBuffers.h"
 #include "./triangle/NativeTriangleVertextArrayObject.h"
+#include "./triangle/NativeTriangleVertextBufferObject.h"
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
 
@@ -56,6 +57,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
                 break;
             case SAMPLE_TYPE_KEY_TRIANGLE_VERTEX_ARRAY_OBJECT:
                 m_pCurSample = new NativeTriangleVAO();
+                break;
+            case SAMPLE_TYPE_KEY_TRIANGLE_VERTEX_BUFFER_OBJECT:
+                m_pCurSample = new NativeTriangleVBO();
                 break;
             default:
                 m_pCurSample = nullptr;

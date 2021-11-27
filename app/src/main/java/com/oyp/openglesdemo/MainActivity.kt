@@ -1,21 +1,13 @@
 package com.oyp.openglesdemo
 
-import android.app.Activity
 import android.app.ListActivity
 import android.content.Intent
 import android.os.Bundle
 import android.util.SparseArray
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.SimpleAdapter
-import com.oyp.openglesdemo.cube.HelloCubeSimpleVertexShaderActivity
 import com.oyp.openglesdemo.lesson.*
-import com.oyp.openglesdemo.lesson.lesson5.LessonFiveActivity
-import com.oyp.openglesdemo.lesson.lesson6.LessonSixActivity
-import com.oyp.openglesdemo.lesson.lesson7.LessonSevenActivity
-import com.oyp.openglesdemo.lesson.lesson8.LessonEightActivity
-import com.oyp.openglesdemo.mrt.MRTActivity
 import com.oyp.openglesdemo.texture.*
-import com.oyp.openglesdemo.triangle.*
 import java.util.*
 
 class MainActivity : ListActivity() {
@@ -63,14 +55,13 @@ class MainActivity : ListActivity() {
         itemHelloTriangleVertexArrayObject[ITEM_SUBTITLE] = "使用了 VBO 、 EBO 和 VAO 技术"
         data.add(itemHelloTriangleVertexArrayObject)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TRIANGLE_VERTEX_ARRAY_OBJECT)
-//
-//        val itemHelloTriangleVertexBufferObject: MutableMap<String, Any?> = HashMap()
-//        itemHelloTriangleVertexBufferObject[ITEM_IMAGE] = R.mipmap.ic_triangle_vbo
-//        itemHelloTriangleVertexBufferObject[ITEM_TITLE] = " Hello Triangle VertexBufferObject"
-//        itemHelloTriangleVertexBufferObject[ITEM_SUBTITLE] =
-//            getText(R.string.lesson_triangle_subtitle)
-//        data.add(itemHelloTriangleVertexBufferObject)
-//        activityMapping.put(i++, HelloTriangleVertexBufferObjectActivity::class.java)
+
+        val itemHelloTriangleVertexBufferObject: MutableMap<String, Any?> = HashMap()
+        itemHelloTriangleVertexBufferObject[ITEM_IMAGE] = R.mipmap.ic_triangle_vbo
+        itemHelloTriangleVertexBufferObject[ITEM_TITLE] = "对比 两个基本的由红、绿、蓝三种颜色绘制而成的三角形"
+        itemHelloTriangleVertexBufferObject[ITEM_SUBTITLE] = "一个使用VBO绘制，另外一个不使用VBO绘制"
+        data.add(itemHelloTriangleVertexBufferObject)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TRIANGLE_VERTEX_BUFFER_OBJECT)
 //
 //
 //        val itemHelloTriangleSimpleVertexShader: MutableMap<String, Any?> = HashMap()
