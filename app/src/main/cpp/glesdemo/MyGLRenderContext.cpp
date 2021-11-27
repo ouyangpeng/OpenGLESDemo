@@ -18,6 +18,7 @@
 #include <Noise3DRender.h>
 #include <TerrainRender.h>
 #include <MRT.h>
+#include <Shadows.h>
 
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
@@ -29,7 +30,8 @@ MyGLRenderContext::MyGLRenderContext() {
     LOGD("MyGLRenderContext::MyGLRenderContext")
     m_pCurSample = new NativeTriangle();
     m_pBeforeSample = nullptr;
-
+    m_ScreenW = 0;
+    m_ScreenH = 0;
 }
 
 MyGLRenderContext::~MyGLRenderContext() {
@@ -107,6 +109,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
                 break;
             case SAMPLE_TYPE_KEY_TERRAIN_RENDER:
                 m_pCurSample = new TerrainRender();
+                break;
+            case SAMPLE_TYPE_KEY_SHADOWS:
+                m_pCurSample = new Shadows();
                 break;
             default:
                 m_pCurSample = nullptr;

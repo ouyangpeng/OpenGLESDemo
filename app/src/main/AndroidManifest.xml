@@ -22,11 +22,7 @@
 
         <activity
             android:name=".NativeRenderActivity"
-            android:label="@string/lesson_one"/>
-
-        <activity
-            android:name=".texture.ShadowsActivity"
-            android:label="@string/lesson_one"/>
+            android:label="@string/native_renderer"/>
 
         <activity
             android:name=".lesson.LessonOneActivity"

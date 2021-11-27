@@ -7,7 +7,6 @@ import android.util.SparseArray
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.SimpleAdapter
 import com.oyp.openglesdemo.lesson.*
-import com.oyp.openglesdemo.texture.*
 import java.util.*
 
 class MainActivity : ListActivity() {
@@ -181,13 +180,13 @@ class MainActivity : ListActivity() {
         itemTerrainRender[ITEM_SUBTITLE] =  "学习 用顶点纹理读取渲染地形 技术"
         data.add(itemTerrainRender)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TERRAIN_RENDER)
-        //
-        //        val itemShadows: MutableMap<String, Any?> = HashMap()
-        //        itemShadows[ITEM_IMAGE] = R.mipmap.ic_shadows
-        //        itemShadows[ITEM_TITLE] = " Hello Shadows"
-        //        itemShadows[ITEM_SUBTITLE] =  "使用深度纹理的阴影"
-        //        data.add(itemShadows)
-        //        activityMapping.put(i++, ShadowsActivity::class.java)
+
+        val itemShadows: MutableMap<String, Any?> = HashMap()
+        itemShadows[ITEM_IMAGE] = R.mipmap.ic_shadows
+        itemShadows[ITEM_TITLE] = "展示 深度纹理的阴影 效果图"
+        itemShadows[ITEM_SUBTITLE] =  "使用深度纹理的阴影"
+        data.add(itemShadows)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADOWS)
         //
         //        val item1: MutableMap<String, Any?> = HashMap()
         //        item1[ITEM_IMAGE] = R.mipmap.ic_lesson_one

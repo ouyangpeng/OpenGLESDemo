@@ -23,5 +23,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_NOISE3D: Int = SAMPLE_TYPE + 14
     const val SAMPLE_TYPE_KEY_MRT: Int = SAMPLE_TYPE + 15
     const val SAMPLE_TYPE_KEY_TERRAIN_RENDER: Int = SAMPLE_TYPE + 16
+    const val SAMPLE_TYPE_KEY_SHADOWS: Int = SAMPLE_TYPE + 17
 
 }
