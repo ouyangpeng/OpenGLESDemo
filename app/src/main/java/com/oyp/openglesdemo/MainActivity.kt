@@ -49,14 +49,13 @@ class MainActivity : ListActivity() {
         itemHelloTriangle3[ITEM_SUBTITLE] = "使用了顶点缓冲对象(Vertex Buffer Objects, VBO)技术"
         data.add(itemHelloTriangle3)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_TRIANGLE3)
-//
-//        val itemHelloTriangleMapBuffers: MutableMap<String, Any?> = HashMap()
-//        itemHelloTriangleMapBuffers[ITEM_IMAGE] = R.mipmap.ic_trangle_mapbuffer
-//        itemHelloTriangleMapBuffers[ITEM_TITLE] = " Hello Triangle MapBuffers"
-//        itemHelloTriangleMapBuffers[ITEM_SUBTITLE] =
-//            getText(R.string.lesson_triangle_subtitle)
-//        data.add(itemHelloTriangleMapBuffers)
-//        activityMapping.put(i++, HelloTriangleMapBuffersActivity::class.java)
+
+        val itemHelloTriangleMapBuffers: MutableMap<String, Any?> = HashMap()
+        itemHelloTriangleMapBuffers[ITEM_IMAGE] = R.mipmap.ic_trangle_mapbuffer
+        itemHelloTriangleMapBuffers[ITEM_TITLE] = " 展示一个基本的由红、绿、蓝三种颜色绘制而成的三角形"
+        itemHelloTriangleMapBuffers[ITEM_SUBTITLE] = "使用了顶点缓冲对象(Vertex Buffer Objects, VBO) 和 映射缓冲区对象(Map Buffer) 技术"
+        data.add(itemHelloTriangleMapBuffers)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TRIANGLE_MAP_BUFFERS)
 //
 //
 //        val itemHelloTriangleVertexArrayObject: MutableMap<String, Any?> = HashMap()

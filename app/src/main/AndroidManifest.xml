@@ -24,13 +24,6 @@
             android:name=".NativeRenderActivity"
             android:label="@string/lesson_one"/>
 
-        <activity
-            android:name=".triangle.HelloTriangle3Activity"
-            android:label="@string/lesson_one"/>
-
-        <activity
-            android:name=".triangle.HelloTriangleMapBuffersActivity"
-            android:label="@string/lesson_one"/>
 
         <activity
             android:name=".triangle.HelloTriangleVertexArrayObjectActivity"
