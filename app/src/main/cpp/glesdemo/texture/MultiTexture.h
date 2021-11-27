@@ -7,24 +7,24 @@
 
 #include "../../utils/GLUtils.h"
 
-class MultiTexture {
+#define MULTI_TEXTURE_VERTEX_POS_INDX               0
+#define MULTI_TEXTURE_VERTEX_TEXCOORD_INDX          1
+
+class MultiTexture  : public BaseGLSample{
 public:
     MultiTexture();
 
-    ~MultiTexture();
+    virtual ~MultiTexture();
 
-    void create();
+    virtual void create();
 
-    void change(int width, int height);
+    virtual void change(int width, int height);
 
-    void draw();
+    virtual void draw();
 
-    void shutdown();
+    virtual void shutdown();
 
 private:
-    // Handle to a program object
-    GLuint programObject;
-
     // Sampler locations
     GLint baseMapLoc;
     GLint lightMapLoc;
@@ -32,9 +32,6 @@ private:
     // Texture handle
     GLuint baseMapTexId;
     GLuint lightMapTexId;
-
-    int mWidth;
-    int mHeight;
 };
 
 

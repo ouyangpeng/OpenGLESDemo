@@ -12,6 +12,7 @@
 #include <SimpleTextureCubeMap.h>
 #include <MipMap2D.h>
 #include <TextureWrap.h>
+#include <MultiTexture.h>
 
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
@@ -20,7 +21,7 @@
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
 
 MyGLRenderContext::MyGLRenderContext() {
-    m_pCurSample = (BaseGLSample *) new NativeTriangle();
+    m_pCurSample =  new NativeTriangle();
     m_pBeforeSample = nullptr;
 
 }
@@ -82,7 +83,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
             case SAMPLE_TYPE_KEY_TEXTURE_WRAP:
                 m_pCurSample = new TextureWrap();
                 break;
-
+            case SAMPLE_TYPE_KEY_MULTI_TEXTURE:
+                m_pCurSample = new MultiTexture();
+                break;
             default:
                 m_pCurSample = nullptr;
                 break;

@@ -16,5 +16,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_CUBE_MAP: Int = SAMPLE_TYPE + 8
     const val SAMPLE_TYPE_KEY_MIPMAP_2D: Int = SAMPLE_TYPE + 9
     const val SAMPLE_TYPE_KEY_TEXTURE_WRAP: Int = SAMPLE_TYPE + 10
+    const val SAMPLE_TYPE_KEY_MULTI_TEXTURE: Int = SAMPLE_TYPE + 11
 
 }

@@ -137,13 +137,13 @@ class MainActivity : ListActivity() {
         data.add(itemTextureWrap)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_WRAP)
 
-        //
-        //        val itemMultiTexture: MutableMap<String, Any?> = HashMap()
-        //        itemMultiTexture[ITEM_IMAGE] = R.mipmap.ic_multi_texture
-        //        itemMultiTexture[ITEM_TITLE] = " Hello MultiTexture"
-        //        itemMultiTexture[ITEM_SUBTITLE] =  " Show  MultiTexture"
-        //        data.add(itemMultiTexture)
-        //        activityMapping.put(i++, MultiTextureActivity::class.java)
+
+        val itemMultiTexture: MutableMap<String, Any?> = HashMap()
+        itemMultiTexture[ITEM_IMAGE] = R.mipmap.ic_multi_texture
+        itemMultiTexture[ITEM_TITLE] = "展示一个多重纹理"
+        itemMultiTexture[ITEM_SUBTITLE] =  "学习如何使用多重纹理"
+        data.add(itemMultiTexture)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_TEXTURE)
         //
         //
         //        val itemParticleSystem: MutableMap<String, Any?> = HashMap()

@@ -15,43 +15,22 @@ MultiTexture::~MultiTexture() {
 void MultiTexture::create() {
 	GLUtils::printGLInfo();
 
-	const char* VERTEX_SHADER_TRIANGLE =
-		"#version 300 es                            \n"
-		"layout(location = 0) in vec4 a_position;   \n"
-		"layout(location = 1) in vec2 a_texCoord;   \n"
-		"out vec2 v_texCoord;                       \n"
-		"void main()                                \n"
-		"{                                          \n"
-		"   gl_Position = a_position;               \n"
-		"   v_texCoord = a_texCoord;                \n"
-		"}                                          \n";
+	// Main Program
+	VERTEX_SHADER = GLUtils::openTextFile(
+			"vertex/vertex_shader_multi_texture.glsl");
+	FRAGMENT_SHADER = GLUtils::openTextFile(
+			"fragment/fragment_shader_multi_texture.glsl");
 
-	const char* FRAGMENT_SHADER_TRIANGLE =
-		"#version 300 es                                     \n"
-		"precision mediump float;                            \n"
-		"in vec2 v_texCoord;                                 \n"
-		"layout(location = 0) out vec4 outColor;             \n"
-		"uniform sampler2D s_baseMap;                        \n"
-		"uniform sampler2D s_lightMap;                       \n"
-		"void main()                                         \n"
-		"{                                                   \n"
-		"  vec4 baseColor;                                   \n"
-		"  vec4 lightColor;                                  \n"
-		"                                                    \n"
-		"  baseColor = texture( s_baseMap, v_texCoord );     \n"
-		"  lightColor = texture( s_lightMap, v_texCoord );   \n"
-		"  outColor = baseColor * (lightColor + 0.25);       \n"
-		"}                                                   \n";
+	mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-	programObject = GLUtils::createProgram(&VERTEX_SHADER_TRIANGLE, &FRAGMENT_SHADER_TRIANGLE);
-	if (!programObject) {
-		LOGD("Could not create program");
+	if (!mProgram) {
+		LOGD("Could not create program")
 		return;
 	}
 
 	// Get the sampler location
-	baseMapLoc = glGetUniformLocation(programObject, "s_baseMap");
-	lightMapLoc = glGetUniformLocation(programObject, "s_lightMap");
+	baseMapLoc = glGetUniformLocation(mProgram, "s_baseMap");
+	lightMapLoc = glGetUniformLocation(mProgram, "s_lightMap");
 
 	// Load the textures
 	// 从assets目录下 取出对应的Texture
@@ -89,24 +68,28 @@ void MultiTexture::draw() {
 			0.5f,  0.5f, 0.0f,  // Position 3
 			1.0f,  0.0f         // TexCoord 3
 	};
-	GLushort indices[] = { 0, 1, 2, 0, 2, 3 };
 
+	// 注意索引从0开始!
+	GLushort indices[] = {
+			0, 1, 2,		// 第一个三角形
+			0, 2, 3			// 第二个三角形
+	};
 
 	// Clear the color buffer
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// Use the program object
-	glUseProgram(programObject);
+	glUseProgram(mProgram);
 
 	// Load the vertex position
-	glVertexAttribPointer(0, 3, GL_FLOAT,
+	glVertexAttribPointer(MULTI_TEXTURE_VERTEX_POS_INDX, 3, GL_FLOAT,
 		GL_FALSE, 5 * sizeof(GLfloat), vVertices);
 	// Load the texture coordinate
-	glVertexAttribPointer(1, 2, GL_FLOAT,
+	glVertexAttribPointer(MULTI_TEXTURE_VERTEX_TEXCOORD_INDX, 2, GL_FLOAT,
 		GL_FALSE, 5 * sizeof(GLfloat), &vVertices[3]);
 
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(MULTI_TEXTURE_VERTEX_POS_INDX);
+	glEnableVertexAttribArray(MULTI_TEXTURE_VERTEX_TEXCOORD_INDX);
 
 	// Bind the base map
 	glActiveTexture(GL_TEXTURE0);
@@ -131,42 +114,5 @@ void MultiTexture::shutdown() {
 	glDeleteTextures(1, &lightMapTexId);
 
 	// Delete program object
-	glDeleteProgram(programObject);
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////
-MultiTexture* multiTexture;
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_MultiTextureRenderer_nativeSurfaceCreate(
-	JNIEnv * env, jobject thiz, jobject assetManager) {
-	// 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
-	GLUtils::setEnvAndAssetManager(env, assetManager);
-
-	if (multiTexture) {
-		delete multiTexture;
-		multiTexture = nullptr;
-	}
-	multiTexture = new MultiTexture();
-	multiTexture->create();
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_MultiTextureRenderer_nativeSurfaceChange(
-	JNIEnv * env, jobject thiz, jint width, jint height) {
-	if (multiTexture != nullptr) {
-		multiTexture->change(width, height);
-	}
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_MultiTextureRenderer_nativeDrawFrame(JNIEnv * env,
-	jobject thiz) {
-	if (multiTexture != nullptr) {
-		multiTexture->draw();
-	}
+	glDeleteProgram(mProgram);
 }
