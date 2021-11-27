@@ -1,16 +1,18 @@
 //
 // Created by OuyangPeng on 2021/11/26.
 //
+#include <SimpleTexture2D.h>
+#include <NativeTriangle.h>
+#include <NativeTriangle2.h>
+#include <NativeTriangle3.h>
+#include <NativeTriangleMapBuffers.h>
+#include <NativeTriangleVertextArrayObject.h>
+#include <NativeTriangleVertextBufferObject.h>
+#include <NativeCubeSimpleVertexShader.h>
+
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
 
-#include "./triangle/NativeTriangle.h"
-#include "./triangle/NativeTriangle2.h"
-#include "./triangle/NativeTriangle3.h"
-#include "./triangle/NativeTriangleMapBuffers.h"
-#include "./triangle/NativeTriangleVertextArrayObject.h"
-#include "./triangle/NativeTriangleVertextBufferObject.h"
-#include "./cube/NativeCubeSimpleVertexShader.h"
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
 
@@ -64,6 +66,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
                 break;
             case SAMPLE_TYPE_KEY_CUBE_SIMPLE_VERTEX_SHADER:
                 m_pCurSample = new NativeCubeSimpleVertexShader();
+                break;
+            case SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_2D:
+                m_pCurSample = new SimpleTexture2D();
                 break;
             default:
                 m_pCurSample = nullptr;

@@ -44,7 +44,7 @@ class MainActivity : ListActivity() {
 
         val itemHelloTriangleMapBuffers: MutableMap<String, Any?> = HashMap()
         itemHelloTriangleMapBuffers[ITEM_IMAGE] = R.mipmap.ic_trangle_mapbuffer
-        itemHelloTriangleMapBuffers[ITEM_TITLE] = " 展示一个基本的由红、绿、蓝三种颜色绘制而成的三角形"
+        itemHelloTriangleMapBuffers[ITEM_TITLE] = "展示一个基本的由红、绿、蓝三种颜色绘制而成的三角形"
         itemHelloTriangleMapBuffers[ITEM_SUBTITLE] = "使用了顶点缓冲对象(Vertex Buffer Objects, VBO) 、 EBO 和 映射缓冲区对象(Map Buffer) 技术"
         data.add(itemHelloTriangleMapBuffers)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TRIANGLE_MAP_BUFFERS)
@@ -66,18 +66,18 @@ class MainActivity : ListActivity() {
 
         val itemHelloTriangleSimpleVertexShader: MutableMap<String, Any?> = HashMap()
         itemHelloTriangleSimpleVertexShader[ITEM_IMAGE] = R.mipmap.ic_cube
-        itemHelloTriangleSimpleVertexShader[ITEM_TITLE] = " 展示一个在不停旋转的红色立方体"
+        itemHelloTriangleSimpleVertexShader[ITEM_TITLE] = "展示一个在不停旋转的红色立方体"
         itemHelloTriangleSimpleVertexShader[ITEM_SUBTITLE] =  "使用到了MVP矩阵（模型矩阵，观察矩阵和投影矩阵）技术"
         data.add(itemHelloTriangleSimpleVertexShader)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_CUBE_SIMPLE_VERTEX_SHADER)
 
-//
-//        val itemSimpleTexture2D: MutableMap<String, Any?> = HashMap()
-//        itemSimpleTexture2D[ITEM_IMAGE] = R.mipmap.ic_texture_2d
-//        itemSimpleTexture2D[ITEM_TITLE] = " Hello SimpleTexture2D"
-//        itemSimpleTexture2D[ITEM_SUBTITLE] =  " Show a SimpleTexture2D"
-//        data.add(itemSimpleTexture2D)
-//        activityMapping.put(i++, SimpleTexture2DActivity::class.java)
+
+        val itemSimpleTexture2D: MutableMap<String, Any?> = HashMap()
+        itemSimpleTexture2D[ITEM_IMAGE] = R.mipmap.ic_texture_2d
+        itemSimpleTexture2D[ITEM_TITLE] = "展示一个简单的2D Texture 纹理 "
+        itemSimpleTexture2D[ITEM_SUBTITLE] =  "学习如何绘制一个2D纹理"
+        data.add(itemSimpleTexture2D)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_2D)
 //
 //        val itemSimpleTextureCubemap: MutableMap<String, Any?> = HashMap()
 //        itemSimpleTextureCubemap[ITEM_IMAGE] = R.mipmap.ic_texture_cubemap

@@ -6,34 +6,33 @@
 #define OPENGLESDEMO_SIMPLETEXTURE2D_H
 
 #include "../../utils/GLUtils.h"
-namespace NAMESPACE_SimpleTexture2D {
-	class SimpleTexture2D {
 
-	public:
-		SimpleTexture2D();
+#define SIMPLE_TEXTURE_2D_VERTEX_POS_INDEX       0
+#define SIMPLE_TEXTURE_2D_VERTEX_TEXTCOORD_INDEX      1
 
-		~SimpleTexture2D();
+class SimpleTexture2D : public BaseGLSample {
 
-		void create();
+public:
+    SimpleTexture2D();
 
-		void change(int width, int height);
+    virtual ~SimpleTexture2D();
 
-		void draw();
+    virtual void create();
 
-	private:
-		// Handle to a program object
-		GLuint programObject;
+    virtual void change(int width, int height);
 
-		// Sampler location
-		GLint samplerLoc;
+    virtual void draw();
 
-		// Texture handle
-		GLuint textureId;
+    virtual void shutdown();
 
-		int mWidth;
-		int mHeight;
+private:
+    // Sampler location
+    GLint samplerLoc;
 
-		GLuint CreateSimpleTexture2D();
-	};
-}
+    // Texture handle
+    GLuint textureId;
+
+    GLuint CreateSimpleTexture2D();
+};
+
 #endif //OPENGLESDEMO_SIMPLETEXTURE2D_H
