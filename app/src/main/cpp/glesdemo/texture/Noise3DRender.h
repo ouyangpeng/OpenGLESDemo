@@ -18,24 +18,21 @@
 #define lerp(t, a, b)      ( a + t * (b - a) )
 
 
-class Noise3DRender {
+class Noise3DRender : public BaseGLSample{
 public:
     Noise3DRender();
 
-    ~Noise3DRender();
+    virtual ~Noise3DRender();
 
-    void create();
+    virtual void create();
 
-    void change(int width, int height);
+    virtual void change(int width, int height);
 
-    void draw();
+    virtual void draw();
 
-    void shutdown();
+    virtual void shutdown();
 
 private:
-    // Handle to a program object
-    GLuint programObject;
-
     // Uniform locations
     GLint  mvpLoc;
     GLint  mvLoc;
@@ -65,9 +62,6 @@ private:
 
     // Texture handle
     GLuint textureId;
-
-    int mWidth;
-    int mHeight;
 
     void update(float deltaTime);
 

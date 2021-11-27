@@ -26,21 +26,21 @@ void Noise3DRender::create() {
             "fragment/fragment_shader_noise3d.glsl");
 
     // Set program handles
-    programObject = GLUtils::createProgram(&vertex, &fragment);
+    mProgram = GLUtils::createProgram(&vertex, &fragment);
 
-    if (!programObject) {
+    if (!mProgram) {
         LOGD("Could not create program");
         return;
     }
 
     // Get the uniform locations
-   mvpLoc = glGetUniformLocation (programObject, "u_mvpMatrix" );
-   mvLoc = glGetUniformLocation (programObject, "u_mvMatrix" );
-   noiseTexLoc = glGetUniformLocation (programObject, "s_noiseTex" );
-   fogMinDistLoc = glGetUniformLocation (programObject, "u_fogMinDist" );
-   fogMaxDistLoc = glGetUniformLocation (programObject, "u_fogMaxDist" );
-   fogColorLoc = glGetUniformLocation (programObject, "u_fogColor" );
-   timeLoc = glGetUniformLocation (programObject, "u_time" );
+   mvpLoc = glGetUniformLocation (mProgram, "u_mvpMatrix" );
+   mvLoc = glGetUniformLocation (mProgram, "u_mvMatrix" );
+   noiseTexLoc = glGetUniformLocation (mProgram, "s_noiseTex" );
+   fogMinDistLoc = glGetUniformLocation (mProgram, "u_fogMinDist" );
+   fogMaxDistLoc = glGetUniformLocation (mProgram, "u_fogMaxDist" );
+   fogColorLoc = glGetUniformLocation (mProgram, "u_fogColor" );
+   timeLoc = glGetUniformLocation (mProgram, "u_time" );
 
     // Generate the vertex data
    numIndices = esGenCube ( 3.0, &vertices,
@@ -74,7 +74,7 @@ void Noise3DRender::draw() {
     glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     // Use the program object
-    glUseProgram ( programObject );
+    glUseProgram ( mProgram );
 
     // Load the vertex position
     glVertexAttribPointer ( ATTRIB_LOCATION_POS, 3, GL_FLOAT,
@@ -136,7 +136,7 @@ void Noise3DRender::shutdown() {
     glDeleteTextures ( 1, &textureId );
 
     // Delete program object
-    glDeleteProgram ( programObject );
+    glDeleteProgram ( mProgram );
 }
 
 void Noise3DRender::update(float deltaTime) {
@@ -176,41 +176,4 @@ float Noise3DRender::getDeltaTime() {
     float deltaTime = (float)elapsedTime / 1000.0f;
     mLastTime = currentTime;
     return deltaTime;
-}
-
-
-////////
-Noise3DRender* mNoise3DRender;
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_Noise3DRenderer_nativeSurfaceCreate(
-        JNIEnv *env, jobject thiz, jobject asset_manager) {
-    // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
-    GLUtils::setEnvAndAssetManager(env, asset_manager);
-
-    if(mNoise3DRender){
-        delete mNoise3DRender;
-        mNoise3DRender = nullptr;
-    }
-    mNoise3DRender = new Noise3DRender();
-    mNoise3DRender->create();
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_Noise3DRenderer_nativeSurfaceChange(
-        JNIEnv *env, jobject thiz, jint width, jint height) {
-    if(mNoise3DRender != nullptr){
-        mNoise3DRender->change(width,height);
-    }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_texture_Noise3DRenderer_nativeDrawFrame(
-        JNIEnv *env, jobject thiz) {
-    if(mNoise3DRender != nullptr){
-        mNoise3DRender->draw();
-    }
 }

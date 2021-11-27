@@ -160,13 +160,14 @@ class MainActivity : ListActivity() {
         itemParticleSystemTransformFeed[ITEM_SUBTITLE] =  "使用变化反馈的粒子系统"
         data.add(itemParticleSystemTransformFeed)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK)
-        //
-        //        val itemNoise3D: MutableMap<String, Any?> = HashMap()
-        //        itemNoise3D[ITEM_IMAGE] = R.mipmap.ic_noise3d
-        //        itemNoise3D[ITEM_TITLE] = " Hello Noise3D "
-        //        itemNoise3D[ITEM_SUBTITLE] =  "使用3D纹理噪音"
-        //        data.add(itemNoise3D)
-        //        activityMapping.put(i++, Noise3DActivity::class.java)
+
+        val itemNoise3D: MutableMap<String, Any?> = HashMap()
+        itemNoise3D[ITEM_IMAGE] = R.mipmap.ic_noise3d
+        itemNoise3D[ITEM_TITLE] = " Hello Noise3D "
+        itemNoise3D[ITEM_SUBTITLE] =  "使用3D纹理噪音"
+        data.add(itemNoise3D)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_NOISE3D)
+
         //
         //        val itemMRT: MutableMap<String, Any?> = HashMap()
         //        itemMRT[ITEM_IMAGE] = R.mipmap.ic_mrt

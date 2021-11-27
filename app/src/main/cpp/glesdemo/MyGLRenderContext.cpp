@@ -15,6 +15,7 @@
 #include <MultiTexture.h>
 #include <ParticleSystem.h>
 #include <ParticleSystemTransformFeedBack.h>
+#include <Noise3DRender.h>
 
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
@@ -95,6 +96,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
                 break;
             case SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK:
                 m_pCurSample = new ParticleSystemTransformFeedBack();
+                break;
+            case SAMPLE_TYPE_KEY_NOISE3D:
+                m_pCurSample = new Noise3DRender();
                 break;
             default:
                 m_pCurSample = nullptr;

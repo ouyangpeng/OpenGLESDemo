@@ -20,6 +20,7 @@
 #define SAMPLE_TYPE_KEY_TEXTURE_WRAP                                SAMPLE_TYPE + 10
 #define SAMPLE_TYPE_KEY_MULTI_TEXTURE                               SAMPLE_TYPE + 11
 #define SAMPLE_TYPE_KEY_PARTICLE_SYSTEM                             SAMPLE_TYPE + 12
-#define SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK              SAMPLE_TYPE + 13
+#define SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK          SAMPLE_TYPE + 13
+#define SAMPLE_TYPE_KEY_NOISE3D                                     SAMPLE_TYPE + 14
 
 #endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H
