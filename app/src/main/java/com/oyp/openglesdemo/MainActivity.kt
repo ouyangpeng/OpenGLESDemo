@@ -46,25 +46,23 @@ class MainActivity : ListActivity() {
         val itemHelloTriangle3: MutableMap<String, Any?> = HashMap()
         itemHelloTriangle3[ITEM_IMAGE] = R.mipmap.ic_trangle3
         itemHelloTriangle3[ITEM_TITLE] = "展示一个基本的由红、绿、蓝三种颜色绘制而成的三角形"
-        itemHelloTriangle3[ITEM_SUBTITLE] = "使用了顶点缓冲对象(Vertex Buffer Objects, VBO)技术"
+        itemHelloTriangle3[ITEM_SUBTITLE] = "使用了顶点缓冲对象(Vertex Buffer Objects, VBO) 和 EBO 技术"
         data.add(itemHelloTriangle3)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_TRIANGLE3)
 
         val itemHelloTriangleMapBuffers: MutableMap<String, Any?> = HashMap()
         itemHelloTriangleMapBuffers[ITEM_IMAGE] = R.mipmap.ic_trangle_mapbuffer
         itemHelloTriangleMapBuffers[ITEM_TITLE] = " 展示一个基本的由红、绿、蓝三种颜色绘制而成的三角形"
-        itemHelloTriangleMapBuffers[ITEM_SUBTITLE] = "使用了顶点缓冲对象(Vertex Buffer Objects, VBO) 和 映射缓冲区对象(Map Buffer) 技术"
+        itemHelloTriangleMapBuffers[ITEM_SUBTITLE] = "使用了顶点缓冲对象(Vertex Buffer Objects, VBO) 、 EBO 和 映射缓冲区对象(Map Buffer) 技术"
         data.add(itemHelloTriangleMapBuffers)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TRIANGLE_MAP_BUFFERS)
-//
-//
-//        val itemHelloTriangleVertexArrayObject: MutableMap<String, Any?> = HashMap()
-//        itemHelloTriangleVertexArrayObject[ITEM_IMAGE] = R.mipmap.ic_trangle_mapbuffer
-//        itemHelloTriangleVertexArrayObject[ITEM_TITLE] = " Hello Triangle VertexArrayObject"
-//        itemHelloTriangleVertexArrayObject[ITEM_SUBTITLE] =
-//            getText(R.string.lesson_triangle_subtitle)
-//        data.add(itemHelloTriangleVertexArrayObject)
-//        activityMapping.put(i++, HelloTriangleVertexArrayObjectActivity::class.java)
+
+        val itemHelloTriangleVertexArrayObject: MutableMap<String, Any?> = HashMap()
+        itemHelloTriangleVertexArrayObject[ITEM_IMAGE] = R.mipmap.ic_trangle_mapbuffer
+        itemHelloTriangleVertexArrayObject[ITEM_TITLE] = "展示一个基本的由红、绿、蓝三种颜色绘制而成的三角形"
+        itemHelloTriangleVertexArrayObject[ITEM_SUBTITLE] = "使用了 VBO 、 EBO 和 VAO 技术"
+        data.add(itemHelloTriangleVertexArrayObject)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TRIANGLE_VERTEX_ARRAY_OBJECT)
 //
 //        val itemHelloTriangleVertexBufferObject: MutableMap<String, Any?> = HashMap()
 //        itemHelloTriangleVertexBufferObject[ITEM_IMAGE] = R.mipmap.ic_triangle_vbo
