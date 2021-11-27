@@ -33,10 +33,6 @@
             android:label="@string/lesson_one"/>
 
         <activity
-            android:name=".mrt.MRTActivity"
-            android:label="@string/lesson_one"/>
-
-        <activity
             android:name=".lesson.LessonOneActivity"
             android:label="@string/lesson_one"/>
 

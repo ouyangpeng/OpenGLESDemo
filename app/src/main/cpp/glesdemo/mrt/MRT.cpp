@@ -16,41 +16,16 @@ MRT::~MRT() {
 void MRT::create() {
 	GLUtils::printGLInfo();
 
-	const char* VERTEX_SHADER_TRIANGLE =
-		"#version 300 es                            \n"
-		"layout(location = 0) in vec4 a_position;   \n"
-		"void main()                                \n"
-		"{                                          \n"
-		"   gl_Position = a_position;               \n"
-		"}                                          \n";
+// Main Program
+	VERTEX_SHADER = GLUtils::openTextFile(
+			"vertex/vertex_shader_mrt.glsl");
+	FRAGMENT_SHADER = GLUtils::openTextFile(
+			"fragment/fragment_shader_mrt.glsl");
 
-	const char* FRAGMENT_SHADER_TRIANGLE =
-		"#version 300 es                                     \n"
-		"precision mediump float;                            \n"
-		"// 下面声明将片段着色器输出                          \n"
-        "// fragData0 ~ fragData3分别复制到绘图缓冲区 0 ~ 3   \n"
-		"layout(location = 0) out vec4 fragData0;            \n"
-		"layout(location = 1) out vec4 fragData1;            \n"
-		"layout(location = 2) out vec4 fragData2;            \n"
-		"layout(location = 3) out vec4 fragData3;            \n"
-		"void main()                                         \n"
-		"{                                                   \n"
-		"  // first buffer will contain red color            \n"
-		"  fragData0 = vec4 ( 1, 0, 0, 1 );                  \n"
-		"                                                    \n"
-		"  // second buffer will contain green color         \n"
-		"  fragData1 = vec4 ( 0, 1, 0, 1 );                  \n"
-		"                                                    \n"
-		"  // third buffer will contain blue color           \n"
-		"  fragData2 = vec4 ( 0, 0, 1, 1 );                  \n"
-		"                                                    \n"
-		"  // fourth buffer will contain gray color          \n"
-		"  fragData3 = vec4 ( 0.5, 0.5, 0.5, 1 );            \n"
-		"}                                                   \n";
+	mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-	programObject = GLUtils::createProgram(&VERTEX_SHADER_TRIANGLE, &FRAGMENT_SHADER_TRIANGLE);
-	if (!programObject) {
-		LOGD("Could not create program");
+	if (!mProgram) {
+		LOGD("Could not create program")
 		return;
 	}
 
@@ -113,7 +88,7 @@ void MRT::initFBO() {
 void MRT::change(int width, int height) {
 	mWidth = width;
 	mHeight = height;
-	LOGD("change() width = %d , height = %d\n", width, height);
+	LOGD("change() width = %d , height = %d\n", width, height)
 	glViewport(0, 0, mWidth, mHeight);
 }
 
@@ -125,7 +100,7 @@ void MRT::shutdown() {
 	glDeleteFramebuffers ( 1, &fbo );
 
 	// Delete program object
-	glDeleteProgram(programObject);
+	glDeleteProgram(mProgram);
 }
 
 void MRT::draw() {
@@ -173,7 +148,7 @@ void MRT::drawGeometry() {
 	glClear ( GL_COLOR_BUFFER_BIT );
 
 	// Use the program object
-	glUseProgram ( programObject );
+	glUseProgram ( mProgram );
 
 	// Load the vertex position
 	glVertexAttribPointer(0,3, GL_FLOAT, 
@@ -217,39 +192,4 @@ void MRT::blitTextures() {
 	glBlitFramebuffer ( 0, 0, textureWidth, textureHeight,
 						mWidth/2, mHeight/2, mWidth, mHeight,
 						GL_COLOR_BUFFER_BIT, GL_LINEAR );
-}
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-MRT* mrt;
-
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_mrt_MRTRenderer_nativeSurfaceCreate(JNIEnv *env, jobject thiz) {
-	if (mrt) {
-		delete mrt;
-		mrt = nullptr;
-	}
-	mrt = new MRT();
-	mrt->create();
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_mrt_MRTRenderer_nativeSurfaceChange(JNIEnv *env, jobject thiz, jint width,
-															  jint height) {
-	if (mrt != nullptr) {
-		mrt->change(width, height);
-	}
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_mrt_MRTRenderer_nativeDrawFrame(JNIEnv *env, jobject thiz) {
-	if (mrt != nullptr) {
-		mrt->draw();
-	}
 }

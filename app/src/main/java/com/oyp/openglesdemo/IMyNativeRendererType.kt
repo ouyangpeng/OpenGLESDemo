@@ -1,6 +1,7 @@
 package com.oyp.openglesdemo
 
 object IMyNativeRendererType {
+
     const val RENDER_TYPE: String = "RENDER_TYPE"
 
     const val SAMPLE_TYPE = 100
@@ -20,5 +21,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_PARTICLE_SYSTEM: Int = SAMPLE_TYPE + 12
     const val SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK: Int = SAMPLE_TYPE + 13
     const val SAMPLE_TYPE_KEY_NOISE3D: Int = SAMPLE_TYPE + 14
+    const val SAMPLE_TYPE_KEY_MRT: Int = SAMPLE_TYPE + 15
 
 }

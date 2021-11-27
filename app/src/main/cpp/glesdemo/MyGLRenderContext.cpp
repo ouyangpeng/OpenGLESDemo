@@ -19,6 +19,7 @@
 
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
+#include "mrt/MRT.h"
 
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
@@ -99,6 +100,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
                 break;
             case SAMPLE_TYPE_KEY_NOISE3D:
                 m_pCurSample = new Noise3DRender();
+                break;
+            case SAMPLE_TYPE_KEY_MRT:
+                m_pCurSample = new MRT();
                 break;
             default:
                 m_pCurSample = nullptr;

@@ -7,24 +7,21 @@
 
 #include "GLUtils.h"
 
-class MRT {
+class MRT : public BaseGLSample{
 public:
 	MRT();
 
-	~MRT();
+	virtual ~MRT();
 
-	void create();
+	virtual void create();
 
-	void change(int width, int height);
+	virtual void change(int width, int height);
 
-	void draw();
+	virtual void draw();
 
-	void shutdown();
+	virtual void shutdown();
 
 private:
-	// Handle to a program object
-	GLuint programObject;
-
 	// Handle to a framebuffer object
 	GLuint fbo;
 
@@ -34,9 +31,6 @@ private:
 	// Texture size
 	GLsizei textureWidth;
 	GLsizei textureHeight;
-
-	int mWidth;
-	int mHeight;
 
 	void initFBO();
 

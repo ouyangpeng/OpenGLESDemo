@@ -168,13 +168,12 @@ class MainActivity : ListActivity() {
         data.add(itemNoise3D)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_NOISE3D)
 
-        //
-        //        val itemMRT: MutableMap<String, Any?> = HashMap()
-        //        itemMRT[ITEM_IMAGE] = R.mipmap.ic_mrt
-        //        itemMRT[ITEM_TITLE] = " Hello MRT"
-        //        itemMRT[ITEM_SUBTITLE] =  "Show MRT(多重渲染目标)"
-        //        data.add(itemMRT)
-        //        activityMapping.put(i++, MRTActivity::class.java)
+        val itemMRT: MutableMap<String, Any?> = HashMap()
+        itemMRT[ITEM_IMAGE] = R.mipmap.ic_mrt
+        itemMRT[ITEM_TITLE] = " Hello MRT"
+        itemMRT[ITEM_SUBTITLE] =  "Show MRT(多重渲染目标)"
+        data.add(itemMRT)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MRT)
         //
         //
         //        val itemTerrainRender: MutableMap<String, Any?> = HashMap()

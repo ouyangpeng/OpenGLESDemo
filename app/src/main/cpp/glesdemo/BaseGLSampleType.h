@@ -22,5 +22,6 @@
 #define SAMPLE_TYPE_KEY_PARTICLE_SYSTEM                             SAMPLE_TYPE + 12
 #define SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK          SAMPLE_TYPE + 13
 #define SAMPLE_TYPE_KEY_NOISE3D                                     SAMPLE_TYPE + 14
+#define SAMPLE_TYPE_KEY_MRT                                         SAMPLE_TYPE + 15
 
 #endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H
