@@ -196,13 +196,13 @@ class MainActivity : ListActivity() {
             getText(R.string.lesson_one_subtitle)
         data.add(item1)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_ONE)
-        //
-        //        val item2: MutableMap<String, Any> = HashMap()
-        //        item2[ITEM_IMAGE] = R.mipmap.ic_lesson_two
-        //        item2[ITEM_TITLE] = getText(R.string.lesson_two)
-        //        item2[ITEM_SUBTITLE] = getText(R.string.lesson_two_subtitle)
-        //        data.add(item2)
-        //        activityMapping.put(i++, LessonTwoActivity::class.java)
+
+        val item2: MutableMap<String, Any> = HashMap()
+        item2[ITEM_IMAGE] = R.mipmap.ic_lesson_two
+        item2[ITEM_TITLE] = getText(R.string.lesson_two)
+        item2[ITEM_SUBTITLE] = getText(R.string.lesson_two_subtitle)
+        data.add(item2)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_TWO)
         //
         //        val item3: MutableMap<String, Any> = HashMap()
         //        item3[ITEM_IMAGE] = R.mipmap.ic_lesson_three

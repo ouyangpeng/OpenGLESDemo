@@ -1,232 +1,6 @@
 #include "Native2Lesson.h"
 
-static GLint POSITION_DATA_SIZE = 3;
-static GLint COLOR_DATA_SIZE = 4;
-static GLint NORMAL_DATA_SIZE = 3;
-
-
-static const char *POINT_VERTEX_SHADER_CODE =
-        "uniform mat4 u_MVPMatrix;                      \n"
-        "attribute vec4 a_Position;                     \n"
-        "void main()                                    \n"
-        "{                                              \n"
-        "   gl_Position = u_MVPMatrix  * a_Position;    \n"
-        "   gl_PointSize = 5.0;                         \n"
-        "}                                              \n";
-
-static const char *POINT_FRAGMENT_SHADER_CODE =
-        "precision mediump float;       \n"
-        "void main()                    \n"
-        "{                              \n"
-        "   gl_FragColor = vec4(1.0,    \n"
-        "   1.0, 1.0, 1.0);             \n"
-        "}                              \n";
-
-static const char *VERTEX_SHADER_CODE =
-        "uniform mat4 u_MVPMatrix;      \n"     // A constant representing the combined model/view/projection matrix.
-        "uniform mat4 u_MVMatrix;       \n"     // A constant representing the combined model/view matrix.
-        "uniform vec3 u_LightPos;       \n"     // The position of the light in eye space.
-        "attribute vec4 a_Position;     \n"     // Per-vertex position information we will pass in.
-        "attribute vec4 a_Color;        \n"     // Per-vertex color information we will pass in.
-        "attribute vec3 a_Normal;       \n"     // Per-vertex normal information we will pass in.
-        "varying vec4 v_Color;          \n"     // This will be passed into the fragment shader.
-        "void main()                    \n"     // The entry point for our vertex shader.
-        "{                              \n"
-        // Transform the vertex into eye space.
-        "   vec3 modelViewVertex = vec3(u_MVMatrix * a_Position);              \n"
-        // Transform the normal's orientation into eye space.
-        "   vec3 modelViewNormal = vec3(u_MVMatrix * vec4(a_Normal, 0.0));     \n"
-        // Will be used for attenuation.
-        "   float distance = length(u_LightPos - modelViewVertex);             \n"
-        // Get a lighting direction vector from the light to the vertex.
-        "   vec3 lightVector = normalize(u_LightPos - modelViewVertex);        \n"
-        // Calculate the dot product of the light vector and vertex normal.
-        // If the normal and light vector are
-        // pointing in the same direction then it will get max illumination.
-        "   float diffuse = max(dot(modelViewNormal, lightVector), 0.1);       \n"
-        // Attenuate the light based on distance.
-        "   diffuse = diffuse * (1.0 / (1.0 + (0.25 * distance * distance)));  \n"
-        // Multiply the color by the illumination level. It will be interpolated across the triangle.
-        "   v_Color = a_Color * diffuse;                                       \n"
-        // gl_Position is a special variable used to store the final position.
-        // Multiply the vertex by the matrix to get the final point in normalized screen coordinates.
-        "   gl_Position = u_MVPMatrix * a_Position;                            \n"
-        "}";
-
-static const char *FRAGMENT_SHADER_CODE =
-        // Set the default precision to medium. We don't need as high of a
-        // precision in the fragment shader.
-        "precision mediump float;       \n"
-        // This is the color from the vertex shader interpolated across the
-        // triangle per fragment.
-        "varying vec4 v_Color;          \n"
-        // The entry point for our fragment shader.
-        "void main()                    \n"
-        "{                              \n"
-        // Pass the color directly through the pipeline.
-        "   gl_FragColor = v_Color;     \n"
-        "}                              \n";
-
-
-const static GLfloat CUBE_POSITION_DATA[] = {
-        // Front face
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, -1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, -1.0f, 1.0f,
-        1.0f, -1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-
-        // Right face
-        1.0f, 1.0f, 1.0f,
-        1.0f, -1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f,
-        1.0f, -1.0f, 1.0f,
-        1.0f, -1.0f, -1.0f,
-        1.0f, 1.0f, -1.0f,
-
-        // Back face
-        1.0f, 1.0f, -1.0f,
-        1.0f, -1.0f, -1.0f,
-        -1.0f, 1.0f, -1.0f,
-        1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, 1.0f, -1.0f,
-
-        // Left face
-        -1.0f, 1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f,
-
-        // Top face
-        -1.0f, 1.0f, -1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f,
-
-        // Bottom face
-        1.0f, -1.0f, -1.0f,
-        1.0f, -1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,
-        1.0f, -1.0f, 1.0f,
-        -1.0f, -1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,
-};
-
-static const GLfloat CUBE_COLOR_DATA[] = {
-        // R, G, B, A
-
-        // Front face (red)
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-
-        // Right face (green)
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-
-        // Back face (blue)
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-
-        // Left face (yellow)
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-
-        // Top face (cyan)
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-
-        // Bottom face (magenta)
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f
-};
-
-// X, Y, Z
-// The normal is used in light calculations and is a vector which points
-// orthogonal to the plane of the surface. For a cube model, the normals
-// should be orthogonal to the points of each face.
-static const GLfloat CUBE_NORMAL_DATA[] = {
-        // Front face
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-
-        // Right face
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-
-        // Back face
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-
-        // Left face
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-
-        // Top face
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-
-        // Bottom face
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f
-};
-
-
 Native2Lesson::Native2Lesson() {
-
     mWidth = 0;
     mHeight = 0;
 
@@ -261,11 +35,11 @@ Native2Lesson::Native2Lesson() {
     mLightPosInEyeSpace[2] = 0.0f;
     mLightPosInEyeSpace[3] = 0.0f;
 
-    LOGD("Create Native2Lesson instance successful");
+    LOGD("Create Native2Lesson instance successful")
 }
 
 void Native2Lesson::create() {
-    LOGD("Native2Lesson create");
+    LOGD("Native2Lesson create")
 
     // Use culling to remove back face.
     glEnable(GL_CULL_FACE);
@@ -274,16 +48,27 @@ void Native2Lesson::create() {
     glEnable(GL_DEPTH_TEST);
 
     // Set program handles
-    mPerVertexProgramHandle = GLUtils::createProgram(&VERTEX_SHADER_CODE, &FRAGMENT_SHADER_CODE);
+
+    // 顶点着色器
+    VERTEX_SHADER = GLUtils::openTextFile(
+            "vertex/vertex_shader_lesson_2.glsl");
+    // 片段着色器
+    FRAGMENT_SHADER = GLUtils::openTextFile(
+            "fragment/fragment_shader_lesson_2.glsl");
+    mPerVertexProgramHandle = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (!mPerVertexProgramHandle) {
         LOGD("Could not create program");
         return;
     }
 
+    const char *POINT_VERTEX_SHADER_CODE = GLUtils::openTextFile(
+            "vertex/vertex_shader_lesson_2_point.glsl");
+    const char *POINT_FRAGMENT_SHADER_CODE = GLUtils::openTextFile(
+            "fragment/fragment_shader_lesson_2_point.glsl");
     // Set Point program handle
     mPointProgramHandle = GLUtils::createProgram(&POINT_VERTEX_SHADER_CODE,&POINT_FRAGMENT_SHADER_CODE);
     if (!mPointProgramHandle) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
 
@@ -311,7 +96,7 @@ void Native2Lesson::create() {
 }
 
 void Native2Lesson::change(int width, int height) {
-    LOGD("Native2Lesson change");
+    LOGD("Native2Lesson change")
 
     mWidth = width;
     mHeight = height;
@@ -398,7 +183,7 @@ void Native2Lesson::draw() {
     drawLight();
 }
 
-void Native2Lesson::destroy() {
+void Native2Lesson::shutdown() {
     delete mModelMatrix;
     mModelMatrix = nullptr;
 
@@ -412,9 +197,7 @@ void Native2Lesson::destroy() {
     mLightModelMatrix = nullptr;
 }
 
-Native2Lesson::~Native2Lesson() {
-    destroy();
-}
+Native2Lesson::~Native2Lesson() = default;
 
 void Native2Lesson::drawCube() {
     // Pass in the position info
@@ -516,42 +299,4 @@ void Native2Lesson::drawLight() {
     );
 
     glDrawArrays(GL_POINTS, 0, 1);
-}
-
-
-///=============================================================================
-
-Native2Lesson *native2Lesson;
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonTwoNativeRenderer_nativeSurfaceCreate(
-        JNIEnv *env, jobject thiz) {
-    // Print some OpenGL info
-    GLUtils::printGLInfo();
-
-    if (native2Lesson) {
-        delete native2Lesson;
-        native2Lesson = nullptr;
-    }
-    native2Lesson = new Native2Lesson();
-    native2Lesson->create();
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonTwoNativeRenderer_nativeSurfaceChange(
-        JNIEnv *env, jobject thiz, jint width, jint height) {
-    if (native2Lesson) {
-        native2Lesson->change(width, height);
-    }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_LessonTwoNativeRenderer_nativeDrawFrame(
-        JNIEnv *env,jobject thiz) {
-    if (native2Lesson) {
-        native2Lesson->draw();
-    }
 }

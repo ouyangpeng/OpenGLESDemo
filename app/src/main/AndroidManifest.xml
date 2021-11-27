@@ -25,10 +25,6 @@
             android:label="@string/native_renderer"/>
 
         <activity
-            android:name=".lesson.LessonTwoActivity"
-            android:label="@string/lesson_two"/>
-
-        <activity
             android:name=".lesson.LessonThreeActivity"
             android:label="@string/lesson_three"/>
 

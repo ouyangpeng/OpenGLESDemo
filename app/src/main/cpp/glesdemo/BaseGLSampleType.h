@@ -27,5 +27,6 @@
 #define SAMPLE_TYPE_KEY_SHADOWS                                     SAMPLE_TYPE + 17
 
 #define SAMPLE_TYPE_KEY_LESSON_ONE                                  SAMPLE_TYPE + 18
+#define SAMPLE_TYPE_KEY_LESSON_TWO                                  SAMPLE_TYPE + 19
 
 #endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H
