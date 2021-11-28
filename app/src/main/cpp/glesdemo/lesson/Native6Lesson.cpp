@@ -5,9 +5,7 @@ Native6Lesson::Native6Lesson() {
 
 }
 
-Native6Lesson::~Native6Lesson() {
-
-}
+Native6Lesson::~Native6Lesson() = default;
 
 void Native6Lesson::create() {
     // Use culling to remove back face.
@@ -15,10 +13,10 @@ void Native6Lesson::create() {
 
     // Enable depth testing
     glEnable(GL_DEPTH_TEST);
-    
+
     // Main Program
-    VERTEX_SHADER = GLUtils::openTextFile("vertex/per_pixel_vertex_shader_tex_and_light.glsl");
-    FRAGMENT_SHADER = GLUtils::openTextFile("fragment/per_pixel_fragment_shader_tex_and_light.glsl");
+    VERTEX_SHADER = GLUtils::openTextFile("vertex/vertex_shader_lesson_6.glsl");
+    FRAGMENT_SHADER = GLUtils::openTextFile("fragment/fragment_shader_lesson_6.glsl");
 
     // Set program handles
     mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
@@ -27,16 +25,15 @@ void Native6Lesson::create() {
         return;
     }
 
-
-    // Main Program
-    const char *pointVertex = GLUtils::openTextFile(
-            "vertex/point_vertex_shader.glsl");
-    const char *pointFragment = GLUtils::openTextFile(
-            "fragment/point_fragment_shader.glsl");
-    // Set program handles
-    mPointProgramHandle = GLUtils::createProgram(&pointVertex, &pointFragment);
+    const char *POINT_VERTEX_SHADER_CODE = GLUtils::openTextFile(
+            "vertex/vertex_shader_lesson_point.glsl");
+    const char *POINT_FRAGMENT_SHADER_CODE = GLUtils::openTextFile(
+            "fragment/fragment_shader_lesson_point.glsl");
+    // Set Point program handle
+    mPointProgramHandle = GLUtils::createProgram(&POINT_VERTEX_SHADER_CODE,
+                                                 &POINT_FRAGMENT_SHADER_CODE);
     if (!mPointProgramHandle) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
 
@@ -114,14 +111,10 @@ void Native6Lesson::draw() {
     glUseProgram(mProgram);
 
     // Set program handles for cube drawing.
-    mMVPMatrixHandle =  glGetUniformLocation(mProgram, "u_MVPMatrix");
-    mMVMatrixHandle =  glGetUniformLocation(mProgram, "u_MVMatrix");
-    mLightPosHandle =  glGetUniformLocation(mProgram, "u_LightPos");
-    mTextureUniformHandle =  glGetUniformLocation(mProgram, "u_Texture");
-
-    mPositionHandle =  glGetAttribLocation(mProgram, "a_Position");
-    mNormalHandle =  glGetAttribLocation(mProgram, "a_Normal");
-    mTextureCoordinateHandle =  glGetAttribLocation(mProgram, "a_TexCoordinate");
+    mMVPMatrixHandle = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    mMVMatrixHandle = glGetUniformLocation(mProgram, "u_MVMatrix");
+    mLightPosHandle = glGetUniformLocation(mProgram, "u_LightPos");
+    mTextureUniformHandle = glGetUniformLocation(mProgram, "u_Texture");
 
     // Calculate position of the light
     // Rotate and then push into the distance.
@@ -217,36 +210,36 @@ void Native6Lesson::drawCube() {
 
     // Pass in the position info
     glVertexAttribPointer(
-            mPositionHandle,
+            NATIVE_LESSON_SIX_ATTRIB_LOCATION_POS,
             POSITION_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_POSITION_DATA
     );
-    glEnableVertexAttribArray(mPositionHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_SIX_ATTRIB_LOCATION_POS);
 
     // Pass in the texture coordinate information
     glVertexAttribPointer(
-            mTextureCoordinateHandle,
+            NATIVE_LESSON_SIX_ATTRIB_LOCATION_TEX_COORDINATE,
             2,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_TEXTURE_COORDINATE_DATA
     );
-    glEnableVertexAttribArray(mTextureCoordinateHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_SIX_ATTRIB_LOCATION_TEX_COORDINATE);
 
     // Pass in the normal information
     glVertexAttribPointer(
-            mNormalHandle,
+            NATIVE_LESSON_SIX_ATTRIB_LOCATION_NORMAL,
             NORMAL_DATA_SIZE,
             GL_FLOAT,
             GL_FALSE,
             0,
             CUBE_NORMAL_DATA
     );
-    glEnableVertexAttribArray(mNormalHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_SIX_ATTRIB_LOCATION_NORMAL);
 
     // This multiplies the view by the model matrix
     // and stores the result the MVP matrix.
@@ -288,18 +281,17 @@ void Native6Lesson::drawCube() {
 void Native6Lesson::drawLight() {
 
     GLint pointMVPMatrixHandle = glGetUniformLocation(mPointProgramHandle, "u_MVPMatrix");
-    GLint pointPositionHandle = glGetAttribLocation(mPointProgramHandle, "a_Position");
 
     // Pass in the position
     glVertexAttrib3f(
-            pointPositionHandle,
+            NATIVE_LESSON_ATTRIB_LOCATION_POINT_POS,
             mLightPosInModelSpace[0],
             mLightPosInModelSpace[1],
             mLightPosInModelSpace[2]);
 
     // Since we are not using a buffer object,
     // disable vertex arrays for the attribute
-    glDisableVertexAttribArray(pointPositionHandle);
+    glDisableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_POINT_POS);
 
     // Pass in the transformation matrix.
     mMVPMatrix->identity();

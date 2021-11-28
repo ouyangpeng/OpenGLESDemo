@@ -273,18 +273,17 @@ void Native4Lesson::drawCube() {
 void Native4Lesson::drawLight() {
 
     GLint pointMVPMatrixHandle = glGetUniformLocation(mPointProgramHandle, "u_MVPMatrix");
-    GLint pointPositionHandle = glGetAttribLocation(mPointProgramHandle, "a_Position");
 
     // Pass in the position
     glVertexAttrib3f(
-            pointPositionHandle,
+            NATIVE_LESSON_ATTRIB_LOCATION_POINT_POS,
             mLightPosInModelSpace[0],
             mLightPosInModelSpace[1],
             mLightPosInModelSpace[2]);
 
     // Since we are not using a buffer object,
     // disable vertex arrays for the attribute
-    glDisableVertexAttribArray(pointPositionHandle);
+    glDisableVertexAttribArray(NATIVE_LESSON_ATTRIB_LOCATION_POINT_POS);
 
     // Pass in the transformation matrix.
     mMVPMatrix->identity();

@@ -3,6 +3,11 @@
 
 #include "../../utils/GLUtils.h"
 #include "lesson_cube_data.h"
+
+#define NATIVE_LESSON_SIX_ATTRIB_LOCATION_POS                       0
+#define NATIVE_LESSON_SIX_ATTRIB_LOCATION_NORMAL                    1
+#define NATIVE_LESSON_SIX_ATTRIB_LOCATION_TEX_COORDINATE            2
+
 class Native6Lesson : public BaseGLSample{
 
 public:
@@ -51,9 +56,6 @@ private:
     GLuint mMVMatrixHandle;
     GLuint mLightPosHandle;
     GLuint mTextureUniformHandle;
-    GLuint mPositionHandle;
-    GLuint mNormalHandle;
-    GLuint mTextureCoordinateHandle;
 
     GLuint mPointProgramHandle;
 
