@@ -1,276 +1,5 @@
 #include "Native6Lesson.h"
 
-const static GLfloat CUBE_POSITION_DATA[] = {
-        // Front face
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, -1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, -1.0f, 1.0f,
-        1.0f, -1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-
-        // Right face
-        1.0f, 1.0f, 1.0f,
-        1.0f, -1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f,
-        1.0f, -1.0f, 1.0f,
-        1.0f, -1.0f, -1.0f,
-        1.0f, 1.0f, -1.0f,
-
-        // Back face
-        1.0f, 1.0f, -1.0f,
-        1.0f, -1.0f, -1.0f,
-        -1.0f, 1.0f, -1.0f,
-        1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, 1.0f, -1.0f,
-
-        // Left face
-        -1.0f, 1.0f, -1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,
-        -1.0f, -1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f,
-
-        // Top face
-        -1.0f, 1.0f, -1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f,
-
-        // Bottom face
-        1.0f, -1.0f, -1.0f,
-        1.0f, -1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,
-        1.0f, -1.0f, 1.0f,
-        -1.0f, -1.0f, 1.0f,
-        -1.0f, -1.0f, -1.0f,
-};
-
-static const GLfloat CUBE_COLOR_DATA[] = {
-        // R, G, B, A
-
-        // Front face (red)
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f,
-
-        // Right face (green)
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 1.0f,
-
-        // Back face (blue)
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f, 1.0f,
-
-        // Left face (yellow)
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f,
-
-        // Top face (cyan)
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f, 1.0f,
-
-        // Bottom face (magenta)
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 1.0f
-};
-
-// X, Y, Z
-// The normal is used in light calculations and is a vector which points
-// orthogonal to the plane of the surface. For a cube model, the normals
-// should be orthogonal to the points of each face.
-static const GLfloat CUBE_NORMAL_DATA[] = {
-        // Front face
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-
-        // Right face
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-
-        // Back face
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-
-        // Left face
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-
-        // Top face
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-
-        // Bottom face
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f
-};
-
-/**
-     * S,T (X,Y)
-     * Texture coordinate data.
-     * Because images have a Y axis pointing downward,
-     * while OpenGL has a Y axis pointing upward, we adjust for
-     * that here by flipping the Y axis.
-     * What's more is that the texture coordinates are the same for every face.
-     */
-static const GLfloat CUBE_TEXTURE_COORDINATE_DATA[] =
-        {
-                // Front face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f,
-
-                // Right face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f,
-
-                // Back face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f,
-
-                // Left face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f,
-
-                // Top face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f,
-
-                // Bottom face
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-
-
-// S, T (or X, Y)
-// Texture coordinate data.
-// Because images have a Y axis pointing downward (values increase as you move down the image) while
-// OpenGL has a Y axis pointing upward, we adjust for that here by flipping the Y axis.
-// What's more is that the texture coordinates are the same for every face.
-static const GLfloat CUBE_TEXTURE_COORDINATE_DATA_FOR_PLANE[] =
-        {
-                // Front face
-                0.0f, 0.0f,
-                0.0f, 25.0f,
-                25.0f, 0.0f,
-                0.0f, 25.0f,
-                25.0f, 25.0f,
-                25.0f, 0.0f,
-
-                // Right face
-                0.0f, 0.0f,
-                0.0f, 25.0f,
-                25.0f, 0.0f,
-                0.0f, 25.0f,
-                25.0f, 25.0f,
-                25.0f, 0.0f,
-
-                // Back face
-                0.0f, 0.0f,
-                0.0f, 25.0f,
-                25.0f, 0.0f,
-                0.0f, 25.0f,
-                25.0f, 25.0f,
-                25.0f, 0.0f,
-
-                // Left face
-                0.0f, 0.0f,
-                0.0f, 25.0f,
-                25.0f, 0.0f,
-                0.0f, 25.0f,
-                25.0f, 25.0f,
-                25.0f, 0.0f,
-
-                // Top face
-                0.0f, 0.0f,
-                0.0f, 25.0f,
-                25.0f, 0.0f,
-                0.0f, 25.0f,
-                25.0f, 25.0f,
-                25.0f, 0.0f,
-
-                // Bottom face
-                0.0f, 0.0f,
-                0.0f, 25.0f,
-                25.0f, 0.0f,
-                0.0f, 25.0f,
-                25.0f, 25.0f,
-                25.0f, 0.0f
-        };
 
 Native6Lesson::Native6Lesson() {
 
@@ -286,19 +15,17 @@ void Native6Lesson::create() {
 
     // Enable depth testing
     glEnable(GL_DEPTH_TEST);
-
+    
     // Main Program
-    const char *vertex = GLUtils::openTextFile(
-            "vertex/per_pixel_vertex_shader_tex_and_light.glsl");
-    const char *fragment = GLUtils::openTextFile(
-            "fragment/per_pixel_fragment_shader_tex_and_light.glsl");
+    VERTEX_SHADER = GLUtils::openTextFile("vertex/per_pixel_vertex_shader_tex_and_light.glsl");
+    FRAGMENT_SHADER = GLUtils::openTextFile("fragment/per_pixel_fragment_shader_tex_and_light.glsl");
+
     // Set program handles
-    mProgramHandle = GLUtils::createProgram(&vertex, &fragment);
-    if (!mProgramHandle) {
-        LOGD("Could not create program");
+    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!mProgram) {
+        LOGD("Could not create program")
         return;
     }
-
 
 
     // Main Program
@@ -384,16 +111,17 @@ void Native6Lesson::draw() {
     float slowAngleInDegrees = (180.0f / 1000000.0f) * ((int) slowTime);
 
     // Set out pre-vertex lighting program.
-    glUseProgram(mProgramHandle);
+    glUseProgram(mProgram);
 
     // Set program handles for cube drawing.
-    mMVPMatrixHandle = (GLuint) glGetUniformLocation(mProgramHandle, "u_MVPMatrix");
-    mMVMatrixHandle = (GLuint) glGetUniformLocation(mProgramHandle, "u_MVMatrix");
-    mLightPosHandle = (GLuint) glGetUniformLocation(mProgramHandle, "u_LightPos");
-    mTextureUniformHandle = (GLuint) glGetUniformLocation(mProgramHandle, "u_Texture");
-    mPositionHandle = (GLuint) glGetAttribLocation(mProgramHandle, "a_Position");
-    mNormalHandle = (GLuint) glGetAttribLocation(mProgramHandle, "a_Normal");
-    mTextureCoordinateHandle = (GLuint) glGetAttribLocation(mProgramHandle, "a_TexCoordinate");
+    mMVPMatrixHandle =  glGetUniformLocation(mProgram, "u_MVPMatrix");
+    mMVMatrixHandle =  glGetUniformLocation(mProgram, "u_MVMatrix");
+    mLightPosHandle =  glGetUniformLocation(mProgram, "u_LightPos");
+    mTextureUniformHandle =  glGetUniformLocation(mProgram, "u_Texture");
+
+    mPositionHandle =  glGetAttribLocation(mProgram, "a_Position");
+    mNormalHandle =  glGetAttribLocation(mProgram, "a_Normal");
+    mTextureCoordinateHandle =  glGetAttribLocation(mProgram, "a_TexCoordinate");
 
     // Calculate position of the light
     // Rotate and then push into the distance.
@@ -593,65 +321,6 @@ void Native6Lesson::setDelta(float x, float y) {
     mDeltaY += y;
 }
 
-//////////////////////
+void Native6Lesson::shutdown() {
 
-Native6Lesson *lesson6;
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_nativeSurfaceCreate(
-        JNIEnv *env, jobject thiz, jobject asset_manager) {
-    // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
-    GLUtils::setEnvAndAssetManager(env, asset_manager);
-    if (lesson6) {
-        delete lesson6;
-        lesson6 = nullptr;
-    }
-    lesson6 = new Native6Lesson();
-    lesson6->create();
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_nativeSurfaceChange(
-        JNIEnv *env, jobject thiz, jint width, jint height) {
-    if (lesson6) {
-        lesson6->change(width, height);
-    }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_nativeDrawFrame(
-        JNIEnv *env, jobject thiz) {
-    if (lesson6) {
-        lesson6->draw();
-    }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_nativeSetDelta(
-        JNIEnv *env, jobject thiz, jfloat x, jfloat y) {
-    if (lesson6) {
-        lesson6->setDelta(x, y);
-    }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_nativeSetMinFilter(
-        JNIEnv *env, jobject thiz, jint filter) {
-    if (lesson6) {
-        lesson6->setMagFilter(filter);
-    }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson6_LessonSixNativeRenderer_nativeSetMagFilter(
-        JNIEnv *env, jobject thiz, jint filter) {
-    if (lesson6) {
-        lesson6->setMinFilter(filter);
-    }
 }

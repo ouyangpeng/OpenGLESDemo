@@ -30,5 +30,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_LESSON_THREE: Int = SAMPLE_TYPE + 20
     const val SAMPLE_TYPE_KEY_LESSON_FOUR: Int = SAMPLE_TYPE + 21
     const val SAMPLE_TYPE_KEY_LESSON_FIVE: Int = SAMPLE_TYPE + 22
+    const val SAMPLE_TYPE_KEY_LESSON_SIX: Int = SAMPLE_TYPE + 23
 
 }

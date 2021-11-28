@@ -11,6 +11,10 @@ class MyCustomerGLSurfaceView : GLSurfaceView {
     private var mPreviousY = 0f
     private var mDensity = 0f
 
+    constructor(context: Context?) : super(context) {}
+
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {}
+
     constructor(context: Context?, glRender: MyNativeRenderer?, eglContextVersion: Int) : this(
         context,
         null,
@@ -33,13 +37,7 @@ class MyCustomerGLSurfaceView : GLSurfaceView {
         if (event != null) {
             val x = event.x
             val y = event.y
-            if (event.action == MotionEvent.ACTION_MOVE) {
-                if (mRenderer != null) {
-                    val deltaX = (x - mPreviousX) / mDensity / 2
-                    val deltaY = (y - mPreviousY) / mDensity / 2
-//                   mRenderer!!.setDelta(deltaX, deltaY)
-                }
-            } else if (event.action == MotionEvent.ACTION_DOWN) {
+            if (event.action == MotionEvent.ACTION_DOWN) {
                 if (mRenderer != null) {
                     // 如果是SAMPLE_TYPE_KEY_LESSON_FIVE，则执行mRenderer?.switchBlendingMode()
                     if (mRenderer!!.mSampleType == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FIVE) {
@@ -47,6 +45,15 @@ class MyCustomerGLSurfaceView : GLSurfaceView {
                         // queueEvent() is a method of GLSurfaceView that will do this for us.
                         queueEvent { mRenderer?.switchBlendingMode() }
                         return true
+                    }
+                }
+            } else if (event.action == MotionEvent.ACTION_MOVE) {
+                if (mRenderer != null) {
+                    val deltaX = (x - mPreviousX) / mDensity / 2
+                    val deltaY = (y - mPreviousY) / mDensity / 2
+                    // 如果是SAMPLE_TYPE_KEY_LESSON_FIVE，则执行mRenderer?.switchBlendingMode()
+                    if (mRenderer!!.mSampleType == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX) {
+                        mRenderer!!.setDelta(deltaX, deltaY)
                     }
                 }
             }

@@ -29,9 +29,13 @@ public:
     virtual void shutdown() = 0;
 
     // 默认啥都不做，等待有需要的子类去重写
-    virtual void switchBlendingMode() {
+    virtual void switchBlendingMode() {}
 
-    }
+    virtual void setDelta(float x, float y){}
+
+    virtual void setMinFilter(int filter){}
+
+    virtual void setMagFilter(int filter){}
 
 protected:
     GLuint mProgram;

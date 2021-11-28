@@ -25,6 +25,7 @@
 #include <Native3Lesson.h>
 #include <Native4Lesson.h>
 #include <Native5Lesson.h>
+#include <Native6Lesson.h>
 
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
@@ -137,6 +138,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
             case SAMPLE_TYPE_KEY_LESSON_FIVE:
                 m_pCurSample = new Native5Lesson();
                 break;
+            case SAMPLE_TYPE_KEY_LESSON_SIX:
+                m_pCurSample = new Native6Lesson();
+                break;
             default:
                 m_pCurSample = nullptr;
                 break;
@@ -185,6 +189,24 @@ void MyGLRenderContext::SwitchBlendingMode() {
     }
 }
 
+void MyGLRenderContext::SetDelta(float x, float y) {
+    if (m_pCurSample) {
+        m_pCurSample->setDelta(x,y);
+    }
+}
+
+void MyGLRenderContext::SetMinFilter(int filter) {
+    if (m_pCurSample) {
+        m_pCurSample->setMinFilter(filter);
+    }
+}
+
+void MyGLRenderContext::SetMagFilter(int filter) {
+    if (m_pCurSample) {
+        m_pCurSample->setMagFilter(filter);
+    }
+}
+
 MyGLRenderContext *MyGLRenderContext::GetInstance() {
 //    LOGD("MyGLRenderContext::GetInstance")
     if (m_pContext == nullptr) {
@@ -201,3 +223,5 @@ void MyGLRenderContext::DestroyInstance() {
     }
 
 }
+
+

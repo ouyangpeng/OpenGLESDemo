@@ -2,25 +2,27 @@
 #define OPENGLLESSON_NATIVE6LESSON_H
 
 #include "../../utils/GLUtils.h"
-
-class Native6Lesson {
+#include "lesson_cube_data.h"
+class Native6Lesson : public BaseGLSample{
 
 public:
     Native6Lesson();
 
     ~Native6Lesson();
 
-    void create();
+    virtual void create();
 
-    void change(int width, int height);
+    virtual void change(int width, int height);
 
-    void draw();
+    virtual void draw();
 
-    void setDelta(float x, float y);
+    virtual void shutdown();
 
-    void setMinFilter(int filter);
+    virtual void setDelta(float x, float y);
 
-    void setMagFilter(int filter);
+    virtual void setMinFilter(int filter);
+
+    virtual void setMagFilter(int filter);
 
 private:
 
@@ -30,9 +32,6 @@ private:
     const int NORMAL_DATA_SIZE = 3;
     const int TEXTURE_COORDINATE_DATA_SIZE = 2;
 
-    //
-    GLsizei mWidth;
-    GLsizei mHeight;
 
     // model/view/projection matrix
     Matrix *mModelMatrix;
@@ -56,7 +55,6 @@ private:
     GLuint mNormalHandle;
     GLuint mTextureCoordinateHandle;
 
-    GLuint mProgramHandle;
     GLuint mPointProgramHandle;
 
     GLuint mBrickDataHandle;

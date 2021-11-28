@@ -10,12 +10,19 @@ class MyNativeRenderer(activity: Activity): GLSurfaceView.Renderer,RenderAction{
     private var mActivity: Activity = activity
     var mSampleType = 0
 
-    external fun nativeSurfaceCreate(assetManager: AssetManager)
-    external fun nativeSurfaceChange(width: Int, height: Int)
-    external fun nativeDrawFrame()
+    // 通用的
+    private external fun nativeSurfaceCreate(assetManager: AssetManager)
+    private external fun nativeSurfaceChange(width: Int, height: Int)
+    private external fun nativeDrawFrame()
     private external fun nativeSetParamsInt(paramType: Int, value0: Int, value1: Int)
     private external fun nativeOnDestroy()
+
+    // 特定的方法
     private external fun nativeSwitchBlendingMode()
+    // 特定的方法
+    private external fun nativeSetDelta(x: Float, y: Float)
+    private external fun nativeSetMinFilter(filter: Int)
+    private external fun nativeSetMagFilter(filter: Int)
 
     init {
         System.loadLibrary("opengles-lesson-lib")
@@ -47,6 +54,18 @@ class MyNativeRenderer(activity: Activity): GLSurfaceView.Renderer,RenderAction{
 
     override fun switchBlendingMode() {
         nativeSwitchBlendingMode()
+    }
+
+    override fun setMinFilter(filter: Int) {
+        nativeSetMinFilter(filter)
+    }
+
+    override fun setMagFilter(filter: Int) {
+        nativeSetMagFilter(filter)
+    }
+
+    override fun setDelta(deltaX: Float, deltaY: Float) {
+        nativeSetDelta(deltaX, deltaY)
     }
 
 }

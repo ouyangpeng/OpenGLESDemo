@@ -222,14 +222,14 @@ class MainActivity : ListActivity() {
         item5[ITEM_SUBTITLE] = "本课程将介绍OpenGL混合的基础知识"
         data.add(item5)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FIVE)
-        //
-        //        val item6: MutableMap<String, Any> = HashMap()
-        //        item6[ITEM_IMAGE] = R.mipmap.ic_lesson_six
-        //        item6[ITEM_TITLE] = getText(R.string.lesson_six)
-        //        item6[ITEM_SUBTITLE] =
-        //            getText(R.string.lesson_six_subtitle)
-        //        data.add(item6)
-        //        activityMapping.put(i++, LessonSixActivity::class.java)
+
+        val item6: MutableMap<String, Any> = HashMap()
+        item6[ITEM_IMAGE] = R.mipmap.ic_lesson_six
+        item6[ITEM_TITLE] = "展示 Texture纹理 的不同过滤模式"
+        item6[ITEM_SUBTITLE] = "本课程将介绍OpenGL ES中可用的不同纹理过滤模式。"
+        data.add(item6)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX)
+
         //
         //
         //        val item7: MutableMap<String, Any> = HashMap()

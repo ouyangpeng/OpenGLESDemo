@@ -29,6 +29,13 @@ public:
 
     void SwitchBlendingMode();
 
+    void SetDelta(float x, float y);
+
+    void SetMinFilter(int filter);
+
+    void SetMagFilter(int filter);
+
+
 private:
     static MyGLRenderContext *m_pContext;
     BaseGLSample *m_pBeforeSample;

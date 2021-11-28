@@ -2,7 +2,8 @@
     <string name="app_name">OpenGLESDemo</string>
     <string name="native_renderer">使用Native C++实现OpenGL的Render效果</string>
 
-    <string name="tocHeader">Welcome to the Learn OpenGL ES tutorials! Please visit the website at: http://www.learnopengles.com/</string>
+    <string name="tocHeader">欢迎来到学习OpenGL ES 的教程!</string>
+
     <string name="lesson_triangle">Lesson Triangle</string>
     <string name="lesson_triangle_subtitle">This lesson shows Triangle</string>
     <string name="lesson_one">Lesson One: Getting Started</string>
