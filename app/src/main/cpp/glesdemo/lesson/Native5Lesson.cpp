@@ -1,11 +1,9 @@
 #include "Native5Lesson.h"
 
 Native5Lesson::Native5Lesson() :
-        mWidth(0), mHeight(0),
         mModelMatrix(nullptr),mViewMatrix(nullptr),
         mProjectionMatrix(nullptr),mMVPMatrix(nullptr),
-        mMVPMatrixHandle(0), mPositionHandle(0),
-        mColorHandle(0),mProgramHandle(0), mBending(true) {}
+        mMVPMatrixHandle(0), mBending(true) {}
 
 Native5Lesson::~Native5Lesson() = default;
 
@@ -27,13 +25,13 @@ void Native5Lesson::create() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Main Program
-    const char *vertex = GLUtils::openTextFile("vertex/color_vertex_shader.glsl");
-    const char *fragment = GLUtils::openTextFile("fragment/color_fragment_shader.glsl");
+    VERTEX_SHADER = GLUtils::openTextFile("vertex/vertex_shader_lesson_5.glsl");
+    FRAGMENT_SHADER = GLUtils::openTextFile("fragment/fragment_shader_lesson_5.glsl");
 
     // Set program handles
-    mProgramHandle = GLUtils::createProgram(&vertex, &fragment);
-    if (!mProgramHandle) {
-        LOGD("Could not create program");
+    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!mProgram) {
+        LOGD("Could not create program")
         return;
     }
 
@@ -97,12 +95,10 @@ void Native5Lesson::draw() {
     float angleInDegrees = (360.0f / 10000.0f) * ((int) time);
 
     // Set out pre-vertex lighting program.
-    glUseProgram(mProgramHandle);
+    glUseProgram(mProgram);
 
     // Set program handle for cube drawing.
-    mMVPMatrixHandle = (GLuint) glGetUniformLocation(mProgramHandle, "u_MVPMatrix");
-    mPositionHandle = (GLuint) glGetAttribLocation(mProgramHandle, "a_Position");
-    mColorHandle = (GLuint) glGetAttribLocation(mProgramHandle, "a_Color");
+    mMVPMatrixHandle = (GLuint) glGetUniformLocation(mProgram, "u_MVPMatrix");
 
     // draw mCubes
 
@@ -141,25 +137,25 @@ void Native5Lesson::drawCube() {
 
     // Pass in the position info
     glVertexAttribPointer(
-            mPositionHandle,
+            NATIVE_LESSON_FIVE_ATTRIB_LOCATION_POS,
             3,
             GL_FLOAT,
             GL_FALSE,
             0,
             mCubePositionData
     );
-    glEnableVertexAttribArray(mPositionHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_FIVE_ATTRIB_LOCATION_POS);
 
     // Pass in the color info
     glVertexAttribPointer(
-            mColorHandle,
+            NATIVE_LESSON_FIVE_ATTRIB_LOCATION_COLOR,
             4,
             GL_FLOAT,
             GL_FALSE,
             0,
             mCubeColorData
     );
-    glEnableVertexAttribArray(mColorHandle);
+    glEnableVertexAttribArray(NATIVE_LESSON_FIVE_ATTRIB_LOCATION_COLOR);
 
     // This multiplies the view by the model matrix
     // and stores the result the MVP matrix.
@@ -241,12 +237,21 @@ void Native5Lesson::switchBlendingMode() {
 }
 
 void Native5Lesson::shutdown() {
+    delete mCubePositionData;
+    mCubePositionData = nullptr;
+
+    delete mCubeColorData;
+    mCubeColorData = nullptr;
+
     delete mModelMatrix;
     mModelMatrix = nullptr;
+
     delete mViewMatrix;
     mViewMatrix = nullptr;
+
     delete mProjectionMatrix;
     mProjectionMatrix = nullptr;
+
     delete mMVPMatrix;
     mMVPMatrix = nullptr;
 }

@@ -3,6 +3,9 @@
 
 #include "../../utils/GLUtils.h"
 
+#define NATIVE_LESSON_FIVE_ATTRIB_LOCATION_POS        0
+#define NATIVE_LESSON_FIVE_ATTRIB_LOCATION_COLOR      1
+
 class Native5Lesson : public BaseGLSample{
 
 public:
@@ -21,14 +24,8 @@ public:
     virtual void switchBlendingMode();
 
 private:
-
-    //
     float *mCubePositionData;
     float *mCubeColorData;
-
-    //
-    GLsizei mWidth;
-    GLsizei mHeight;
 
     // Matrix
     Matrix *mModelMatrix;
@@ -38,10 +35,6 @@ private:
 
     // Handle
     GLuint mMVPMatrixHandle;
-    GLuint mPositionHandle;
-    GLuint mColorHandle;
-
-    GLuint mProgramHandle;
 
     bool mBending;
 
