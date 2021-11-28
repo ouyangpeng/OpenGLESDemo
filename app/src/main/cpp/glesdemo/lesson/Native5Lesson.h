@@ -3,21 +3,22 @@
 
 #include "../../utils/GLUtils.h"
 
-class Native5Lesson {
+class Native5Lesson : public BaseGLSample{
 
 public:
 
     Native5Lesson();
 
-    ~Native5Lesson();
+    virtual ~Native5Lesson();
+    virtual void create();
 
-    void create();
+    virtual void change(int width, int height);
 
-    void change(int width, int height);
+    virtual void draw();
 
-    void draw();
+    virtual void shutdown();
 
-    void switchMode();
+    virtual void switchBlendingMode();
 
 private:
 

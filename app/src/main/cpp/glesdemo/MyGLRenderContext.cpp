@@ -24,6 +24,7 @@
 #include <Native2Lesson.h>
 #include <Native3Lesson.h>
 #include <Native4Lesson.h>
+#include <Native5Lesson.h>
 
 #include "MyGLRenderContext.h"
 #include "../utils/GLUtils.h"
@@ -41,12 +42,15 @@ MyGLRenderContext::MyGLRenderContext() {
 
 MyGLRenderContext::~MyGLRenderContext() {
     LOGD("MyGLRenderContext::~MyGLRenderContext")
+
     if (m_pCurSample) {
+        m_pCurSample->shutdown();
         delete m_pCurSample;
         m_pCurSample = nullptr;
     }
 
     if (m_pBeforeSample) {
+        m_pBeforeSample->shutdown();
         delete m_pBeforeSample;
         m_pBeforeSample = nullptr;
     }
@@ -130,6 +134,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
             case SAMPLE_TYPE_KEY_LESSON_FOUR:
                 m_pCurSample = new Native4Lesson();
                 break;
+            case SAMPLE_TYPE_KEY_LESSON_FIVE:
+                m_pCurSample = new Native5Lesson();
+                break;
             default:
                 m_pCurSample = nullptr;
                 break;
@@ -169,6 +176,12 @@ void MyGLRenderContext::OnDrawFrame() {
 //    LOGD("MyGLRenderContext::OnDrawFrame")
     if (m_pCurSample) {
         m_pCurSample->draw();
+    }
+}
+
+void MyGLRenderContext::SwitchBlendingMode() {
+    if (m_pCurSample) {
+        m_pCurSample->switchBlendingMode();
     }
 }
 

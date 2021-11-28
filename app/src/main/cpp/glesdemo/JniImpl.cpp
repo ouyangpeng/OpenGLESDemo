@@ -36,3 +36,9 @@ JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_MyNativeRenderer_nativeOnDestroy(JNIEnv *env, jobject thiz) {
     MyGLRenderContext::DestroyInstance();
 }
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_oyp_openglesdemo_MyNativeRenderer_nativeSwitchBlendingMode(JNIEnv *env, jobject thiz) {
+    MyGLRenderContext::GetInstance()->SwitchBlendingMode();
+}

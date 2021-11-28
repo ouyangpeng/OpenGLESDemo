@@ -27,6 +27,8 @@ public:
 
     static void DestroyInstance();
 
+    void SwitchBlendingMode();
+
 private:
     static MyGLRenderContext *m_pContext;
     BaseGLSample *m_pBeforeSample;

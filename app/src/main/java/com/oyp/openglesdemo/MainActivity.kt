@@ -190,44 +190,38 @@ class MainActivity : ListActivity() {
 
         val item1: MutableMap<String, Any?> = HashMap()
         item1[ITEM_IMAGE] = R.mipmap.ic_lesson_one
-        item1[ITEM_TITLE] =
-            getText(R.string.lesson_one)
-        item1[ITEM_SUBTITLE] =
-            getText(R.string.lesson_one_subtitle)
+        item1[ITEM_TITLE] =  "展示 三个彩色三角形 不停旋转的效果"
+        item1[ITEM_SUBTITLE] = "学习绘制三角形以及使用矩阵变化进行旋转的效果"
         data.add(item1)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_ONE)
 
         val item2: MutableMap<String, Any> = HashMap()
         item2[ITEM_IMAGE] = R.mipmap.ic_lesson_two
-        item2[ITEM_TITLE] = getText(R.string.lesson_two)
-        item2[ITEM_SUBTITLE] = getText(R.string.lesson_two_subtitle)
+        item2[ITEM_TITLE] = "展示 一个点和五个立方体 不停旋转的效果"
+        item2[ITEM_SUBTITLE] = "学习 使用两个程序对象分别绘制点和立方体，并且使用矩阵变化进行旋转的效果"
         data.add(item2)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_TWO)
 
         val item3: MutableMap<String, Any> = HashMap()
         item3[ITEM_IMAGE] = R.mipmap.ic_lesson_three
-        item3[ITEM_TITLE] =
-            getText(R.string.lesson_three)
-        item3[ITEM_SUBTITLE] =
-            getText(R.string.lesson_three_subtitle)
+        item3[ITEM_TITLE] = "展示 一个点和五个立方体 不停旋转的效果"
+        item3[ITEM_SUBTITLE] = "这是在第二课的基础上添加每像素照明。"
         data.add(item3)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_THREE)
 
         val item4: MutableMap<String, Any> = HashMap()
         item4[ITEM_IMAGE] = R.mipmap.ic_lesson_four
-        item4[ITEM_TITLE] = getText(R.string.lesson_four)
-        item4[ITEM_SUBTITLE] =
-            getText(R.string.lesson_four_subtitle)
+        item4[ITEM_TITLE] = "展示 一个点和五个立方体 不停旋转的效果 , 并且立方体有基本的Texture纹理"
+        item4[ITEM_SUBTITLE] = "这是在第三课的基础上添加的基本纹理。"
         data.add(item4)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FOUR)
-        //
-        //        val item5: MutableMap<String, Any> = HashMap()
-        //        item5[ITEM_IMAGE] = R.mipmap.ic_lesson_five
-        //        item5[ITEM_TITLE] = getText(R.string.lesson_five)
-        //        item5[ITEM_SUBTITLE] =
-        //            getText(R.string.lesson_five_subtitle)
-        //        data.add(item5)
-        //        activityMapping.put(i++, LessonFiveActivity::class.java)
+
+        val item5: MutableMap<String, Any> = HashMap()
+        item5[ITEM_IMAGE] = R.mipmap.ic_lesson_five
+        item5[ITEM_TITLE] = "展示触摸屏幕切换 混合模式的效果"
+        item5[ITEM_SUBTITLE] = "本课程将介绍OpenGL混合的基础知识"
+        data.add(item5)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FIVE)
         //
         //        val item6: MutableMap<String, Any> = HashMap()
         //        item6[ITEM_IMAGE] = R.mipmap.ic_lesson_six

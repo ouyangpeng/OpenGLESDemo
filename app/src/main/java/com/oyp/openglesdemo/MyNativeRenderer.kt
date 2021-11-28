@@ -6,15 +6,16 @@ import android.opengl.GLSurfaceView
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class MyNativeRenderer(activity: Activity): GLSurfaceView.Renderer{
+class MyNativeRenderer(activity: Activity): GLSurfaceView.Renderer,RenderAction{
     private var mActivity: Activity = activity
-    private var mSampleType = 0
+    var mSampleType = 0
 
     external fun nativeSurfaceCreate(assetManager: AssetManager)
     external fun nativeSurfaceChange(width: Int, height: Int)
     external fun nativeDrawFrame()
     private external fun nativeSetParamsInt(paramType: Int, value0: Int, value1: Int)
     private external fun nativeOnDestroy()
+    private external fun nativeSwitchBlendingMode()
 
     init {
         System.loadLibrary("opengles-lesson-lib")
@@ -43,4 +44,9 @@ class MyNativeRenderer(activity: Activity): GLSurfaceView.Renderer{
     fun onDestroy(){
         nativeOnDestroy()
     }
+
+    override fun switchBlendingMode() {
+        nativeSwitchBlendingMode()
+    }
+
 }

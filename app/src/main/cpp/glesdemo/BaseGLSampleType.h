@@ -30,5 +30,6 @@
 #define SAMPLE_TYPE_KEY_LESSON_TWO                                  SAMPLE_TYPE + 19
 #define SAMPLE_TYPE_KEY_LESSON_THREE                                SAMPLE_TYPE + 20
 #define SAMPLE_TYPE_KEY_LESSON_FOUR                                 SAMPLE_TYPE + 21
+#define SAMPLE_TYPE_KEY_LESSON_FIVE                                 SAMPLE_TYPE + 22
 
 #endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H

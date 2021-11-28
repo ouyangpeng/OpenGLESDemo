@@ -7,16 +7,7 @@ Native5Lesson::Native5Lesson() :
         mMVPMatrixHandle(0), mPositionHandle(0),
         mColorHandle(0),mProgramHandle(0), mBending(true) {}
 
-Native5Lesson::~Native5Lesson() {
-    delete mModelMatrix;
-    mModelMatrix = nullptr;
-    delete mViewMatrix;
-    mViewMatrix = nullptr;
-    delete mProjectionMatrix;
-    mProjectionMatrix = nullptr;
-    delete mMVPMatrix;
-    mMVPMatrix = nullptr;
-}
+Native5Lesson::~Native5Lesson() = default;
 
 void Native5Lesson::create() {
 
@@ -223,7 +214,7 @@ void Native5Lesson::createCubeData() {
                                         (sizeof(p1c) / sizeof(*p1c)));
 }
 
-void Native5Lesson::switchMode() {
+void Native5Lesson::switchBlendingMode() {
     mBending = !mBending;
 
     if (mBending) {
@@ -249,50 +240,13 @@ void Native5Lesson::switchMode() {
     }
 }
 
-
-///////////////
-
-Native5Lesson *lesson5;
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson5_LessonFiveNativeRenderer_nativeSurfaceCreate(
-        JNIEnv *env, jobject thiz, jobject asset_manager) {
-    // 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
-    GLUtils::setEnvAndAssetManager(env, asset_manager);
-    if (lesson5) {
-        delete lesson5;
-        lesson5 = nullptr;
-    }
-    lesson5 = new Native5Lesson();
-    lesson5->create();
-
-    lesson5->switchMode();
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson5_LessonFiveNativeRenderer_nativeSurfaceChange(
-        JNIEnv *env, jobject thiz, jint width, jint height) {
-    if (lesson5) {
-        lesson5->change(width, height);
-    }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson5_LessonFiveNativeRenderer_nativeDrawFrame(
-        JNIEnv *env, jobject thiz) {
-    if (lesson5) {
-        lesson5->draw();
-    }
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_lesson_lesson5_LessonFiveNativeRenderer_nativeSwitchMode(
-        JNIEnv *env, jobject thiz) {
-    if (lesson5) {
-        lesson5->switchMode();
-    }
+void Native5Lesson::shutdown() {
+    delete mModelMatrix;
+    mModelMatrix = nullptr;
+    delete mViewMatrix;
+    mViewMatrix = nullptr;
+    delete mProjectionMatrix;
+    mProjectionMatrix = nullptr;
+    delete mMVPMatrix;
+    mMVPMatrix = nullptr;
 }
