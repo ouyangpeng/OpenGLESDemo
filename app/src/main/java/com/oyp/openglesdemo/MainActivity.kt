@@ -1,5 +1,6 @@
 package com.oyp.openglesdemo
 
+import android.app.Activity
 import android.app.ListActivity
 import android.content.Intent
 import android.os.Bundle
@@ -7,14 +8,23 @@ import android.util.SparseArray
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.SimpleAdapter
 import com.oyp.openglesdemo.lesson.*
+import com.oyp.openglesdemo.lesson.lesson7.LessonSevenActivity
+import com.oyp.openglesdemo.lesson.lesson8.LessonEightActivity
 import java.util.*
 
 class MainActivity : ListActivity() {
+
+    val data: MutableList<Map<String, Any?>> = ArrayList()
+    val typeMapping = SparseArray<Int>()
+    val activityMapping = SparseArray<Class<out Activity?>>()
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val (data: MutableList<Map<String, Any?>>, typeMapping) = initData()
+    
+        // Initialize data
+        initData()
 
         val dataAdapter = SimpleAdapter(
             this,
@@ -31,30 +41,28 @@ class MainActivity : ListActivity() {
         setListAdapter(dataAdapter)
 
         getListView().onItemClickListener = OnItemClickListener { _, _, position, _ ->
-
             val type = typeMapping[position]
-            if (type != 0) {
-                val launchIntent = Intent(this@MainActivity, NativeRenderActivity::class.java)
-                launchIntent.putExtra(IMyNativeRendererType.RENDER_TYPE, type)
-                startActivity(launchIntent)
+            // 这两个demo没有改造完，用原来的方式启动
+            if(type  == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SEVEN ||
+                type  == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_EIGHT){
+                    // 取出要启动的Activity
+                    val activityToLaunch = activityMapping[position]
+                    if (activityToLaunch != null) {
+                        val launchIntent = Intent(this@MainActivity, activityToLaunch)
+                        startActivity(launchIntent)
+                    }
+            } else {
+                if (type != 0) {
+                    val launchIntent = Intent(this@MainActivity, NativeRenderActivity::class.java)
+                    launchIntent.putExtra(IMyNativeRendererType.RENDER_TYPE, type)
+                    startActivity(launchIntent)
+                }
             }
-
-
-//            val activityToLaunch = activityMapping[position]
-//            if (activityToLaunch != null) {
-//                val launchIntent = Intent(this@MainActivity, activityToLaunch)
-//                startActivity(launchIntent)
-//            }
         }
     }
 
-    private fun initData(): Pair<MutableList<Map<String, Any?>>, SparseArray<Int>> {
-        // Initialize data
-        val data: MutableList<Map<String, Any?>> = ArrayList()
-        val typeMapping = SparseArray<Int>()
-
+    private fun initData() {
         var i = 0
-
         val item0: MutableMap<String, Any?> = HashMap()
         item0[ITEM_IMAGE] = R.mipmap.ic_trangle
         item0[ITEM_TITLE] = "展示一个基本的红色三角形"
@@ -132,7 +140,7 @@ class MainActivity : ListActivity() {
         val itemTextureWrap: MutableMap<String, Any?> = HashMap()
         itemTextureWrap[ITEM_IMAGE] = R.mipmap.ic_texture_wrap
         itemTextureWrap[ITEM_TITLE] = "对比 三种不同纹理包装模式"
-        itemTextureWrap[ITEM_SUBTITLE] =  "学习GL_REPEAT、GL_CLAMP_TO_EDGE、GL_MIRRORED_REPEAT三种不同纹理包装模式"
+        itemTextureWrap[ITEM_SUBTITLE] = "学习GL_REPEAT、GL_CLAMP_TO_EDGE、GL_MIRRORED_REPEAT三种不同纹理包装模式"
         data.add(itemTextureWrap)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_WRAP)
 
@@ -140,7 +148,7 @@ class MainActivity : ListActivity() {
         val itemMultiTexture: MutableMap<String, Any?> = HashMap()
         itemMultiTexture[ITEM_IMAGE] = R.mipmap.ic_multi_texture
         itemMultiTexture[ITEM_TITLE] = "展示一个多重纹理"
-        itemMultiTexture[ITEM_SUBTITLE] =  "学习如何使用多重纹理"
+        itemMultiTexture[ITEM_SUBTITLE] = "学习如何使用多重纹理"
         data.add(itemMultiTexture)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_TEXTURE)
 
@@ -148,7 +156,7 @@ class MainActivity : ListActivity() {
         val itemParticleSystem: MutableMap<String, Any?> = HashMap()
         itemParticleSystem[ITEM_IMAGE] = R.mipmap.ic_particle_system
         itemParticleSystem[ITEM_TITLE] = "展示一个不停变化位置的爆炸效果"
-        itemParticleSystem[ITEM_SUBTITLE] =  "学习如何用点精灵渲染粒子爆炸效果"
+        itemParticleSystem[ITEM_SUBTITLE] = "学习如何用点精灵渲染粒子爆炸效果"
         data.add(itemParticleSystem)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM)
 
@@ -156,41 +164,44 @@ class MainActivity : ListActivity() {
         val itemParticleSystemTransformFeed: MutableMap<String, Any?> = HashMap()
         itemParticleSystemTransformFeed[ITEM_IMAGE] = R.mipmap.ic_particle_system_transform_feedback
         itemParticleSystemTransformFeed[ITEM_TITLE] = "使用变化反馈的粒子系统实现源源不断喷射的爆炸效果"
-        itemParticleSystemTransformFeed[ITEM_SUBTITLE] =  "使用变化反馈的粒子系统"
+        itemParticleSystemTransformFeed[ITEM_SUBTITLE] = "使用变化反馈的粒子系统"
         data.add(itemParticleSystemTransformFeed)
-        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK)
+        typeMapping.put(
+            i++,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK
+        )
 
         val itemNoise3D: MutableMap<String, Any?> = HashMap()
         itemNoise3D[ITEM_IMAGE] = R.mipmap.ic_noise3d
         itemNoise3D[ITEM_TITLE] = "展示 3D纹理噪音 "
-        itemNoise3D[ITEM_SUBTITLE] =  "学习实现3D纹理噪音"
+        itemNoise3D[ITEM_SUBTITLE] = "学习实现3D纹理噪音"
         data.add(itemNoise3D)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_NOISE3D)
 
         val itemMRT: MutableMap<String, Any?> = HashMap()
         itemMRT[ITEM_IMAGE] = R.mipmap.ic_mrt
         itemMRT[ITEM_TITLE] = "展示 多重渲染技术同时渲染到4个目标"
-        itemMRT[ITEM_SUBTITLE] =  "学习 MRT(多重渲染目标) 技术"
+        itemMRT[ITEM_SUBTITLE] = "学习 MRT(多重渲染目标) 技术"
         data.add(itemMRT)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MRT)
 
         val itemTerrainRender: MutableMap<String, Any?> = HashMap()
         itemTerrainRender[ITEM_IMAGE] = R.mipmap.ic_terrainrender
         itemTerrainRender[ITEM_TITLE] = "展示一幅立体地形画"
-        itemTerrainRender[ITEM_SUBTITLE] =  "学习 用顶点纹理读取渲染地形 技术"
+        itemTerrainRender[ITEM_SUBTITLE] = "学习 用顶点纹理读取渲染地形 技术"
         data.add(itemTerrainRender)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TERRAIN_RENDER)
 
         val itemShadows: MutableMap<String, Any?> = HashMap()
         itemShadows[ITEM_IMAGE] = R.mipmap.ic_shadows
         itemShadows[ITEM_TITLE] = "展示 深度纹理的阴影 效果图"
-        itemShadows[ITEM_SUBTITLE] =  "使用深度纹理的阴影"
+        itemShadows[ITEM_SUBTITLE] = "使用深度纹理的阴影"
         data.add(itemShadows)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADOWS)
 
         val item1: MutableMap<String, Any?> = HashMap()
         item1[ITEM_IMAGE] = R.mipmap.ic_lesson_one
-        item1[ITEM_TITLE] =  "展示 三个彩色三角形 不停旋转的效果"
+        item1[ITEM_TITLE] = "展示 三个彩色三角形 不停旋转的效果"
         item1[ITEM_SUBTITLE] = "学习绘制三角形以及使用矩阵变化进行旋转的效果"
         data.add(item1)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_ONE)
@@ -230,26 +241,28 @@ class MainActivity : ListActivity() {
         data.add(item6)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX)
 
-        //
-        //
-        //        val item7: MutableMap<String, Any> = HashMap()
-        //        item7[ITEM_IMAGE] = R.mipmap.ic_lesson_seven
-        //        item7[ITEM_TITLE] = getText(R.string.lesson_seven)
-        //        item7[ITEM_SUBTITLE] =
-        //            getText(R.string.lesson_seven_subtitle)
-        //        data.add(item7)
-        //        activityMapping.put(i++, LessonSevenActivity::class.java)
-        //
-        //
-        //        val item8: MutableMap<String, Any> = HashMap()
-        //        item8[ITEM_IMAGE] = R.mipmap.ic_lesson_eight
-        //        item8[ITEM_TITLE] = getText(R.string.lesson_eight)
-        //        item8[ITEM_SUBTITLE] =
-        //            getText(R.string.lesson_eight_subtitle)
-        //        data.add(item8)
-        //        activityMapping.put(i++, LessonEightActivity::class.java)
-        return Pair(data, typeMapping)
+        // todo  还没有改造完的.... 两个
+        val item7: MutableMap<String, Any> = HashMap()
+        item7[ITEM_IMAGE] = R.mipmap.ic_lesson_seven
+        item7[ITEM_TITLE] = "使用 顶点缓冲区对象（VBO）来绘制多个立方体 "
+        item7[ITEM_SUBTITLE] = "学到的知识点：立方体的数量可以改变，可以切换是否使用VBOs,Native可以调用Java方法"
+        data.add(item7)
+        // 这个i不要递增
+        typeMapping.put(i, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SEVEN)
+        activityMapping.put(i, LessonSevenActivity::class.java)
+        // i 递增
+        i++
+
+        val item8: MutableMap<String, Any> = HashMap()
+        item8[ITEM_IMAGE] = R.mipmap.ic_lesson_eight
+        item8[ITEM_TITLE] = "使用 IBOs 来绘制 "
+        item8[ITEM_SUBTITLE] = "本课程将介绍索引缓冲区对象（IBO）"
+        data.add(item8)
+        // 这个i不要递增
+        typeMapping.put(i, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_EIGHT)
+        activityMapping.put(i, LessonEightActivity::class.java)
     }
+
 
     companion object {
         private const val ITEM_IMAGE = "item_image"

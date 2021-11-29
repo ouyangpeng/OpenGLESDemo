@@ -152,7 +152,7 @@ void Native7Lesson::draw() {
     mTextureUniformHandle = (GLuint) glGetUniformLocation(mProgramHandle, "u_Texture");
     auto positionHandle = (GLuint) glGetAttribLocation(mProgramHandle, "a_Position");
     auto normalHandle = (GLuint) glGetAttribLocation(mProgramHandle, "a_Normal");
-    auto textureCoordinateHandle = (GLuint) glGetAttribLocation(mProgramHandle,"a_TexCoordinate");
+    auto textureCoordinateHandle = (GLuint) glGetAttribLocation(mProgramHandle, "a_TexCoordinate");
 
     if (genData != nullptr && genData->getCubes() != nullptr) {
         genData->getCubes()->setNormalHandle(normalHandle);
@@ -280,7 +280,7 @@ void Native7Lesson::updateVboStatus(bool useVbos) {
 }
 
 void Native7Lesson::updateStrideStatus(bool useStride) {
-    LOGD("updateStrideStatus %d", useStride);
+    LOGD("updateStrideStatus %d", useStride)
     Context *pctx = &g_ctx;
     JavaVM *javaVM = pctx->javaVM;
     JNIEnv *env;
@@ -328,13 +328,13 @@ Java_com_oyp_openglesdemo_lesson_lesson7_LessonSevenNativeRenderer_nativeDestroy
     g_ctx.nativeRendererObj = nullptr;
 
     if (lesson7 != nullptr) {
-    delete (lesson7);
-    lesson7 = nullptr;
+        delete (lesson7);
+        lesson7 = nullptr;
     }
 
     if (genData != nullptr) {
-    delete (genData);
-    genData = nullptr;
+        delete (genData);
+        genData = nullptr;
     }
 }
 
@@ -411,6 +411,6 @@ JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_lesson_lesson7_LessonSevenNativeRenderer_nativeToggleStride(
         JNIEnv *env, jobject thiz) {
     if (lesson7 != nullptr) {
-         lesson7->toggleStride();
+        lesson7->toggleStride();
     }
 }

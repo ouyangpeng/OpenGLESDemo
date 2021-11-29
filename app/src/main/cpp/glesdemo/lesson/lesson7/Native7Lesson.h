@@ -15,19 +15,19 @@ public:
 
 	void draw();
 
-	void decreaseCubeCount();
+	static void decreaseCubeCount();
 
-	void increaseCubeCount();
+	static void increaseCubeCount();
 
 	void setDelta(float x, float y);
 
-	void toggleStride();
+	static void toggleStride();
 
-	void toggleVBOs();
+	static void toggleVBOs();
 
-	void updateVboStatus(bool useVbos);
+	static void updateVboStatus(bool useVbos);
 
-	void updateStrideStatus(bool useStride);
+	static void updateStrideStatus(bool useStride);
 
 private:
 
