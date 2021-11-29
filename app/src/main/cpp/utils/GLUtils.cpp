@@ -14,7 +14,7 @@ typedef struct
 //  使用该属性对struct 或者union 类型进行定义，设定其类型的每一个变量的内存约束。
 //  就是告诉编译器取消结构在编译过程中的优化对齐（使用1字节对齐）,按照实际占用字节数进行对齐，是GCC特有的语法。
 //  这个功能是跟操作系统没关系，跟编译器有关，gcc编译器不是紧凑模式的
-        __attribute__ (( packed )) {
+    __attribute__ (( packed )) {
     unsigned char IdSize,
             MapType,
             ImageType;
@@ -92,7 +92,7 @@ static int esFileRead(esFile *pFile, int bytesToRead, void *buffer) {
  *
  * 负责 加载着色器源代码、编译并检查错误。他返回一个着色器对象
  */
-static GLuint loadShader(GLenum shaderType, const char **source) {
+static GLuint loadShader(GLenum shaderType, const char** source) {
     // Create the shader object
     GLuint shader;
     FUN_BEGIN_TIME("GLUtils::loadShader")
@@ -106,13 +106,18 @@ static GLuint loadShader(GLenum shaderType, const char **source) {
 
         // Load the shader source
         glShaderSource(shader, 1, source, nullptr);
+
         // Compile the shader
         glCompileShader(shader);
+
         // Check the compile status
         glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+
         if (!compiled) {
             GLint infoLen = 0;
+
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
+
             if (infoLen > 1) {
                 char *infoLog = (char *) malloc(sizeof(char) * infoLen);
                 if (infoLog) {
@@ -122,29 +127,34 @@ static GLuint loadShader(GLenum shaderType, const char **source) {
 
                     free(infoLog);
                 }
+                // 删除Shader
+                glDeleteShader(shader);
+                return 0;
             }
-            // 删除Shader
-            glDeleteShader(shader);
-            return 0;
-        }
-    FUN_END_TIME("GLUtils::loadShader")
-    return shader;
+        FUN_END_TIME("GLUtils::loadShader")
+        return shader;
+    }
 }
 
-GLuint GLUtils::createProgram(const char **vertexSource, const char **fragmentSource) {
+GLuint GLUtils::createProgram(const char** vertexSource, const char** fragmentSource) {
     GLuint program = 0;
     FUN_BEGIN_TIME("GLUtils::createProgram")
         // Load the Vertex shader
         GLuint vertexShader = loadShader(GL_VERTEX_SHADER, vertexSource);
-        if (!vertexShader) return program;
-
+        if (vertexShader == 0) {
+            return 0;
+        }
         // Load the Fragment shader
         GLuint fragmentShader = loadShader(GL_FRAGMENT_SHADER, fragmentSource);
-        if (!fragmentShader) return program;
+        if (fragmentShader == 0) {
+            return 0;
+        }
 
         // Create the program object
         program = glCreateProgram();
-        if (!program) return program;
+        if (program == 0) {
+            return 0;
+        }
 
         // Bind the vertex shader to the program
         glAttachShader(program, vertexShader);
@@ -158,15 +168,6 @@ GLuint GLUtils::createProgram(const char **vertexSource, const char **fragmentSo
         // Check the link status
         GLint linkStatus;
         glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
-
-        // Free up no longer needed shader resources
-        glDetachShader(program, vertexShader);
-        glDeleteShader(vertexShader);
-        vertexShader = 0;
-
-        glDetachShader(program, fragmentShader);
-        glDeleteShader(fragmentShader);
-        fragmentShader = 0;
 
         if (!linkStatus) {
             // Retrieve compiler error message when linking fails
@@ -183,10 +184,12 @@ GLuint GLUtils::createProgram(const char **vertexSource, const char **fragmentSo
             }
             // 删除程序对象
             glDeleteProgram(program);
-            program = 0;
+            return 0;
         }
+        // Free up no longer needed shader resources
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
     FUN_END_TIME("GLUtils::createProgram")
-    LOGD("GLUtils::createProgram program = %d", program)
     return program;
 }
 
