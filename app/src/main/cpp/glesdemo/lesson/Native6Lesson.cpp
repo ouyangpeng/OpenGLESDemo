@@ -314,5 +314,31 @@ void Native6Lesson::setDelta(float x, float y) {
 }
 
 void Native6Lesson::shutdown() {
+    delete mModelMatrix;
+    mModelMatrix = nullptr;
 
+    delete mViewMatrix;
+    mViewMatrix = nullptr;
+
+    delete mProjectionMatrix;
+    mProjectionMatrix = nullptr;
+
+    delete mMVPMatrix;
+    mMVPMatrix = nullptr;
+
+    delete mAccumulatedRotationMatrix;
+    mAccumulatedRotationMatrix = nullptr;
+
+    delete mCurrentRotationMatrix;
+    mCurrentRotationMatrix = nullptr;
+
+    delete mLightModelMatrix;
+    mLightModelMatrix = nullptr;
+
+    // Delete texture object
+    glDeleteTextures ( 1, &mBrickDataHandle );
+    glDeleteTextures ( 1, &mGrassDataHandle );
+
+    // Delete program object
+    glDeleteProgram ( mProgram );
 }
