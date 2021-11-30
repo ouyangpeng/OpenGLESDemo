@@ -10,12 +10,6 @@
 #include <cstdlib>
 #include "Shadows.h"
 
-Shadows::Shadows() {
-
-}
-
-Shadows::~Shadows() = default;
-
 void Shadows::create() {
     GLUtils::printGLInfo();
 
@@ -365,15 +359,6 @@ void Shadows::drawScene(GLint mvpLoc, GLint mvpLightLoc) {
     glDrawElements(GL_TRIANGLES, cubeNumIndices, GL_UNSIGNED_INT, (const void *) nullptr);
 }
 
-void Shadows::change(int width, int height) {
-    mWidth = width;
-    mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height)
-
-    // Set the viewport
-    glViewport(0, 0, mWidth, mHeight);
-}
-
 void Shadows::shutdown() {
     glDeleteBuffers(1, &groundPositionVBO);
     glDeleteBuffers(1, &groundIndicesIBO);
@@ -389,6 +374,6 @@ void Shadows::shutdown() {
     glDeleteTextures(1, &shadowMapTextureId);
 
     // Delete program object
-    glDeleteProgram(sceneProgramObject);
-    glDeleteProgram(shadowMapProgramObject);
+    GLUtils::DeleteProgram(sceneProgramObject);
+    GLUtils::DeleteProgram(shadowMapProgramObject);
 }

@@ -254,4 +254,7 @@ void Native5Lesson::shutdown() {
 
     delete mMVPMatrix;
     mMVPMatrix = nullptr;
+
+    // Delete program object
+    GLUtils::DeleteProgram(mProgram);
 }

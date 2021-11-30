@@ -57,6 +57,7 @@ Native8Lesson::~Native8Lesson() {
     delete (heightMap);
     heightMap = nullptr;
 
+    GLUtils::DeleteProgram(program);
     LOGD("~Native8Lesson")
 }
 

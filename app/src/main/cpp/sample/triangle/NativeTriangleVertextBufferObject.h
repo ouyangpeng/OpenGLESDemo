@@ -8,16 +8,14 @@
 #define VERTEX_POS_INDX       0
 #define VERTEX_COLOR_INDX     1
 
-class NativeTriangleVBO : public BaseGLSample{
+class NativeTriangleVBO : public BaseGLSample {
 
 public:
-    NativeTriangleVBO();
+    NativeTriangleVBO() = default;
 
-    virtual ~NativeTriangleVBO();
+    virtual ~NativeTriangleVBO() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 
@@ -31,11 +29,11 @@ private:
     // x-offset uniform location
     GLuint offsetLoc;
 
-    void DrawPrimitiveWithoutVBOs(GLfloat *vertices, GLint vtxStride,
-                                  GLint numIndices, GLushort *indices);
+    static void DrawPrimitiveWithoutVBOs(GLfloat *verticesParam, GLint vtxStride,
+                                         GLint numIndices, GLushort *indicesParam);
 
     void DrawPrimitiveWithVBOs(GLint numVertices, GLfloat *vtxBuf,
-                               GLint vtxStride, GLint numIndices, GLushort *indices);
+                               GLint vtxStride, GLint numIndices, GLushort *indicesParam);
 };
 
 

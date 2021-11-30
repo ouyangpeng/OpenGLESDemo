@@ -33,13 +33,6 @@ static GLushort indices[3] = {
 
 static GLfloat *vtxBuf[2] = {vertexPos, color};
 
-NativeTriangle3::NativeTriangle3() {
-
-}
-
-NativeTriangle3::~NativeTriangle3() {
-
-}
 
 void NativeTriangle3::create() {
     GLUtils::printGLInfo();
@@ -53,7 +46,7 @@ void NativeTriangle3::create() {
     mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
     if (!mProgram) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
 
@@ -122,7 +115,7 @@ void NativeTriangle3::draw() {
         // 与VBO类似，我们先绑定EBO然后用glBufferData把索引复制到缓冲里。
         // 同样，和VBO类似，我们会把这些函数调用放在绑定和解绑函数调用之间，只不过这次我们把缓冲的类型定义为GL_ELEMENT_ARRAY_BUFFER。
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[2]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * 4 , indices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * 4, indices, GL_STATIC_DRAW);
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
@@ -151,15 +144,15 @@ void NativeTriangle3::draw() {
         最后一个参数的类型是void*，所以需要我们进行这个奇怪的强制类型转换。
             它表示位置数据在缓冲中起始位置的偏移量(Offset)。由于位置数据在数组的开头，所以这里是0。我们会在后面详细解释这个参数。
      */
-     //设置顶点属性指针
+    //设置顶点属性指针
     glVertexAttribPointer(VERTEX_POS_INDX, VERTEX_POS_SIZE, GL_FLOAT,
-                        GL_FALSE, vtxStrides[0], nullptr);
+                          GL_FALSE, vtxStrides[0], nullptr);
 
 
     glBindBuffer(GL_ARRAY_BUFFER, vboIds[1]);
     glEnableVertexAttribArray(VERTEX_COLOR_INDX);
     glVertexAttribPointer(VERTEX_COLOR_INDX, VERTEX_COLOR_SIZE, GL_FLOAT,
-                        GL_FALSE, vtxStrides[1],nullptr);
+                          GL_FALSE, vtxStrides[1], nullptr);
 
 
     //我们传递了GL_ELEMENT_ARRAY_BUFFER当作缓冲目标。
@@ -188,20 +181,9 @@ void NativeTriangle3::draw() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void NativeTriangle3::change(int width, int height) {
-    mWidth = width;
-    mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height);
-    // Set the viewport
-    // 通知OpenGL ES 用于绘制的2D渲染表面的原点、宽度和高度。
-    // 在OpenGL ES 中，视口(Viewport) 定义所有OpenGL ES 渲染操作最终显示的2D矩形
-    // 视口(Viewport) 由原点坐标(x,y)和宽度(width) 、高度(height)定义。
-    glViewport(0, 0, mWidth, mHeight);
-}
-
 void NativeTriangle3::shutdown() {
     // Delete program object
-    glDeleteProgram(mProgram);
+    GLUtils::DeleteProgram(mProgram);
 
-    glDeleteBuffers ( 3, &vboIds[0] );
+    glDeleteBuffers(3, &vboIds[0]);
 }

@@ -5,14 +5,6 @@
 #include <cstdlib>
 #include "MRT.h"
 
-MRT::MRT() {
-
-}
-
-MRT::~MRT() {
-
-}
-
 void MRT::create() {
 	GLUtils::printGLInfo();
 
@@ -85,13 +77,6 @@ void MRT::initFBO() {
 	glBindFramebuffer( GL_FRAMEBUFFER, defaultFramebuffer);
 }
 
-void MRT::change(int width, int height) {
-	mWidth = width;
-	mHeight = height;
-	LOGD("change() width = %d , height = %d\n", width, height)
-	glViewport(0, 0, mWidth, mHeight);
-}
-
 void MRT::shutdown() {
 	// Delete texture objects
 	glDeleteTextures ( 4, colorTexId );
@@ -100,7 +85,8 @@ void MRT::shutdown() {
 	glDeleteFramebuffers ( 1, &fbo );
 
 	// Delete program object
-	glDeleteProgram(mProgram);
+	    // Delete program object
+    GLUtils::DeleteProgram(mProgram);
 }
 
 void MRT::draw() {

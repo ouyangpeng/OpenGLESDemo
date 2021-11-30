@@ -20,14 +20,6 @@ static GLfloat vertices[3 * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE)] =
 // Index buffer data
 static GLushort indices[3] = {0, 1, 2};
 
-NativeTriangleVBO::NativeTriangleVBO() {
-
-}
-
-NativeTriangleVBO::~NativeTriangleVBO() {
-
-}
-
 void NativeTriangleVBO::create() {
     GLUtils::printGLInfo();
     // 顶点着色器
@@ -41,7 +33,7 @@ void NativeTriangleVBO::create() {
     offsetLoc = glGetUniformLocation(mProgram, "u_offset");
 
     if (!mProgram) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
 
@@ -71,27 +63,15 @@ void NativeTriangleVBO::draw() {
                           3, indices);
 }
 
-void NativeTriangleVBO::change(int width, int height) {
-    mWidth = width;
-    mHeight = height;
-    LOGD("Welcome to changew() width = %d , height = %d\n", width, height);
-
-    // Set the viewport
-    // 通知OpenGL ES 用于绘制的2D渲染表面的原点、宽度和高度。
-    // 在OpenGL ES 中，视口(Viewport) 定义所有OpenGL ES 渲染操作最终显示的2D矩形
-    // 视口(Viewport) 由原点坐标(x,y)和宽度(width) 、高度(height)定义。
-    glViewport(0, 0, mWidth, mHeight);
-}
-
-// vertices   - pointer to a buffer that contains vertex attribute data
+// verticesParam   - pointer to a buffer that contains vertex attribute data
 // vtxStride  - stride of attribute data / vertex in bytes
-// numIndices - number of indices that make up primitive drawn as triangles
-// indices    - pointer to element index buffer.
-void NativeTriangleVBO::DrawPrimitiveWithoutVBOs(GLfloat *vertices,
-                                              GLint vtxStride, GLint numIndices,
-                                              GLushort *indices) {
+// numIndices - number of indicesParam that make up primitive drawn as triangles
+// indicesParam    - pointer to element index buffer.
+void NativeTriangleVBO::DrawPrimitiveWithoutVBOs(GLfloat *verticesParam,
+                                                 GLint vtxStride, GLint numIndices,
+                                                 GLushort *indicesParam) {
     FUN_BEGIN_TIME("NativeTriangleVBO::DrawPrimitiveWithoutVBOs")
-        GLfloat *vtxBuf = vertices;
+        GLfloat *vtxBuf = verticesParam;
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -107,7 +87,7 @@ void NativeTriangleVBO::DrawPrimitiveWithoutVBOs(GLfloat *vertices,
         glVertexAttribPointer(VERTEX_COLOR_INDX, VERTEX_COLOR_SIZE,
                               GL_FLOAT, GL_FALSE, vtxStride, vtxBuf);
 
-        glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, indices);
+        glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, indicesParam);
 
         glDisableVertexAttribArray(VERTEX_POS_INDX);
         glDisableVertexAttribArray(VERTEX_COLOR_INDX);
@@ -115,12 +95,13 @@ void NativeTriangleVBO::DrawPrimitiveWithoutVBOs(GLfloat *vertices,
 }
 
 void NativeTriangleVBO::DrawPrimitiveWithVBOs(GLint numVertices, GLfloat *vtxBuf,
-                                           GLint vtxStride, GLint numIndices, GLushort *indices) {
+                                              GLint vtxStride, GLint numIndices,
+                                              GLushort *indicesParam) {
     FUN_BEGIN_TIME("NativeTriangleVBO::DrawPrimitiveWithVBOs")
         GLuint offset = 0;
 
         // vboIds[0] - used to store vertex attribute data
-        // vboIds[l] - used to store element indices
+        // vboIds[l] - used to store element indicesParam
         if (vboIds[0] == 0 && vboIds[1] == 0) {
             //Only allocate on the first draw
             glGenBuffers(2, vboIds);
@@ -132,7 +113,7 @@ void NativeTriangleVBO::DrawPrimitiveWithVBOs(GLint numVertices, GLfloat *vtxBuf
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER,
                          sizeof(GLushort) * numIndices,
-                         indices, GL_STATIC_DRAW);
+                         indicesParam, GL_STATIC_DRAW);
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
@@ -148,7 +129,7 @@ void NativeTriangleVBO::DrawPrimitiveWithVBOs(GLint numVertices, GLfloat *vtxBuf
         glVertexAttribPointer(VERTEX_COLOR_INDX, VERTEX_COLOR_SIZE,
                               GL_FLOAT, GL_FALSE, vtxStride, (const void *) offset);
 
-        glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, 0);
+        glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, nullptr);
 
         glDisableVertexAttribArray(VERTEX_POS_INDX);
         glDisableVertexAttribArray(VERTEX_COLOR_INDX);
@@ -160,7 +141,7 @@ void NativeTriangleVBO::DrawPrimitiveWithVBOs(GLint numVertices, GLfloat *vtxBuf
 
 void NativeTriangleVBO::shutdown() {
     // Delete program object
-    glDeleteProgram(mProgram);
+    GLUtils::DeleteProgram(mProgram);
 
     glDeleteBuffers(2, &vboIds[0]);
 }

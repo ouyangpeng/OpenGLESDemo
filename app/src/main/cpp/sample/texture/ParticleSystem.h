@@ -16,13 +16,11 @@
 
 class ParticleSystem : public BaseGLSample{
 public:
-    ParticleSystem();
+    ParticleSystem() = default;
 
-    virtual ~ParticleSystem();
+    virtual ~ParticleSystem() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 

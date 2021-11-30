@@ -8,16 +8,14 @@
 #define VERTEX_POS_INDX       0
 #define VERTEX_COLOR_INDX     1
 
-class NativeTriangle3  : public BaseGLSample{
+class NativeTriangle3 : public BaseGLSample {
 
 public:
-    NativeTriangle3();
+    NativeTriangle3() = default;
 
-    virtual ~NativeTriangle3();
+    virtual ~NativeTriangle3() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 

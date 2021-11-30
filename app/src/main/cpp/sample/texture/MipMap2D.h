@@ -7,36 +7,36 @@
 
 #include <BaseGLSample.h>
 
-class MipMap2D : public BaseGLSample{
+class MipMap2D : public BaseGLSample {
 public:
-	MipMap2D();
+    MipMap2D() = default;
 
-	virtual ~MipMap2D();
+    virtual ~MipMap2D() = default;
 
-	virtual void create();
+    virtual void create();
 
-	virtual void change(int width, int height);
+    virtual void draw();
 
-	virtual void draw();
-
-	virtual void shutdown();
+    virtual void shutdown();
 
 private:
 
-	// Sampler location
-	GLint samplerLoc;
+    // Sampler location
+    GLint samplerLoc;
 
-	// Offset location
-	GLint offsetLoc;
+    // Offset location
+    GLint offsetLoc;
 
-	// Texture handle
-	GLuint textureId;
+    // Texture handle
+    GLuint textureId;
 
-	GLuint CreateMipMappedTexture2D();
+    static GLuint CreateMipMappedTexture2D();
 
-	GLboolean GenMipMap2D(const GLubyte* src, GLubyte** dst, int srcWidth, int srcHeight, int* dstWidth, int* dstHeight);
+    static GLboolean
+    GenMipMap2D(const GLubyte *src, GLubyte **dst, int srcWidth, int srcHeight, int *dstWidth,
+                int *dstHeight);
 
-	GLubyte* GenCheckImage(int width, int height, int checkSize);
+    static GLubyte *GenCheckImage(int width, int height, int checkSize);
 };
 
 

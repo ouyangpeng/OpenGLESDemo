@@ -6,15 +6,14 @@
 #define OPENGLESDEMO_TEXTUREWRAP_H
 
 #include <BaseGLSample.h>
-class TextureWrap : public BaseGLSample{
-public:
-    TextureWrap();
 
-    virtual ~TextureWrap();
+class TextureWrap : public BaseGLSample {
+public:
+    TextureWrap() = default;
+
+    virtual ~TextureWrap() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 
@@ -30,8 +29,9 @@ private:
     // Texture handle
     GLuint textureId;
 
-    GLuint CreateTexture2D();
+    static GLuint CreateTexture2D();
 
-    GLubyte *GenCheckImage(int width, int height, int checkSize);
+    static GLubyte *GenCheckImage(int width, int height, int checkSize);
 };
+
 #endif //OPENGLESDEMO_TEXTUREWRAP_H

@@ -5,14 +5,6 @@
 #include <cstdlib>
 #include "TerrainRender.h"
 
-TerrainRender::TerrainRender() {
-
-}
-
-TerrainRender::~TerrainRender() {
-
-}
-
 void TerrainRender::create() {
     GLUtils::printGLInfo();
 
@@ -69,18 +61,7 @@ void TerrainRender::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void TerrainRender::change(int width, int height) {
-    mWidth = width;
-    mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height)
-
-    // Set the viewport
-    glViewport(0, 0, mWidth, mHeight);
-}
-
-//
 // Initialize the MVP matrix
-//
 void TerrainRender::initMVP() {
     ESMatrix perspective;
     ESMatrix modelview;
@@ -146,5 +127,6 @@ void TerrainRender::shutdown() {
     glDeleteBuffers(1, &positionVBO);
     glDeleteBuffers(1, &indicesIBO);
 
-    glDeleteProgram(mProgram);
+        // Delete program object
+    GLUtils::DeleteProgram(mProgram);
 }

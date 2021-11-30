@@ -9,14 +9,6 @@
 #include <cstdlib>
 #include "SimpleTextureCubeMap.h"
 
-SimpleTextureCubeMap::SimpleTextureCubeMap() {
-
-}
-
-SimpleTextureCubeMap::~SimpleTextureCubeMap() {
-
-}
-
 void SimpleTextureCubeMap::create() {
     GLUtils::printGLInfo();
 
@@ -81,14 +73,6 @@ void SimpleTextureCubeMap::draw() {
     glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, indices);
 }
 
-void SimpleTextureCubeMap::change(int width, int height) {
-    mWidth = width;
-    mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height)
-    // Set the viewport
-    glViewport(0, 0, mWidth, mHeight);
-}
-
 // Create a simple cubemap with a 1x1 face with a different color for each face
 GLuint SimpleTextureCubeMap::CreateSimpleTextureCubemap() {
     // 基本上说cubemap它包含6个2D纹理，这每个2D纹理是一个立方体（cube）的一个面，也就是说它是一个有贴图的立方体。
@@ -147,10 +131,9 @@ GLuint SimpleTextureCubeMap::CreateSimpleTextureCubemap() {
     // 使用循环 替换下面的6个方法
     // 很多OpenGL其他枚举一样，对应的int值都是连续增加的，所以我们有一个纹理位置的数组或vector，
     // 就能以GL_TEXTURE_CUBE_MAP_POSITIVE_X为起始来对它们进行遍历，每次迭代枚举值加 1，这样循环所有的纹理目标效率较高：
-    for(GLuint i = 0; i < 6 ; i ++)
-    {
+    for (GLuint i = 0; i < 6; i++) {
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, 1, 1, 0,
-                 GL_RGB, GL_UNSIGNED_BYTE, &cubePixels[i]);
+                     GL_RGB, GL_UNSIGNED_BYTE, &cubePixels[i]);
     }
 
 // Load the cube face - Positive X
@@ -203,5 +186,5 @@ void SimpleTextureCubeMap::shutdown() {
     glDeleteTextures(1, &textureId);
 
     // Delete program object
-    glDeleteProgram(mProgram);
+    GLUtils::DeleteProgram(mProgram);
 }

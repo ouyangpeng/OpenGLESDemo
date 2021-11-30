@@ -2,14 +2,6 @@
 #include "NativeTriangleMapBuffers.h"
 
 // 可以参考这篇讲解： https://learnopengl-cn.github.io/01%20Getting%20started/04%20Hello%20Triangle/
-NativeTriangleMapBuffers::NativeTriangleMapBuffers() {
-
-}
-
-NativeTriangleMapBuffers::~NativeTriangleMapBuffers() {
-
-}
-
 void NativeTriangleMapBuffers::create() {
     GLUtils::printGLInfo();
 
@@ -175,7 +167,7 @@ void NativeTriangleMapBuffers::DrawPrimitiveWithVBOsMapBuffers(
                           GL_FLOAT, GL_FALSE, vtxStride,
                           (const void *) offset);
 
-    glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, 0);
+    glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, nullptr);
 
     glDisableVertexAttribArray(VERTEX_POS_INDX);
     glDisableVertexAttribArray(VERTEX_COLOR_INDX);
@@ -184,21 +176,9 @@ void NativeTriangleMapBuffers::DrawPrimitiveWithVBOsMapBuffers(
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-
-void NativeTriangleMapBuffers::change(int width, int height) {
-    mWidth = width;
-    mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height)
-    // Set the viewport
-    // 通知OpenGL ES 用于绘制的2D渲染表面的原点、宽度和高度。
-    // 在OpenGL ES 中，视口(Viewport) 定义所有OpenGL ES 渲染操作最终显示的2D矩形
-    // 视口(Viewport) 由原点坐标(x,y)和宽度(width) 、高度(height)定义。
-    glViewport(0, 0, mWidth, mHeight);
-}
-
 void NativeTriangleMapBuffers::shutdown() {
     // Delete program object
-    glDeleteProgram(mProgram);
+    GLUtils::DeleteProgram(mProgram);
 
     glDeleteBuffers(2, &vboIds[0]);
 }

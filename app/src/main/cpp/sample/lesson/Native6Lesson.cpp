@@ -1,12 +1,5 @@
 #include "Native6Lesson.h"
 
-
-Native6Lesson::Native6Lesson() {
-
-}
-
-Native6Lesson::~Native6Lesson() = default;
-
 void Native6Lesson::create() {
     // Use culling to remove back face.
     glEnable(GL_CULL_FACE);
@@ -340,5 +333,6 @@ void Native6Lesson::shutdown() {
     glDeleteTextures ( 1, &mGrassDataHandle );
 
     // Delete program object
-    glDeleteProgram ( mProgram );
+    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(mPointProgramHandle);
 }

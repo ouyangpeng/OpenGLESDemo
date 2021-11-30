@@ -12,13 +12,11 @@
 
 class NativeTriangleVAO : public BaseGLSample {
 public:
-    NativeTriangleVAO();
+    NativeTriangleVAO() = default;
 
-    virtual ~NativeTriangleVAO();
+    virtual ~NativeTriangleVAO() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 

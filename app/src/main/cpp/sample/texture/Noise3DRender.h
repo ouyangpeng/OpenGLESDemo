@@ -20,13 +20,11 @@
 
 class Noise3DRender : public BaseGLSample{
 public:
-    Noise3DRender();
+    Noise3DRender() = default;
 
-    virtual ~Noise3DRender();
+    virtual ~Noise3DRender() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 

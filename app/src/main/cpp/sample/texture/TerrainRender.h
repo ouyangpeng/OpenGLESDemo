@@ -9,13 +9,11 @@
 
 class TerrainRender : public BaseGLSample {
 public:
-    TerrainRender();
+    TerrainRender() = default;
 
-    virtual ~TerrainRender();
+    virtual ~TerrainRender() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 
@@ -23,7 +21,7 @@ public:
 
 private:
 
-// Uniform locations
+    // Uniform locations
     GLint mvpLoc;
     GLint lightDirectionLoc;
 

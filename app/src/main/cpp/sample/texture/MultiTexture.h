@@ -10,15 +10,13 @@
 #define MULTI_TEXTURE_VERTEX_POS_INDX               0
 #define MULTI_TEXTURE_VERTEX_TEXCOORD_INDX          1
 
-class MultiTexture  : public BaseGLSample{
+class MultiTexture : public BaseGLSample {
 public:
-    MultiTexture();
+    MultiTexture() = default;
 
-    virtual ~MultiTexture();
+    virtual ~MultiTexture() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 

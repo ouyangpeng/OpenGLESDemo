@@ -5,14 +5,6 @@
 #include <cstdlib>
 #include "TextureWrap.h"
 
-TextureWrap::TextureWrap() {
-
-}
-
-TextureWrap::~TextureWrap() {
-
-}
-
 void TextureWrap::create() {
 	GLUtils::printGLInfo();
 
@@ -40,15 +32,6 @@ void TextureWrap::create() {
 
 	// 设置清除颜色
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-}
-
-void TextureWrap::change(int width, int height) {
-	mWidth = width;
-	mHeight = height;
-	LOGD("change() width = %d , height = %d\n", width, height)
-
-	// Set the viewport
-	glViewport(0, 0, mWidth, mHeight);
 }
 
 void TextureWrap::draw() {
@@ -135,7 +118,7 @@ void TextureWrap::shutdown() {
 	glDeleteTextures(1, &textureId);
 
 	// Delete program object
-	glDeleteProgram(mProgram);
+    GLUtils::DeleteProgram(mProgram);
 }
 
 // Create a mipmapped 2D texture image
@@ -181,7 +164,7 @@ GLuint TextureWrap::CreateTexture2D() {
 //  Generate an RGB8 checkerboard image
 GLubyte* TextureWrap::GenCheckImage(int width, int height, int checkSize) {
 	int x, y;
-	GLubyte* pixels = (GLubyte*)malloc(width * height * 3);
+	auto* pixels = (GLubyte*)malloc(width * height * 3);
 
 	if (pixels == nullptr)
 	{

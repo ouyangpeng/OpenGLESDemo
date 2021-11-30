@@ -7,20 +7,20 @@
 
 #define SIMPLE_TEXTURE_CUBE_MAP_VERTEX_POS_INDEX            0
 #define SIMPLE_TEXTURE_CUBE_MAP_VERTEX_NORMAL_INDEX         1
-class SimpleTextureCubeMap : public BaseGLSample{
+
+class SimpleTextureCubeMap : public BaseGLSample {
 
 public:
-    SimpleTextureCubeMap();
+    SimpleTextureCubeMap() = default;
 
-    virtual ~SimpleTextureCubeMap();
+    virtual ~SimpleTextureCubeMap() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 
     virtual void shutdown();
+
 private:
     // Sampler location
     GLint samplerLoc;

@@ -7,36 +7,34 @@
 
 #include <BaseGLSample.h>
 
-class MRT : public BaseGLSample{
+class MRT : public BaseGLSample {
 public:
-	MRT();
+    MRT() = default;
 
-	virtual ~MRT();
+    virtual ~MRT() = default;
 
-	virtual void create();
+    virtual void create();
 
-	virtual void change(int width, int height);
+    virtual void draw();
 
-	virtual void draw();
-
-	virtual void shutdown();
+    virtual void shutdown();
 
 private:
-	// Handle to a framebuffer object
-	GLuint fbo;
+    // Handle to a framebuffer object
+    GLuint fbo;
 
-	// Texture handle
-	GLuint colorTexId[4];
+    // Texture handle
+    GLuint colorTexId[4];
 
-	// Texture size
-	GLsizei textureWidth;
-	GLsizei textureHeight;
+    // Texture size
+    GLsizei textureWidth;
+    GLsizei textureHeight;
 
-	void initFBO();
+    void initFBO();
 
-	void drawGeometry();
+    void drawGeometry();
 
-	void blitTextures();
+    void blitTextures();
 };
 
 

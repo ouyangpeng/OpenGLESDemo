@@ -23,15 +23,6 @@ static GLfloat vertices[3 * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE)] =
 // Index buffer data
 static GLushort indices[3] = {0, 1, 2};
 
-
-NativeTriangleVAO::NativeTriangleVAO() {
-
-}
-
-NativeTriangleVAO::~NativeTriangleVAO() {
-
-}
-
 void NativeTriangleVAO::create() {
     GLUtils::printGLInfo();
 
@@ -44,7 +35,7 @@ void NativeTriangleVAO::create() {
     mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
     if (!mProgram) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
 
@@ -109,26 +100,15 @@ void NativeTriangleVAO::draw() {
     glBindVertexArray(vaoId);
 
     // Draw with the VAO settings
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, (const void *) 0);
+    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, nullptr);
 
     // Return to the default VAO
     glBindVertexArray(0);
 }
 
-void NativeTriangleVAO::change(int width, int height) {
-    mWidth = width;
-    mHeight = height;
-    LOGD("Welcome to changew() width = %d , height = %d\n", width, height);
-    // Set the viewport
-    // 通知OpenGL ES 用于绘制的2D渲染表面的原点、宽度和高度。
-    // 在OpenGL ES 中，视口(Viewport) 定义所有OpenGL ES 渲染操作最终显示的2D矩形
-    // 视口(Viewport) 由原点坐标(x,y)和宽度(width) 、高度(height)定义。
-    glViewport(0, 0, mWidth, mHeight);
-}
-
 void NativeTriangleVAO::shutdown() {
     // Delete program object
-    glDeleteProgram(mProgram);
+    GLUtils::DeleteProgram(mProgram);
 
     glDeleteBuffers(2, &vboIds[0]);
 }

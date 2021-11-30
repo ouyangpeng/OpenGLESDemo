@@ -39,6 +39,8 @@ Native7Lesson::Native7Lesson() {
     mLightPosInEyeSpace[1] = 0.0f;
     mLightPosInEyeSpace[2] = 0.0f;
     mLightPosInEyeSpace[3] = 0.0f;
+
+    GLUtils::DeleteProgram(mProgramHandle);
 }
 
 Native7Lesson::~Native7Lesson() {
@@ -52,6 +54,8 @@ Native7Lesson::~Native7Lesson() {
     mProjectionMatrix = nullptr;
     delete mMVPMatrix;
     mMVPMatrix = nullptr;
+
+
 }
 
 void Native7Lesson::create() {

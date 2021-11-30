@@ -5,13 +5,6 @@
 #include <cstdlib>
 #include "ParticleSystem.h"
 
-ParticleSystem::ParticleSystem() {
-
-}
-
-ParticleSystem::~ParticleSystem() {
-
-}
 
 void ParticleSystem::create() {
     GLUtils::printGLInfo();
@@ -39,7 +32,8 @@ void ParticleSystem::create() {
     glClearColor ( 0.0f, 0.0f, 0.0f, 0.0f );
 
     // Fill in particle data array
-    srand(0);
+    // 指定seed为当前系统流逝了的时间（单位为秒）：time_t   time(0)
+    srand((unsigned)time(nullptr));
 
     int i;
     for(i = 0; i < PARTICLE_SYSTEM_NUM_PARTICLES; i++)
@@ -66,15 +60,6 @@ void ParticleSystem::create() {
     // Load the textures
     // 从assets目录下 取出对应的Texture
     mTextureId = GLUtils::loadTexture(  "texture/smoke.png" );
-}
-
-void ParticleSystem::change(int width, int height) {
-    mWidth = width;
-    mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height)
-
-    // Set the viewport
-    glViewport ( 0, 0, mWidth, mHeight );
 }
 
 void ParticleSystem::draw() {
@@ -131,7 +116,7 @@ void ParticleSystem::shutdown() {
     glDeleteTextures ( 1, &mTextureId );
 
     // Delete program object
-    glDeleteProgram ( mProgram );
+    GLUtils::DeleteProgram(mProgram);
 }
 
 void ParticleSystem::update(float deltaTime) {

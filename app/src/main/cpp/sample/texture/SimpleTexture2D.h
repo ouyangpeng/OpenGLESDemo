@@ -13,13 +13,11 @@
 class SimpleTexture2D : public BaseGLSample {
 
 public:
-    SimpleTexture2D();
+    SimpleTexture2D() = default;
 
-    virtual ~SimpleTexture2D();
+    virtual ~SimpleTexture2D() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 
@@ -32,7 +30,7 @@ private:
     // Texture handle
     GLuint textureId;
 
-    GLuint CreateSimpleTexture2D();
+    static GLuint CreateSimpleTexture2D();
 };
 
 #endif //OPENGLESDEMO_SIMPLETEXTURE2D_H

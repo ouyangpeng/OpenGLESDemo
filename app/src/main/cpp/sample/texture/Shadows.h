@@ -8,15 +8,13 @@
 #define POSITION_LOC    0
 #define COLOR_LOC       1
 
-class Shadows : public BaseGLSample{
+class Shadows : public BaseGLSample {
 public:
-    Shadows();
+    Shadows() = default;
 
-    virtual ~Shadows();
+    virtual ~Shadows() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 
@@ -63,9 +61,6 @@ private:
 
     float eyePosition[3];
     float lightPosition[3];
-
-    // MVP matrix
-    ESMatrix mvpMatrix;
 
     void initMVP();
 

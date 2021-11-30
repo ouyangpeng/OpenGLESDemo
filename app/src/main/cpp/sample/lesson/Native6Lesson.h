@@ -11,9 +11,9 @@
 class Native6Lesson : public BaseGLSample{
 
 public:
-    Native6Lesson();
+    Native6Lesson() = default;
 
-    ~Native6Lesson();
+    ~Native6Lesson() = default;
 
     virtual void create();
 

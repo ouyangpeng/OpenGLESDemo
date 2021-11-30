@@ -191,6 +191,10 @@ void Native2Lesson::shutdown() {
 
     delete mLightModelMatrix;
     mLightModelMatrix = nullptr;
+
+    // Delete program object
+    GLUtils::DeleteProgram(mPerVertexProgramHandle);
+    GLUtils::DeleteProgram(mPointProgramHandle);
 }
 
 Native2Lesson::~Native2Lesson() = default;

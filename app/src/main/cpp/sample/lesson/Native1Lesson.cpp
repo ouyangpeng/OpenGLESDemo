@@ -206,4 +206,7 @@ void Native1Lesson::shutdown() {
 		delete mViewMatrix;
 		mViewMatrix = nullptr;
 	}
+
+	// Delete program object
+	GLUtils::DeleteProgram(mProgram);
 }

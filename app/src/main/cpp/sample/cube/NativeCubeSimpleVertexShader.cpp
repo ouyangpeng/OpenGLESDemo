@@ -3,14 +3,6 @@
 
 #include "NativeCubeSimpleVertexShader.h"
 
-NativeCubeSimpleVertexShader::NativeCubeSimpleVertexShader() {
-
-}
-
-NativeCubeSimpleVertexShader::~NativeCubeSimpleVertexShader() {
-
-}
-
 void NativeCubeSimpleVertexShader::create() {
     GLUtils::printGLInfo();
 
@@ -22,7 +14,7 @@ void NativeCubeSimpleVertexShader::create() {
     mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
     if (!mProgram) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
 
@@ -92,14 +84,6 @@ float NativeCubeSimpleVertexShader::getDeltaTime() {
     return deltaTime;
 }
 
-void NativeCubeSimpleVertexShader::change(int width, int height) {
-    mWidth = width;
-    mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height);
-    // Set the viewport
-    glViewport(0, 0, mWidth, mHeight);
-}
-
 void NativeCubeSimpleVertexShader::update(float deltaTime) {
     ESMatrix perspective;
     ESMatrix modelview;
@@ -149,5 +133,5 @@ void NativeCubeSimpleVertexShader::shutdown() {
     }
 
     // Delete program object
-    glDeleteProgram(mProgram);
+    GLUtils::DeleteProgram(mProgram);
 }

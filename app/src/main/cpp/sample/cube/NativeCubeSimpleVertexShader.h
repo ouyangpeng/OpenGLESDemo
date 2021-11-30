@@ -8,13 +8,11 @@
 class NativeCubeSimpleVertexShader : public BaseGLSample{
 
 public:
-    NativeCubeSimpleVertexShader();
+    NativeCubeSimpleVertexShader() = default;
 
-    virtual ~NativeCubeSimpleVertexShader();
+    virtual ~NativeCubeSimpleVertexShader() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 

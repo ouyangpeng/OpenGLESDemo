@@ -4,13 +4,6 @@
 
 #include "MultiTexture.h"
 
-MultiTexture::MultiTexture() {
-
-}
-
-MultiTexture::~MultiTexture() {
-
-}
 
 void MultiTexture::create() {
 	GLUtils::printGLInfo();
@@ -44,14 +37,6 @@ void MultiTexture::create() {
 
 	// 设置清除颜色
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-}
-
-void MultiTexture::change(int width, int height) {
-	mWidth = width;
-	mHeight = height;
-	LOGD("change() width = %d , height = %d\n", width, height);
-	// Set the viewport
-	glViewport(0, 0, mWidth, mHeight);
 }
 
 void MultiTexture::draw() {
@@ -114,5 +99,6 @@ void MultiTexture::shutdown() {
 	glDeleteTextures(1, &lightMapTexId);
 
 	// Delete program object
-	glDeleteProgram(mProgram);
+	    // Delete program object
+    GLUtils::DeleteProgram(mProgram);
 }

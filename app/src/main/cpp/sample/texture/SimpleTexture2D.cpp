@@ -4,14 +4,6 @@
 
 #include "SimpleTexture2D.h"
 
-SimpleTexture2D::SimpleTexture2D() {
-
-}
-
-SimpleTexture2D::~SimpleTexture2D() {
-
-}
-
 void SimpleTexture2D::create() {
     GLUtils::printGLInfo();
 
@@ -91,14 +83,6 @@ void SimpleTexture2D::draw() {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
 }
 
-void SimpleTexture2D::change(int width, int height) {
-    mWidth = width;
-    mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height)
-    // Set the viewport
-    glViewport(0, 0, mWidth, mHeight);
-}
-
 // Create a simple 2x2 texture image with four different colors
 GLuint SimpleTexture2D::CreateSimpleTexture2D() {
     //Texture object handle
@@ -139,5 +123,5 @@ void SimpleTexture2D::shutdown() {
     glDeleteTextures ( 1, &textureId );
 
     // Delete program object
-    glDeleteProgram ( mProgram );
+    GLUtils::DeleteProgram ( mProgram );
 }

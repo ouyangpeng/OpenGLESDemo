@@ -1,18 +1,17 @@
 #pragma once
 
 #include <BaseGLSample.h>
+
 class NativeTriangle : public BaseGLSample {
 
 #define VERTEX_POS_INDX       0
 
 public:
-    NativeTriangle();
+    NativeTriangle() = default;
 
-    virtual ~NativeTriangle();
+    virtual ~NativeTriangle() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 

@@ -10,13 +10,11 @@
 
 class NativeTriangleMapBuffers : public BaseGLSample {
 public:
-    NativeTriangleMapBuffers();
+    NativeTriangleMapBuffers() = default;
 
-    virtual ~NativeTriangleMapBuffers();
+    virtual ~NativeTriangleMapBuffers() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 

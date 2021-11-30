@@ -4,13 +4,6 @@
 
 #include "ParticleSystemTransformFeedBack.h"
 
-ParticleSystemTransformFeedBack::ParticleSystemTransformFeedBack() {
-
-}
-
-ParticleSystemTransformFeedBack::~ParticleSystemTransformFeedBack() {
-
-}
 
 void ParticleSystemTransformFeedBack::create() {
     LOGD("create()")
@@ -119,16 +112,6 @@ void ParticleSystemTransformFeedBack::initEmitParticles() {
 }
 
 
-
-void ParticleSystemTransformFeedBack::change(int width, int height) {
-    mWidth = width;
-    mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height)
-
-    // Set the viewport
-    glViewport ( 0, 0, mWidth, mHeight );
-}
-
 void ParticleSystemTransformFeedBack::draw() {
     LOGD("draw()")
     // 每次更新一下
@@ -180,8 +163,8 @@ void ParticleSystemTransformFeedBack::shutdown() {
     glDeleteTextures ( 1, &textureId );
 
     // Delete program object
-    glDeleteProgram (drawProgramObject );
-    glDeleteProgram (emitProgramObject );
+    GLUtils::DeleteProgram(drawProgramObject);
+    GLUtils::DeleteProgram(emitProgramObject);
 
     glDeleteBuffers ( 2, &particleVBOs[0] );
 }

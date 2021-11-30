@@ -289,4 +289,8 @@ void Native3Lesson::shutdown() {
     mProjectionMatrix = nullptr;
     delete mLightModelMatrix;
     mLightModelMatrix = nullptr;
+
+    // Delete program object
+    GLUtils::DeleteProgram(mPerVertexProgramHandle);
+    GLUtils::DeleteProgram(mPointProgramHandle);
 }

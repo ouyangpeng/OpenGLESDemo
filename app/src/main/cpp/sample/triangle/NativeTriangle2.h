@@ -11,13 +11,11 @@ class NativeTriangle2 : public BaseGLSample {
 #define VERTEX_COLOR_SIZE     4 // r, g, b, and a
 
 public:
-    NativeTriangle2();
+    NativeTriangle2() = default;
 
-    virtual ~NativeTriangle2();
+    virtual ~NativeTriangle2() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 

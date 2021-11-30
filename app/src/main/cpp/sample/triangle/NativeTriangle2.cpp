@@ -31,16 +31,6 @@ static GLfloat vVertices[] = {
 // 设置顶点的颜色值  这里设置成蓝色
 static GLfloat color[4] = {0.0f, 0.0f, 1.0f, 1.0f};
 
-
-NativeTriangle2::NativeTriangle2() {
-
-}
-
-NativeTriangle2::~NativeTriangle2() {
-
-}
-
-
 void NativeTriangle2::create() {
     GLUtils::printGLInfo();
 
@@ -52,7 +42,7 @@ void NativeTriangle2::create() {
             "fragment/fragment_shader_hello_triangle2.glsl");
     mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (!mProgram) {
-        LOGD("Could not create program");
+        LOGD("Could not create program")
         return;
     }
     // 设置清除颜色
@@ -131,19 +121,7 @@ void NativeTriangle2::draw() {
     glDisableVertexAttribArray(0);
 }
 
-void NativeTriangle2::change(int width, int height) {
-    mWidth = width;
-    mHeight = height;
-    LOGD("change() width = %d , height = %d\n", width, height);
-
-    // Set the viewport
-    // 通知OpenGL ES 用于绘制的2D渲染表面的原点、宽度和高度。
-    // 在OpenGL ES 中，视口(Viewport) 定义所有OpenGL ES 渲染操作最终显示的2D矩形
-    // 视口(Viewport) 由原点坐标(x,y)和宽度(width) 、高度(height)定义。
-    glViewport(0, 0, mWidth, mHeight);
-}
-
 void NativeTriangle2::shutdown() {
     // Delete program object
-    glDeleteProgram(mProgram);
+    GLUtils::DeleteProgram(mProgram);
 }

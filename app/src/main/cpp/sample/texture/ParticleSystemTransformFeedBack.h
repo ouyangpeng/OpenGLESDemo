@@ -20,13 +20,11 @@
 
 class ParticleSystemTransformFeedBack : public BaseGLSample{
 public:
-    ParticleSystemTransformFeedBack();
+    ParticleSystemTransformFeedBack() = default;
 
-    virtual ~ParticleSystemTransformFeedBack();
+    virtual ~ParticleSystemTransformFeedBack() = default;
 
     virtual void create();
-
-    virtual void change(int width, int height);
 
     virtual void draw();
 
