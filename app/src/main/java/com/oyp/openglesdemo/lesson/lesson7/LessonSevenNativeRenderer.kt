@@ -72,6 +72,6 @@ class LessonSevenNativeRenderer(activity: LessonSevenActivity, glSurfaceView: GL
     private external fun nativeToggleStride()
 
     init {
-        System.loadLibrary("opengles-lesson-lib")
+        System.loadLibrary("ouyangpeng-opengles-lib")
     }
 }

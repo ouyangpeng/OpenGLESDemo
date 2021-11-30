@@ -7,14 +7,15 @@
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 #include <android/asset_manager_jni.h>
+#include <string>
 
-#include "./graphics/Matrix.h"
-#include "./log/LogUtils.h"
-#include "./time/TimeUtils.h"
-#include "esShapes.h"
-#include "esTransform.h"
+#include <Matrix.h>
+#include <LogUtils.h>
+#include <time/TimeUtils.h>
+#include <esShapes.h>
+#include <esTransform.h>
 
-#include "../glesdemo/BaseGLSample.h"
+#include <BaseGLSample.h>
 
 class GLUtils {
 public:
@@ -39,6 +40,8 @@ public:
 	 * shader source code.
 	 */
 	static GLuint createProgram(const char** vertexSource, const char** fragmentSource);
+
+	static void DeleteProgram(GLuint &program);
 
 	static void checkGlError(const char* pGLOperation);
 

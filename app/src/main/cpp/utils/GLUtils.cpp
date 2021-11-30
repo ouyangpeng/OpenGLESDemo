@@ -193,6 +193,17 @@ GLuint GLUtils::createProgram(const char** vertexSource, const char** fragmentSo
     return program;
 }
 
+void GLUtils::DeleteProgram(GLuint &program)
+{
+    LOGD("GLUtils::DeleteProgram");
+    if (program)
+    {
+        glUseProgram(0);
+        glDeleteProgram(program);
+        program = 0;
+    }
+}
+
 /**
  * Loads a 8-bit, 24-bit or 32-bit TGA image from a file
  * 从文件中加载一个  8-bit, 24-bit or 32-bit TGA图像

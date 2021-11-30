@@ -1,5 +1,5 @@
 #include "Matrix.h"
-#include "../log/LogUtils.h"
+#include <LogUtils.h>
 
 #include <cstring>
 #include <cmath>

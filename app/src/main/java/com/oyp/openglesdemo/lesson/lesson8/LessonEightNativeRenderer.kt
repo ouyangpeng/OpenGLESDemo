@@ -31,6 +31,6 @@ class LessonEightNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, Ac
     private external fun nativeSetDelta(x: Float, y: Float)
 
     init {
-        System.loadLibrary("opengles-lesson-lib")
+        System.loadLibrary("ouyangpeng-opengles-lib")
     }
 }

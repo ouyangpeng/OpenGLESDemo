@@ -16,11 +16,17 @@ project("openglesdemo")
 
 #设置包含的目录
 include_directories(
-        glesdemo/cube
-        glesdemo/lesson
-        glesdemo/lesson/lesson7
-        glesdemo/texture
-        glesdemo/triangle
+        sample
+        sample/cube
+        sample/lesson
+        sample/lesson/lesson7
+        sample/lesson/lesson8
+        sample/texture
+        sample/triangle
+
+        jni
+
+        render
 
         utils
         utils/graphics
@@ -45,7 +51,7 @@ file(GLOB src-files
 
 
 add_library( # Sets the name of the library.
-        opengles-lesson-lib
+        ouyangpeng-opengles-lib
 
         # Sets the library as a shared library.
         SHARED
@@ -72,7 +78,7 @@ find_library( # Sets the name of the path variable.
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
-        opengles-lesson-lib
+        ouyangpeng-opengles-lib
 
         EGL
 #        GLESv2  # 把opengl库文件添加进来，GLESv2

@@ -25,7 +25,7 @@ class MyNativeRenderer(activity: Activity): GLSurfaceView.Renderer,RenderAction{
     private external fun nativeSetMagFilter(filter: Int)
 
     init {
-        System.loadLibrary("opengles-lesson-lib")
+        System.loadLibrary("ouyangpeng-opengles-lib")
     }
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
