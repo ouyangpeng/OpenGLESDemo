@@ -6,4 +6,6 @@ interface RenderAction {
     fun setMinFilter(filter: Int)
     fun setMagFilter(filter: Int)
     fun setDelta(deltaX: Float, deltaY: Float)
+
+    fun setImageData(format: Int, width: Int, height: Int, bytes: ByteArray)
 }

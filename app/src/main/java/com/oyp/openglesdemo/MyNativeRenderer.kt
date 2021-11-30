@@ -24,6 +24,8 @@ class MyNativeRenderer(activity: Activity): GLSurfaceView.Renderer,RenderAction{
     private external fun nativeSetMinFilter(filter: Int)
     private external fun nativeSetMagFilter(filter: Int)
 
+    private external fun nativeSetImageData(format: Int, width: Int, height: Int, imageData: ByteArray?)
+
     init {
         System.loadLibrary("ouyangpeng-opengles-lib")
     }
@@ -67,5 +69,10 @@ class MyNativeRenderer(activity: Activity): GLSurfaceView.Renderer,RenderAction{
     override fun setDelta(deltaX: Float, deltaY: Float) {
         nativeSetDelta(deltaX, deltaY)
     }
+
+    override fun setImageData(format: Int, width: Int, height: Int, imageData: ByteArray) {
+        nativeSetImageData(format, width, height, imageData)
+    }
+
 
 }

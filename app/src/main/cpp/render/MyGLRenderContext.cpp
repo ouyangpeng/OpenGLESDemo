@@ -28,6 +28,8 @@
 #include <Native6Lesson.h>
 
 #include <GLUtils.h>
+#include <ImageDef.h>
+#include <TextureMapSample.h>
 #include "MyGLRenderContext.h"
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
@@ -140,13 +142,18 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
             case SAMPLE_TYPE_KEY_LESSON_SIX:
                 m_pCurSample = new Native6Lesson();
                 break;
+            case SAMPLE_TYPE_KEY_TEXTURE_MAP:
+                m_pCurSample = new TextureMapSample();
+                break;
             default:
                 m_pCurSample = nullptr;
                 break;
         }
 
-        LOGD("MyGLRenderContext::SetParamsInt m_pBeforeSample = %p, m_pCurSample=%p",
-             m_pBeforeSample, m_pCurSample)
+        if(!m_pCurSample){
+            LOGE("请注意：你应该忘记初始化你要展示的Sample类型 { %d }，请补上初始化的代码，否则无法渲染" , value0)
+        }
+        LOGD("MyGLRenderContext::SetParamsInt m_pBeforeSample = %p, m_pCurSample=%p", m_pBeforeSample, m_pCurSample)
     }
 }
 
@@ -205,6 +212,34 @@ void MyGLRenderContext::SetMagFilter(int filter) {
         m_pCurSample->setMagFilter(filter);
     }
 }
+
+
+void MyGLRenderContext::SetImageData(int format, int width, int height, uint8_t *pData) {
+    LOGD("MyGLRenderContext::SetImageData format=%d, width=%d, height=%d, pData=%p", format, width, height, pData)
+    NativeImage nativeImage;
+    nativeImage.format = format;
+    nativeImage.width = width;
+    nativeImage.height = height;
+    nativeImage.ppPlane[0] = pData;
+
+    switch (format){
+        case IMAGE_FORMAT_NV12:
+        case IMAGE_FORMAT_NV21:
+            nativeImage.ppPlane[1] = nativeImage.ppPlane[0] + width * height;
+            break;
+        case IMAGE_FORMAT_I420:
+            nativeImage.ppPlane[1] = nativeImage.ppPlane[0] + width * height;
+            nativeImage.ppPlane[2] = nativeImage.ppPlane[1] + width * height / 4;
+            break;
+        default:
+            break;
+    }
+
+    if(m_pCurSample){
+        m_pCurSample->LoadImage(&nativeImage);
+    }
+}
+
 
 MyGLRenderContext *MyGLRenderContext::GetInstance() {
 //    LOGD("MyGLRenderContext::GetInstance")

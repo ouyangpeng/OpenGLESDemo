@@ -33,4 +33,9 @@
 #define SAMPLE_TYPE_KEY_LESSON_FIVE                                 SAMPLE_TYPE + 22
 #define SAMPLE_TYPE_KEY_LESSON_SIX                                  SAMPLE_TYPE + 23
 
+#define SAMPLE_TYPE_KEY_LESSON_SEVEN                                SAMPLE_TYPE + 24
+#define SAMPLE_TYPE_KEY_LESSON_EIGHT                                SAMPLE_TYPE + 25
+
+#define SAMPLE_TYPE_KEY_TEXTURE_MAP                                 SAMPLE_TYPE + 26
+
 #endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H

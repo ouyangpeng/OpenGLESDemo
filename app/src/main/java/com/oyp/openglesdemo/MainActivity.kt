@@ -52,7 +52,7 @@ class MainActivity : ListActivity() {
                         startActivity(launchIntent)
                     }
             } else {
-                if (type != 0) {
+                if (type != null) {
                     val launchIntent = Intent(this@MainActivity, NativeRenderActivity::class.java)
                     launchIntent.putExtra(IMyNativeRendererType.RENDER_TYPE, type)
                     startActivity(launchIntent)
@@ -241,6 +241,7 @@ class MainActivity : ListActivity() {
         data.add(item6)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX)
 
+        //////////////////////////////////// 两个异类  ////////////////////////////////////
         // todo  还没有改造完的.... 两个
         val item7: MutableMap<String, Any> = HashMap()
         item7[ITEM_IMAGE] = R.mipmap.ic_lesson_seven
@@ -261,6 +262,16 @@ class MainActivity : ListActivity() {
         // 这个i不要递增
         typeMapping.put(i, IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_EIGHT)
         activityMapping.put(i, LessonEightActivity::class.java)
+        // i 递增
+        i++
+        //////////////////////////////////// 两个异类  ////////////////////////////////////
+
+        val itemTextureMap: MutableMap<String, Any> = HashMap()
+        itemTextureMap[ITEM_IMAGE] = R.mipmap.ic_texture_map
+        itemTextureMap[ITEM_TITLE] = "展示 纹理映射"
+        itemTextureMap[ITEM_SUBTITLE] = "纹理映射就是通过为图元的顶点坐标指定恰当的纹理坐标，通过纹理坐标在纹理图中选定特定的纹理区域，最后通过纹理坐标与顶点的映射关系，将选定的纹理区域映射到指定图元上。"
+        data.add(itemTextureMap)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP)
     }
 
 

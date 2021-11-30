@@ -6,6 +6,7 @@
 #define OPENGLESDEMO_BASEGLSAMPLE_H
 
 #include <GLUtils.h>
+#include <ImageDef.h>
 #include "BaseGLSampleType.h"
 
 class BaseGLSample {
@@ -45,6 +46,8 @@ public:
     virtual void setMinFilter(int filter){}
 
     virtual void setMagFilter(int filter){}
+
+    virtual void LoadImage(NativeImage *pImage){};
 
 protected:
     GLuint mProgram;

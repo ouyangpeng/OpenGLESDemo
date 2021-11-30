@@ -34,6 +34,7 @@ public:
 
     void SetMagFilter(int filter);
 
+    void SetImageData(int format, int width, int height, uint8_t *pData);
 
 private:
     static MyGLRenderContext *m_pContext;

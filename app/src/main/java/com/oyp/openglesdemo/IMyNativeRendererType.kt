@@ -34,4 +34,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_LESSON_SEVEN: Int = SAMPLE_TYPE + 24
     const val SAMPLE_TYPE_KEY_LESSON_EIGHT: Int = SAMPLE_TYPE + 25
 
+    const val SAMPLE_TYPE_KEY_TEXTURE_MAP: Int = SAMPLE_TYPE + 26
+
 }

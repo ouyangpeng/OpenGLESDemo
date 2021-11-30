@@ -5,11 +5,15 @@ import android.app.ActivityManager
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.opengl.GLES20
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import java.io.IOException
+import java.nio.ByteBuffer
 
 class NativeRenderActivity : Activity() {
 
@@ -22,6 +26,7 @@ class NativeRenderActivity : Activity() {
         private const val MAG_DIALOG = 2
         private const val MIN_SETTING = "min_setting"
         private const val MAG_SETTING = "mag_setting"
+        private const val TAG: String = "NativeRenderActivity"
     }
 
     /**
@@ -69,6 +74,9 @@ class NativeRenderActivity : Activity() {
             configLessonSix(savedInstanceState)
 
         } else {
+           if(type == IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP){
+               loadRGBAImage(R.mipmap.yangchaoyue)
+           }
             // Tell the surface view we want to create an OpenGL ES 3.0-compatible context,
             // and set an OpenGL ES 3.0-compatible renderer.
             mGLSurfaceView = MyCustomerGLSurfaceView(this, renderer, CONTEXT_CLIENT_VERSION)
@@ -193,5 +201,28 @@ class NativeRenderActivity : Activity() {
             else -> null
         }
         return dialog
+    }
+
+
+    private fun loadRGBAImage(resId: Int): Bitmap? {
+        val inputStream = this.resources.openRawResource(resId)
+        val bitmap: Bitmap?
+        try {
+            bitmap = BitmapFactory.decodeStream(inputStream)
+            if (bitmap != null) {
+                val bytes = bitmap.byteCount
+                val buf = ByteBuffer.allocate(bytes)
+                bitmap.copyPixelsToBuffer(buf)
+                val byteArray = buf.array()
+                renderer!!.setImageData(ImageFormat.IMAGE_FORMAT_RGBA, bitmap.width, bitmap.height, byteArray)
+            }
+        } finally {
+            try {
+                inputStream.close()
+            } catch (e: IOException) {
+                Log.e(TAG,e.stackTraceToString())
+            }
+        }
+        return bitmap
     }
 }
