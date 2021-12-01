@@ -4,6 +4,28 @@
 
 
 // 可以参考这篇讲解： https://learnopengl-cn.github.io/01%20Getting%20started/04%20Hello%20Triangle/
+// NDK OpenGL ES 3.0 开发（四）：VBO、EBO 和 VAO https://blog.csdn.net/Kennethdroid/article/details/98088890
+
+//VBO 和 EBO
+//VBO（Vertex Buffer Object）是指顶点缓冲区对象，
+//而 EBO（Element Buffer Object）是指图元索引缓冲区对象，VAO 和 EBO 实际上是对同一类 Buffer 按照用途的不同称呼。
+
+// OpenGLES2.0 编程中，用于绘制的顶点数组数据首先保存在 CPU 内存，
+// 在调用 glDrawArrays 或者 glDrawElements 等进行绘制时，需要将顶点数组数据从 CPU 内存拷贝到显存。
+// 但是很多时候我们没必要每次绘制的时候都去进行内存拷贝，如果可以在显存中缓存这些数据，就可以在很大程度上降低内存拷贝带来的开销。
+
+// OpenGLES3.0 VBO 和 EBO 的出现就是为了解决这个问题。
+// VBO 和 EBO 的作用是在显存中提前开辟好一块内存，用于缓存顶点数据或者图元索引数据，
+// 从而避免每次绘制时的 CPU 与 GPU 之间的内存拷贝，可以提升渲染性能，降低内存带宽和功耗。
+// OpenGLES3.0 支持两类缓冲区对象：顶点数组缓冲区对象、图元索引缓冲区对象。
+//    GL_ARRAY_BUFFER 标志指定的缓冲区对象用于保存顶点数组，
+//    GL_ELEMENT_ARRAY_BUFFER 标志指定的缓存区对象用于保存图元索引。
+// VBO 可以参考图片：docs/vertex_attribute_pointer_interleaved
+
+
+// VAO（Vertex Array Object）是指顶点数组对象，VAO 的主要作用是用于管理 VBO 或 EBO ，
+// 减少 glBindBuffer 、glEnableVertexAttribArray、 glVertexAttribPointer 这些调用操作，高效地实现在顶点数组配置之间切换。
+// VAO 与 VBO、EBO之间的关系  可以参考图片： docs/vertex_array_objects.png 和 docs/vertex_array_objects_ebo.png
 
 
 // 3 vertices, with (x,y,z) ,(r, g, b, a)  per-vertex
@@ -40,11 +62,15 @@ void NativeTriangleVAO::create() {
     }
 
     //  Generate VBO Ids and load the VBOs with data
+    // 创建 2 个 VBO（EBO 实际上跟 VBO 一样，只是按照用途的另一种称呼）
     glGenBuffers(2, vboIds);
 
+    // 绑定第一个 VBO，拷贝顶点数组到显存
+    // GL_STATIC_DRAW 标志标识缓冲区对象数据被修改一次，使用多次，用于绘制。
     glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+    // 绑定第二个 VBO（EBO），拷贝图元索引数据到显存
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
@@ -53,7 +79,7 @@ void NativeTriangleVAO::create() {
     glGenVertexArrays(1, &vaoId);
 
     // Bind the VAO and then setup the vertex attributes
-    // 绑定VAO
+    // 绑定VAO之后，操作 VBO ，当前 VAO 会记录 VBO 的操作
     // 要想使用VAO，要做的只是使用glBindVertexArray绑定VAO。
     // 从绑定之后起，我们应该绑定和配置对应的VBO和属性指针，之后解绑VAO供之后使用。
     // 当我们打算绘制一个物体的时候，我们只要在绘制物体前简单地把VAO绑定到希望使用的设定上就行了。
@@ -111,4 +137,5 @@ void NativeTriangleVAO::shutdown() {
     GLUtils::DeleteProgram(mProgram);
 
     glDeleteBuffers(2, &vboIds[0]);
+    glDeleteVertexArrays(1, &vaoId);
 }
