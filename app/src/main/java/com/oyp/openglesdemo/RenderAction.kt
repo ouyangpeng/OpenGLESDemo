@@ -8,4 +8,6 @@ interface RenderAction {
     fun setDelta(deltaX: Float, deltaY: Float)
 
     fun setImageData(format: Int, width: Int, height: Int, bytes: ByteArray)
+
+    fun setImageDataWithIndex(index: Int, format: Int, width: Int, height: Int, imageData: ByteArray)
 }

@@ -216,6 +216,25 @@ void MyGLRenderContext::SetMagFilter(int filter) {
 
 void MyGLRenderContext::SetImageData(int format, int width, int height, uint8_t *pData) {
     LOGD("MyGLRenderContext::SetImageData format=%d, width=%d, height=%d, pData=%p", format, width, height, pData)
+    NativeImage nativeImage = getImage(format, width, height, pData);
+
+    if(m_pCurSample){
+        m_pCurSample->LoadImage(&nativeImage);
+    }
+}
+
+void MyGLRenderContext::SetImageDataWithIndex(int index, int format, int width, int height, uint8_t *pData) {
+    LOGD("MyGLRenderContext::SetImageDataWithIndex index=%d, format=%d, width=%d, height=%d, pData=%p", index, format, width, height, pData)
+
+    NativeImage nativeImage = getImage(format, width, height, pData);
+
+    if (m_pCurSample)
+    {
+        m_pCurSample->LoadMultiImageWithIndex(index, &nativeImage);
+    }
+}
+
+NativeImage MyGLRenderContext::getImage(int format, int width, int height, uint8_t *pData) const {
     NativeImage nativeImage;
     nativeImage.format = format;
     nativeImage.width = width;
@@ -234,11 +253,9 @@ void MyGLRenderContext::SetImageData(int format, int width, int height, uint8_t 
         default:
             break;
     }
-
-    if(m_pCurSample){
-        m_pCurSample->LoadImage(&nativeImage);
-    }
+    return nativeImage;
 }
+
 
 
 MyGLRenderContext *MyGLRenderContext::GetInstance() {
@@ -257,5 +274,7 @@ void MyGLRenderContext::DestroyInstance() {
     }
 
 }
+
+
 
 

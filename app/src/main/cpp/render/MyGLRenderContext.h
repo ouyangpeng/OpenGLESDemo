@@ -36,12 +36,16 @@ public:
 
     void SetImageData(int format, int width, int height, uint8_t *pData);
 
+    void SetImageDataWithIndex(int index, int format, int width, int height, uint8_t *pData);
+
 private:
     static MyGLRenderContext *m_pContext;
     BaseGLSample *m_pBeforeSample;
     BaseGLSample *m_pCurSample;
     int m_ScreenW;
     int m_ScreenH;
+
+    NativeImage getImage(int format, int width, int height, uint8_t *pData) const;
 };
 
 #endif //OPENGLESDEMO_MYGLRENDERCONTEXT_H

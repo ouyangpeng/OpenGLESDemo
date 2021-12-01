@@ -13,6 +13,7 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import java.io.IOException
+import java.io.InputStream
 import java.nio.ByteBuffer
 
 class NativeRenderActivity : Activity() {
@@ -75,7 +76,10 @@ class NativeRenderActivity : Activity() {
 
         } else {
            if(type == IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP){
-               loadRGBAImage(R.mipmap.yangchaoyue)
+               // 从res目录加载图片
+               // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
+               // 从assets目录加载图片
+                loadRGBAImageFromAssets("texture/yangchaoyue.png")
            }
             // Tell the surface view we want to create an OpenGL ES 3.0-compatible context,
             // and set an OpenGL ES 3.0-compatible renderer.
@@ -204,7 +208,7 @@ class NativeRenderActivity : Activity() {
     }
 
 
-    private fun loadRGBAImage(resId: Int): Bitmap? {
+    private fun loadRGBAImageFromRes(resId: Int): Bitmap? {
         val inputStream = this.resources.openRawResource(resId)
         val bitmap: Bitmap?
         try {
@@ -225,4 +229,58 @@ class NativeRenderActivity : Activity() {
         }
         return bitmap
     }
+
+    private fun loadRGBAImageFromResWithIndex(resId: Int, index: Int): Bitmap? {
+        val inputStream = this.resources.openRawResource(resId)
+        val bitmap: Bitmap?
+        try {
+            bitmap = BitmapFactory.decodeStream(inputStream)
+            if (bitmap != null) {
+                val bytes = bitmap.byteCount
+                val buf = ByteBuffer.allocate(bytes)
+                bitmap.copyPixelsToBuffer(buf)
+                val byteArray = buf.array()
+                renderer!!.setImageDataWithIndex(
+                    index,
+                    ImageFormat.IMAGE_FORMAT_RGBA,
+                    bitmap.width,
+                    bitmap.height,
+                    byteArray
+                )
+            }
+        } finally {
+            try {
+                inputStream.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        return bitmap
+    }
+
+    private fun loadRGBAImageFromAssets(imagePath : String): Bitmap? {
+        var inputStream : InputStream? = null
+        var bitmap: Bitmap? = null
+        try {
+            inputStream  = assets.open(imagePath)
+            bitmap = BitmapFactory.decodeStream(inputStream)
+            if (bitmap != null) {
+                val bytes = bitmap.byteCount
+                val buf = ByteBuffer.allocate(bytes)
+                bitmap.copyPixelsToBuffer(buf)
+                val byteArray = buf.array()
+                renderer!!.setImageData(ImageFormat.IMAGE_FORMAT_RGBA, bitmap.width, bitmap.height, byteArray)
+            }
+        } catch (e: IOException) {
+            Log.e(TAG,e.stackTraceToString())
+        } finally {
+            try {
+                inputStream!!.close()
+            } catch (e: IOException) {
+                Log.e(TAG,e.stackTraceToString())
+            }
+        }
+        return bitmap
+    }
+
 }

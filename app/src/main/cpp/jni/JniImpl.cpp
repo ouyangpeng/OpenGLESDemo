@@ -64,13 +64,28 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_MyNativeRenderer_nativeSetImageData(
         JNIEnv *env, jobject thiz,
-        jint format, jint width, jint height,jbyteArray imageData) {
+        jint format, jint width, jint height, jbyteArray imageData) {
 
-    int len = env-> GetArrayLength(imageData);
-    u_int8_t * buf = new u_int8_t[len];
+    int len = env->GetArrayLength(imageData);
+    u_int8_t *buf = new u_int8_t[len];
     env->GetByteArrayRegion(imageData, 0, len, reinterpret_cast<jbyte *>(buf));
 
     MyGLRenderContext::GetInstance()->SetImageData(format, width, height, buf);
+    delete[]buf;
+    env->DeleteLocalRef(imageData);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_oyp_openglesdemo_MyNativeRenderer_nativeSetImageDataWithIndex(
+        JNIEnv *env, jobject thiz,
+        jint index, jint format, jint width, jint height, jbyteArray imageData) {
+
+    int len = env->GetArrayLength(imageData);
+    u_int8_t *buf = new u_int8_t[len];
+    env->GetByteArrayRegion(imageData, 0, len, reinterpret_cast<jbyte *>(buf));
+
+    MyGLRenderContext::GetInstance()->SetImageDataWithIndex(index, format, width, height, buf);
     delete[]buf;
     env->DeleteLocalRef(imageData);
 }

@@ -49,6 +49,8 @@ public:
 
     virtual void LoadImage(NativeImage *pImage){};
 
+    virtual void LoadMultiImageWithIndex(int index, NativeImage *pImage) {}
+
 protected:
     GLuint mProgram;
     int mWidth;
