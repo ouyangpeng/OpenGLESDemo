@@ -75,12 +75,18 @@ class NativeRenderActivity : Activity() {
             configLessonSix(savedInstanceState)
 
         } else {
-           if(type == IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP){
-               // 从res目录加载图片
-               // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
-               // 从assets目录加载图片
-                loadRGBAImageFromAssets("texture/yangchaoyue.png")
-           }
+            when (type) {
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP -> {
+                    // 从res目录加载图片
+                    // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
+                    // 从assets目录加载图片
+                    loadRGBAImageFromAssets("texture/yangchaoyue.png")
+                }
+
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_YUV_RENDER -> {
+                    loadNV21ImageFromAssets("yuv/YUV_Image_840x1074.NV21",840,1074)
+                }
+            }
             // Tell the surface view we want to create an OpenGL ES 3.0-compatible context,
             // and set an OpenGL ES 3.0-compatible renderer.
             mGLSurfaceView = MyCustomerGLSurfaceView(this, renderer, CONTEXT_CLIENT_VERSION)
@@ -252,7 +258,7 @@ class NativeRenderActivity : Activity() {
             try {
                 inputStream.close()
             } catch (e: IOException) {
-                e.printStackTrace()
+                Log.e(TAG,e.stackTraceToString())
             }
         }
         return bitmap
@@ -283,4 +289,24 @@ class NativeRenderActivity : Activity() {
         return bitmap
     }
 
+
+    private fun loadNV21ImageFromAssets(fileName:String, width: Int, height: Int) {
+        var inputStream: InputStream? = null
+        var lenght = 0
+        try {
+            inputStream = assets.open(fileName)
+            lenght = inputStream.available()
+            val buffer = ByteArray(lenght)
+            inputStream.read(buffer)
+            renderer!!.setImageData(ImageFormat.IMAGE_FORMAT_NV21, width, height, buffer)
+        } catch (e: IOException) {
+            Log.e(TAG,e.stackTraceToString())
+        } finally {
+            try {
+                inputStream!!.close()
+            } catch (e: IOException) {
+                Log.e(TAG,e.stackTraceToString())
+            }
+        }
+    }
 }

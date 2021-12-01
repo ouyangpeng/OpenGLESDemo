@@ -272,8 +272,14 @@ class MainActivity : ListActivity() {
         itemTextureMap[ITEM_SUBTITLE] = "纹理映射就是通过为图元的顶点坐标指定恰当的纹理坐标，通过纹理坐标在纹理图中选定特定的纹理区域，最后通过纹理坐标与顶点的映射关系，将选定的纹理区域映射到指定图元上。"
         data.add(itemTextureMap)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP)
-    }
 
+        val itemYUVRender: MutableMap<String, Any> = HashMap()
+        itemYUVRender[ITEM_IMAGE] = R.mipmap.ic_texture_map
+        itemYUVRender[ITEM_TITLE] = "YUV 渲染"
+        itemYUVRender[ITEM_SUBTITLE] = "YUV 图不能直接用于显示，需要转换为 RGB 格式，而 YUV 转 RGB 是一个逐像素处理的耗时操作，在 CPU 端进行转换效率过低，这时正好可以利用 GPU 强大的并行处理能力来实现 YUV 到 RGB 的转换。"
+        data.add(itemYUVRender)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_YUV_RENDER)
+    }
 
     companion object {
         private const val ITEM_IMAGE = "item_image"

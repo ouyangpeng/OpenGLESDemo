@@ -17,6 +17,7 @@ project("openglesdemo")
 #设置包含的目录
 include_directories(
         sample
+        sample/byteflow
         sample/cube
         sample/lesson
         sample/lesson/lesson7

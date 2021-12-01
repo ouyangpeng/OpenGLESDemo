@@ -1,6 +1,8 @@
 //
 // Created by OuyangPeng on 2021/11/26.
 //
+#include "MyGLRenderContext.h"
+
 #include <SimpleTexture2D.h>
 #include <NativeTriangle.h>
 #include <NativeTriangle2.h>
@@ -29,8 +31,9 @@
 
 #include <GLUtils.h>
 #include <ImageDef.h>
-#include <TextureMapSample.h>
-#include "MyGLRenderContext.h"
+#include <byteflow/TextureMapSample.h>
+#include <byteflow/NV21TextureMapSample.h>
+
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
 
@@ -144,6 +147,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
                 break;
             case SAMPLE_TYPE_KEY_TEXTURE_MAP:
                 m_pCurSample = new TextureMapSample();
+                break;
+            case SAMPLE_TYPE_KEY_YUV_RENDER:
+                m_pCurSample = new NV21TextureMapSample();
                 break;
             default:
                 m_pCurSample = nullptr;

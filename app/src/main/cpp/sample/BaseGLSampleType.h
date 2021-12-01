@@ -37,5 +37,6 @@
 #define SAMPLE_TYPE_KEY_LESSON_EIGHT                                SAMPLE_TYPE + 25
 
 #define SAMPLE_TYPE_KEY_TEXTURE_MAP                                 SAMPLE_TYPE + 26
+#define SAMPLE_TYPE_KEY_YUV_RENDER                                  SAMPLE_TYPE + 27
 
 #endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H
