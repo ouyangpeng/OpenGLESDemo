@@ -64,16 +64,15 @@ MyGLRenderContext::~MyGLRenderContext() {
 }
 
 
-void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
-    LOGD("MyGLRenderContext::SetParamsInt paramType = %d, value0 = %d, value1 = %d", paramType,
-         value0, value1)
+void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleType) {
+    LOGD("MyGLRenderContext::SetRenderType sampleCategoryType = %d, renderSampleType = %d", sampleCategoryType, renderSampleType)
 
-    if (paramType == SAMPLE_TYPE) {
+    if (sampleCategoryType == SAMPLE_TYPE) {
         m_pBeforeSample = m_pCurSample;
 
-        LOGD("MyGLRenderContext::SetParamsInt 0 m_pBeforeSample = %p", m_pBeforeSample)
+        LOGD("MyGLRenderContext::SetRenderType 0 m_pBeforeSample = %p", m_pBeforeSample)
 
-        switch (value0) {
+        switch (renderSampleType) {
             case SAMPLE_TYPE_KEY_TRIANGLE:
                 m_pCurSample = new NativeTriangle();
                 break;
@@ -161,9 +160,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
         }
 
         if(!m_pCurSample){
-            LOGE("请注意：你应该忘记初始化你要展示的Sample类型 { %d }，请补上初始化的代码，否则无法渲染" , value0)
+            LOGE("请注意：你应该忘记初始化你要展示的Sample类型 { %d }，请补上初始化的代码，否则无法渲染" , renderSampleType)
         }
-        LOGD("MyGLRenderContext::SetParamsInt m_pBeforeSample = %p, m_pCurSample=%p", m_pBeforeSample, m_pCurSample)
+        LOGD("MyGLRenderContext::SetRenderType m_pBeforeSample = %p, m_pCurSample=%p", m_pBeforeSample, m_pCurSample)
     }
 }
 

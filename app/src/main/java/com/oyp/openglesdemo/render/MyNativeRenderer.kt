@@ -18,7 +18,7 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
     private external fun nativeSurfaceCreate(assetManager: AssetManager)
     private external fun nativeSurfaceChange(width: Int, height: Int)
     private external fun nativeDrawFrame()
-    private external fun nativeSetParamsInt(paramType: Int, value0: Int, value1: Int)
+    private external fun nativeSetRenderType(sampleCategoryType: Int, renderSampleType: Int)
     private external fun nativeOnDestroy()
 
     // 特定的方法
@@ -58,11 +58,11 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
         nativeDrawFrame()
     }
 
-    fun setParamsInt(sampleType: Int, type: Int, i: Int) {
-        if (sampleType == IMyNativeRendererType.SAMPLE_TYPE) {
-            mSampleType = type
+    fun setRenderType(sampleCategoryType: Int, renderSampleType: Int) {
+        if (sampleCategoryType == IMyNativeRendererType.SAMPLE_TYPE) {
+            mSampleType = renderSampleType
         }
-        nativeSetParamsInt(sampleType, type, i)
+        nativeSetRenderType(sampleCategoryType, renderSampleType)
     }
 
     fun onDestroy() {

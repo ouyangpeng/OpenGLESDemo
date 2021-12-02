@@ -27,9 +27,9 @@ Java_com_oyp_openglesdemo_render_MyNativeRenderer_nativeDrawFrame(JNIEnv *env, j
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_render_MyNativeRenderer_nativeSetParamsInt(
-        JNIEnv *env, jobject thiz, jint paramType, jint value0, jint value1) {
-    MyGLRenderContext::GetInstance()->SetParamsInt(paramType, value0, value1);
+Java_com_oyp_openglesdemo_render_MyNativeRenderer_nativeSetRenderType(
+        JNIEnv *env, jobject thiz, jint sampleCategoryType, jint renderSampleType) {
+    MyGLRenderContext::GetInstance()->SetRenderType(sampleCategoryType, renderSampleType);
 }
 
 extern "C"

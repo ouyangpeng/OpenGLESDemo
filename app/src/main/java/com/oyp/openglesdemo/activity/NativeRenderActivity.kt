@@ -57,7 +57,7 @@ class NativeRenderActivity : Activity() {
 
         // Set the renderer to out demo renderer, define below
         renderer = MyNativeRenderer(this)
-        renderer!!.setParamsInt(IMyNativeRendererType.SAMPLE_TYPE, type, 0)
+        renderer!!.setRenderType(IMyNativeRendererType.SAMPLE_TYPE, type)
 
         if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX) {
             setContentView(R.layout.lesson_six)

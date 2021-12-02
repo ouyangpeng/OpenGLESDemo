@@ -14,7 +14,7 @@ class MyGLRenderContext
     ~MyGLRenderContext();
 
 public:
-    void SetParamsInt(int paramType, int value0, int value1);
+    void SetRenderType(int sampleCategoryType, int renderSampleType);
 
     void OnSurfaceCreated(JNIEnv *env, jobject assetManager);
 
