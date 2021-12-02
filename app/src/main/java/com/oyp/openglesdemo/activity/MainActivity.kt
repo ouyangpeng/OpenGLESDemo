@@ -1,52 +1,54 @@
 package com.oyp.openglesdemo.activity
 
 import android.app.Activity
-import android.app.ListActivity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.SparseArray
-import android.widget.AdapterView.OnItemClickListener
-import android.widget.SimpleAdapter
+import android.util.SparseIntArray
 import com.oyp.openglesdemo.render.IMyNativeRendererType
-import com.oyp.openglesdemo.R
 import com.oyp.openglesdemo.lesson.*
 import com.oyp.openglesdemo.lesson.lesson7.LessonSevenActivity
 import com.oyp.openglesdemo.lesson.lesson8.LessonEightActivity
 import java.util.*
+import android.view.View
+import androidx.recyclerview.widget.DividerItemDecoration
 
-class MainActivity : ListActivity() {
+import androidx.recyclerview.widget.RecyclerView
+import com.oyp.openglesdemo.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.oyp.openglesdemo.adapter.GLRecyclerAdapter
+
+
+class MainActivity : Activity() {
 
     val data: MutableList<Map<String, Any?>> = ArrayList()
-    val typeMapping = SparseArray<Int>()
-    val activityMapping = SparseArray<Class<out Activity?>>()
+    private val typeMapping = SparseIntArray()
+    private val activityMapping = SparseArray<Class<out Activity?>>()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-    
         // Initialize data
         initData()
 
-        val dataAdapter = SimpleAdapter(
-            this,
-            data,
-            R.layout.toc_item,
-            arrayOf(
-                ITEM_IMAGE,
-                ITEM_TITLE,
-                ITEM_SUBTITLE
-            ),
-            intArrayOf(R.id.Image, R.id.Title, R.id.SubTitle)
-        )
+        val recyclerView = findViewById<View>(R.id.recycler_view) as RecyclerView
 
-        setListAdapter(dataAdapter)
+        val layoutManager = LinearLayoutManager(this)
+        //设置水平滚动
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        recyclerView.layoutManager = layoutManager
 
-        getListView().onItemClickListener = OnItemClickListener { _, _, position, _ ->
+        // 设置系统自带的间割线
+        recyclerView.addItemDecoration(DividerItemDecoration(this,LinearLayoutManager.VERTICAL))
+
+        val adapter = GLRecyclerAdapter(data,this)
+        recyclerView.adapter = adapter
+        // 设置点击事件回调接口
+        adapter.setOnItemClickListener { position->
             val type = typeMapping[position]
             // 这两个demo没有改造完，用原来的方式启动
-            Log.d("MainActivity","type = $type")
+            Log.d("MainActivity", "type = $type")
             when (type) {
                 IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SEVEN,
                 IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_EIGHT,
@@ -54,18 +56,17 @@ class MainActivity : ListActivity() {
                     // 取出要启动的Activity
                     val activityToLaunch = activityMapping[position]
 
-                    Log.d("MainActivity","activityToLaunch = $activityToLaunch")
+                    Log.d("MainActivity", "activityToLaunch = $activityToLaunch")
                     if (activityToLaunch != null) {
                         val launchIntent = Intent(this@MainActivity, activityToLaunch)
                         startActivity(launchIntent)
                     }
                 }
                 else -> {
-                    if (type != null) {
-                        val launchIntent = Intent(this@MainActivity, NativeRenderActivity::class.java)
-                        launchIntent.putExtra(IMyNativeRendererType.RENDER_TYPE, type)
-                        startActivity(launchIntent)
-                    }
+                    val launchIntent =
+                        Intent(this@MainActivity, NativeRenderActivity::class.java)
+                    launchIntent.putExtra(IMyNativeRendererType.RENDER_TYPE, type)
+                    startActivity(launchIntent)
                 }
             }
         }
@@ -74,28 +75,28 @@ class MainActivity : ListActivity() {
     private fun initData() {
         var i = 0
         val item0: MutableMap<String, Any?> = HashMap()
-        item0[ITEM_IMAGE] = R.mipmap.ic_trangle
+        item0[ITEM_IMAGE] = R.mipmap.ic_triangle
         item0[ITEM_TITLE] = "展示一个基本的红色三角形"
         item0[ITEM_SUBTITLE] = "颜色在片段着色器写死的红色"
         data.add(item0)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_TRIANGLE)
 
         val itemHelloTriangle2: MutableMap<String, Any?> = HashMap()
-        itemHelloTriangle2[ITEM_IMAGE] = R.mipmap.ic_trangle2
+        itemHelloTriangle2[ITEM_IMAGE] = R.mipmap.ic_triangle2
         itemHelloTriangle2[ITEM_TITLE] = "展示一个基本的蓝色三角形"
         itemHelloTriangle2[ITEM_SUBTITLE] = "颜色由glVertexAttrib4fv传给片段着色器"
         data.add(itemHelloTriangle2)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_TRIANGLE2)
 
         val itemHelloTriangle3: MutableMap<String, Any?> = HashMap()
-        itemHelloTriangle3[ITEM_IMAGE] = R.mipmap.ic_trangle3
+        itemHelloTriangle3[ITEM_IMAGE] = R.mipmap.ic_triangle3
         itemHelloTriangle3[ITEM_TITLE] = "展示一个基本的由红、绿、蓝三种颜色绘制而成的三角形"
         itemHelloTriangle3[ITEM_SUBTITLE] = "使用了顶点缓冲对象(Vertex Buffer Objects, VBO) 和 EBO 技术"
         data.add(itemHelloTriangle3)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_TRIANGLE3)
 
         val itemHelloTriangleMapBuffers: MutableMap<String, Any?> = HashMap()
-        itemHelloTriangleMapBuffers[ITEM_IMAGE] = R.mipmap.ic_trangle_mapbuffer
+        itemHelloTriangleMapBuffers[ITEM_IMAGE] = R.mipmap.ic_triangle_mapbuffer
         itemHelloTriangleMapBuffers[ITEM_TITLE] = "展示一个基本的由红、绿、蓝三种颜色绘制而成的三角形"
         itemHelloTriangleMapBuffers[ITEM_SUBTITLE] =
             "使用了顶点缓冲对象(Vertex Buffer Objects, VBO) 、 EBO 和 映射缓冲区对象(Map Buffer) 技术"
@@ -103,7 +104,7 @@ class MainActivity : ListActivity() {
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TRIANGLE_MAP_BUFFERS)
 
         val itemHelloTriangleVertexArrayObject: MutableMap<String, Any?> = HashMap()
-        itemHelloTriangleVertexArrayObject[ITEM_IMAGE] = R.mipmap.ic_trangle_mapbuffer
+        itemHelloTriangleVertexArrayObject[ITEM_IMAGE] = R.mipmap.ic_triangle_mapbuffer
         itemHelloTriangleVertexArrayObject[ITEM_TITLE] = "展示一个基本的由红、绿、蓝三种颜色绘制而成的三角形"
         itemHelloTriangleVertexArrayObject[ITEM_SUBTITLE] = "使用了 VBO 、 EBO 和 VAO 技术"
         data.add(itemHelloTriangleVertexArrayObject)
@@ -313,8 +314,8 @@ class MainActivity : ListActivity() {
     }
 
     companion object {
-        private const val ITEM_IMAGE = "item_image"
-        private const val ITEM_TITLE = "item_title"
-        private const val ITEM_SUBTITLE = "item_subtitle"
+        const val ITEM_IMAGE = "item_image"
+        const val ITEM_TITLE = "item_title"
+        const val ITEM_SUBTITLE = "item_subtitle"
     }
 }
