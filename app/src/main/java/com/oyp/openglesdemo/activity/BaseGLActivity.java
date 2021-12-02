@@ -1,4 +1,4 @@
-package com.oyp.openglesdemo;
+package com.oyp.openglesdemo.activity;
 
 import android.app.Activity;
 import android.app.ActivityManager;

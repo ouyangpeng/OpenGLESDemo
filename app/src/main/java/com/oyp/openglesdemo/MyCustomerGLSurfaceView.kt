@@ -4,6 +4,8 @@ import android.content.Context
 import android.opengl.GLSurfaceView
 import android.util.AttributeSet
 import android.view.MotionEvent
+import com.oyp.openglesdemo.render.IMyNativeRendererType
+import com.oyp.openglesdemo.render.MyNativeRenderer
 
 class MyCustomerGLSurfaceView : GLSurfaceView {
     private var mRenderer: MyNativeRenderer? = null

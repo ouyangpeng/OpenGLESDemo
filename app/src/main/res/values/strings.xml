@@ -50,4 +50,8 @@
     <string name="lesson_eight_subtitle">This lesson looks at index buffer objects (IBOs).</string>
     <string name="lesson_eight_error_could_not_create_vbo">Could not create vertex buffer object: %s</string>
     <string name="lesson_eight_error_unknown">Unknown error: %s</string>
+
+    <string name="egl_render">EGL 后台渲染</string>
+    <string name="bg_render_txt">后台渲染</string>
+    <string name="btn_txt_reset">重置</string>
 </resources>

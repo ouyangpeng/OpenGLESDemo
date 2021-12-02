@@ -1,4 +1,4 @@
-package com.oyp.openglesdemo
+package com.oyp.openglesdemo.activity
 
 import android.app.Activity
 import android.app.ActivityManager
@@ -12,6 +12,9 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import com.oyp.openglesdemo.*
+import com.oyp.openglesdemo.render.IMyNativeRendererType
+import com.oyp.openglesdemo.render.MyNativeRenderer
 import java.io.IOException
 import java.io.InputStream
 import java.nio.ByteBuffer
@@ -76,8 +79,8 @@ class NativeRenderActivity : Activity() {
 
         } else {
             when (type) {
-                IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP ,
-                IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO->{
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO ->{
                     // 从res目录加载图片
                     // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
                     // 从assets目录加载图片

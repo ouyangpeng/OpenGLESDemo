@@ -1,12 +1,15 @@
-package com.oyp.openglesdemo
+package com.oyp.openglesdemo.activity
 
 import android.app.Activity
 import android.app.ListActivity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.SparseArray
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.SimpleAdapter
+import com.oyp.openglesdemo.render.IMyNativeRendererType
+import com.oyp.openglesdemo.R
 import com.oyp.openglesdemo.lesson.*
 import com.oyp.openglesdemo.lesson.lesson7.LessonSevenActivity
 import com.oyp.openglesdemo.lesson.lesson8.LessonEightActivity
@@ -43,19 +46,26 @@ class MainActivity : ListActivity() {
         getListView().onItemClickListener = OnItemClickListener { _, _, position, _ ->
             val type = typeMapping[position]
             // 这两个demo没有改造完，用原来的方式启动
-            if(type  == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SEVEN ||
-                type  == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_EIGHT){
+            Log.d("MainActivity","type = $type")
+            when (type) {
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SEVEN,
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_EIGHT,
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_EGL -> {
                     // 取出要启动的Activity
                     val activityToLaunch = activityMapping[position]
+
+                    Log.d("MainActivity","activityToLaunch = $activityToLaunch")
                     if (activityToLaunch != null) {
                         val launchIntent = Intent(this@MainActivity, activityToLaunch)
                         startActivity(launchIntent)
                     }
-            } else {
-                if (type != null) {
-                    val launchIntent = Intent(this@MainActivity, NativeRenderActivity::class.java)
-                    launchIntent.putExtra(IMyNativeRendererType.RENDER_TYPE, type)
-                    startActivity(launchIntent)
+                }
+                else -> {
+                    if (type != null) {
+                        val launchIntent = Intent(this@MainActivity, NativeRenderActivity::class.java)
+                        launchIntent.putExtra(IMyNativeRendererType.RENDER_TYPE, type)
+                        startActivity(launchIntent)
+                    }
                 }
             }
         }
@@ -283,9 +293,23 @@ class MainActivity : ListActivity() {
         val itemFBO: MutableMap<String, Any> = HashMap()
         itemFBO[ITEM_IMAGE] = R.mipmap.ic_fbo
         itemFBO[ITEM_TITLE] = "使用 FBO 技术，实现将彩色照片渲染成黑白照片"
-        itemFBO[ITEM_SUBTITLE] = "学习到FBO(帧缓冲区对象) 离屏渲染"
+        itemFBO[ITEM_SUBTITLE] = "学习 FBO(帧缓冲区对象) 离屏渲染"
         data.add(itemFBO)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO)
+
+        //////////////////////////////////// 1个异类  ////////////////////////////////////
+        val itemEGL: MutableMap<String, Any> = HashMap()
+        itemEGL[ITEM_IMAGE] = R.mipmap.ic_texture_map
+        itemEGL[ITEM_TITLE] = "使用 EGL渲染 来实现 马赛克、网格、旋转、边缘、放大、形变等效果"
+        itemEGL[ITEM_SUBTITLE] = "学习 使用EGL渲染 技术"
+        data.add(itemEGL)
+        // 这个i不要递增
+        typeMapping.put(i, IMyNativeRendererType.SAMPLE_TYPE_KEY_EGL)
+        activityMapping.put(i, EGLActivity::class.java)
+        // i 递增
+        i++
+        //////////////////////////////////// 1个异类  ////////////////////////////////////
+
     }
 
     companion object {

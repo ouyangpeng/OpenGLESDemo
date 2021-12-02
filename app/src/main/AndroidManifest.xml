@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OpenGLESDemo">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,8 +20,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.oyp.openglesdemo.activity.EGLActivity"
+            android:label="@string/egl_render"
+            android:parentActivityName=".activity.MainActivity"
+            />
+
         <activity
-            android:name=".NativeRenderActivity"
+            android:name=".activity.NativeRenderActivity"
             android:label="@string/native_renderer"/>
 
         <activity

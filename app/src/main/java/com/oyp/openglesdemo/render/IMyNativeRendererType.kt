@@ -1,4 +1,4 @@
-package com.oyp.openglesdemo
+package com.oyp.openglesdemo.render
 
 object IMyNativeRendererType {
 
@@ -37,5 +37,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_TEXTURE_MAP: Int = SAMPLE_TYPE + 26
     const val SAMPLE_TYPE_KEY_YUV_RENDER: Int = SAMPLE_TYPE + 27
     const val SAMPLE_TYPE_KEY_FBO: Int = SAMPLE_TYPE + 28
+    const val SAMPLE_TYPE_KEY_EGL: Int = SAMPLE_TYPE + 29
 
 }

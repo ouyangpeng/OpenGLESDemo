@@ -1,4 +1,4 @@
-package com.oyp.openglesdemo
+package com.oyp.openglesdemo.render
 
 import android.app.Activity
 import android.content.res.AssetManager

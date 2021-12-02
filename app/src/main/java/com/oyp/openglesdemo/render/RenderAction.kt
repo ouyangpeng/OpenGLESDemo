@@ -1,4 +1,4 @@
-package com.oyp.openglesdemo
+package com.oyp.openglesdemo.render
 
 interface RenderAction {
     fun switchBlendingMode()
