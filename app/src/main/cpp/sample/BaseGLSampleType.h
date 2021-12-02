@@ -38,5 +38,6 @@
 
 #define SAMPLE_TYPE_KEY_TEXTURE_MAP                                 SAMPLE_TYPE + 26
 #define SAMPLE_TYPE_KEY_YUV_RENDER                                  SAMPLE_TYPE + 27
+#define SAMPLE_TYPE_KEY_FBO                                         SAMPLE_TYPE + 28
 
 #endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H

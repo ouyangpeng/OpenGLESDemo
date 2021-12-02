@@ -31,8 +31,9 @@
 
 #include <GLUtils.h>
 #include <ImageDef.h>
-#include <byteflow/TextureMapSample.h>
-#include <byteflow/NV21TextureMapSample.h>
+#include <TextureMapSample.h>
+#include <NV21TextureMapSample.h>
+#include <FBOSample.h>
 
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
@@ -150,6 +151,9 @@ void MyGLRenderContext::SetParamsInt(int paramType, int value0, int value1) {
                 break;
             case SAMPLE_TYPE_KEY_YUV_RENDER:
                 m_pCurSample = new NV21TextureMapSample();
+                break;
+            case SAMPLE_TYPE_KEY_FBO:
+                m_pCurSample = new FBOSample();
                 break;
             default:
                 m_pCurSample = nullptr;

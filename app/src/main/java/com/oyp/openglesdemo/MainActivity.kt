@@ -274,11 +274,18 @@ class MainActivity : ListActivity() {
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP)
 
         val itemYUVRender: MutableMap<String, Any> = HashMap()
-        itemYUVRender[ITEM_IMAGE] = R.mipmap.ic_texture_map
+        itemYUVRender[ITEM_IMAGE] = R.mipmap.ic_yuv
         itemYUVRender[ITEM_TITLE] = "YUV 渲染"
         itemYUVRender[ITEM_SUBTITLE] = "YUV 图不能直接用于显示，需要转换为 RGB 格式，而 YUV 转 RGB 是一个逐像素处理的耗时操作，在 CPU 端进行转换效率过低，这时正好可以利用 GPU 强大的并行处理能力来实现 YUV 到 RGB 的转换。"
         data.add(itemYUVRender)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_YUV_RENDER)
+
+        val itemFBO: MutableMap<String, Any> = HashMap()
+        itemFBO[ITEM_IMAGE] = R.mipmap.ic_fbo
+        itemFBO[ITEM_TITLE] = "使用 FBO 技术，实现将彩色照片渲染成黑白照片"
+        itemFBO[ITEM_SUBTITLE] = "学习到FBO(帧缓冲区对象) 离屏渲染"
+        data.add(itemFBO)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO)
     }
 
     companion object {

@@ -76,7 +76,8 @@ class NativeRenderActivity : Activity() {
 
         } else {
             when (type) {
-                IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP -> {
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP ,
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO->{
                     // 从res目录加载图片
                     // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
                     // 从assets目录加载图片
@@ -143,10 +144,10 @@ class NativeRenderActivity : Activity() {
         mGLSurfaceView!!.onPause()
     }
 
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        renderer?.onDestroy()
-//    }
+    override fun onDestroy() {
+        super.onDestroy()
+        renderer?.onDestroy()
+    }
 
 
     private fun setMinSetting(item: Int) {

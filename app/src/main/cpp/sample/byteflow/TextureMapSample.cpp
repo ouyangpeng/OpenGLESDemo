@@ -58,47 +58,49 @@ void TextureMapSample::create() {
 }
 
 void TextureMapSample::draw() {
-    LOGD("TextureMapSample::draw()")
-    if (mProgram == GL_NONE || mTextureId == GL_NONE) return;
+    FUN_BEGIN_TIME("TextureMapSample::draw()")
+        LOGD("TextureMapSample::draw()")
+        if (mProgram == GL_NONE || mTextureId == GL_NONE) return;
 
-    // Clear the color buffer
-    glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // Clear the color buffer
+        glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Use the program object
-    glUseProgram(mProgram);
+        // Use the program object
+        glUseProgram(mProgram);
 
-    // upload RGBA image data
-    // 采样器统一变量将加载一个指定纹理绑定的纹理单元的数值：
-    // 例如，用数字0指定采样器表示从单元GL_TEXTURE0读取，指定数字1指定采样器表示从单元GL_TEXTURE1读取，以此类推
-    // 纹理用glActiveTexture函数绑定到纹理单元
-    glActiveTexture(GL_TEXTURE0);
-    // 将纹理绑定到当前活动单元
-    glBindTexture(GL_TEXTURE_2D, mTextureId);
+        // upload RGBA image data
+        // 采样器统一变量将加载一个指定纹理绑定的纹理单元的数值：
+        // 例如，用数字0指定采样器表示从单元GL_TEXTURE0读取，指定数字1指定采样器表示从单元GL_TEXTURE1读取，以此类推
+        // 纹理用glActiveTexture函数绑定到纹理单元
+        glActiveTexture(GL_TEXTURE0);
+        // 将纹理绑定到当前活动单元
+        glBindTexture(GL_TEXTURE_2D, mTextureId);
 
-    //加载 RGBA 格式的图像数据
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mRenderImage.width, mRenderImage.height,
-                 0, GL_RGBA, GL_UNSIGNED_BYTE, mRenderImage.ppPlane[0]);
-    glBindTexture(GL_TEXTURE_2D, GL_NONE);
+        //加载 RGBA 格式的图像数据
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mRenderImage.width, mRenderImage.height,
+                     0, GL_RGBA, GL_UNSIGNED_BYTE, mRenderImage.ppPlane[0]);
+        glBindTexture(GL_TEXTURE_2D, GL_NONE);
 
-    // Load the vertex position
-    glVertexAttribPointer(TEXTURE_MAP_VERTEX_POS_INDEX, TEXTURE_MAP_VERTEX_POS_SIZE,
-                          GL_FLOAT, GL_FALSE,
-                          TEXTURE_MAP_VERTEX_POS_SIZE * sizeof(GLfloat), verticesCoords);
+        // Load the vertex position
+        glVertexAttribPointer(TEXTURE_MAP_VERTEX_POS_INDEX, TEXTURE_MAP_VERTEX_POS_SIZE,
+                              GL_FLOAT, GL_FALSE,
+                              TEXTURE_MAP_VERTEX_POS_SIZE * sizeof(GLfloat), verticesCoords);
 
-    // Load the texture coordinate
-    glVertexAttribPointer(TEXTURE_MAP_VERTEX_TEXTCOORD_INDEX, TEXTURE_MAP_VERTEX_TEXTCOORD_SIZE,
-                          GL_FLOAT, GL_FALSE,
-                          TEXTURE_MAP_VERTEX_TEXTCOORD_SIZE * sizeof(GLfloat), textureCoords);
+        // Load the texture coordinate
+        glVertexAttribPointer(TEXTURE_MAP_VERTEX_TEXTCOORD_INDEX, TEXTURE_MAP_VERTEX_TEXTCOORD_SIZE,
+                              GL_FLOAT, GL_FALSE,
+                              TEXTURE_MAP_VERTEX_TEXTCOORD_SIZE * sizeof(GLfloat), textureCoords);
 
-    glEnableVertexAttribArray(TEXTURE_MAP_VERTEX_POS_INDEX);
-    glEnableVertexAttribArray(TEXTURE_MAP_VERTEX_TEXTCOORD_INDEX);
+        glEnableVertexAttribArray(TEXTURE_MAP_VERTEX_POS_INDEX);
+        glEnableVertexAttribArray(TEXTURE_MAP_VERTEX_TEXTCOORD_INDEX);
 
-    // Bind the RGBA map
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, mTextureId);
+        // Bind the RGBA map
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, mTextureId);
 
-    glUniform1i(mSamplerLoc, 0);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
+        glUniform1i(mSamplerLoc, 0);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
+    FUN_END_TIME("TextureMapSample::draw()")
 }
 
 void TextureMapSample::shutdown() {
