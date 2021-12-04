@@ -12,8 +12,17 @@
 #include <EGL/eglext.h>
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
+#include <GLUtils.h>
 
 #define EGL_FEATURE_NUM 8
+
+#define EGL_VERTEX_POS_LOC  0
+#define EGL_TEXTURE_POS_LOC 1
+
+#define EGL_VERTEX_POS_SIZE  3
+#define EGL_TEXTURE_POS_SIZE 2
+
+#define PARAM_TYPE_SHADER_INDEX    200
 
 class EGLRender
 {
@@ -29,7 +38,7 @@ public:
 
     void SetImageData(uint8_t *pData, int width, int height);
 
-    void SetIntParams(int paramType, int param);
+    void SetFragmentShaderType(int paramType, int param);
 
     void Draw();
 
@@ -87,7 +96,6 @@ private:
 	// 型变2
 	const char *fShaderStr_reshape2;
 
-
 	EGLConfig  m_eglConf;
 	EGLSurface m_eglSurface;
 	EGLContext m_eglCtx;
@@ -111,14 +119,6 @@ const GLfloat egl_vTexCoors[] = {
 		1.0f, 1.0f, // bottom right
 		0.0f, 0.0f, // top left
 		1.0f, 0.0f, // top right
-};
-
-//fbo 纹理坐标与正常纹理方向不同(上下镜像)
-const GLfloat egl_vFboTexCoors[] = {
-		0.0f, 0.0f,  // bottom left
-		1.0f, 0.0f,  // bottom right
-		0.0f, 1.0f,  // top left
-		1.0f, 1.0f,  // top right
 };
 
 // 注意索引从0开始!

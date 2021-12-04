@@ -108,16 +108,17 @@ Java_com_oyp_openglesdemo_render_egl_NativeEglRender_nativeEglRenderSetImageData
     int len = env->GetArrayLength (data);
     uint8_t* buf = new uint8_t[len];
     env->GetByteArrayRegion(data, 0, len, reinterpret_cast<jbyte*>(buf));
+
     EGLRender::GetInstance()->SetImageData(buf, width, height);
+
     delete[] buf;
     env->DeleteLocalRef(data);
-
 }
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_render_egl_NativeEglRender_nativeEglRenderSetIntParams(
-        JNIEnv *env, jobject thiz, jint param_type, jint param) {
-    EGLRender::GetInstance()->SetIntParams(param_type, param);
+Java_com_oyp_openglesdemo_render_egl_NativeEglRender_nativeEglRenderSetFragmentShaderType(
+        JNIEnv *env, jobject thiz, jint param_type, jint fShaderType) {
+    EGLRender::GetInstance()->SetFragmentShaderType(param_type, fShaderType);
 }
 extern "C"
 JNIEXPORT void JNICALL

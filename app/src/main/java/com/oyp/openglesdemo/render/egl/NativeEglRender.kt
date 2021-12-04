@@ -14,9 +14,9 @@ class NativeEglRender (activity: Activity) {
         nativeEglRenderInit(assetManager)
     }
 
-    external fun nativeEglRenderInit(assetManager: AssetManager)
+    private external fun nativeEglRenderInit(assetManager: AssetManager)
     external fun nativeEglRenderSetImageData(data: ByteArray?, width: Int, height: Int)
-    external fun nativeEglRenderSetIntParams(paramType: Int, param: Int)
+    external fun nativeEglRenderSetFragmentShaderType(paramType: Int, fShaderType: Int)
     external fun nativeEglRenderDraw()
     external fun nativeEglRenderUnInit()
 }

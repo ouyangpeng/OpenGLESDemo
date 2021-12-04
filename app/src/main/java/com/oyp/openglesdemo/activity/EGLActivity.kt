@@ -5,8 +5,9 @@ import android.os.Bundle
 import com.oyp.openglesdemo.R
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.opengl.GLES20
+import android.opengl.GLES30
 import android.opengl.GLException
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
@@ -20,6 +21,7 @@ class EGLActivity : AppCompatActivity() {
     private lateinit var mImageView: ImageView
     private lateinit var mBtn: Button
     private var mBgRender: NativeEglRender? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_egl)
@@ -67,7 +69,7 @@ class EGLActivity : AppCompatActivity() {
             }
         }
         if (mBgRender != null) {
-            mBgRender!!.nativeEglRenderSetIntParams(PARAM_TYPE_SHADER_INDEX, shaderIndex)
+            mBgRender!!.nativeEglRenderSetFragmentShaderType(PARAM_TYPE_SHADER_INDEX, shaderIndex)
             startBgRender()
             mBtn.setText(R.string.btn_txt_reset)
         }
@@ -98,7 +100,7 @@ class EGLActivity : AppCompatActivity() {
             try {
                 inputStream.close()
             } catch (e: IOException) {
-                e.printStackTrace()
+                Log.e(TAG,e.stackTraceToString())
             }
         }
         return bitmap
@@ -110,8 +112,8 @@ class EGLActivity : AppCompatActivity() {
         val intBuffer = IntBuffer.wrap(bitmapBuffer)
         intBuffer.position(0)
         try {
-            GLES20.glReadPixels(
-                x, y, w, h, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE,
+            GLES30.glReadPixels(
+                x, y, w, h, GLES30.GL_RGBA, GLES30.GL_UNSIGNED_BYTE,
                 intBuffer
             )
             var offset1: Int
@@ -121,13 +123,17 @@ class EGLActivity : AppCompatActivity() {
                 offset2 = (h - i - 1) * w
                 for (j in 0 until w) {
                     val texturePixel = bitmapBuffer[offset1 + j]
+                    //  int blue = (texturePixel >> 16) & 0xff;
                     val blue = texturePixel shr 16 and 0xff
+                    //  int red = (texturePixel << 16) & 0x00ff0000;
                     val red = texturePixel shl 16 and 0x00ff0000
+                    //  int pixel = (texturePixel & 0xff00ff00) | red | blue;
                     val pixel = texturePixel and -0xff0100 or red or blue
                     bitmapSource[offset2 + j] = pixel
                 }
             }
         } catch (e: GLException) {
+            Log.e(TAG,e.stackTraceToString())
             return null
         }
         return Bitmap.createBitmap(bitmapSource, w, h, Bitmap.Config.ARGB_8888)
