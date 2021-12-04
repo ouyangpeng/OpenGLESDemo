@@ -25,8 +25,8 @@ class EGLActivity : AppCompatActivity() {
         setContentView(R.layout.activity_egl)
         mImageView = findViewById(R.id.imageView)
         mBtn = findViewById(R.id.button)
-        mBgRender = NativeEglRender()
-        mBgRender!!.nativeEglRenderInit()
+        mBgRender = NativeEglRender(this)
+        mBgRender!!.eglRenderInit()
 
         mBtn.setOnClickListener {
             if (mBtn.text == this@EGLActivity.resources.getString(R.string.btn_txt_reset)) {
@@ -62,6 +62,7 @@ class EGLActivity : AppCompatActivity() {
             R.id.action_shader4 -> shaderIndex = 4
             R.id.action_shader5 -> shaderIndex = 5
             R.id.action_shader6 -> shaderIndex = 6
+            R.id.action_shader7 -> shaderIndex = 7
             else -> {
             }
         }

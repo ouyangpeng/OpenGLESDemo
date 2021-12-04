@@ -12,297 +12,6 @@ EGLRender *EGLRender::m_Instance = nullptr;
 
 #define PARAM_TYPE_SHADER_INDEX    200
 
-const char* vShaderStr =
-		"#version 300 es                            \n"
-		"layout(location = 0) in vec4 a_position;   \n"
-		"layout(location = 1) in vec2 a_texCoord;   \n"
-		"out vec2 v_texCoord;                       \n"
-		"void main()                                \n"
-		"{                                          \n"
-		"   gl_Position = a_position;               \n"
-		"   v_texCoord = a_texCoord;                \n"
-		"}                                          \n";
-
-const char fShaderStr0[] =
-		"#version 300 es\n"
-		"precision mediump float;\n"
-		"in vec2 v_texCoord;\n"
-		"layout(location = 0) out vec4 outColor;\n"
-		"uniform sampler2D s_TextureMap;\n"
-		"void main()\n"
-		"{\n"
-		"    outColor = texture(s_TextureMap, v_texCoord);\n"
-		"}";
-// 马赛克
-const char fShaderStr1[] =
-		"#version 300 es\n"
-		"precision highp float;\n"
-		"layout(location = 0) out vec4 outColor;\n"
-		"in vec2 v_texCoord;\n"
-		"uniform sampler2D s_TextureMap;\n"
-		"uniform vec2 u_texSize;\n"
-		"\n"
-		"vec4 CrossStitching(vec2 uv) {\n"
-		"    float stitchSize = u_texSize.x / 35.0;\n"
-		"    int invert = 0;\n"
-		"    vec4 color = vec4(0.0);\n"
-		"    float size = stitchSize;\n"
-		"    vec2 cPos = uv * u_texSize.xy;\n"
-		"    vec2 tlPos = floor(cPos / vec2(size, size));\n"
-		"    tlPos *= size;\n"
-		"    int remX = int(mod(cPos.x, size));\n"
-		"    int remY = int(mod(cPos.y, size));\n"
-		"    if (remX == 0 && remY == 0)\n"
-		"    tlPos = cPos;\n"
-		"    vec2 blPos = tlPos;\n"
-		"    blPos.y += (size - 1.0);\n"
-		"    if ((remX == remY) || (((int(cPos.x) - int(blPos.x)) == (int(blPos.y) - int(cPos.y))))) {\n"
-		"        if (invert == 1)\n"
-		"        color = vec4(0.2, 0.15, 0.05, 1.0);\n"
-		"        else\n"
-		"        color = texture(s_TextureMap, tlPos * vec2(1.0 / u_texSize.x, 1.0 / u_texSize.y)) * 1.4;\n"
-		"    } else {\n"
-		"        if (invert == 1)\n"
-		"        color = texture(s_TextureMap, tlPos * vec2(1.0 / u_texSize.x, 1.0 / u_texSize.y)) * 1.4;\n"
-		"        else\n"
-		"        color = vec4(0.0, 0.0, 0.0, 1.0);\n"
-		"    }\n"
-		"    return color;\n"
-		"}\n"
-		"void main() {\n"
-		"    outColor = CrossStitching(v_texCoord);\n"
-		"}";
-
-// 网格
-const char fShaderStr2[] =
-		"#version 300 es\n"
-		"precision highp float;\n"
-		"layout(location = 0) out vec4 outColor;\n"
-		"in vec2 v_texCoord;\n"
-		"uniform sampler2D s_TextureMap;\n"
-		"uniform vec2 u_texSize;\n"
-		"void main() {\n"
-		"    float size = u_texSize.x / 75.0;\n"
-		"    float radius = size * 0.5;\n"
-		"    vec2 fragCoord = v_texCoord * u_texSize.xy;\n"
-		"    vec2 quadPos = floor(fragCoord.xy / size) * size;\n"
-		"    vec2 quad = quadPos/u_texSize.xy;\n"
-		"    vec2 quadCenter = (quadPos + size/2.0);\n"
-		"    float dist = length(quadCenter - fragCoord.xy);\n"
-		"\n"
-		"    if (dist > radius) {\n"
-		"        outColor = vec4(0.25);\n"
-		"    } else {\n"
-		"        outColor = texture(s_TextureMap, v_texCoord);\n"
-		"    }\n"
-		"}";
-
-// 旋转
-const char fShaderStr3[] =
-		"#version 300 es\n"
-		"precision highp float;\n"
-		"layout(location = 0) out vec4 outColor;\n"
-		"in vec2 v_texCoord;\n"
-		"uniform lowp sampler2D s_TextureMap;\n"
-		"uniform vec2 u_texSize;\n"
-		"void main() {\n"
-		"    float radius = 200.0;\n"
-		"    float angle = 0.8;\n"
-		"    vec2 center = vec2(u_texSize.x / 2.0, u_texSize.y / 2.0);\n"
-		"    vec2 tc = v_texCoord * u_texSize;\n"
-		"    tc -= center;\n"
-		"    float dist = length(tc);\n"
-		"    if (dist < radius) {\n"
-		"        float percent = (radius - dist) / radius;\n"
-		"        float theta = percent * percent * angle * 8.0;\n"
-		"        float s = sin(theta);\n"
-		"        float c = cos(theta);\n"
-		"        tc = vec2(dot(tc, vec2(c, -s)), dot(tc, vec2(s, c)));\n"
-		"    }\n"
-		"    tc += center;\n"
-		"    outColor = texture(s_TextureMap, tc / u_texSize);\n"
-		"}";
-
-// 边缘
-const char fShaderStr4[] =
-		"#version 300 es\n"
-		"precision highp float;\n"
-		"layout(location = 0) out vec4 outColor;\n"
-		"in vec2 v_texCoord;\n"
-		"uniform lowp sampler2D s_TextureMap;\n"
-		"uniform vec2 u_texSize;\n"
-		"void main() {\n"
-		"    vec2 pos = v_texCoord.xy;\n"
-		"    vec2 onePixel = vec2(1, 1) / u_texSize;\n"
-		"    vec4 color = vec4(0);\n"
-		"    mat3 edgeDetectionKernel = mat3(\n"
-		"    -1, -1, -1,\n"
-		"    -1, 8, -1,\n"
-		"    -1, -1, -1\n"
-		"    );\n"
-		"    for(int i = 0; i < 3; i++) {\n"
-		"        for(int j = 0; j < 3; j++) {\n"
-		"            vec2 samplePos = pos + vec2(i - 1 , j - 1) * onePixel;\n"
-		"            vec4 sampleColor = texture(s_TextureMap, samplePos);\n"
-		"            sampleColor *= edgeDetectionKernel[i][j];\n"
-		"            color += sampleColor;\n"
-		"        }\n"
-		"    }\n"
-		"    outColor = vec4(color.rgb, 1.0);\n"
-		"}";
-// 放大
-const char fShaderStr5[] =
-		"#version 300 es\n"
-		"precision highp float;\n"
-		"layout(location = 0) out vec4 outColor;\n"
-		"in vec2 v_texCoord;\n"
-		"uniform sampler2D s_TextureMap;\n"
-		"uniform vec2 u_texSize;\n"
-		"\n"
-		"vec2 warpPositionToUse(vec2 centerPostion, vec2 currentPosition, float radius, float scaleRatio, float aspectRatio)\n"
-		"{\n"
-		"    vec2 positionToUse = currentPosition;\n"
-		"    vec2 currentPositionToUse = vec2(currentPosition.x, currentPosition.y * aspectRatio + 0.5 - 0.5 * aspectRatio);\n"
-		"    vec2 centerPostionToUse = vec2(centerPostion.x, centerPostion.y * aspectRatio + 0.5 - 0.5 * aspectRatio);\n"
-		"    //float r = distance(currentPositionToUse, centerPostionToUse);\n"
-		"    float r = distance(currentPosition, centerPostion);\n"
-		"    if(r < radius)\n"
-		"    {\n"
-		"        float alpha = 1.0 - scaleRatio * pow(r / radius - 1.0, 2.0);\n"
-		"        positionToUse = centerPostion + alpha * (currentPosition - centerPostion);\n"
-		"    }\n"
-		"    return positionToUse;\n"
-		"}\n"
-		"\n"
-		"void main() {\n"
-		"    vec2 centerPostion = vec2(0.5, 0.5);\n"
-		"    float radius = 0.34;\n"
-		"    float scaleRatio = 1.0;\n"
-		"    float aspectRatio = u_texSize.x / u_texSize.y;\n"
-		"    outColor = texture(s_TextureMap, warpPositionToUse(centerPostion, v_texCoord, radius, scaleRatio, aspectRatio));\n"
-		"}";
-
-const char fShaderStr6[] =
-		"#version 300 es\n"
-		"precision highp float;\n"
-		"layout(location = 0) out vec4 outColor;\n"
-		"in vec2 v_texCoord;\n"
-		"uniform sampler2D s_TextureMap;\n"
-		"uniform vec2 u_texSize;\n"
-		"\n"
-		"vec2 reshape(vec2 src, vec2 dst, vec2 curPos, float radius)\n"
-		"{\n"
-		"    vec2 pos = curPos;\n"
-		"\n"
-		"    float r = distance(curPos, src);\n"
-		"\n"
-		"    if (r < radius)\n"
-		"    {\n"
-		"        float alpha = 1.0 -  r / radius;\n"
-		"        vec2 displacementVec = (dst - src) * pow(alpha, 2.0);\n"
-		"        pos = curPos - displacementVec;\n"
-		"\n"
-		"    }\n"
-		"    return pos;\n"
-		"}\n"
-		"\n"
-		"void main() {\n"
-		"    vec2 srcPos = vec2(0.5, 0.5);\n"
-		"    vec2 dstPos = vec2(0.6, 0.5);\n"
-		"    float radius = 0.18;\n"
-		"    float scaleRatio = 1.0;\n"
-		"    float aspectRatio = u_texSize.x / u_texSize.y;\n"
-		"    \n"
-		"    if(radius <= distance(v_texCoord, srcPos) && distance(v_texCoord, srcPos) <= radius + 0.008)\n"
-		"    {\n"
-		"        outColor = vec4(1.0, 1.0, 1.0, 1.0);\n"
-		"    } \n"
-		"    else\n"
-		"    {\n"
-		"        outColor = texture(s_TextureMap, reshape(srcPos, dstPos, v_texCoord, radius));\n"
-		"    }\n"
-		"}";
-
-// 形变
-const char fShaderStr7[] =
-		"#version 300 es\n"
-		"precision highp float;\n"
-		"layout(location = 0) out vec4 outColor;\n"
-		"in vec2 v_texCoord;\n"
-		"uniform sampler2D s_TextureMap;\n"
-		"uniform vec2 u_texSize;\n"
-		"\n"
-		"float distanceTex(vec2 pos0, vec2 pos1, float aspectRatio)\n"
-		"{\n"
-		"    vec2 newPos0 = vec2(pos0.x, pos0.y * aspectRatio + 0.5 - 0.5 * aspectRatio);\n"
-		"    vec2 newPos1 = vec2(pos1.x, pos1.y * aspectRatio + 0.5 - 0.5 * aspectRatio);\n"
-		"    return distance(newPos0, newPos1);\n"
-		"}\n"
-		"\n"
-		"vec2 reshape(vec2 src, vec2 dst, vec2 curPos, float radius, float aspectRatio)\n"
-		"{\n"
-		"    vec2 pos = curPos;\n"
-		"\n"
-		"    vec2 newSrc = vec2(src.x, src.y * aspectRatio + 0.5 - 0.5 * aspectRatio);\n"
-		"    vec2 newDst = vec2(dst.x, dst.y * aspectRatio + 0.5 - 0.5 * aspectRatio);\n"
-		"    vec2 newCur = vec2(curPos.x, curPos.y * aspectRatio + 0.5 - 0.5 * aspectRatio);\n"
-		"\n"
-		"\n"
-		"    float r = distance(newSrc, newCur);\n"
-		"\n"
-		"    if (r < radius)\n"
-		"    {\n"
-		"        float alpha = 1.0 -  r / radius;\n"
-		"        vec2 displacementVec = (dst - src) * pow(alpha, 1.7);\n"
-		"        pos = curPos - displacementVec;\n"
-		"\n"
-		"    }\n"
-		"    return pos;\n"
-		"}\n"
-		"\n"
-		"void main() {\n"
-		"    vec2 srcPos = vec2(0.5, 0.5);\n"
-		"    vec2 dstPos = vec2(0.55, 0.55);\n"
-		"    float radius = 0.30;\n"
-		"    float scaleRatio = 1.0;\n"
-		"    float aspectRatio = u_texSize.y/u_texSize.x;\n"
-		"\n"
-		"    if(radius <= distanceTex(v_texCoord, srcPos, aspectRatio) && distanceTex(v_texCoord, srcPos, aspectRatio) <= radius + 0.008)\n"
-		"    {\n"
-		"        outColor = vec4(1.0, 1.0, 1.0, 1.0);\n"
-		"    }\n"
-		"    else\n"
-		"    {\n"
-		"        outColor = texture(s_TextureMap, reshape(srcPos, dstPos, v_texCoord, radius, aspectRatio));\n"
-		"    }\n"
-		"}";
-
-//顶点坐标
-const GLfloat vVertices[] = {
-		-1.0f, -1.0f, 0.0f, // bottom left
-		1.0f, -1.0f, 0.0f, // bottom right
-		-1.0f,  1.0f, 0.0f, // top left
-		1.0f,  1.0f, 0.0f, // top right
-};
-
-//正常纹理坐标
-const GLfloat vTexCoors[] = {
-		0.0f, 1.0f, // bottom left
-		1.0f, 1.0f, // bottom right
-		0.0f, 0.0f, // top left
-		1.0f, 0.0f, // top right
-};
-
-//fbo 纹理坐标与正常纹理方向不同(上下镜像)
-const GLfloat vFboTexCoors[] = {
-		0.0f, 0.0f,  // bottom left
-		1.0f, 0.0f,  // bottom right
-		0.0f, 1.0f,  // top left
-		1.0f, 1.0f,  // top right
-};
-
-const GLushort indices[] = { 0, 1, 2, 1, 3, 2 };
-
 EGLRender::EGLRender()
 {
 	m_ImageTextureId = GL_NONE;
@@ -326,22 +35,56 @@ EGLRender::~EGLRender()
 
 }
 
-void EGLRender::Init()
+void EGLRender::Init(JNIEnv *env, jobject assetManager)
 {
 	LOGD("EGLRender::Init");
+
+	// 初始化设置assetManager  一定要记得初始化，否则会报空指针异常
+	GLUtils::setEnvAndAssetManager(env, assetManager);
+
 	if (CreateGlesEnv() == 0)
 	{
 		m_IsGLContextReady = true;
 	}
 
 	if(!m_IsGLContextReady) return;
-	m_fShaderStrs[0] = fShaderStr0;
-	m_fShaderStrs[1] = fShaderStr1;
-	m_fShaderStrs[2] = fShaderStr2;
-	m_fShaderStrs[3] = fShaderStr3;
-	m_fShaderStrs[4] = fShaderStr4;
-	m_fShaderStrs[5] = fShaderStr5;
-	m_fShaderStrs[6] = fShaderStr7;
+
+	// 编译链接用于普通渲染的着色器程序
+	vertexShader = GLUtils::openTextFile(
+			"vertex/vertex_shader_texture_map.glsl");
+	// 用于普通渲染的片段着色器脚本，简单纹理映射
+	fShaderStr_normal = GLUtils::openTextFile(
+			"fragment/fragment_shader_texture_map.glsl");
+	// 马赛克
+	fShaderStr_mosaic = GLUtils::openTextFile(
+			"fragment/fragment_shader_egl_mosaic.glsl");
+	// 马赛克
+	fShaderStr_grid = GLUtils::openTextFile(
+			"fragment/fragment_shader_egl_grid.glsl");
+	// 旋转
+	fShaderStr_rotate = GLUtils::openTextFile(
+			"fragment/fragment_shader_egl_rotate.glsl");
+
+	fShaderStr_edge = GLUtils::openTextFile(
+			"fragment/fragment_shader_egl_edge.glsl");
+
+	fShaderStr_enlarge = GLUtils::openTextFile(
+			"fragment/fragment_shader_egl_enlarge.glsl");
+
+	fShaderStr_reshape = GLUtils::openTextFile(
+			"fragment/fragment_shader_egl_reshape.glsl");
+
+	fShaderStr_reshape2= GLUtils::openTextFile(
+			"fragment/fragment_shader_egl_reshape2.glsl");
+
+	m_fShaderStrs[0] = fShaderStr_normal;
+	m_fShaderStrs[1] = fShaderStr_mosaic;
+	m_fShaderStrs[2] = fShaderStr_grid;
+	m_fShaderStrs[3] = fShaderStr_rotate;
+	m_fShaderStrs[4] = fShaderStr_edge;
+	m_fShaderStrs[5] = fShaderStr_enlarge;
+	m_fShaderStrs[6] = fShaderStr_reshape;
+	m_fShaderStrs[7] = fShaderStr_reshape2;
 
 
 	glGenTextures(1, &m_ImageTextureId);
@@ -360,8 +103,7 @@ void EGLRender::Init()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, GL_NONE);
 
-
-	m_ProgramObj = GLUtils::createProgram(&vShaderStr, &m_fShaderStrs[m_ShaderIndex]);
+	m_ProgramObj = GLUtils::createProgram(&vertexShader, &m_fShaderStrs[m_ShaderIndex]);
 	if (!m_ProgramObj)
 	{
 		GLUtils::checkGlError("Create Program");
@@ -375,13 +117,13 @@ void EGLRender::Init()
 	// Generate VBO Ids and load the VBOs with data
 	glGenBuffers(3, m_VboIds);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[0]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vVertices), vVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(egl_vVertices), egl_vVertices, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[1]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vFboTexCoors), vTexCoors, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(egl_vTexCoors), egl_vTexCoors, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VboIds[2]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(egl_indices), egl_indices, GL_STATIC_DRAW);
 
 	GO_CHECK_GL_ERROR();
 
@@ -588,7 +330,7 @@ void EGLRender::SetIntParams(int paramType, int param)
 					m_ProgramObj = GL_NONE;
 				}
 
-				m_ProgramObj = GLUtils::createProgram(&vShaderStr, &m_fShaderStrs[m_ShaderIndex]);
+				m_ProgramObj = GLUtils::createProgram(&vertexShader, &m_fShaderStrs[m_ShaderIndex]);
 				if (!m_ProgramObj)
 				{
 					GLUtils::checkGlError("Create Program");

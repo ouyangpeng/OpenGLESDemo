@@ -1,9 +1,10 @@
 //
-// Created by ByteFlow on 2019/7/17.
+// Created by OuyangPeng on 2021/11/26.
 //
 
-#ifndef NDK_OPENGLES_3_0_BGRENDER_H
-#define NDK_OPENGLES_3_0_BGRENDER_H
+#ifndef OPENGLESDEMO_EGLRender_H
+#define OPENGLESDEMO_EGLRender_H
+
 #include "stdint.h"
 #include <GLES3/gl3.h>
 #include <ImageDef.h>
@@ -12,7 +13,7 @@
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 
-#define EGL_FEATURE_NUM 7
+#define EGL_FEATURE_NUM 8
 
 class EGLRender
 {
@@ -20,7 +21,7 @@ public:
 	EGLRender();
 	~EGLRender();
 
-    void Init();
+    void Init(JNIEnv *env, jobject assetManager);
 
     int CreateGlesEnv();
 
@@ -66,7 +67,26 @@ private:
 	GLint m_SamplerLoc;
 	GLint m_TexSizeLoc;
 	NativeImage m_RenderImage;
+
 	GLuint m_ProgramObj;
+	const char *vertexShader;
+	// 正常纹理
+	const char *fShaderStr_normal;
+	// 马赛克
+	const char *fShaderStr_mosaic;
+	// 网格
+	const char *fShaderStr_grid;
+	// 旋转
+	const char *fShaderStr_rotate;
+	// 边缘
+	const char *fShaderStr_edge;
+	// 放大
+	const char *fShaderStr_enlarge;
+	// 型变
+	const char *fShaderStr_reshape;
+	// 型变2
+	const char *fShaderStr_reshape2;
+
 
 	EGLConfig  m_eglConf;
 	EGLSurface m_eglSurface;
@@ -77,5 +97,34 @@ private:
 	int        m_ShaderIndex;
 };
 
+//顶点坐标
+const GLfloat egl_vVertices[] = {
+		-1.0f, -1.0f, 0.0f, // bottom left
+		1.0f, -1.0f, 0.0f, // bottom right
+		-1.0f,  1.0f, 0.0f, // top left
+		1.0f,  1.0f, 0.0f, // top right
+};
 
-#endif //NDK_OPENGLES_3_0_BGRENDER_H
+//正常纹理坐标
+const GLfloat egl_vTexCoors[] = {
+		0.0f, 1.0f, // bottom left
+		1.0f, 1.0f, // bottom right
+		0.0f, 0.0f, // top left
+		1.0f, 0.0f, // top right
+};
+
+//fbo 纹理坐标与正常纹理方向不同(上下镜像)
+const GLfloat egl_vFboTexCoors[] = {
+		0.0f, 0.0f,  // bottom left
+		1.0f, 0.0f,  // bottom right
+		0.0f, 1.0f,  // top left
+		1.0f, 1.0f,  // top right
+};
+
+// 注意索引从0开始!
+static GLushort egl_indices[] = {
+		0, 1, 2,        // 第一个三角形
+		1, 3, 2         // 第二个三角形
+};
+
+#endif //OPENGLESDEMO_EGLRender_H

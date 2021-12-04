@@ -96,8 +96,8 @@ Java_com_oyp_openglesdemo_render_MyNativeRenderer_nativeSetImageDataWithIndex(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_oyp_openglesdemo_render_egl_NativeEglRender_nativeEglRenderInit(JNIEnv *env, jobject thiz) {
-    EGLRender::GetInstance()->Init();
+Java_com_oyp_openglesdemo_render_egl_NativeEglRender_nativeEglRenderInit(JNIEnv *env, jobject thiz, jobject asset_manager) {
+    EGLRender::GetInstance()->Init(env,asset_manager);
 }
 
 extern "C"
