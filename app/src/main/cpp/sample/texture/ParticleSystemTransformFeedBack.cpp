@@ -234,6 +234,19 @@ void ParticleSystemTransformFeedBack::emitParticles() {
     // 启用变化反馈渲染，
     // 后续 用 GL_POINTS 对 glDrawArrays 的调用将被记录在变化反馈缓冲区中，
     // 直到调用glEndTransformFeedback
+
+    // Transform Feedback 可以随时启动、暂停和停止。
+    // glBeginTransformFeedback
+    // 用于开始 Transform Feedback ，它的参数是用来设置将要记录的图元类型，如：GL_POINTS、GL_LINES 和 GL_TRIANGLES 。
+
+    // glPuaseTransformFeedback
+    // 暂停 Transform Feedback 对变量的记录，但 Transform Feedback 还是处于启动状态。如果 Transform Feedback 没有启动则 OpenGLES 产生错误。
+
+    // glResumeTransformFeedback
+    // 重新开启一个之前通过 glPuaseTransformFeedback 暂停的变换反馈过程，如果 Transform Feedback 没有启动，或者没有被处于活动状态，则产生OpenGL错误。
+
+    // glEndTransformFeedback
+    // 用来结束 Transform Feedback 过程。
     glBeginTransformFeedback ( GL_POINTS );
     glDrawArrays (GL_POINTS, 0, NUM_PARTICLES );
     glEndTransformFeedback();
