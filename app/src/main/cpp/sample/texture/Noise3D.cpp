@@ -5,7 +5,7 @@
 #define NOISE_TABLE_MASK   255
 
 #define FLOOR(x)           ((int)(x) - ((x) < 0 && (x) != (int)(x)))
-#define smoothstep(t)      ( t * t * t * (t * (t * 6.0f - 15.0f) + 10.0f ) )
+#define noise3d_smoothstep(t)      ( t * t * t * (t * (t * 6.0f - 15.0f) + 10.0f ) )
 #define lerp(t, a, b)      ( a + t * (b - a) )
 
 
@@ -125,17 +125,17 @@ float noise3D ( float *f )
    ix = FLOOR ( f[0] );
    fx0 = f[0] - ix;
    fx1 = fx0 - 1;
-   wx = smoothstep ( fx0 );
+   wx = noise3d_smoothstep ( fx0 );
 
    iy = FLOOR ( f[1] );
    fy0 = f[1] - iy;
    fy1 = fy0 - 1;
-   wy = smoothstep ( fy0 );
+   wy = noise3d_smoothstep ( fy0 );
 
    iz = FLOOR ( f[2] );
    fz0 = f[2] - iz;
    fz1 = fz0 - 1;
-   wz = smoothstep ( fz0 );
+   wz = noise3d_smoothstep ( fz0 );
 
    vx0 = glattice3D ( ix, iy, iz, fx0, fy0, fz0 );
    vx1 = glattice3D ( ix + 1, iy, iz, fx1, fy0, fz0 );

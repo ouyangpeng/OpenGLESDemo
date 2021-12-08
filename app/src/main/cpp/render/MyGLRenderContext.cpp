@@ -34,6 +34,7 @@
 #include <TextureMapSample.h>
 #include <NV21TextureMapSample.h>
 #include <FBOSample.h>
+#include <FBOLegLengthenSample.h>
 
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
@@ -153,6 +154,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_FBO:
                 m_pCurSample = new FBOSample();
+                break;
+            case SAMPLE_TYPE_KEY_FBO_LEG:
+                m_pCurSample = new FBOLegLengthenSample();
                 break;
             default:
                 m_pCurSample = nullptr;
@@ -282,6 +286,14 @@ void MyGLRenderContext::DestroyInstance() {
         m_pContext = nullptr;
     }
 
+}
+
+void MyGLRenderContext::UpdateTransformMatrix(float rotateX, float rotateY, float scaleX, float scaleY) {
+    LOGD("MyGLRenderContext::UpdateTransformMatrix [rotateX, rotateY, scaleX, scaleY] = [%f, %f, %f, %f]", rotateX, rotateY, scaleX, scaleY);
+    if (m_pCurSample)
+    {
+        m_pCurSample->UpdateTransformMatrix(rotateX, rotateY, scaleX, scaleY);
+    }
 }
 
 

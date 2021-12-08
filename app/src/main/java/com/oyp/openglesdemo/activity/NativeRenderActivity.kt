@@ -87,6 +87,11 @@ class NativeRenderActivity : Activity() {
                     loadRGBAImageFromAssets("texture/yangchaoyue.png")
                 }
 
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG ->{
+                    // 从assets目录加载图片
+                    loadRGBAImageFromAssets("texture/leg.jpg")
+                }
+
                 IMyNativeRendererType.SAMPLE_TYPE_KEY_YUV_RENDER -> {
                     loadNV21ImageFromAssets("yuv/YUV_Image_840x1074.NV21",840,1074)
                 }

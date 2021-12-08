@@ -51,6 +51,8 @@ public:
 
     virtual void LoadMultiImageWithIndex(int index, NativeImage *pImage) {}
 
+    void UpdateTransformMatrix(float rotateX, float rotateY, float scaleX, float scaleY) {}
+
 protected:
     GLuint mProgram;
     int mWidth;

@@ -38,6 +38,8 @@ public:
 
     void SetImageDataWithIndex(int index, int format, int width, int height, uint8_t *pData);
 
+    void UpdateTransformMatrix(jfloat d, jfloat d1, jfloat d2, jfloat d3);
+
 private:
     static MyGLRenderContext *m_pContext;
     BaseGLSample *m_pBeforeSample;

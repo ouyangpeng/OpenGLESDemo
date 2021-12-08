@@ -10,4 +10,6 @@ interface RenderAction {
     fun setImageData(format: Int, width: Int, height: Int, imageData: ByteArray)
 
     fun setImageDataWithIndex(index: Int, format: Int, width: Int, height: Int, imageData: ByteArray)
+
+    fun updateTransformMatrix(rotateX: Float, rotateY: Float, scaleX: Float, scaleY: Float)
 }

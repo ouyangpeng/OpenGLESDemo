@@ -311,6 +311,13 @@ class MainActivity : Activity() {
         i++
         //////////////////////////////////// 1个异类  ////////////////////////////////////
 
+        val itemFBOLeg: MutableMap<String, Any> = HashMap()
+        itemFBOLeg[ITEM_IMAGE] = R.mipmap.ic_fbo
+        itemFBOLeg[ITEM_TITLE] = "FBO 实现 大长腿"
+        itemFBOLeg[ITEM_SUBTITLE] = "FBO LEG"
+        data.add(itemFBOLeg)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG)
+
     }
 
     companion object {

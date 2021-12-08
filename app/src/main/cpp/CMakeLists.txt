@@ -16,6 +16,12 @@ project("openglesdemo")
 
 #设置包含的目录
 include_directories(
+        include
+
+        jni
+
+        render
+
         sample
         sample/byteflow
         sample/cube
@@ -24,10 +30,6 @@ include_directories(
         sample/lesson/lesson8
         sample/texture
         sample/triangle
-
-        jni
-
-        render
 
         utils
         utils/graphics

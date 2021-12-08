@@ -33,11 +33,17 @@
 #define SAMPLE_TYPE_KEY_LESSON_FIVE                                 SAMPLE_TYPE + 22
 #define SAMPLE_TYPE_KEY_LESSON_SIX                                  SAMPLE_TYPE + 23
 
+// 单独处理了
 #define SAMPLE_TYPE_KEY_LESSON_SEVEN                                SAMPLE_TYPE + 24
 #define SAMPLE_TYPE_KEY_LESSON_EIGHT                                SAMPLE_TYPE + 25
 
 #define SAMPLE_TYPE_KEY_TEXTURE_MAP                                 SAMPLE_TYPE + 26
 #define SAMPLE_TYPE_KEY_YUV_RENDER                                  SAMPLE_TYPE + 27
 #define SAMPLE_TYPE_KEY_FBO                                         SAMPLE_TYPE + 28
+
+// EGL 单独处理了
+#define SAMPLE_TYPE_KEY_EGL                                         SAMPLE_TYPE + 29
+
+#define SAMPLE_TYPE_KEY_FBO_LEG                                     SAMPLE_TYPE + 30
 
 #endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H

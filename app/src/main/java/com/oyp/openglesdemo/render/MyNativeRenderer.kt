@@ -44,6 +44,13 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
         imageData: ByteArray?
     )
 
+    private external fun nativeUpdateTransformMatrix(
+        rotateX: Float,
+        rotateY: Float,
+        scaleX: Float,
+        scaleY: Float
+    )
+
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         val assetManager: AssetManager = mActivity.assets
@@ -102,5 +109,14 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
         imageData: ByteArray
     ) {
         nativeSetImageDataWithIndex(index, format, width, height, imageData)
+    }
+
+    override fun updateTransformMatrix(
+        rotateX: Float,
+        rotateY: Float,
+        scaleX: Float,
+        scaleY: Float
+    ) {
+        nativeUpdateTransformMatrix(rotateX, rotateY, scaleX, scaleY)
     }
 }

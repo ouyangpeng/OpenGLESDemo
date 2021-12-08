@@ -91,6 +91,12 @@ Java_com_oyp_openglesdemo_render_MyNativeRenderer_nativeSetImageDataWithIndex(
     env->DeleteLocalRef(imageData);
 }
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_oyp_openglesdemo_render_MyNativeRenderer_nativeUpdateTransformMatrix(
+        JNIEnv *env, jobject thiz, jfloat rotateX,jfloat rotateY,jfloat scaleX,jfloat scaleY) {
+    MyGLRenderContext::GetInstance()->UpdateTransformMatrix(rotateX, rotateY, scaleX, scaleY);
+}
 
 ////////////////////////////////////////////   EGL 渲染相关 ////////////////////////////////////////////////////////////////////
 
