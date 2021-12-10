@@ -318,6 +318,12 @@ class MainActivity : Activity() {
         data.add(itemFBOLeg)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG)
 
+        val itemCoordSystem: MutableMap<String, Any> = HashMap()
+        itemCoordSystem[ITEM_IMAGE] = R.mipmap.ic_texture_map
+        itemCoordSystem[ITEM_TITLE] = "对纹理进行缩放和旋转"
+        itemCoordSystem[ITEM_SUBTITLE] = "单指可以对图片进行旋转，双指可以进行缩放"
+        data.add(itemCoordSystem)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM)
     }
 
     companion object {

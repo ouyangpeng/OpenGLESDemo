@@ -17,6 +17,8 @@
 
 #include <BaseGLSample.h>
 
+#define MATH_PI 3.1415926535897932384626433832802
+
 class GLUtils {
 public:
 	/**

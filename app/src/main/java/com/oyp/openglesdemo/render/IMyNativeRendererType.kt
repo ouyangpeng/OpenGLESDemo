@@ -42,5 +42,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_EGL: Int = SAMPLE_TYPE + 29
 
     const val SAMPLE_TYPE_KEY_FBO_LEG: Int = SAMPLE_TYPE + 30
+    const val SAMPLE_TYPE_KEY_COORD_SYSTEM: Int = SAMPLE_TYPE + 31
 
 }

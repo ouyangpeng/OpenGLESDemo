@@ -8,10 +8,13 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.opengl.GLES20
+import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.RelativeLayout
 import com.oyp.openglesdemo.*
 import com.oyp.openglesdemo.render.IMyNativeRendererType
 import com.oyp.openglesdemo.render.MyNativeRenderer
@@ -19,7 +22,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.nio.ByteBuffer
 
-class NativeRenderActivity : Activity() {
+class NativeRenderActivity : Activity(){
 
     private var mMinSetting = -1
     private var mMagSetting = -1
@@ -33,12 +36,14 @@ class NativeRenderActivity : Activity() {
         private const val TAG: String = "NativeRenderActivity"
     }
 
+    private var mRootView: ViewGroup? = null
+
     /**
      * Hold a reference to our GLSurfaceView
      */
     private var mGLSurfaceView: MyCustomerGLSurfaceView? = null
 
-    var renderer: MyNativeRenderer? = null
+    lateinit var renderer: MyNativeRenderer
 
     var type = IMyNativeRendererType.SAMPLE_TYPE
 
@@ -57,7 +62,7 @@ class NativeRenderActivity : Activity() {
 
         // Set the renderer to out demo renderer, define below
         renderer = MyNativeRenderer(this)
-        renderer!!.setRenderType(IMyNativeRendererType.SAMPLE_TYPE, type)
+        renderer.setRenderType(IMyNativeRendererType.SAMPLE_TYPE, type)
 
         if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX) {
             setContentView(R.layout.lesson_six)
@@ -78,7 +83,28 @@ class NativeRenderActivity : Activity() {
             configLessonSix(savedInstanceState)
 
         } else {
+            setContentView(R.layout.activity_native_render)
+            mRootView = findViewById<View>(R.id.rootView) as ViewGroup
+
+            // Tell the surface view we want to create an OpenGL ES 3.0-compatible context,
+            // and set an OpenGL ES 3.0-compatible renderer.
+            mGLSurfaceView = MyCustomerGLSurfaceView(this, renderer, CONTEXT_CLIENT_VERSION)
+            val lp = RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            lp.addRule(RelativeLayout.CENTER_IN_PARENT)
+            mRootView!!.addView(mGLSurfaceView, lp)
+
+            mGLSurfaceView!!.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+
+            if (mRootView!!.width != mGLSurfaceView!!.width
+                || mRootView!!.height != mGLSurfaceView!!.height
+            ) {
+                mGLSurfaceView!!.setAspectRatio(mRootView!!.width, mRootView!!.height)
+            }
+
             when (type) {
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
                 IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
                 IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO ->{
                     // 从res目录加载图片
@@ -96,10 +122,8 @@ class NativeRenderActivity : Activity() {
                     loadNV21ImageFromAssets("yuv/YUV_Image_840x1074.NV21",840,1074)
                 }
             }
-            // Tell the surface view we want to create an OpenGL ES 3.0-compatible context,
-            // and set an OpenGL ES 3.0-compatible renderer.
-            mGLSurfaceView = MyCustomerGLSurfaceView(this, renderer, CONTEXT_CLIENT_VERSION)
-            setContentView(mGLSurfaceView)
+
+            mGLSurfaceView!!.requestRender()
         }
     }
 
@@ -154,7 +178,7 @@ class NativeRenderActivity : Activity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        renderer?.onDestroy()
+        renderer.onDestroy()
     }
 
 
@@ -182,7 +206,7 @@ class NativeRenderActivity : Activity() {
                     GLES20.GL_LINEAR_MIPMAP_LINEAR
                 }
             }
-            renderer!!.setMinFilter(filter)
+            renderer.setMinFilter(filter)
         }
     }
 
@@ -195,7 +219,7 @@ class NativeRenderActivity : Activity() {
                 // if (item == 1)
                 GLES20.GL_LINEAR
             }
-            renderer!!.setMagFilter(filter)
+            renderer.setMagFilter(filter)
         }
     }
 
@@ -255,7 +279,7 @@ class NativeRenderActivity : Activity() {
                 val buf = ByteBuffer.allocate(bytes)
                 bitmap.copyPixelsToBuffer(buf)
                 val byteArray = buf.array()
-                renderer!!.setImageDataWithIndex(
+                renderer.setImageDataWithIndex(
                     index,
                     ImageFormat.IMAGE_FORMAT_RGBA,
                     bitmap.width,
@@ -307,7 +331,7 @@ class NativeRenderActivity : Activity() {
             lenght = inputStream.available()
             val buffer = ByteArray(lenght)
             inputStream.read(buffer)
-            renderer!!.setImageData(ImageFormat.IMAGE_FORMAT_NV21, width, height, buffer)
+            renderer.setImageData(ImageFormat.IMAGE_FORMAT_NV21, width, height, buffer)
         } catch (e: IOException) {
             Log.e(TAG,e.stackTraceToString())
         } finally {

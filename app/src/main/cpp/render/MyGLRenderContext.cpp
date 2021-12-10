@@ -35,6 +35,7 @@
 #include <NV21TextureMapSample.h>
 #include <FBOSample.h>
 #include <FBOLegLengthenSample.h>
+#include <CoordSystemSample.h>
 
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
@@ -157,6 +158,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_FBO_LEG:
                 m_pCurSample = new FBOLegLengthenSample();
+                break;
+            case SAMPLE_TYPE_COORD_SYSTEM:
+                m_pCurSample = new CoordSystemSample();
                 break;
             default:
                 m_pCurSample = nullptr;

@@ -41,17 +41,17 @@ public:
     // 默认啥都不做，等待有需要的子类去重写
     virtual void switchBlendingMode() {}
 
-    virtual void setDelta(float x, float y){}
+    virtual void setDelta(float x, float y) {}
 
-    virtual void setMinFilter(int filter){}
+    virtual void setMinFilter(int filter) {}
 
-    virtual void setMagFilter(int filter){}
+    virtual void setMagFilter(int filter) {}
 
-    virtual void LoadImage(NativeImage *pImage){};
+    virtual void LoadImage(NativeImage *pImage) {};
 
     virtual void LoadMultiImageWithIndex(int index, NativeImage *pImage) {}
 
-    void UpdateTransformMatrix(float rotateX, float rotateY, float scaleX, float scaleY) {}
+    virtual void UpdateTransformMatrix(float rotateX, float rotateY, float scaleX, float scaleY) {}
 
 protected:
     GLuint mProgram;
