@@ -38,7 +38,11 @@ class EGLActivity : AppCompatActivity() {
                 startBgRender()
                 mBtn.setText(R.string.btn_txt_reset)
             }
+        }
 
+        supportActionBar?.let{
+            it.setHomeButtonEnabled(true)
+            it.setDisplayHomeAsUpEnabled(true)
         }
     }
 
@@ -65,6 +69,8 @@ class EGLActivity : AppCompatActivity() {
             R.id.action_shader5 -> shaderIndex = 5
             R.id.action_shader6 -> shaderIndex = 6
             R.id.action_shader7 -> shaderIndex = 7
+            // 处理返回按钮
+            android.R.id.home-> finish()
             else -> {
             }
         }
