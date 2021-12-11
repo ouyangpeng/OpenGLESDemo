@@ -104,6 +104,7 @@ class NativeRenderActivity : Activity(){
             }
 
             when (type) {
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT,
                 IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
                 IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
                 IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO ->{
@@ -308,7 +309,7 @@ class NativeRenderActivity : Activity(){
                 val buf = ByteBuffer.allocate(bytes)
                 bitmap.copyPixelsToBuffer(buf)
                 val byteArray = buf.array()
-                renderer!!.setImageData(ImageFormat.IMAGE_FORMAT_RGBA, bitmap.width, bitmap.height, byteArray)
+                renderer.setImageData(ImageFormat.IMAGE_FORMAT_RGBA, bitmap.width, bitmap.height, byteArray)
             }
         } catch (e: IOException) {
             Log.e(TAG,e.stackTraceToString())
@@ -325,7 +326,7 @@ class NativeRenderActivity : Activity(){
 
     private fun loadNV21ImageFromAssets(fileName:String, width: Int, height: Int) {
         var inputStream: InputStream? = null
-        var lenght = 0
+        var lenght: Int
         try {
             inputStream = assets.open(fileName)
             lenght = inputStream.available()

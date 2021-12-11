@@ -46,5 +46,8 @@
 
 #define SAMPLE_TYPE_KEY_FBO_LEG                                     SAMPLE_TYPE + 30
 #define SAMPLE_TYPE_COORD_SYSTEM                                    SAMPLE_TYPE + 31
+#define SAMPLE_TYPE_KEY_BASE_LIGHT                                  SAMPLE_TYPE + 32
+
+
 
 #endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H

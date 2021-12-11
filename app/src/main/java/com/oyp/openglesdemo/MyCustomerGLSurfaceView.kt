@@ -92,7 +92,8 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
 
                 when (mRenderer.mSampleType) {
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG,
-                    IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM -> {
+                    IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
+                    IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT -> {
                         Log.d(TAG,"updateTransformMatrix")
                         mRenderer.updateTransformMatrix(mXAngle, mYAngle, mCurScale, mCurScale)
                         requestRender()
@@ -141,7 +142,8 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
     override fun onScale(detector: ScaleGestureDetector?): Boolean {
         Log.d(TAG,"onScale")
         when (mRenderer.mSampleType) {
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM -> {
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM ,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT -> {
                 val preSpan = detector!!.previousSpan
                 val curSpan = detector.currentSpan
                 mCurScale = if (curSpan < preSpan) {

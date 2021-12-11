@@ -36,6 +36,7 @@
 #include <FBOSample.h>
 #include <FBOLegLengthenSample.h>
 #include <CoordSystemSample.h>
+#include <BasicLightingSample.h>
 
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
@@ -162,6 +163,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
             case SAMPLE_TYPE_COORD_SYSTEM:
                 m_pCurSample = new CoordSystemSample();
                 break;
+            case SAMPLE_TYPE_KEY_BASE_LIGHT:
+                m_pCurSample = new BasicLightingSample();
+                break;
             default:
                 m_pCurSample = nullptr;
                 break;
@@ -200,7 +204,6 @@ void MyGLRenderContext::OnSurfaceChanged(int width, int height) {
 }
 
 void MyGLRenderContext::OnDrawFrame() {
-//    LOGD("MyGLRenderContext::OnDrawFrame")
     if (m_pCurSample) {
         m_pCurSample->draw();
     }

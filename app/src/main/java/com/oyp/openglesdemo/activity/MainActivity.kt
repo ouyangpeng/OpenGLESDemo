@@ -324,6 +324,13 @@ class MainActivity : Activity() {
         itemCoordSystem[ITEM_SUBTITLE] = "单指可以对图片进行旋转，双指可以进行缩放"
         data.add(itemCoordSystem)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM)
+
+        val itemBasicLight: MutableMap<String, Any> = HashMap()
+        itemBasicLight[ITEM_IMAGE] = R.mipmap.ic_texture_map
+        itemBasicLight[ITEM_TITLE] = "学习光照基础"
+        itemBasicLight[ITEM_SUBTITLE] = "学习冯氏光照模型(Phong Lighting Model)，它由三种元素光组成，分别是环境光(Ambient Lighting)、散射光(Diffuse Lighting)及镜面光(Specular Lighting)。"
+        data.add(itemBasicLight)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT)
     }
 
     companion object {
