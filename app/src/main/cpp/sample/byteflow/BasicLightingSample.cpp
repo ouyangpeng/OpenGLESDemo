@@ -2,7 +2,10 @@
 // Created by OuyangPeng on 2021/12/10 0010.
 //
 
-// 理论知识可以参考： https://blog.csdn.net/Kennethdroid/article/details/101220947
+// 理论知识可以参考：
+// https://blog.csdn.net/Kennethdroid/article/details/101220947
+// https://blog.csdn.net/Kennethdroid/article/details/101709694
+// https://ouyangpeng.blog.csdn.net/article/details/121867616
 
 #include "BasicLightingSample.h"
 
@@ -103,10 +106,6 @@ void BasicLightingSample::LoadImage(NativeImage *pImage) {
         NativeImageUtil::CopyNativeImage(pImage, &m_RenderImage);
     }
 }
-//// 如果这句话不写，直接会黑屏
-//// Clear the color buffer
-//glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
 void BasicLightingSample::draw() {
     LOGD("BasicLightingSample::Draw()")
