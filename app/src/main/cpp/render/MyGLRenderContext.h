@@ -5,7 +5,7 @@
 #ifndef OPENGLESDEMO_MYGLRENDERCONTEXT_H
 #define OPENGLESDEMO_MYGLRENDERCONTEXT_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 class MyGLRenderContext
 {
@@ -42,8 +42,8 @@ public:
 
 private:
     static MyGLRenderContext *m_pContext;
-    BaseGLSample *m_pBeforeSample;
-    BaseGLSample *m_pCurSample;
+    GLBaseSample *m_pBeforeSample;
+    GLBaseSample *m_pCurSample;
     int m_ScreenW;
     int m_ScreenH;
 

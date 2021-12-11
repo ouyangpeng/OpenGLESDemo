@@ -1,11 +1,11 @@
 #pragma once
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define VERTEX_POS_INDX       0
 #define VERTEX_COLOR_INDX     1
 
-class NativeCubeSimpleVertexShader : public BaseGLSample{
+class NativeCubeSimpleVertexShader : public GLBaseSample{
 
 public:
     NativeCubeSimpleVertexShader() = default;

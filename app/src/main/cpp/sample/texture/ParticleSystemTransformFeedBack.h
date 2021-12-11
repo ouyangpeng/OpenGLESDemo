@@ -4,7 +4,7 @@
 
 #pragma once
 #include <cstdlib>
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 #include "Noise3D.h"
 
 #define NUM_PARTICLES   200
@@ -18,7 +18,7 @@
 #define ATTRIBUTE_LIFETIME      4
 
 
-class ParticleSystemTransformFeedBack : public BaseGLSample{
+class ParticleSystemTransformFeedBack : public GLBaseSample{
 public:
     ParticleSystemTransformFeedBack() = default;
 

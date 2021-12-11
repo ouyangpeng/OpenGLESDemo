@@ -127,7 +127,7 @@ void BasicLightingSample::draw() {
     // 启用深度测试
     glEnable(GL_DEPTH_TEST);
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float)mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
 
     //upload RGBA image data
     glActiveTexture(GL_TEXTURE0);
@@ -206,7 +206,7 @@ void BasicLightingSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int 
 
 void BasicLightingSample::UpdateTransformMatrix(float rotateX, float rotateY, float scaleX,
                                                 float scaleY) {
-    BaseGLSample::UpdateTransformMatrix(rotateX, rotateY, scaleX, scaleY);
+    GLBaseSample::UpdateTransformMatrix(rotateX, rotateY, scaleX, scaleY);
     m_AngleX = static_cast<int>(rotateX);
     m_AngleY = static_cast<int>(rotateY);
     m_ScaleX = scaleX;

@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.SparseArray
 import android.util.SparseIntArray
-import com.oyp.openglesdemo.render.IMyNativeRendererType
+import com.oyp.openglesdemo.IMyNativeRendererType
 import com.oyp.openglesdemo.lesson.*
 import com.oyp.openglesdemo.lesson.lesson7.LessonSevenActivity
 import com.oyp.openglesdemo.lesson.lesson8.LessonEightActivity
@@ -326,11 +326,19 @@ class MainActivity : Activity() {
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM)
 
         val itemBasicLight: MutableMap<String, Any> = HashMap()
-        itemBasicLight[ITEM_IMAGE] = R.mipmap.ic_texture_map
+        itemBasicLight[ITEM_IMAGE] = R.mipmap.ic_basic_lightings
         itemBasicLight[ITEM_TITLE] = "学习光照基础"
         itemBasicLight[ITEM_SUBTITLE] = "学习冯氏光照模型(Phong Lighting Model)，它由三种元素光组成，分别是环境光(Ambient Lighting)、散射光(Diffuse Lighting)及镜面光(Specular Lighting)。"
         data.add(itemBasicLight)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT)
+
+        val itemMultiLight: MutableMap<String, Any> = HashMap()
+        itemMultiLight[ITEM_IMAGE] = R.mipmap.ic_multi_lightings
+        itemMultiLight[ITEM_TITLE] = "学习多光照实例"
+        itemMultiLight[ITEM_SUBTITLE] = "学习冯氏光照模型(Phong Lighting Model)的多光照实例"
+        data.add(itemMultiLight)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_LIGHT)
+
     }
 
     companion object {

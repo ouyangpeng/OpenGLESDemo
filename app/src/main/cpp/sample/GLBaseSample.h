@@ -2,22 +2,22 @@
 // Created by OuyangPeng on 2021/11/26.
 //
 
-#ifndef OPENGLESDEMO_BASEGLSAMPLE_H
-#define OPENGLESDEMO_BASEGLSAMPLE_H
+#ifndef OPENGLESDEMO_GLBASESAMPLE_H
+#define OPENGLESDEMO_GLBASESAMPLE_H
 
 #include <GLUtils.h>
 #include <ImageDef.h>
-#include "BaseGLSampleType.h"
+#include "GLBaseSampleType.h"
 
-class BaseGLSample {
+class GLBaseSample {
 public:
-    BaseGLSample() {
+    GLBaseSample() {
         mProgram = 0;
         mWidth = 0;
         mHeight = 0;
     }
 
-    virtual ~BaseGLSample() {
+    virtual ~GLBaseSample() {
 
     }
 
@@ -63,4 +63,4 @@ protected:
 };
 
 
-#endif //OPENGLESDEMO_BASEGLSAMPLE_H
+#endif //OPENGLESDEMO_GLBASESAMPLE_H

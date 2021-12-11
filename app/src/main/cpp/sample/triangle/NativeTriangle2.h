@@ -1,8 +1,8 @@
 #pragma once
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
-class NativeTriangle2 : public BaseGLSample {
+class NativeTriangle2 : public GLBaseSample {
 
 #define VERTEX_POS_INDX       0
 #define VERTEX_COLOR_INDX     1

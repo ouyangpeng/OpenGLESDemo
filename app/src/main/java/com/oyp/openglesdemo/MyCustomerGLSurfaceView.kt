@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
-import com.oyp.openglesdemo.render.IMyNativeRendererType
 import com.oyp.openglesdemo.render.MyNativeRenderer
 
 class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestureListener {
@@ -60,9 +59,9 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        Log.d(TAG,"onTouchEvent")
+        Log.d(TAG, "onTouchEvent")
         if (event.pointerCount == 1) {
-            Log.d(TAG,"event.pointerCount == 1")
+            Log.d(TAG, "event.pointerCount == 1")
             val currentTimeMillis = System.currentTimeMillis()
             if (currentTimeMillis - mLastMultiTouchTime > 200) {
                 val x = event.x
@@ -93,8 +92,9 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
                 when (mRenderer.mSampleType) {
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
-                    IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT -> {
-                        Log.d(TAG,"updateTransformMatrix")
+                    IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT,
+                    IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_LIGHT -> {
+                        Log.d(TAG, "updateTransformMatrix")
                         mRenderer.updateTransformMatrix(mXAngle, mYAngle, mCurScale, mCurScale)
                         requestRender()
                     }
@@ -102,7 +102,7 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
 
             }
         } else {
-            Log.d(TAG,"event.pointerCount != 1")
+            Log.d(TAG, "event.pointerCount != 1")
             mScaleGestureDetector.onTouchEvent(event)
         }
         return true
@@ -140,9 +140,9 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
     }
 
     override fun onScale(detector: ScaleGestureDetector?): Boolean {
-        Log.d(TAG,"onScale")
+        Log.d(TAG, "onScale")
         when (mRenderer.mSampleType) {
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM ,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT -> {
                 val preSpan = detector!!.previousSpan
                 val curSpan = detector.currentSpan
@@ -162,12 +162,12 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
     }
 
     override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {
-        Log.d(TAG,"onScaleBegin")
+        Log.d(TAG, "onScaleBegin")
         return true
     }
 
     override fun onScaleEnd(detector: ScaleGestureDetector?) {
-        Log.d(TAG,"onScaleEnd")
+        Log.d(TAG, "onScaleEnd")
         mPreScale = mCurScale
         mLastMultiTouchTime = System.currentTimeMillis()
     }

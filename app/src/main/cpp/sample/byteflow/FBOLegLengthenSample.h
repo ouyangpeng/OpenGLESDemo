@@ -5,7 +5,7 @@
 #ifndef OPENGLESDEMO_FBOLEGLENGTHENSAMPLE_H
 #define OPENGLESDEMO_FBOLEGLENGTHENSAMPLE_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #include <glm/detail/type_mat4x4.hpp>
 
@@ -20,7 +20,7 @@
 #define HORIZONTAL_STRETCH_RIGHT_6_POINTS  0x22
 #define HORIZONTAL_STRETCH_4_POINTS        0x23
 
-class FBOLegLengthenSample : public BaseGLSample{
+class FBOLegLengthenSample : public GLBaseSample{
 public:
     FBOLegLengthenSample();
 

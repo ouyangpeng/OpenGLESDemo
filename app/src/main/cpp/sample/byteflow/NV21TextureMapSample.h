@@ -5,7 +5,7 @@
 #ifndef OPENGLESDEMO_NV21TEXTUREMAPSAMPLE_H
 #define OPENGLESDEMO_NV21TEXTUREMAPSAMPLE_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define NV21_TEXTURE_MAP_VERTEX_POS_INDEX              0
 #define NV21_TEXTURE_MAP_VERTEX_TEXTCOORD_INDEX        1
@@ -13,7 +13,7 @@
 #define NV21_TEXTURE_MAP_VERTEX_POS_SIZE               3
 #define NV21_TEXTURE_MAP_VERTEX_TEXTCOORD_SIZE         2
 
-class NV21TextureMapSample : public BaseGLSample {
+class NV21TextureMapSample : public GLBaseSample {
 public:
     NV21TextureMapSample();
 

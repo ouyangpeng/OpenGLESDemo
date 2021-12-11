@@ -5,12 +5,12 @@
 #ifndef OPENGLESDEMO_MULTITEXTURE_H
 #define OPENGLESDEMO_MULTITEXTURE_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define MULTI_TEXTURE_VERTEX_POS_INDX               0
 #define MULTI_TEXTURE_VERTEX_TEXCOORD_INDX          1
 
-class MultiTexture : public BaseGLSample {
+class MultiTexture : public GLBaseSample {
 public:
     MultiTexture() = default;
 

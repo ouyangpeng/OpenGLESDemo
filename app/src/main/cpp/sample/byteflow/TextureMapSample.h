@@ -5,7 +5,7 @@
 #ifndef OPENGLESDEMO_TEXTUREMAPSAMPLE_H
 #define OPENGLESDEMO_TEXTUREMAPSAMPLE_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define TEXTURE_MAP_VERTEX_POS_INDEX              0
 #define TEXTURE_MAP_VERTEX_TEXTCOORD_INDEX        1
@@ -13,7 +13,7 @@
 #define TEXTURE_MAP_VERTEX_POS_SIZE               3
 #define TEXTURE_MAP_VERTEX_TEXTCOORD_SIZE         2
 
-class TextureMapSample : public BaseGLSample{
+class TextureMapSample : public GLBaseSample{
 public:
     TextureMapSample() ;
 

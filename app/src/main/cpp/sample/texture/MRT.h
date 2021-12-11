@@ -5,9 +5,9 @@
 #ifndef OPENGLESDEMO_MRT_H
 #define OPENGLESDEMO_MRT_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
-class MRT : public BaseGLSample {
+class MRT : public GLBaseSample {
 public:
     MRT() = default;
 

@@ -5,9 +5,9 @@
 #ifndef OPENGLESDEMO_TEXTUREWRAP_H
 #define OPENGLESDEMO_TEXTUREWRAP_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
-class TextureWrap : public BaseGLSample {
+class TextureWrap : public GLBaseSample {
 public:
     TextureWrap() = default;
 

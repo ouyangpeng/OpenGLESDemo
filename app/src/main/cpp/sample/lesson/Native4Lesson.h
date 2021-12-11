@@ -1,10 +1,10 @@
 #ifndef OPENGLLESSON_NATIVEFOURLESSON_H
 #define OPENGLLESSON_NATIVEFOURLESSON_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 #include "lesson_cube_data.h"
 
-class Native4Lesson : public BaseGLSample {
+class Native4Lesson : public GLBaseSample {
 
 public:
     Native4Lesson();

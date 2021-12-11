@@ -3,11 +3,11 @@
 //
 #pragma once
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define POSITION_LOC  0
 
-class TerrainRender : public BaseGLSample {
+class TerrainRender : public GLBaseSample {
 public:
     TerrainRender() = default;
 

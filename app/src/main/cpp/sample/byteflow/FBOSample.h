@@ -5,7 +5,7 @@
 #ifndef OPENGLESDEMO_FBOSAMPLE_H
 #define OPENGLESDEMO_FBOSAMPLE_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define FBO_VERTEX_POS_INDX  0
 #define FBO_TEXTURE_POS_INDX 1
@@ -14,7 +14,7 @@
 #define FBO_TEXTURE_POS_SIZE 2
 
 
-class FBOSample :public BaseGLSample{
+class FBOSample :public GLBaseSample{
 
 public:
     FBOSample();

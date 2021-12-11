@@ -6,7 +6,7 @@
 // 理解YUV  https://blog.csdn.net/weixin_43752854/article/details/84841514
 // 一文掌握 YUV 图像的基本处理  https://blog.csdn.net/Kennethdroid/article/details/94031821
 // OpenGL ES 3.0 开发（三）：YUV 渲染  https://blog.csdn.net/Kennethdroid/article/details/97153407
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 #include "NV21TextureMapSample.h"
 
 NV21TextureMapSample::NV21TextureMapSample() {

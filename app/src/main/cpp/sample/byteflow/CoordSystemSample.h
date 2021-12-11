@@ -5,13 +5,13 @@
 #ifndef OPENGLESDEMO_COORDSYSTEMSAMPLE_H
 #define OPENGLESDEMO_COORDSYSTEMSAMPLE_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 #include <glm/detail/type_mat4x4.hpp>
 
 #define CS_VERTEX_POS_INDX  0
 #define CS_TEXTURE_POS_INDX 1
 
-class CoordSystemSample : public BaseGLSample {
+class CoordSystemSample : public GLBaseSample {
 public:
     CoordSystemSample();
 

@@ -1,9 +1,9 @@
 #ifndef OPENGLLESSON_NATIVE2LESSON_H
 #define OPENGLLESSON_NATIVE2LESSON_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 #include "lesson_cube_data.h"
-class Native2Lesson: public BaseGLSample {
+class Native2Lesson: public GLBaseSample {
 public:
     Native2Lesson();
 

@@ -3,6 +3,7 @@ package com.oyp.openglesdemo.render
 import android.app.Activity
 import android.content.res.AssetManager
 import android.opengl.GLSurfaceView
+import com.oyp.openglesdemo.IMyNativeRendererType
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 

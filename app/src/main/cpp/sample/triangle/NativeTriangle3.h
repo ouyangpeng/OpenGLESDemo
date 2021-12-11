@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define VERTEX_POS_SIZE       3 // x, y and z
 #define VERTEX_COLOR_SIZE     4 // r, g, b, and a
@@ -8,7 +8,7 @@
 #define VERTEX_POS_INDX       0
 #define VERTEX_COLOR_INDX     1
 
-class NativeTriangle3 : public BaseGLSample {
+class NativeTriangle3 : public GLBaseSample {
 
 public:
     NativeTriangle3() = default;

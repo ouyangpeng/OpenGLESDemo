@@ -5,9 +5,9 @@
 #ifndef OPENGLESDEMO_MIPMAP2D_H
 #define OPENGLESDEMO_MIPMAP2D_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
-class MipMap2D : public BaseGLSample {
+class MipMap2D : public GLBaseSample {
 public:
     MipMap2D() = default;
 

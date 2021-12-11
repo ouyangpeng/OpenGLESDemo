@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define VERTEX_POS_SIZE       3 // x, y and z
 #define VERTEX_COLOR_SIZE     4 // r, g, b, and a
@@ -10,7 +10,7 @@
 
 #define VERTEX_STRIDE         ( sizeof(GLfloat) * ( VERTEX_POS_SIZE + VERTEX_COLOR_SIZE ) )
 
-class NativeTriangleVAO : public BaseGLSample {
+class NativeTriangleVAO : public GLBaseSample {
 public:
     NativeTriangleVAO() = default;
 

@@ -2,10 +2,10 @@
 // Created by OuyangPeng on 2021/11/27.
 //
 
-#ifndef OPENGLESDEMO_BASEGLSAMPLETYPE_H
-#define OPENGLESDEMO_BASEGLSAMPLETYPE_H
+#ifndef OPENGLESDEMO_GLBASESAMPLETYPE_H
+#define OPENGLESDEMO_GLBASESAMPLETYPE_H
 
-// 这些定义和Java层的 com.oyp.openglesdemo.render.IMyNativeRendererType 类对应起来
+// 这些定义和Java层的 com.oyp.openglesdemo.IMyNativeRendererType 类对应起来
 #define SAMPLE_TYPE                             100
 #define SAMPLE_TYPE_KEY_TRIANGLE                                    SAMPLE_TYPE + 0
 #define SAMPLE_TYPE_KEY_TRIANGLE2                                   SAMPLE_TYPE + 1
@@ -47,7 +47,8 @@
 #define SAMPLE_TYPE_KEY_FBO_LEG                                     SAMPLE_TYPE + 30
 #define SAMPLE_TYPE_COORD_SYSTEM                                    SAMPLE_TYPE + 31
 #define SAMPLE_TYPE_KEY_BASE_LIGHT                                  SAMPLE_TYPE + 32
+#define SAMPLE_TYPE_KEY_MULTI_LIGHT                                 SAMPLE_TYPE + 33
 
 
 
-#endif //OPENGLESDEMO_BASEGLSAMPLETYPE_H
+#endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

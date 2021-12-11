@@ -1,6 +1,6 @@
 #ifndef OPEN_GL_LESSON_NATIVE_1LESSON_H
 #define OPEN_GL_LESSON_NATIVE_1LESSON_H
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define VERTEX_POS_INDX       0
 #define VERTEX_COLOR_INDX     1
@@ -8,7 +8,7 @@
 #define VERTEX_POS_SIZE       3 // x, y and z
 #define VERTEX_COLOR_SIZE     4 // r, g, b, and a
 
-class Native1Lesson : public BaseGLSample {
+class Native1Lesson : public GLBaseSample {
 public:
 	Native1Lesson();
 

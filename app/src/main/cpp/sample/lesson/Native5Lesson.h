@@ -1,12 +1,12 @@
 #ifndef OPENGLLESSON_NATIVE5LESSON_H
 #define OPENGLLESSON_NATIVE5LESSON_H
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define NATIVE_LESSON_FIVE_ATTRIB_LOCATION_POS        0
 #define NATIVE_LESSON_FIVE_ATTRIB_LOCATION_COLOR      1
 
-class Native5Lesson : public BaseGLSample{
+class Native5Lesson : public GLBaseSample{
 
 public:
 

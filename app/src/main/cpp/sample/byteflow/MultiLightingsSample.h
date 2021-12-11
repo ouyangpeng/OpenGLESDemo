@@ -1,18 +1,18 @@
 //
-// Created by OuyangPeng on 2021/12/10 0010.
+// Created by Administrator on 2021/12/11 0011.
 //
 
-#ifndef OPENGLESDEMO_BASICLIGHTINGSAMPLE_H
-#define OPENGLESDEMO_BASICLIGHTINGSAMPLE_H
+#ifndef OPENGLESDEMO_MULTILIGHTINGSSAMPLE_H
+#define OPENGLESDEMO_MULTILIGHTINGSSAMPLE_H
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <GLBaseSample.h>
 
-class BasicLightingSample : public GLBaseSample {
+class MultiLightingsSample : public GLBaseSample {
 public:
-    BasicLightingSample();
+    MultiLightingsSample();
 
-    virtual ~BasicLightingSample();
+    virtual ~MultiLightingsSample();
 
     virtual void create();
 
@@ -24,15 +24,14 @@ public:
 
     virtual void UpdateTransformMatrix(float rotateX, float rotateY, float scaleX, float scaleY);
 
-    void UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float ratio);
+    void UpdateMatrix(glm::mat4 &mvpMatrix, glm::mat4 &modelMatrix, int angleXRotate,
+                      int angleYRotate, float scale, glm::vec3 transVec3, float ratio);
 
 private:
     GLuint m_TextureId;
     GLint m_SamplerLoc;
     GLint m_MVPMatLoc;
     GLint m_ModelMatrixLoc;
-    GLint m_LightPosLoc;
-    GLint m_LightColorLoc;
     GLint m_ViewPosLoc;
 
     GLuint m_VaoId;
@@ -43,13 +42,26 @@ private:
 
     int m_AngleX;
     int m_AngleY;
-
-    float m_ScaleX;
-    float m_ScaleY;
 };
 
-static GLfloat basicLightVertices[] = {
-        //position            //texture coord       //normal
+static glm::vec3 ml_transPositions[] = {
+        glm::vec3(0.0f, 0.0f, 0.0f),
+        glm::vec3(2.0f, 2.0f, -1.0f),
+        glm::vec3(-1.5f, -2.2f, -1.5f),
+        glm::vec3(-1.8f, -2.0f, 1.3f),
+        glm::vec3(1.4f, -1.4f, -1.5f),
+        glm::vec3(-1.7f, 2.0f, -1.5f),
+        glm::vec3(1.3f, -2.0f, 2.5f),
+        glm::vec3(0.5f, 1.3f, -0.1f),
+        glm::vec3(1.5f, 2.2f, 1.5f),
+        glm::vec3(-1.3f, 1.0f, -1.5f),
+        glm::vec3(-1.3f, 0.0f, -1.5f),
+        glm::vec3(0.0f, -1.3f, -0.5f),
+        glm::vec3(0.0f, -1.5f, 1.5f),
+};
+
+static GLfloat ml_vertices[] = {
+        //position            //texture coord  //normal
         -0.5f, -0.5f, -0.5f,   0.0f, 0.0f,      0.0f,  0.0f, -1.0f,
         0.5f, -0.5f, -0.5f,   1.0f, 0.0f,      0.0f,  0.0f, -1.0f,
         0.5f,  0.5f, -0.5f,   1.0f, 1.0f,      0.0f,  0.0f, -1.0f,
@@ -92,5 +104,4 @@ static GLfloat basicLightVertices[] = {
         -0.5f, 0.5f,  0.5f,    0.0f, 0.0f,      0.0f,  1.0f,  0.0f,
         -0.5f, 0.5f, -0.5f,    0.0f, 1.0f,      0.0f,  1.0f,  0.0f,
 };
-
-#endif //OPENGLESDEMO_BASICLIGHTINGSAMPLE_H
+#endif //OPENGLESDEMO_MULTILIGHTINGSSAMPLE_H

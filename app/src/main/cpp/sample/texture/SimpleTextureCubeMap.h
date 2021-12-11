@@ -3,12 +3,12 @@
 //
 #pragma once
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define SIMPLE_TEXTURE_CUBE_MAP_VERTEX_POS_INDEX            0
 #define SIMPLE_TEXTURE_CUBE_MAP_VERTEX_NORMAL_INDEX         1
 
-class SimpleTextureCubeMap : public BaseGLSample {
+class SimpleTextureCubeMap : public GLBaseSample {
 
 public:
     SimpleTextureCubeMap() = default;

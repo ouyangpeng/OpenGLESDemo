@@ -37,6 +37,7 @@
 #include <FBOLegLengthenSample.h>
 #include <CoordSystemSample.h>
 #include <BasicLightingSample.h>
+#include <MultiLightingsSample.h>
 
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
@@ -165,6 +166,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_BASE_LIGHT:
                 m_pCurSample = new BasicLightingSample();
+                break;
+            case SAMPLE_TYPE_KEY_MULTI_LIGHT:
+                m_pCurSample = new MultiLightingsSample();
                 break;
             default:
                 m_pCurSample = nullptr;

@@ -16,7 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import com.oyp.openglesdemo.*
-import com.oyp.openglesdemo.render.IMyNativeRendererType
+import com.oyp.openglesdemo.IMyNativeRendererType
 import com.oyp.openglesdemo.render.MyNativeRenderer
 import java.io.IOException
 import java.io.InputStream
@@ -105,6 +105,7 @@ class NativeRenderActivity : Activity(){
 
             when (type) {
                 IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT,
+                IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_LIGHT,
                 IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
                 IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
                 IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO ->{

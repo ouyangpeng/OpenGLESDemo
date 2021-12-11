@@ -3,12 +3,12 @@
 //
 #pragma once
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define POSITION_LOC    0
 #define COLOR_LOC       1
 
-class Shadows : public BaseGLSample {
+class Shadows : public GLBaseSample {
 public:
     Shadows() = default;
 

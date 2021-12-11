@@ -15,7 +15,7 @@
 #include <esShapes.h>
 #include <esTransform.h>
 
-#include <BaseGLSample.h>
+#include <GLBaseSample.h>
 
 #define MATH_PI 3.1415926535897932384626433832802
 
