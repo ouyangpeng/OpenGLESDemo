@@ -23,8 +23,6 @@ MultiLightingsSample::~MultiLightingsSample() {
 }
 
 void MultiLightingsSample::create() {
-    if (mProgram) return;
-
     //create RGBA texture
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);

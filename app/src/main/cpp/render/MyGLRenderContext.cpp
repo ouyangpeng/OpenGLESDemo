@@ -47,8 +47,6 @@ MyGLRenderContext::MyGLRenderContext() {
     LOGD("MyGLRenderContext::MyGLRenderContext")
     m_pCurSample = new NativeTriangle();
     m_pBeforeSample = nullptr;
-    m_ScreenW = 0;
-    m_ScreenH = 0;
 }
 
 MyGLRenderContext::~MyGLRenderContext() {
@@ -262,7 +260,7 @@ void MyGLRenderContext::SetImageDataWithIndex(int index, int format, int width, 
     }
 }
 
-NativeImage MyGLRenderContext::getImage(int format, int width, int height, uint8_t *pData) const {
+NativeImage MyGLRenderContext::getImage(int format, int width, int height, uint8_t *pData) {
     NativeImage nativeImage;
     nativeImage.format = format;
     nativeImage.width = width;
@@ -304,7 +302,7 @@ void MyGLRenderContext::DestroyInstance() {
 }
 
 void MyGLRenderContext::UpdateTransformMatrix(float rotateX, float rotateY, float scaleX, float scaleY) {
-    LOGD("MyGLRenderContext::UpdateTransformMatrix [rotateX, rotateY, scaleX, scaleY] = [%f, %f, %f, %f]", rotateX, rotateY, scaleX, scaleY);
+    LOGD("MyGLRenderContext::UpdateTransformMatrix [rotateX, rotateY, scaleX, scaleY] = [%f, %f, %f, %f]", rotateX, rotateY, scaleX, scaleY)
     if (m_pCurSample)
     {
         m_pCurSample->UpdateTransformMatrix(rotateX, rotateY, scaleX, scaleY);

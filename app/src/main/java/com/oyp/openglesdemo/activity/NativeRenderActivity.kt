@@ -99,7 +99,8 @@ class NativeRenderActivity : Activity() {
                     lp.addRule(RelativeLayout.CENTER_IN_PARENT)
                     mRootView!!.addView(it, lp)
 
-                    it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+                    // 默认渲染模式设置为RENDERMODE_WHEN_DIRTY
+                    it.renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
 
                     if (mRootView!!.width != it.width
                         || mRootView!!.height != it.height
@@ -108,6 +109,22 @@ class NativeRenderActivity : Activity() {
                     }
 
                     when (type) {
+                        // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_CUBE_SIMPLE_VERTEX_SHADER,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_ONE,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_TWO,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_THREE,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FOUR,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FIVE,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SEVEN -> {
+                            // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
+                            it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+                        }
+
+
                         IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT,
                         IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_LIGHT,
                         IMyNativeRendererType.SAMPLE_TYPE_KEY_INSTANCING,
@@ -173,7 +190,10 @@ class NativeRenderActivity : Activity() {
         val reqGlEsVersion = info.reqGlEsVersion
         val isSupportedOpenGLES30 = reqGlEsVersion >= 0x30000
         if (!isSupportedOpenGLES30) {
-            Log.e(TAG, "OpenGL ES 3.0 not supported on device. The device's reqGlEsVersion is $reqGlEsVersion, Exiting...")
+            Log.e(
+                TAG,
+                "OpenGL ES 3.0 not supported on device. The device's reqGlEsVersion is $reqGlEsVersion, Exiting..."
+            )
             Toast.makeText(
                 this,
                 "当前设备不支持OpenGL ES 3.0 ，当前设备的GlEs版本是$reqGlEsVersion",
@@ -199,7 +219,6 @@ class NativeRenderActivity : Activity() {
         super.onDestroy()
         renderer?.onDestroy()
     }
-
 
     private fun setMinSetting(item: Int) {
         mMinSetting = item

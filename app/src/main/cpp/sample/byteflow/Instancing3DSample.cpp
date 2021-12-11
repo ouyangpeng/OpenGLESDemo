@@ -48,9 +48,6 @@ Instancing3DSample::~Instancing3DSample() {
 }
 
 void Instancing3DSample::create() {
-    if (mProgram) {
-        return;
-    }
     //create RGBA texture
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
@@ -156,7 +153,10 @@ void Instancing3DSample::create() {
 void Instancing3DSample::draw() {
     LOGD("Instancing3DSample::Draw()")
 
-    if (mProgram == GL_NONE || m_TextureId == GL_NONE) return;
+    if (mProgram == GL_NONE || m_TextureId == GL_NONE) {
+        LOGD("Instancing3DSample::Draw() mProgram == GL_NONE || m_TextureId == GL_NONE")
+        return;
+    }
     // 如果这句话不写，直接会黑屏。当使用 GL_DEPTH_TEST的时候，要记得调用下面这句话，搭配使用。
     // 黑屏的Bug，参考博客
     // 【我的OpenGL学习进阶之旅】关于OpenGL ES 开启深度测试，直接黑屏的问题的解决方法

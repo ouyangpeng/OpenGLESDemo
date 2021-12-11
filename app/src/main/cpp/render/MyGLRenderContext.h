@@ -44,10 +44,8 @@ private:
     static MyGLRenderContext *m_pContext;
     GLBaseSample *m_pBeforeSample;
     GLBaseSample *m_pCurSample;
-    int m_ScreenW;
-    int m_ScreenH;
 
-    NativeImage getImage(int format, int width, int height, uint8_t *pData) const;
+    static NativeImage getImage(int format, int width, int height, uint8_t *pData) ;
 };
 
 #endif //OPENGLESDEMO_MYGLRENDERCONTEXT_H
