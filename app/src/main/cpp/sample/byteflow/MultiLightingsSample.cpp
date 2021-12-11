@@ -1,5 +1,5 @@
 //
-// Created by Administrator on 2021/12/11 0011.
+// Created by OuyangPeng on 2021/12/11 0011.
 //
 
 #include "MultiLightingsSample.h"

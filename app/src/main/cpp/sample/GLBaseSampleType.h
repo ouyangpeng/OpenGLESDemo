@@ -48,6 +48,7 @@
 #define SAMPLE_TYPE_COORD_SYSTEM                                    SAMPLE_TYPE + 31
 #define SAMPLE_TYPE_KEY_BASE_LIGHT                                  SAMPLE_TYPE + 32
 #define SAMPLE_TYPE_KEY_MULTI_LIGHT                                 SAMPLE_TYPE + 33
+#define SAMPLE_TYPE_KEY_INSTANCING                                  SAMPLE_TYPE + 34
 
 
 

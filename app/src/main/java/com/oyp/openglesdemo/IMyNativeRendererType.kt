@@ -45,5 +45,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_COORD_SYSTEM: Int = SAMPLE_TYPE + 31
     const val SAMPLE_TYPE_KEY_BASE_LIGHT: Int = SAMPLE_TYPE + 32
     const val SAMPLE_TYPE_KEY_MULTI_LIGHT: Int = SAMPLE_TYPE + 33
+    const val SAMPLE_TYPE_KEY_INSTANCING: Int = SAMPLE_TYPE + 34
 
 }

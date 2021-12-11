@@ -339,6 +339,12 @@ class MainActivity : Activity() {
         data.add(itemMultiLight)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_LIGHT)
 
+        val itemInstancing: MutableMap<String, Any> = HashMap()
+        itemInstancing[ITEM_IMAGE] = R.mipmap.ic_multi_lightings
+        itemInstancing[ITEM_TITLE] = "学习 OpenGL ES 实例化（Instancing）"
+        itemInstancing[ITEM_SUBTITLE] = "OpenGL ES 实例化（Instancing）是一种只调用一次渲染函数就能绘制出很多物体的技术，可以实现将数据一次性发送给 GPU ，告诉 OpenGL ES 使用一个绘制函数，将这些数据绘制成多个物体。"
+        data.add(itemInstancing)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_INSTANCING)
     }
 
     companion object {

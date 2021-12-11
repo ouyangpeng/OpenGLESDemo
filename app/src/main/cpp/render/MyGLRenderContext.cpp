@@ -38,6 +38,7 @@
 #include <CoordSystemSample.h>
 #include <BasicLightingSample.h>
 #include <MultiLightingsSample.h>
+#include <Instancing3DSample.h>
 
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
@@ -169,6 +170,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_MULTI_LIGHT:
                 m_pCurSample = new MultiLightingsSample();
+                break;
+            case SAMPLE_TYPE_KEY_INSTANCING:
+                m_pCurSample = new Instancing3DSample();
                 break;
             default:
                 m_pCurSample = nullptr;

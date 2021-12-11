@@ -1,5 +1,5 @@
 //
-// Created by Administrator on 2021/11/28 0028.
+// Created by OuyangPeng on 2021/11/28 0028.
 //
 
 #ifndef OPENGLESDEMO_LESSON_CUBE_DATA_H

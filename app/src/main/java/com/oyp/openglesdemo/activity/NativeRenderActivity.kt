@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import android.widget.Toast
 import com.oyp.openglesdemo.*
 import com.oyp.openglesdemo.IMyNativeRendererType
 import com.oyp.openglesdemo.render.MyNativeRenderer
@@ -22,7 +23,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.nio.ByteBuffer
 
-class NativeRenderActivity : Activity(){
+class NativeRenderActivity : Activity() {
 
     private var mMinSetting = -1
     private var mMagSetting = -1
@@ -43,14 +44,13 @@ class NativeRenderActivity : Activity(){
      */
     private var mGLSurfaceView: MyCustomerGLSurfaceView? = null
 
-    lateinit var renderer: MyNativeRenderer
+    private var renderer: MyNativeRenderer? = null
 
     var type = IMyNativeRendererType.SAMPLE_TYPE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!detectOpenGLES30()) {
-            Log.e("HelloTriangle", "OpenGL ES 3.0 not supported on device.  Exiting...")
             return
         }
         //定义接收数据的Intent
@@ -62,71 +62,78 @@ class NativeRenderActivity : Activity(){
 
         // Set the renderer to out demo renderer, define below
         renderer = MyNativeRenderer(this)
-        renderer.setRenderType(IMyNativeRendererType.SAMPLE_TYPE, type)
+        renderer?.let { myNativeRenderer ->
+            myNativeRenderer.setRenderType(IMyNativeRendererType.SAMPLE_TYPE, type)
+            if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX) {
+                setContentView(R.layout.lesson_six)
+                mGLSurfaceView = findViewById<View>(R.id.gl_surface_view) as MyCustomerGLSurfaceView
 
-        if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX) {
-            setContentView(R.layout.lesson_six)
-            mGLSurfaceView = findViewById<View>(R.id.gl_surface_view) as MyCustomerGLSurfaceView
+                mGLSurfaceView?.let {
+                    // Tell the surface view we want to create an OpenGL ES 3.0-compatible
+                    // context, and set an OpenGL ES 3.0-compatible renderer.
 
-            // Tell the surface view we want to create an OpenGL ES 3.0-compatible
-            // context, and set an OpenGL ES 3.0-compatible renderer.
+                    // Tell the surface view we want to create an OpenGL ES 3.0-compatible
+                    // context, and set an OpenGL ES 3.0-compatible renderer.
+                    it.setEGLContextClientVersion(CONTEXT_CLIENT_VERSION)
 
-            // Tell the surface view we want to create an OpenGL ES 3.0-compatible
-            // context, and set an OpenGL ES 3.0-compatible renderer.
-            mGLSurfaceView!!.setEGLContextClientVersion(CONTEXT_CLIENT_VERSION)
+                    val displayMetrics = DisplayMetrics()
+                    windowManager.defaultDisplay.getMetrics(displayMetrics)
 
-            val displayMetrics = DisplayMetrics()
-            windowManager.defaultDisplay.getMetrics(displayMetrics)
+                    it.setRenderer(myNativeRenderer, displayMetrics.density)
 
-            mGLSurfaceView!!.setRenderer(renderer, displayMetrics.density)
+                    configLessonSix(savedInstanceState)
+                }
+            } else {
+                setContentView(R.layout.activity_native_render)
+                mRootView = findViewById<View>(R.id.rootView) as ViewGroup
 
-            configLessonSix(savedInstanceState)
+                // Tell the surface view we want to create an OpenGL ES 3.0-compatible context,
+                // and set an OpenGL ES 3.0-compatible renderer.
+                mGLSurfaceView =
+                    MyCustomerGLSurfaceView(this, myNativeRenderer, CONTEXT_CLIENT_VERSION)
 
-        } else {
-            setContentView(R.layout.activity_native_render)
-            mRootView = findViewById<View>(R.id.rootView) as ViewGroup
+                mGLSurfaceView?.let {
+                    val lp = RelativeLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                    lp.addRule(RelativeLayout.CENTER_IN_PARENT)
+                    mRootView!!.addView(it, lp)
 
-            // Tell the surface view we want to create an OpenGL ES 3.0-compatible context,
-            // and set an OpenGL ES 3.0-compatible renderer.
-            mGLSurfaceView = MyCustomerGLSurfaceView(this, renderer, CONTEXT_CLIENT_VERSION)
-            val lp = RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            lp.addRule(RelativeLayout.CENTER_IN_PARENT)
-            mRootView!!.addView(mGLSurfaceView, lp)
+                    it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
 
-            mGLSurfaceView!!.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+                    if (mRootView!!.width != it.width
+                        || mRootView!!.height != it.height
+                    ) {
+                        it.setAspectRatio(mRootView!!.width, mRootView!!.height)
+                    }
 
-            if (mRootView!!.width != mGLSurfaceView!!.width
-                || mRootView!!.height != mGLSurfaceView!!.height
-            ) {
-                mGLSurfaceView!!.setAspectRatio(mRootView!!.width, mRootView!!.height)
+                    when (type) {
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_LIGHT,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_INSTANCING,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO -> {
+                            // 从res目录加载图片
+                            // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
+                            // 从assets目录加载图片
+                            loadRGBAImageFromAssets("texture/yangchaoyue.png")
+                        }
+
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG -> {
+                            // 从assets目录加载图片
+                            loadRGBAImageFromAssets("texture/leg.jpg")
+                        }
+
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_YUV_RENDER -> {
+                            loadNV21ImageFromAssets("yuv/YUV_Image_840x1074.NV21", 840, 1074)
+                        }
+                    }
+                    it.requestRender()
+                }
             }
-
-            when (type) {
-                IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT,
-                IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_LIGHT,
-                IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
-                IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
-                IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO ->{
-                    // 从res目录加载图片
-                    // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
-                    // 从assets目录加载图片
-                    loadRGBAImageFromAssets("texture/yangchaoyue.png")
-                }
-
-                IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG ->{
-                    // 从assets目录加载图片
-                    loadRGBAImageFromAssets("texture/leg.jpg")
-                }
-
-                IMyNativeRendererType.SAMPLE_TYPE_KEY_YUV_RENDER -> {
-                    loadNV21ImageFromAssets("yuv/YUV_Image_840x1074.NV21",840,1074)
-                }
-            }
-
-            mGLSurfaceView!!.requestRender()
         }
+
     }
 
     private fun configLessonSix(savedInstanceState: Bundle?) {
@@ -163,30 +170,40 @@ class NativeRenderActivity : Activity(){
     private fun detectOpenGLES30(): Boolean {
         val am = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val info = am.deviceConfigurationInfo
-        return info.reqGlEsVersion >= 0x30000
+        val reqGlEsVersion = info.reqGlEsVersion
+        val isSupportedOpenGLES30 = reqGlEsVersion >= 0x30000
+        if (!isSupportedOpenGLES30) {
+            Log.e(TAG, "OpenGL ES 3.0 not supported on device. The device's reqGlEsVersion is $reqGlEsVersion, Exiting...")
+            Toast.makeText(
+                this,
+                "当前设备不支持OpenGL ES 3.0 ，当前设备的GlEs版本是$reqGlEsVersion",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+        return isSupportedOpenGLES30
     }
 
     override fun onResume() {
         // The activity must call the GL surface view's onResume() on activity onResume().
         super.onResume()
-        mGLSurfaceView!!.onResume()
+        mGLSurfaceView?.onResume()
     }
 
     override fun onPause() {
         // The activity must call the GL surface view's onPause() on activity onPause().
         super.onPause()
-        mGLSurfaceView!!.onPause()
+        mGLSurfaceView?.onPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        renderer.onDestroy()
+        renderer?.onDestroy()
     }
 
 
     private fun setMinSetting(item: Int) {
         mMinSetting = item
-        mGLSurfaceView!!.queueEvent {
+        mGLSurfaceView?.queueEvent {
             val filter: Int = when (item) {
                 0 -> {
                     GLES20.GL_NEAREST
@@ -208,20 +225,20 @@ class NativeRenderActivity : Activity(){
                     GLES20.GL_LINEAR_MIPMAP_LINEAR
                 }
             }
-            renderer.setMinFilter(filter)
+            renderer?.setMinFilter(filter)
         }
     }
 
     private fun setMagSetting(item: Int) {
         mMagSetting = item
-        mGLSurfaceView!!.queueEvent {
+        mGLSurfaceView?.queueEvent {
             val filter: Int = if (item == 0) {
                 GLES20.GL_NEAREST
             } else {
                 // if (item == 1)
                 GLES20.GL_LINEAR
             }
-            renderer.setMagFilter(filter)
+            renderer?.setMagFilter(filter)
         }
     }
 
@@ -250,97 +267,117 @@ class NativeRenderActivity : Activity(){
 
 
     private fun loadRGBAImageFromRes(resId: Int): Bitmap? {
-        val inputStream = this.resources.openRawResource(resId)
-        val bitmap: Bitmap?
-        try {
-            bitmap = BitmapFactory.decodeStream(inputStream)
-            if (bitmap != null) {
-                val bytes = bitmap.byteCount
-                val buf = ByteBuffer.allocate(bytes)
-                bitmap.copyPixelsToBuffer(buf)
-                val byteArray = buf.array()
-                renderer!!.setImageData(ImageFormat.IMAGE_FORMAT_RGBA, bitmap.width, bitmap.height, byteArray)
-            }
-        } finally {
+        renderer?.let {
+            val inputStream = this.resources.openRawResource(resId)
+            val bitmap: Bitmap?
             try {
-                inputStream.close()
-            } catch (e: IOException) {
-                Log.e(TAG,e.stackTraceToString())
+                bitmap = BitmapFactory.decodeStream(inputStream)
+                if (bitmap != null) {
+                    val bytes = bitmap.byteCount
+                    val buf = ByteBuffer.allocate(bytes)
+                    bitmap.copyPixelsToBuffer(buf)
+                    val byteArray = buf.array()
+                    it.setImageData(
+                        ImageFormat.IMAGE_FORMAT_RGBA,
+                        bitmap.width,
+                        bitmap.height,
+                        byteArray
+                    )
+                }
+            } finally {
+                try {
+                    inputStream.close()
+                } catch (e: IOException) {
+                    Log.e(TAG, e.stackTraceToString())
+                }
             }
+            return bitmap
         }
-        return bitmap
+        return null
     }
 
     private fun loadRGBAImageFromResWithIndex(resId: Int, index: Int): Bitmap? {
-        val inputStream = this.resources.openRawResource(resId)
-        val bitmap: Bitmap?
-        try {
-            bitmap = BitmapFactory.decodeStream(inputStream)
-            if (bitmap != null) {
-                val bytes = bitmap.byteCount
-                val buf = ByteBuffer.allocate(bytes)
-                bitmap.copyPixelsToBuffer(buf)
-                val byteArray = buf.array()
-                renderer.setImageDataWithIndex(
-                    index,
-                    ImageFormat.IMAGE_FORMAT_RGBA,
-                    bitmap.width,
-                    bitmap.height,
-                    byteArray
-                )
-            }
-        } finally {
+        renderer?.let {
+            val inputStream = this.resources.openRawResource(resId)
+            val bitmap: Bitmap?
             try {
-                inputStream.close()
-            } catch (e: IOException) {
-                Log.e(TAG,e.stackTraceToString())
+                bitmap = BitmapFactory.decodeStream(inputStream)
+                if (bitmap != null) {
+                    val bytes = bitmap.byteCount
+                    val buf = ByteBuffer.allocate(bytes)
+                    bitmap.copyPixelsToBuffer(buf)
+                    val byteArray = buf.array()
+                    it.setImageDataWithIndex(
+                        index,
+                        ImageFormat.IMAGE_FORMAT_RGBA,
+                        bitmap.width,
+                        bitmap.height,
+                        byteArray
+                    )
+                }
+            } finally {
+                try {
+                    inputStream.close()
+                } catch (e: IOException) {
+                    Log.e(TAG, e.stackTraceToString())
+                }
             }
+            return bitmap
         }
-        return bitmap
+        return null
     }
 
-    private fun loadRGBAImageFromAssets(imagePath : String): Bitmap? {
-        var inputStream : InputStream? = null
-        var bitmap: Bitmap? = null
-        try {
-            inputStream  = assets.open(imagePath)
-            bitmap = BitmapFactory.decodeStream(inputStream)
-            if (bitmap != null) {
-                val bytes = bitmap.byteCount
-                val buf = ByteBuffer.allocate(bytes)
-                bitmap.copyPixelsToBuffer(buf)
-                val byteArray = buf.array()
-                renderer.setImageData(ImageFormat.IMAGE_FORMAT_RGBA, bitmap.width, bitmap.height, byteArray)
-            }
-        } catch (e: IOException) {
-            Log.e(TAG,e.stackTraceToString())
-        } finally {
+    private fun loadRGBAImageFromAssets(imagePath: String): Bitmap? {
+        renderer?.let {
+            var inputStream: InputStream? = null
+            var bitmap: Bitmap? = null
             try {
-                inputStream!!.close()
+                inputStream = assets.open(imagePath)
+                bitmap = BitmapFactory.decodeStream(inputStream)
+                if (bitmap != null) {
+                    val bytes = bitmap.byteCount
+                    val buf = ByteBuffer.allocate(bytes)
+                    bitmap.copyPixelsToBuffer(buf)
+                    val byteArray = buf.array()
+                    it.setImageData(
+                        ImageFormat.IMAGE_FORMAT_RGBA,
+                        bitmap.width,
+                        bitmap.height,
+                        byteArray
+                    )
+                }
             } catch (e: IOException) {
-                Log.e(TAG,e.stackTraceToString())
+                Log.e(TAG, e.stackTraceToString())
+            } finally {
+                try {
+                    inputStream!!.close()
+                } catch (e: IOException) {
+                    Log.e(TAG, e.stackTraceToString())
+                }
             }
+            return bitmap
         }
-        return bitmap
+        return null
     }
 
 
-    private fun loadNV21ImageFromAssets(fileName:String, width: Int, height: Int) {
-        var inputStream: InputStream? = null
-        var lenght: Int
-        try {
-            inputStream = assets.open(fileName)
-            lenght = inputStream.available()
-            val buffer = ByteArray(lenght)
-            inputStream.read(buffer)
-            renderer.setImageData(ImageFormat.IMAGE_FORMAT_NV21, width, height, buffer)
-        } catch (e: IOException) {
-            Log.e(TAG,e.stackTraceToString())
-        } finally {
+    private fun loadNV21ImageFromAssets(fileName: String, width: Int, height: Int) {
+        renderer?.let {
+            var inputStream: InputStream? = null
             try {
-                inputStream!!.close()
+                inputStream = assets.open(fileName)
+                val length = inputStream.available()
+                val buffer = ByteArray(length)
+                inputStream.read(buffer)
+                it.setImageData(ImageFormat.IMAGE_FORMAT_NV21, width, height, buffer)
             } catch (e: IOException) {
-                Log.e(TAG,e.stackTraceToString())
+                Log.e(TAG, e.stackTraceToString())
+            } finally {
+                try {
+                    inputStream!!.close()
+                } catch (e: IOException) {
+                    Log.e(TAG, e.stackTraceToString())
+                }
             }
         }
     }
