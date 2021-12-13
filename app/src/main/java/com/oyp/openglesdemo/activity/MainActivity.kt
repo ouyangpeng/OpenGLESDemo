@@ -352,6 +352,14 @@ class MainActivity : Activity() {
         itemStencilTesting[ITEM_SUBTITLE] = "OpenGL ES 模板测试与深度测试类似，主要作用是利用模板缓冲区(Stencil Buffer)所保存的模板值决定当前片段是否被丢弃，且发生于深度测试之前。"
         data.add(itemStencilTesting)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_STENCIL_TESTING)
+
+        val itemBLENDING: MutableMap<String, Any> = HashMap()
+        itemBLENDING[ITEM_IMAGE] = R.mipmap.ic_stencil_testing
+        itemBLENDING[ITEM_TITLE] = "学习 OpenGL ES 混合"
+        itemBLENDING[ITEM_SUBTITLE] = "OpenGL ES 混合本质上是将 2 个片元的颜色进行调和，产生一个新的颜色。OpenGL ES 混合发生在片元通过各项测试之后，准备进入帧缓冲区的片元和原有的片元按照特定比例加权计算出最终片元的颜色值，不再是新（源）片元直接覆盖缓冲区中的（目标）片元。"
+        data.add(itemBLENDING)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BLENDING)
+
     }
 
     companion object {

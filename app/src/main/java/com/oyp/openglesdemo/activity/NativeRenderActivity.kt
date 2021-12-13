@@ -146,6 +146,12 @@ class NativeRenderActivity : Activity() {
                         IMyNativeRendererType.SAMPLE_TYPE_KEY_YUV_RENDER -> {
                             loadNV21ImageFromAssets("yuv/YUV_Image_840x1074.NV21", 840, 1074)
                         }
+
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_BLENDING -> {
+                            loadRGBAImageFromResWithIndex(R.mipmap.board_texture, 0)
+                            loadRGBAImageFromResWithIndex(R.mipmap.floor, 1)
+                            loadRGBAImageFromResWithIndex(R.mipmap.window, 2)
+                        }
                     }
                     it.requestRender()
                 }

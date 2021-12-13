@@ -47,5 +47,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_MULTI_LIGHT                                        = SAMPLE_TYPE + 33
     const val SAMPLE_TYPE_KEY_INSTANCING                                         = SAMPLE_TYPE + 34
     const val SAMPLE_TYPE_KEY_STENCIL_TESTING                                    = SAMPLE_TYPE + 35
+    const val SAMPLE_TYPE_KEY_BLENDING                                           = SAMPLE_TYPE + 36
 
 }
