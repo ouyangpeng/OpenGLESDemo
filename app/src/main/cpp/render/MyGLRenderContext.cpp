@@ -41,6 +41,7 @@
 #include <Instancing3DSample.h>
 #include <StencilTestingSample.h>
 #include <BlendingSample.h>
+#include <ParticlesSample2.h>
 
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
@@ -179,6 +180,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_BLENDING:
                 m_pCurSample = new BlendingSample();
+                break;
+            case SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2:
+                m_pCurSample = new ParticlesSample2();
                 break;
             default:
                 m_pCurSample = nullptr;

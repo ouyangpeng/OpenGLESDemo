@@ -51,6 +51,7 @@
 #define SAMPLE_TYPE_KEY_INSTANCING                                  SAMPLE_TYPE + 34
 #define SAMPLE_TYPE_KEY_STENCIL_TESTING                             SAMPLE_TYPE + 35
 #define SAMPLE_TYPE_KEY_BLENDING                                    SAMPLE_TYPE + 36
+#define SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2                            SAMPLE_TYPE + 37
 
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

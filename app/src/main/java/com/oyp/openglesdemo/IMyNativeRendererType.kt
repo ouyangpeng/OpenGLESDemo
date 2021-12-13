@@ -5,7 +5,7 @@ object IMyNativeRendererType {
     const val RENDER_TYPE: String = "RENDER_TYPE"
 
     const val SAMPLE_TYPE = 100
-
+    // 《OPENGL ES 3.0编程指南》里面的例子
     const val SAMPLE_TYPE_TRIANGLE                                               = SAMPLE_TYPE
     const val SAMPLE_TYPE_TRIANGLE2                                              = SAMPLE_TYPE + 1
     const val SAMPLE_TYPE_TRIANGLE3                                              = SAMPLE_TYPE + 2
@@ -25,6 +25,8 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_TERRAIN_RENDER                                     = SAMPLE_TYPE + 16
     const val SAMPLE_TYPE_KEY_SHADOWS                                            = SAMPLE_TYPE + 17
 
+
+    // http://www.learnopengles.com/  里面的例子
     const val SAMPLE_TYPE_KEY_LESSON_ONE                                         = SAMPLE_TYPE + 18
     const val SAMPLE_TYPE_KEY_LESSON_TWO                                         = SAMPLE_TYPE + 19
     const val SAMPLE_TYPE_KEY_LESSON_THREE                                       = SAMPLE_TYPE + 20
@@ -34,6 +36,9 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_LESSON_SEVEN                                       = SAMPLE_TYPE + 24
     const val SAMPLE_TYPE_KEY_LESSON_EIGHT                                       = SAMPLE_TYPE + 25
 
+
+
+    // 字节流动  的 例子
     const val SAMPLE_TYPE_KEY_TEXTURE_MAP                                        = SAMPLE_TYPE + 26
     const val SAMPLE_TYPE_KEY_YUV_RENDER                                         = SAMPLE_TYPE + 27
     const val SAMPLE_TYPE_KEY_FBO                                                = SAMPLE_TYPE + 28
@@ -48,5 +53,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_INSTANCING                                         = SAMPLE_TYPE + 34
     const val SAMPLE_TYPE_KEY_STENCIL_TESTING                                    = SAMPLE_TYPE + 35
     const val SAMPLE_TYPE_KEY_BLENDING                                           = SAMPLE_TYPE + 36
+    const val SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2                                   = SAMPLE_TYPE + 37
 
 }

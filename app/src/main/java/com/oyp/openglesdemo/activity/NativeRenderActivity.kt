@@ -65,24 +65,7 @@ class NativeRenderActivity : Activity() {
         renderer?.let { myNativeRenderer ->
             myNativeRenderer.setRenderType(IMyNativeRendererType.SAMPLE_TYPE, type)
             if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX) {
-                setContentView(R.layout.lesson_six)
-                mGLSurfaceView = findViewById<View>(R.id.gl_surface_view) as MyCustomerGLSurfaceView
-
-                mGLSurfaceView?.let {
-                    // Tell the surface view we want to create an OpenGL ES 3.0-compatible
-                    // context, and set an OpenGL ES 3.0-compatible renderer.
-
-                    // Tell the surface view we want to create an OpenGL ES 3.0-compatible
-                    // context, and set an OpenGL ES 3.0-compatible renderer.
-                    it.setEGLContextClientVersion(CONTEXT_CLIENT_VERSION)
-
-                    val displayMetrics = DisplayMetrics()
-                    windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-                    it.setRenderer(myNativeRenderer, displayMetrics.density)
-
-                    configLessonSix(savedInstanceState)
-                }
+                specialInitGLSurfaceViewForLesson6(myNativeRenderer, savedInstanceState)
             } else {
                 setContentView(R.layout.activity_native_render)
                 mRootView = findViewById<View>(R.id.rootView) as ViewGroup
@@ -99,65 +82,102 @@ class NativeRenderActivity : Activity() {
                     lp.addRule(RelativeLayout.CENTER_IN_PARENT)
                     mRootView!!.addView(it, lp)
 
-                    // 默认渲染模式设置为RENDERMODE_WHEN_DIRTY
-                    it.renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
-
                     if (mRootView!!.width != it.width
                         || mRootView!!.height != it.height
                     ) {
                         it.setAspectRatio(mRootView!!.width, mRootView!!.height)
                     }
-
-                    when (type) {
-                        // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_CUBE_SIMPLE_VERTEX_SHADER,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_ONE,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_TWO,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_THREE,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FOUR,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FIVE,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SEVEN -> {
-                            // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
-                            it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
-                        }
-
-
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_LIGHT,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_INSTANCING,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_STENCIL_TESTING,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO -> {
-                            // 从res目录加载图片
-                            // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
-                            // 从assets目录加载图片
-                            loadRGBAImageFromAssets("texture/yangchaoyue.png")
-                        }
-
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG -> {
-                            // 从assets目录加载图片
-                            loadRGBAImageFromAssets("texture/leg.jpg")
-                        }
-
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_YUV_RENDER -> {
-                            loadNV21ImageFromAssets("yuv/YUV_Image_840x1074.NV21", 840, 1074)
-                        }
-
-                        IMyNativeRendererType.SAMPLE_TYPE_KEY_BLENDING -> {
-                            loadRGBAImageFromResWithIndex(R.mipmap.board_texture, 0)
-                            loadRGBAImageFromResWithIndex(R.mipmap.floor, 1)
-                            loadRGBAImageFromResWithIndex(R.mipmap.window, 2)
-                        }
-                    }
+                    // 设置渲染模式
+                    setRenderMode(it)
+                    // 加载图片
+                    loadImageToGLSurfaceView()
+                    // 申请重新绘制
                     it.requestRender()
                 }
             }
         }
+    }
 
+    private fun loadImageToGLSurfaceView() {
+        when (type) {
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_LIGHT,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_INSTANCING,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_STENCIL_TESTING,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO -> {
+                // 从res目录加载图片
+                // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
+                // 从assets目录加载图片
+                loadRGBAImageFromAssets("texture/yangchaoyue.png")
+            }
+
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG -> {
+                // 从assets目录加载图片
+                loadRGBAImageFromAssets("texture/leg.jpg")
+            }
+
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_YUV_RENDER -> {
+                loadNV21ImageFromAssets("yuv/YUV_Image_840x1074.NV21", 840, 1074)
+            }
+
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_BLENDING -> {
+                loadRGBAImageFromResWithIndex(R.mipmap.board_texture, 0)
+                loadRGBAImageFromResWithIndex(R.mipmap.floor, 1)
+                loadRGBAImageFromResWithIndex(R.mipmap.window, 2)
+            }
+
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
+                loadRGBAImageFromRes(R.mipmap.board_texture)
+            }
+        }
+    }
+
+    private fun setRenderMode(it: MyCustomerGLSurfaceView) {
+        // 默认渲染模式设置为RENDERMODE_WHEN_DIRTY
+        it.renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
+
+        when (type) {
+            // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_CUBE_SIMPLE_VERTEX_SHADER,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_ONE,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_TWO,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_THREE,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FOUR,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FIVE,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SEVEN,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
+                // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
+                it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+            }
+        }
+    }
+
+    private fun specialInitGLSurfaceViewForLesson6(
+        myNativeRenderer: MyNativeRenderer,
+        savedInstanceState: Bundle?
+    ) {
+        setContentView(R.layout.lesson_six)
+        mGLSurfaceView = findViewById<View>(R.id.gl_surface_view) as MyCustomerGLSurfaceView
+
+        mGLSurfaceView?.let {
+            // Tell the surface view we want to create an OpenGL ES 3.0-compatible
+            // context, and set an OpenGL ES 3.0-compatible renderer.
+
+            // Tell the surface view we want to create an OpenGL ES 3.0-compatible
+            // context, and set an OpenGL ES 3.0-compatible renderer.
+            it.setEGLContextClientVersion(CONTEXT_CLIENT_VERSION)
+
+            val displayMetrics = DisplayMetrics()
+            windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+            it.setRenderer(myNativeRenderer, displayMetrics.density)
+
+            configLessonSix(savedInstanceState)
+        }
     }
 
     private fun configLessonSix(savedInstanceState: Bundle?) {

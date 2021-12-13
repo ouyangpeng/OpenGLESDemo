@@ -360,6 +360,13 @@ class MainActivity : Activity() {
         data.add(itemBLENDING)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BLENDING)
 
+
+        val itemParticleSystem2: MutableMap<String, Any?> = HashMap()
+        itemParticleSystem2[ITEM_IMAGE] = R.mipmap.ic_particles2
+        itemParticleSystem2[ITEM_TITLE] = "展示一个不停变化位置的粒子效果"
+        itemParticleSystem2[ITEM_SUBTITLE] = "再次实现一个粒子效果，不一样的实现方式"
+        data.add(itemParticleSystem2)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2)
     }
 
     companion object {
