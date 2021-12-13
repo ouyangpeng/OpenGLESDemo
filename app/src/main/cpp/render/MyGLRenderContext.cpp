@@ -39,6 +39,7 @@
 #include <BasicLightingSample.h>
 #include <MultiLightingsSample.h>
 #include <Instancing3DSample.h>
+#include <StencilTestingSample.h>
 
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
@@ -171,6 +172,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_INSTANCING:
                 m_pCurSample = new Instancing3DSample();
+                break;
+            case SAMPLE_TYPE_KEY_STENCIL_TESTING:
+                m_pCurSample = new StencilTestingSample();
                 break;
             default:
                 m_pCurSample = nullptr;

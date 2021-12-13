@@ -65,7 +65,7 @@ void NV21TextureMapSample::draw() {
 
     if(mProgram == GL_NONE || m_yTextureId == GL_NONE || m_uvTextureId == GL_NONE) return;
 
-    // Clear the color buffer
+    // 清空缓冲区: STENCIL_BUFFER、COLOR_BUFFER、DEPTH_BUFFER
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Use the program object

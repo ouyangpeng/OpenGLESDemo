@@ -104,7 +104,7 @@ void CoordSystemSample::draw() {
 
     if (mProgram == GL_NONE || m_TextureId == GL_NONE) return;
 
-    // Clear the color buffer
+    // 清空缓冲区: STENCIL_BUFFER、COLOR_BUFFER、DEPTH_BUFFER
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // 旋转角度变换，更新变换矩阵

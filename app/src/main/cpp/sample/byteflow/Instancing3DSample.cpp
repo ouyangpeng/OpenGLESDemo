@@ -79,16 +79,22 @@ void Instancing3DSample::create() {
     m_ViewPosLoc = glGetUniformLocation(mProgram, "viewPos");
     GO_CHECK_GL_ERROR()
 
-
     m_LightPosition = glGetUniformLocation(mProgram, "light.position");
+    GO_CHECK_GL_ERROR()
     m_LightColor = glGetUniformLocation(mProgram, "light.color");
+    GO_CHECK_GL_ERROR()
     m_LightDirection = glGetUniformLocation(mProgram, "light.direction");
+    GO_CHECK_GL_ERROR()
     m_LightCutOff = glGetUniformLocation(mProgram, "light.cutOff");
+    GO_CHECK_GL_ERROR()
     m_LightOuterCutOff = glGetUniformLocation(mProgram, "light.outerCutOff");
+    GO_CHECK_GL_ERROR()
     m_LightConstant = glGetUniformLocation(mProgram, "light.constant");
+    GO_CHECK_GL_ERROR()
     m_LightLinear = glGetUniformLocation(mProgram, "light.linear");
+    GO_CHECK_GL_ERROR()
     m_LightQuadratic = glGetUniformLocation(mProgram, "light.quadratic");
-
+    GO_CHECK_GL_ERROR()
 
     // 在 3D 空间中产生 125 个偏移量（offset）：
     glm::vec3 translations[125];
@@ -162,7 +168,7 @@ void Instancing3DSample::draw() {
     // 【我的OpenGL学习进阶之旅】关于OpenGL ES 开启深度测试，直接黑屏的问题的解决方法
     // https://ouyangpeng.blog.csdn.net/article/details/121867616
 
-    // Clear the color buffer
+    // 清空缓冲区: STENCIL_BUFFER、COLOR_BUFFER、DEPTH_BUFFER
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // 启用深度测试
     glEnable(GL_DEPTH_TEST);

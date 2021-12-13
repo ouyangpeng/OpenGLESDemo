@@ -128,6 +128,7 @@ class NativeRenderActivity : Activity() {
                         IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT,
                         IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_LIGHT,
                         IMyNativeRendererType.SAMPLE_TYPE_KEY_INSTANCING,
+                        IMyNativeRendererType.SAMPLE_TYPE_KEY_STENCIL_TESTING,
                         IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
                         IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
                         IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO -> {

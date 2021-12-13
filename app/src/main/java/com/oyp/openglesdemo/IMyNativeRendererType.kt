@@ -6,45 +6,46 @@ object IMyNativeRendererType {
 
     const val SAMPLE_TYPE = 100
 
-    const val SAMPLE_TYPE_TRIANGLE: Int = SAMPLE_TYPE
-    const val SAMPLE_TYPE_TRIANGLE2: Int = SAMPLE_TYPE + 1
-    const val SAMPLE_TYPE_TRIANGLE3: Int = SAMPLE_TYPE + 2
-    const val SAMPLE_TYPE_KEY_TRIANGLE_MAP_BUFFERS: Int = SAMPLE_TYPE + 3
-    const val SAMPLE_TYPE_KEY_TRIANGLE_VERTEX_ARRAY_OBJECT: Int = SAMPLE_TYPE + 4
-    const val SAMPLE_TYPE_KEY_TRIANGLE_VERTEX_BUFFER_OBJECT: Int = SAMPLE_TYPE + 5
-    const val SAMPLE_TYPE_KEY_CUBE_SIMPLE_VERTEX_SHADER: Int = SAMPLE_TYPE + 6
-    const val SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_2D: Int = SAMPLE_TYPE + 7
-    const val SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_CUBE_MAP: Int = SAMPLE_TYPE + 8
-    const val SAMPLE_TYPE_KEY_MIPMAP_2D: Int = SAMPLE_TYPE + 9
-    const val SAMPLE_TYPE_KEY_TEXTURE_WRAP: Int = SAMPLE_TYPE + 10
-    const val SAMPLE_TYPE_KEY_MULTI_TEXTURE: Int = SAMPLE_TYPE + 11
-    const val SAMPLE_TYPE_KEY_PARTICLE_SYSTEM: Int = SAMPLE_TYPE + 12
-    const val SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK: Int = SAMPLE_TYPE + 13
-    const val SAMPLE_TYPE_KEY_NOISE3D: Int = SAMPLE_TYPE + 14
-    const val SAMPLE_TYPE_KEY_MRT: Int = SAMPLE_TYPE + 15
-    const val SAMPLE_TYPE_KEY_TERRAIN_RENDER: Int = SAMPLE_TYPE + 16
-    const val SAMPLE_TYPE_KEY_SHADOWS: Int = SAMPLE_TYPE + 17
+    const val SAMPLE_TYPE_TRIANGLE                                               = SAMPLE_TYPE
+    const val SAMPLE_TYPE_TRIANGLE2                                              = SAMPLE_TYPE + 1
+    const val SAMPLE_TYPE_TRIANGLE3                                              = SAMPLE_TYPE + 2
+    const val SAMPLE_TYPE_KEY_TRIANGLE_MAP_BUFFERS                               = SAMPLE_TYPE + 3
+    const val SAMPLE_TYPE_KEY_TRIANGLE_VERTEX_ARRAY_OBJECT                       = SAMPLE_TYPE + 4
+    const val SAMPLE_TYPE_KEY_TRIANGLE_VERTEX_BUFFER_OBJECT                      = SAMPLE_TYPE + 5
+    const val SAMPLE_TYPE_KEY_CUBE_SIMPLE_VERTEX_SHADER                          = SAMPLE_TYPE + 6
+    const val SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_2D                                  = SAMPLE_TYPE + 7
+    const val SAMPLE_TYPE_KEY_SIMPLE_TEXTURE_CUBE_MAP                            = SAMPLE_TYPE + 8
+    const val SAMPLE_TYPE_KEY_MIPMAP_2D                                          = SAMPLE_TYPE + 9
+    const val SAMPLE_TYPE_KEY_TEXTURE_WRAP                                       = SAMPLE_TYPE + 10
+    const val SAMPLE_TYPE_KEY_MULTI_TEXTURE                                      = SAMPLE_TYPE + 11
+    const val SAMPLE_TYPE_KEY_PARTICLE_SYSTEM                                    = SAMPLE_TYPE + 12
+    const val SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK                 = SAMPLE_TYPE + 13
+    const val SAMPLE_TYPE_KEY_NOISE3D                                            = SAMPLE_TYPE + 14
+    const val SAMPLE_TYPE_KEY_MRT                                                = SAMPLE_TYPE + 15
+    const val SAMPLE_TYPE_KEY_TERRAIN_RENDER                                     = SAMPLE_TYPE + 16
+    const val SAMPLE_TYPE_KEY_SHADOWS                                            = SAMPLE_TYPE + 17
 
-    const val SAMPLE_TYPE_KEY_LESSON_ONE: Int = SAMPLE_TYPE + 18
-    const val SAMPLE_TYPE_KEY_LESSON_TWO: Int = SAMPLE_TYPE + 19
-    const val SAMPLE_TYPE_KEY_LESSON_THREE: Int = SAMPLE_TYPE + 20
-    const val SAMPLE_TYPE_KEY_LESSON_FOUR: Int = SAMPLE_TYPE + 21
-    const val SAMPLE_TYPE_KEY_LESSON_FIVE: Int = SAMPLE_TYPE + 22
-    const val SAMPLE_TYPE_KEY_LESSON_SIX: Int = SAMPLE_TYPE + 23
-    const val SAMPLE_TYPE_KEY_LESSON_SEVEN: Int = SAMPLE_TYPE + 24
-    const val SAMPLE_TYPE_KEY_LESSON_EIGHT: Int = SAMPLE_TYPE + 25
+    const val SAMPLE_TYPE_KEY_LESSON_ONE                                         = SAMPLE_TYPE + 18
+    const val SAMPLE_TYPE_KEY_LESSON_TWO                                         = SAMPLE_TYPE + 19
+    const val SAMPLE_TYPE_KEY_LESSON_THREE                                       = SAMPLE_TYPE + 20
+    const val SAMPLE_TYPE_KEY_LESSON_FOUR                                        = SAMPLE_TYPE + 21
+    const val SAMPLE_TYPE_KEY_LESSON_FIVE                                        = SAMPLE_TYPE + 22
+    const val SAMPLE_TYPE_KEY_LESSON_SIX                                         = SAMPLE_TYPE + 23
+    const val SAMPLE_TYPE_KEY_LESSON_SEVEN                                       = SAMPLE_TYPE + 24
+    const val SAMPLE_TYPE_KEY_LESSON_EIGHT                                       = SAMPLE_TYPE + 25
 
-    const val SAMPLE_TYPE_KEY_TEXTURE_MAP: Int = SAMPLE_TYPE + 26
-    const val SAMPLE_TYPE_KEY_YUV_RENDER: Int = SAMPLE_TYPE + 27
-    const val SAMPLE_TYPE_KEY_FBO: Int = SAMPLE_TYPE + 28
+    const val SAMPLE_TYPE_KEY_TEXTURE_MAP                                        = SAMPLE_TYPE + 26
+    const val SAMPLE_TYPE_KEY_YUV_RENDER                                         = SAMPLE_TYPE + 27
+    const val SAMPLE_TYPE_KEY_FBO                                                = SAMPLE_TYPE + 28
 
     // EGL 渲染，单独启动一个EGLActivity
-    const val SAMPLE_TYPE_KEY_EGL: Int = SAMPLE_TYPE + 29
+    const val SAMPLE_TYPE_KEY_EGL                                                = SAMPLE_TYPE + 29
 
-    const val SAMPLE_TYPE_KEY_FBO_LEG: Int = SAMPLE_TYPE + 30
-    const val SAMPLE_TYPE_KEY_COORD_SYSTEM: Int = SAMPLE_TYPE + 31
-    const val SAMPLE_TYPE_KEY_BASE_LIGHT: Int = SAMPLE_TYPE + 32
-    const val SAMPLE_TYPE_KEY_MULTI_LIGHT: Int = SAMPLE_TYPE + 33
-    const val SAMPLE_TYPE_KEY_INSTANCING: Int = SAMPLE_TYPE + 34
+    const val SAMPLE_TYPE_KEY_FBO_LEG                                            = SAMPLE_TYPE + 30
+    const val SAMPLE_TYPE_KEY_COORD_SYSTEM                                       = SAMPLE_TYPE + 31
+    const val SAMPLE_TYPE_KEY_BASE_LIGHT                                         = SAMPLE_TYPE + 32
+    const val SAMPLE_TYPE_KEY_MULTI_LIGHT                                        = SAMPLE_TYPE + 33
+    const val SAMPLE_TYPE_KEY_INSTANCING                                         = SAMPLE_TYPE + 34
+    const val SAMPLE_TYPE_KEY_STENCIL_TESTING                                    = SAMPLE_TYPE + 35
 
 }

@@ -53,6 +53,7 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
 
         /*If no setEGLConfigChooser method is called,
         then by default the view will choose an RGB_888 surface with a depth buffer depth of at least 16 bits.*/
+        // 最后 2 个参数表示分别配置 16 位的深度缓冲区和模板缓冲区
         setEGLConfigChooser(8, 8, 8, 8, 16, 8)
         setRenderer(mRenderer)
         mScaleGestureDetector = ScaleGestureDetector(context, this)
@@ -94,6 +95,7 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_LIGHT,
+                    IMyNativeRendererType.SAMPLE_TYPE_KEY_STENCIL_TESTING,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_INSTANCING -> {
                         Log.d(TAG, "updateTransformMatrix")
                         mRenderer.updateTransformMatrix(mXAngle, mYAngle, mCurScale, mCurScale)

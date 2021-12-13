@@ -345,6 +345,13 @@ class MainActivity : Activity() {
         itemInstancing[ITEM_SUBTITLE] = "OpenGL ES 实例化（Instancing）是一种只调用一次渲染函数就能绘制出很多物体的技术，可以实现将数据一次性发送给 GPU ，告诉 OpenGL ES 使用一个绘制函数，将这些数据绘制成多个物体。"
         data.add(itemInstancing)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_INSTANCING)
+
+        val itemStencilTesting: MutableMap<String, Any> = HashMap()
+        itemStencilTesting[ITEM_IMAGE] = R.mipmap.ic_stencil_testing
+        itemStencilTesting[ITEM_TITLE] = "学习 OpenGL ES 模板测试"
+        itemStencilTesting[ITEM_SUBTITLE] = "OpenGL ES 模板测试与深度测试类似，主要作用是利用模板缓冲区(Stencil Buffer)所保存的模板值决定当前片段是否被丢弃，且发生于深度测试之前。"
+        data.add(itemStencilTesting)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_STENCIL_TESTING)
     }
 
     companion object {
