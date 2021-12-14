@@ -131,6 +131,15 @@ class NativeRenderActivity : Activity() {
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
                 loadRGBAImageFromRes(R.mipmap.board_texture)
             }
+
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SKYBOX -> {
+                loadRGBAImageFromResWithIndex(R.mipmap.direction_right, 0)
+                loadRGBAImageFromResWithIndex(R.mipmap.direction_left, 1)
+                loadRGBAImageFromResWithIndex(R.mipmap.direction_top, 2)
+                loadRGBAImageFromResWithIndex(R.mipmap.direction_bottom, 3)
+                loadRGBAImageFromResWithIndex(R.mipmap.direction_back, 4)
+                loadRGBAImageFromResWithIndex(R.mipmap.direction_front, 5)
+            }
         }
     }
 

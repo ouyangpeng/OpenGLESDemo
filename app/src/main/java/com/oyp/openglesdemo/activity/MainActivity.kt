@@ -367,6 +367,13 @@ class MainActivity : Activity() {
         itemParticleSystem2[ITEM_SUBTITLE] = "再次实现一个粒子效果，不一样的实现方式"
         data.add(itemParticleSystem2)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2)
+
+        val itemSkybox: MutableMap<String, Any?> = HashMap()
+        itemSkybox[ITEM_IMAGE] = R.mipmap.ic_skybox
+        itemSkybox[ITEM_TITLE] = "展示一个立方体贴图（天空盒）,可以旋转"
+        itemSkybox[ITEM_SUBTITLE] = "使用立方体贴图实现一个天空盒效果"
+        data.add(itemSkybox)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SKYBOX)
     }
 
     companion object {
