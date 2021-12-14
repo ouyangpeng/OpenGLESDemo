@@ -53,6 +53,7 @@
 #define SAMPLE_TYPE_KEY_BLENDING                                    SAMPLE_TYPE + 36
 #define SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2                            SAMPLE_TYPE + 37
 #define SAMPLE_TYPE_KEY_SKYBOX                                      SAMPLE_TYPE + 38
+#define SAMPLE_TYPE_KEY_PBO                                         SAMPLE_TYPE + 39
 
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

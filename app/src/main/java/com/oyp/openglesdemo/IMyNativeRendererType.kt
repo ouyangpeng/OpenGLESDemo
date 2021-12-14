@@ -55,5 +55,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_BLENDING                                           = SAMPLE_TYPE + 36
     const val SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2                                   = SAMPLE_TYPE + 37
     const val SAMPLE_TYPE_KEY_SKYBOX                                             = SAMPLE_TYPE + 38
+    const val SAMPLE_TYPE_KEY_PBO                                                = SAMPLE_TYPE + 39
 
 }

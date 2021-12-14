@@ -98,6 +98,7 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_STENCIL_TESTING,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_INSTANCING,
+                    IMyNativeRendererType.SAMPLE_TYPE_KEY_PBO,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_SKYBOX -> {
                         Log.d(TAG, "updateTransformMatrix")
                         mRenderer.updateTransformMatrix(mXAngle, mYAngle, mCurScale, mCurScale)

@@ -43,6 +43,7 @@
 #include <BlendingSample.h>
 #include <ParticlesSample2.h>
 #include <SkyBoxSample.h>
+#include <PBOSample.h>
 
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
@@ -187,6 +188,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_SKYBOX:
                 m_pCurSample = new SkyBoxSample();
+                break;
+            case SAMPLE_TYPE_KEY_PBO:
+                m_pCurSample = new PBOSample();
                 break;
             default:
                 m_pCurSample = nullptr;
