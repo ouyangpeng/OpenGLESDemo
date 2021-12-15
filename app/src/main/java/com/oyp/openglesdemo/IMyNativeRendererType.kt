@@ -57,5 +57,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_SKYBOX                                             = SAMPLE_TYPE + 38
     const val SAMPLE_TYPE_KEY_PBO                                                = SAMPLE_TYPE + 39
     const val SAMPLE_TYPE_KEY_BEATING_HEART                                      = SAMPLE_TYPE + 40
+    const val SAMPLE_TYPE_KEY_CLOUD                                              = SAMPLE_TYPE + 41
 
 }

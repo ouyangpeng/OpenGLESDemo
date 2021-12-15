@@ -388,6 +388,13 @@ class MainActivity : Activity() {
         itemBeatingHeart[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
         data.add(itemBeatingHeart)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BEATING_HEART)
+
+        val itemCloud: MutableMap<String, Any?> = HashMap()
+        itemCloud[ITEM_IMAGE] = R.mipmap.ic_cloud
+        itemCloud[ITEM_TITLE] = "展示一个不断漂浮的云朵"
+        itemCloud[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
+        data.add(itemCloud)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_CLOUD)
     }
 
     companion object {

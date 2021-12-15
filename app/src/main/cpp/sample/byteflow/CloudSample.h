@@ -2,18 +2,18 @@
 // Created by OuyangPeng on 2021/12/15.
 //
 
-#ifndef OPENGLESDEMO_BEATINGHEARTSAMPLE_H
-#define OPENGLESDEMO_BEATINGHEARTSAMPLE_H
+#ifndef OPENGLESDEMO_CLOUDSAMPLE_H
+#define OPENGLESDEMO_CLOUDSAMPLE_H
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <GLBaseSample.h>
 
-class BeatingHeartSample : public GLBaseSample {
+class CloudSample : public GLBaseSample {
 
 public:
-    BeatingHeartSample();
+    CloudSample();
 
-    virtual ~BeatingHeartSample() = default;
+    virtual ~CloudSample() = default;
 
     virtual void create();
 
@@ -39,4 +39,4 @@ private:
 };
 
 
-#endif //OPENGLESDEMO_BEATINGHEARTSAMPLE_H
+#endif //OPENGLESDEMO_CLOUDSAMPLE_H

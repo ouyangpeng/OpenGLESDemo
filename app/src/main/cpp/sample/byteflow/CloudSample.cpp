@@ -2,15 +2,12 @@
 // Created by OuyangPeng on 2021/12/15.
 //
 
-// 参考自博客：
-// 不瞒你说，我被这个特效感动哭了（OpenGL ES 特效） https://blog.csdn.net/Kennethdroid/article/details/104536532
-// 【ShaderToy】跳动的心❤️https://blog.csdn.net/candycat1992/article/details/44040273
-// 心跳的原Shader地址【shadertoy】：https://www.shadertoy.com/view/XsfGRn
-// 心脏线的定义：https://baike.baidu.com/item/%E5%BF%83%E8%84%8F%E7%BA%BF/10323843?fr=aladdin
+// 参考自：
+// 2D Cloud的原Shader地址【shadertoy】：https://www.shadertoy.com/view/4tdSWr
 
-#include "BeatingHeartSample.h"
+#include "CloudSample.h"
 
-BeatingHeartSample::BeatingHeartSample() {
+CloudSample::CloudSample() {
     m_SamplerLoc = GL_NONE;
     m_MVPMatLoc = GL_NONE;
 
@@ -23,31 +20,32 @@ BeatingHeartSample::BeatingHeartSample() {
     m_ScaleY = 1.0f;
 }
 
-void BeatingHeartSample::create() {
+void CloudSample::create() {
     // 编译链接用于普通渲染的着色器程序
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_beating_heart.glsl");
     // 用于普通渲染的片段着色器脚本，简单纹理映射
     FRAGMENT_SHADER = GLUtils::openTextFile(
-            "fragment/fragment_shader_beating_heart.glsl");
+            "fragment/fragment_shader_cloud.glsl");
     mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (mProgram == GL_NONE) {
         LOGE("CoordSystemSample::Init mProgram == GL_NONE")
         return;
     }
 
+    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
     m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
     m_SizeLoc = glGetUniformLocation(mProgram, "u_screenSize");
     m_TimeLoc = glGetUniformLocation(mProgram, "u_time");
 
     GLfloat verticesCoords[] = {
-            -1.0f,  1.0f, 0.0f,  // Position 0
+            -1.0f, 1.0f, 0.0f,  // Position 0
             -1.0f, -1.0f, 0.0f,  // Position 1
-            1.0f,  -1.0f, 0.0f,  // Position 2
-            1.0f,   1.0f, 0.0f,  // Position 3
+            1.0f, -1.0f, 0.0f,  // Position 2
+            1.0f, 1.0f, 0.0f,  // Position 3
     };
 
-    GLushort indices[] = { 0, 1, 2, 0, 2, 3 };
+    GLushort indices[] = {0, 1, 2, 0, 2, 3};
 
     // Generate VBO Ids and load the VBOs with data
     glGenBuffers(2, m_VboIds);
@@ -74,23 +72,27 @@ void BeatingHeartSample::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void BeatingHeartSample::draw() {
-    LOGD("BeatingHeartSample::Draw()")
+void CloudSample::draw() {
+    LOGD("CloudSample::Draw()")
 
-    if(mProgram == GL_NONE) return;
+    if (mProgram == GL_NONE) return;
 
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Use the program object
-    glUseProgram (mProgram);
+    glUseProgram(mProgram);
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float)mWidth / (float)mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
 
     glBindVertexArray(m_VaoId);
 
+    static int sFrameIndex = 0;
+    sFrameIndex++;
+
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
-    auto time = static_cast<float>(fmod(GetSysCurrentTime(), 2000) / 2000);
-    LOGD("BeatingHeartSample::Draw() time=%f",time)
+
+    float time = sFrameIndex * 0.04f;
+    LOGD("CloudSample::Draw() time=%f", time)
     // 控制输入时间周期为 2000ms
     glUniform1f(m_TimeLoc, time);
     // 输入屏幕的尺寸
@@ -98,9 +100,8 @@ void BeatingHeartSample::draw() {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
 }
 
-void BeatingHeartSample::shutdown() {
-    if (mProgram)
-    {
+void CloudSample::shutdown() {
+    if (mProgram) {
         glDeleteProgram(mProgram);
         glDeleteBuffers(2, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
@@ -109,14 +110,15 @@ void BeatingHeartSample::shutdown() {
 
 
 void
-BeatingHeartSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float ratio) const {
-    LOGD("BeatingHeartSample::UpdateMVPMatrix angleX = %d, angleY = %d, ratio = %f", angleX, angleY, ratio)
+CloudSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float ratio) const {
+    LOGD("CloudSample::UpdateMVPMatrix angleX = %d, angleY = %d, ratio = %f", angleX, angleY, ratio)
     angleX = angleX % 360;
     angleY = angleY % 360;
 
     //转化为弧度角
     auto radiansX = static_cast<float>(MATH_PI / 180.0f * angleX);
     auto radiansY = static_cast<float>(MATH_PI / 180.0f * angleY);
+
 
     // Projection matrix
     glm::mat4 Projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 100.0f);

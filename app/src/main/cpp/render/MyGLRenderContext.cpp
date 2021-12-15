@@ -45,6 +45,7 @@
 #include <SkyBoxSample.h>
 #include <PBOSample.h>
 #include <BeatingHeartSample.h>
+#include <CloudSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -208,6 +209,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_BEATING_HEART:
                 m_pCurSample = new BeatingHeartSample();
+                break;
+            case SAMPLE_TYPE_KEY_CLOUD:
+                m_pCurSample = new CloudSample();
                 break;
             default:
                 throw MyGLException(
