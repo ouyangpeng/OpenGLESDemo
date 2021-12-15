@@ -107,6 +107,7 @@ class NativeRenderActivity : Activity() {
             IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PBO,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_TUNNEL,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO -> {
                 // 从res目录加载图片
                 // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
@@ -162,6 +163,7 @@ class NativeRenderActivity : Activity() {
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PBO,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_BEATING_HEART,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_CLOUD,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_TUNNEL,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
                 it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY

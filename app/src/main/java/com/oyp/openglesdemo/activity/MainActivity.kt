@@ -395,6 +395,13 @@ class MainActivity : Activity() {
         itemCloud[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
         data.add(itemCloud)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_CLOUD)
+
+        val itemTimeTunnel: MutableMap<String, Any?> = HashMap()
+        itemTimeTunnel[ITEM_IMAGE] = R.mipmap.ic_cloud
+        itemTimeTunnel[ITEM_TITLE] = "展示一个时光隧道"
+        itemTimeTunnel[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
+        data.add(itemTimeTunnel)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_TUNNEL)
     }
 
     companion object {

@@ -46,6 +46,7 @@
 #include <PBOSample.h>
 #include <BeatingHeartSample.h>
 #include <CloudSample.h>
+#include <TimeTunnelSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -212,6 +213,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_CLOUD:
                 m_pCurSample = new CloudSample();
+                break;
+            case SAMPLE_TYPE_KEY_TIME_TUNNEL:
+                m_pCurSample = new TimeTunnelSample();
                 break;
             default:
                 throw MyGLException(
