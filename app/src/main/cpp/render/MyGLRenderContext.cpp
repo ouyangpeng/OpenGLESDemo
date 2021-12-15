@@ -2,7 +2,7 @@
 // Created by OuyangPeng on 2021/11/26.
 //
 #include "MyGLRenderContext.h"
-
+#include <exception>
 #include <SimpleTexture2D.h>
 #include <NativeTriangle.h>
 #include <NativeTriangle2.h>
@@ -44,7 +44,20 @@
 #include <ParticlesSample2.h>
 #include <SkyBoxSample.h>
 #include <PBOSample.h>
+#include <BeatingHeartSample.h>
 
+// 自定义异常
+// 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
+struct MyGLException : public std::exception {
+    std::runtime_error m;
+
+public:
+    explicit MyGLException(const std::string& msg) : m(msg) {}
+
+    const char *what() const noexcept override {
+        return m.what();
+    }
+};
 
 MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
 
@@ -73,7 +86,8 @@ MyGLRenderContext::~MyGLRenderContext() {
 
 
 void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleType) {
-    LOGD("MyGLRenderContext::SetRenderType sampleCategoryType = %d, renderSampleType = %d", sampleCategoryType, renderSampleType)
+    LOGD("MyGLRenderContext::SetRenderType sampleCategoryType = %d, renderSampleType = %d",
+         sampleCategoryType, renderSampleType)
 
     if (sampleCategoryType == SAMPLE_TYPE) {
         m_pBeforeSample = m_pCurSample;
@@ -192,18 +206,17 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
             case SAMPLE_TYPE_KEY_PBO:
                 m_pCurSample = new PBOSample();
                 break;
-            default:
-                m_pCurSample = nullptr;
+            case SAMPLE_TYPE_KEY_BEATING_HEART:
+                m_pCurSample = new BeatingHeartSample();
                 break;
+            default:
+                throw MyGLException(
+                        "MyGLRenderContext::SetRenderType() 请注意：你应该忘记初始化你要展示的Sample类型 ，请补上初始化的代码，否则无法渲染");
         }
-
-        if(!m_pCurSample){
-            LOGE("请注意：你应该忘记初始化你要展示的Sample类型 { %d }，请补上初始化的代码，否则无法渲染" , renderSampleType)
-        }
-        LOGD("MyGLRenderContext::SetRenderType m_pBeforeSample = %p, m_pCurSample=%p", m_pBeforeSample, m_pCurSample)
+        LOGD("MyGLRenderContext::SetRenderType m_pBeforeSample = %p, m_pCurSample=%p",
+             m_pBeforeSample, m_pCurSample)
     }
 }
-
 
 void MyGLRenderContext::OnSurfaceCreated(JNIEnv *env, jobject assetManager) {
     LOGD("MyGLRenderContext::OnSurfaceCreated")
@@ -243,7 +256,7 @@ void MyGLRenderContext::SwitchBlendingMode() {
 
 void MyGLRenderContext::SetDelta(float x, float y) {
     if (m_pCurSample) {
-        m_pCurSample->setDelta(x,y);
+        m_pCurSample->setDelta(x, y);
     }
 }
 
@@ -261,21 +274,23 @@ void MyGLRenderContext::SetMagFilter(int filter) {
 
 
 void MyGLRenderContext::SetImageData(int format, int width, int height, uint8_t *pData) {
-    LOGD("MyGLRenderContext::SetImageData format=%d, width=%d, height=%d, pData=%p", format, width, height, pData)
+    LOGD("MyGLRenderContext::SetImageData format=%d, width=%d, height=%d, pData=%p", format, width,
+         height, pData)
     NativeImage nativeImage = getImage(format, width, height, pData);
 
-    if(m_pCurSample){
+    if (m_pCurSample) {
         m_pCurSample->LoadImage(&nativeImage);
     }
 }
 
-void MyGLRenderContext::SetImageDataWithIndex(int index, int format, int width, int height, uint8_t *pData) {
-    LOGD("MyGLRenderContext::SetImageDataWithIndex index=%d, format=%d, width=%d, height=%d, pData=%p", index, format, width, height, pData)
+void MyGLRenderContext::SetImageDataWithIndex(int index, int format, int width, int height,
+                                              uint8_t *pData) {
+    LOGD("MyGLRenderContext::SetImageDataWithIndex index=%d, format=%d, width=%d, height=%d, pData=%p",
+         index, format, width, height, pData)
 
     NativeImage nativeImage = getImage(format, width, height, pData);
 
-    if (m_pCurSample)
-    {
+    if (m_pCurSample) {
         m_pCurSample->LoadMultiImageWithIndex(index, &nativeImage);
     }
 }
@@ -287,7 +302,7 @@ NativeImage MyGLRenderContext::getImage(int format, int width, int height, uint8
     nativeImage.height = height;
     nativeImage.ppPlane[0] = pData;
 
-    switch (format){
+    switch (format) {
         case IMAGE_FORMAT_NV12:
         case IMAGE_FORMAT_NV21:
             nativeImage.ppPlane[1] = nativeImage.ppPlane[0] + width * height;
@@ -301,7 +316,6 @@ NativeImage MyGLRenderContext::getImage(int format, int width, int height, uint8
     }
     return nativeImage;
 }
-
 
 
 MyGLRenderContext *MyGLRenderContext::GetInstance() {
@@ -321,10 +335,11 @@ void MyGLRenderContext::DestroyInstance() {
 
 }
 
-void MyGLRenderContext::UpdateTransformMatrix(float rotateX, float rotateY, float scaleX, float scaleY) {
-    LOGD("MyGLRenderContext::UpdateTransformMatrix [rotateX, rotateY, scaleX, scaleY] = [%f, %f, %f, %f]", rotateX, rotateY, scaleX, scaleY)
-    if (m_pCurSample)
-    {
+void
+MyGLRenderContext::UpdateTransformMatrix(float rotateX, float rotateY, float scaleX, float scaleY) {
+    LOGD("MyGLRenderContext::UpdateTransformMatrix [rotateX, rotateY, scaleX, scaleY] = [%f, %f, %f, %f]",
+         rotateX, rotateY, scaleX, scaleY)
+    if (m_pCurSample) {
         m_pCurSample->UpdateTransformMatrix(rotateX, rotateY, scaleX, scaleY);
     }
 }

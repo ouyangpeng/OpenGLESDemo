@@ -379,9 +379,15 @@ class MainActivity : Activity() {
         itemPBO[ITEM_IMAGE] = R.mipmap.ic_pbo
         itemPBO[ITEM_TITLE] = "展示一个PBO示例"
         itemPBO[ITEM_SUBTITLE] = "OpenGL PBO（Pixel Buffer Object），被称为像素缓冲区对象，主要被用于异步像素传输操作。PBO 仅用于执行像素传输，不连接到纹理，且与 FBO （帧缓冲区对象）无关。"
-
         data.add(itemPBO)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_PBO)
+
+        val itemBeatingHeart: MutableMap<String, Any?> = HashMap()
+        itemBeatingHeart[ITEM_IMAGE] = R.mipmap.ic_beatingheart
+        itemBeatingHeart[ITEM_TITLE] = "展示一个跳动的心"
+        itemBeatingHeart[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
+        data.add(itemBeatingHeart)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BEATING_HEART)
     }
 
     companion object {

@@ -18,9 +18,6 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
     private var mXAngle = 0f
     private var mYAngle = 0f
 
-    private var deltaX = 0f
-    private var deltaY = 0f
-
     private var mRatioWidth = 0
     private var mRatioHeight = 0
 
