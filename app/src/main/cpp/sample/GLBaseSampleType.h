@@ -54,11 +54,12 @@
 #define SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2                            SAMPLE_TYPE + 37
 #define SAMPLE_TYPE_KEY_SKYBOX                                      SAMPLE_TYPE + 38
 #define SAMPLE_TYPE_KEY_PBO                                         SAMPLE_TYPE + 39
-#define SAMPLE_TYPE_KEY_BEATING_HEART                               SAMPLE_TYPE + 40
-#define SAMPLE_TYPE_KEY_CLOUD                                       SAMPLE_TYPE + 41
-#define SAMPLE_TYPE_KEY_TIME_TUNNEL                                 SAMPLE_TYPE + 42
-#define SAMPLE_TYPE_KEY_MAIN_SEQUENCE_STAR                          SAMPLE_TYPE + 43
-#define SAMPLE_TYPE_KEY_SKY_PATH                                    SAMPLE_TYPE + 44
+#define SAMPLE_TYPE_KEY_SHADER_TOY_BEATING_HEART                    SAMPLE_TYPE + 40
+#define SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD                            SAMPLE_TYPE + 41
+#define SAMPLE_TYPE_KEY_SHADER_TOY_TIME_TUNNEL                      SAMPLE_TYPE + 42
+#define SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR               SAMPLE_TYPE + 43
+#define SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH                         SAMPLE_TYPE + 44
+#define SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY                            SAMPLE_TYPE + 45
 
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

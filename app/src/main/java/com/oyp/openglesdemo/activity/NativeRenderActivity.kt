@@ -107,7 +107,7 @@ class NativeRenderActivity : Activity() {
             IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PBO,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_TUNNEL,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_TIME_TUNNEL,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO -> {
                 // 从res目录加载图片
                 // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
@@ -130,7 +130,7 @@ class NativeRenderActivity : Activity() {
                 loadRGBAImageFromResWithIndex(R.mipmap.window, 2)
             }
 
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_MAIN_SEQUENCE_STAR ->{
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR ->{
                 loadRGBAImageFromResWithIndex(R.mipmap.main_sequence_start_bg0, 0)
                 loadRGBAImageFromResWithIndex(R.mipmap.main_sequence_start_bg1, 1)
             }
@@ -167,11 +167,12 @@ class NativeRenderActivity : Activity() {
             IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FIVE,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SEVEN,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PBO,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_BEATING_HEART,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_CLOUD,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_SKY_PATH,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_MAIN_SEQUENCE_STAR,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_TUNNEL,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_BEATING_HEART,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_TIME_TUNNEL,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
                 it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY

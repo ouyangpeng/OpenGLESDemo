@@ -7,9 +7,9 @@
 // 原Shader地址【shadertoy】：https://www.shadertoy.com/view/3sBGzV
 // https://glslsandbox.com/e#77894.0
 
-#include "SkyPathSample.h"
+#include "BaseShaderToySimpleSample.h"
 
-SkyPathSample::SkyPathSample() {
+BaseShaderToySimpleSample::BaseShaderToySimpleSample(const char *fragmentShaderPath) {
     m_SamplerLoc = GL_NONE;
     m_MVPMatLoc = GL_NONE;
 
@@ -20,15 +20,17 @@ SkyPathSample::SkyPathSample() {
 
     m_ScaleX = 1.0f;
     m_ScaleY = 1.0f;
+
+    mFragmentShaderPath = fragmentShaderPath;
 }
 
-void SkyPathSample::create() {
+void BaseShaderToySimpleSample::create() {
     // 编译链接用于普通渲染的着色器程序
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_beating_heart.glsl");
     // 用于普通渲染的片段着色器脚本，简单纹理映射
-    FRAGMENT_SHADER = GLUtils::openTextFile(
-            "fragment/fragment_shader_sky_path.glsl");
+    FRAGMENT_SHADER = GLUtils::openTextFile(mFragmentShaderPath);
+
     mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (mProgram == GL_NONE) {
         LOGE("CoordSystemSample::Init mProgram == GL_NONE")
@@ -74,8 +76,8 @@ void SkyPathSample::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void SkyPathSample::draw() {
-    LOGD("SkyPathSample::Draw()")
+void BaseShaderToySimpleSample::draw() {
+    LOGD("BaseShaderToySimpleSample::Draw()")
 
     if (mProgram == GL_NONE) return;
 
@@ -94,7 +96,7 @@ void SkyPathSample::draw() {
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
 
     float time = sFrameIndex * 0.04f;
-    LOGD("SkyPathSample::Draw() time=%f", time)
+    LOGD("BaseShaderToySimpleSample::Draw() time=%f", time)
     // 控制输入时间周期为 2000ms
     glUniform1f(m_TimeLoc, time);
     // 输入屏幕的尺寸
@@ -102,7 +104,7 @@ void SkyPathSample::draw() {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
 }
 
-void SkyPathSample::shutdown() {
+void BaseShaderToySimpleSample::shutdown() {
     if (mProgram) {
         glDeleteProgram(mProgram);
         glDeleteBuffers(2, m_VboIds);
@@ -112,8 +114,8 @@ void SkyPathSample::shutdown() {
 
 
 void
-SkyPathSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float ratio) const {
-    LOGD("SkyPathSample::UpdateMVPMatrix angleX = %d, angleY = %d, ratio = %f", angleX, angleY, ratio)
+BaseShaderToySimpleSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float ratio) const {
+    LOGD("BaseShaderToySimpleSample::UpdateMVPMatrix angleX = %d, angleY = %d, ratio = %f", angleX, angleY, ratio)
     angleX = angleX % 360;
     angleY = angleY % 360;
 

@@ -1,6 +1,9 @@
 #version 300 es
 precision highp float;
 
+// 参考自：
+// 2D Cloud的原Shader地址【shadertoy】：https://www.shadertoy.com/view/4tdSWr
+
 layout(location = 0) out vec4 outColor;
 
 uniform float u_time;

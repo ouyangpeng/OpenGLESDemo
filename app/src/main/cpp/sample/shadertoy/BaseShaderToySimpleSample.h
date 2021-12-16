@@ -2,18 +2,18 @@
 // Created by OuyangPeng on 2021/12/15.
 //
 
-#ifndef OPENGLESDEMO_CLOUDSAMPLE_H
-#define OPENGLESDEMO_CLOUDSAMPLE_H
+#ifndef OPENGLESDEMO_BASESHADERTOYSIMPLESAMPLE_H
+#define OPENGLESDEMO_BASESHADERTOYSIMPLESAMPLE_H
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <GLBaseSample.h>
 
-class CloudSample : public GLBaseSample {
+class BaseShaderToySimpleSample : public GLBaseSample {
 
 public:
-    CloudSample();
+    BaseShaderToySimpleSample(const char *fragmentShaderPath);
 
-    virtual ~CloudSample() = default;
+    virtual ~BaseShaderToySimpleSample() = default;
 
     virtual void create();
 
@@ -24,6 +24,8 @@ public:
     void UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float ratio) const;
 
 private:
+    const char *mFragmentShaderPath;
+
     GLint m_SamplerLoc;
     GLint m_TimeLoc;
     GLint m_SizeLoc;
@@ -39,4 +41,4 @@ private:
 };
 
 
-#endif //OPENGLESDEMO_CLOUDSAMPLE_H
+#endif //OPENGLESDEMO_BASESHADERTOYSIMPLESAMPLE_H

@@ -44,11 +44,10 @@
 #include <ParticlesSample2.h>
 #include <SkyBoxSample.h>
 #include <PBOSample.h>
-#include <BeatingHeartSample.h>
-#include <CloudSample.h>
 #include <TimeTunnelSample.h>
 #include <MainSequenceStarSample.h>
-#include <SkyPathSample.h>
+#include <BaseShaderToySimpleSample.h>
+#include <BeatingHeartSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -210,20 +209,23 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
             case SAMPLE_TYPE_KEY_PBO:
                 m_pCurSample = new PBOSample();
                 break;
-            case SAMPLE_TYPE_KEY_BEATING_HEART:
+            case SAMPLE_TYPE_KEY_SHADER_TOY_BEATING_HEART:
                 m_pCurSample = new BeatingHeartSample();
                 break;
-            case SAMPLE_TYPE_KEY_CLOUD:
-                m_pCurSample = new CloudSample();
+            case SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD:
+                m_pCurSample = new BaseShaderToySimpleSample("fragment/fragment_shader_cloud.glsl");
                 break;
-            case SAMPLE_TYPE_KEY_TIME_TUNNEL:
+            case SAMPLE_TYPE_KEY_SHADER_TOY_TIME_TUNNEL:
                 m_pCurSample = new TimeTunnelSample();
                 break;
-            case SAMPLE_TYPE_KEY_MAIN_SEQUENCE_STAR:
+            case SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR:
                 m_pCurSample = new MainSequenceStarSample();
                 break;
-            case SAMPLE_TYPE_KEY_SKY_PATH:
-                m_pCurSample = new SkyPathSample();
+            case SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH:
+                m_pCurSample = new BaseShaderToySimpleSample("fragment/fragment_shader_sky_path.glsl");
+                break;
+            case SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY:
+                m_pCurSample = new BaseShaderToySimpleSample("fragment/fragment_shader_a_day_1.glsl");
                 break;
             default:
                 throw MyGLException(

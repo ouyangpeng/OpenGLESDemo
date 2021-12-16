@@ -2,6 +2,12 @@
 // 使用的是 highp 精度，但是当使用 mediump 精度时，会出现由于精度不够导致的毛刺现象，
 precision highp float;
 
+// 参考自博客：
+// 不瞒你说，我被这个特效感动哭了（OpenGL ES 特效） https://blog.csdn.net/Kennethdroid/article/details/104536532
+// 【ShaderToy】跳动的心❤️https://blog.csdn.net/candycat1992/article/details/44040273
+// 心跳的原Shader地址【shadertoy】：https://www.shadertoy.com/view/XsfGRn
+// 心脏线的定义：https://baike.baidu.com/item/%E5%BF%83%E8%84%8F%E7%BA%BF/10323843?fr=aladdin
+
 // 输出
 layout(location = 0) out vec4 outColor;
 //时间偏移量

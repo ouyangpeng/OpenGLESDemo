@@ -384,39 +384,45 @@ class MainActivity : Activity() {
 
         val itemBeatingHeart: MutableMap<String, Any?> = HashMap()
         itemBeatingHeart[ITEM_IMAGE] = R.mipmap.ic_beatingheart
-        itemBeatingHeart[ITEM_TITLE] = "展示一个跳动的心"
+        itemBeatingHeart[ITEM_TITLE] = "展示一段 ShaderToy的特效：跳动的心"
         itemBeatingHeart[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
         data.add(itemBeatingHeart)
-        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BEATING_HEART)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_BEATING_HEART)
 
         val itemCloud: MutableMap<String, Any?> = HashMap()
         itemCloud[ITEM_IMAGE] = R.mipmap.ic_cloud
-        itemCloud[ITEM_TITLE] = "展示一个不断漂浮的云朵"
+        itemCloud[ITEM_TITLE] = "展示一段 ShaderToy的特效：不断漂浮的云朵"
         itemCloud[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
         data.add(itemCloud)
-        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_CLOUD)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD)
 
         val itemTimeTunnel: MutableMap<String, Any?> = HashMap()
-        itemTimeTunnel[ITEM_IMAGE] = R.mipmap.ic_cloud
-        itemTimeTunnel[ITEM_TITLE] = "展示一个时光隧道"
+        itemTimeTunnel[ITEM_IMAGE] = R.mipmap.ic_time_tunnel
+        itemTimeTunnel[ITEM_TITLE] = "展示一段 ShaderToy的特效：时光隧道"
         itemTimeTunnel[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
         data.add(itemTimeTunnel)
-        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_TUNNEL)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_TIME_TUNNEL)
 
         val itemMainSequenceStar: MutableMap<String, Any?> = HashMap()
         itemMainSequenceStar[ITEM_IMAGE] = R.mipmap.ic_main_sequence_start
-        itemMainSequenceStar[ITEM_TITLE] = "展示一个燃烧的旋转的主序星"
+        itemMainSequenceStar[ITEM_TITLE] = "展示一段 ShaderToy的特效：燃烧的旋转的主序星"
         itemMainSequenceStar[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
         data.add(itemMainSequenceStar)
-        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MAIN_SEQUENCE_STAR)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR)
 
         val itemSkyPath: MutableMap<String, Any?> = HashMap()
         itemSkyPath[ITEM_IMAGE] = R.mipmap.ic_sky_path
-        itemSkyPath[ITEM_TITLE] = "展示一段 天路"
+        itemSkyPath[ITEM_TITLE] = "展示一段 ShaderToy的特效：天路"
         itemSkyPath[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
         data.add(itemSkyPath)
-        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SKY_PATH)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH)
 
+        val itemADay: MutableMap<String, Any?> = HashMap()
+        itemADay[ITEM_IMAGE] = R.mipmap.ic_a_day
+        itemADay[ITEM_TITLE] = "展示一段 ShaderToy的特效：A Day"
+        itemADay[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
+        data.add(itemADay)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY)
 
     }
 
