@@ -60,5 +60,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_CLOUD                                              = SAMPLE_TYPE + 41
     const val SAMPLE_TYPE_KEY_TIME_TUNNEL                                        = SAMPLE_TYPE + 42
     const val SAMPLE_TYPE_KEY_MAIN_SEQUENCE_STAR                                 = SAMPLE_TYPE + 43
+    const val SAMPLE_TYPE_KEY_SKY_PATH                                           = SAMPLE_TYPE + 44
 
 }

@@ -169,6 +169,7 @@ class NativeRenderActivity : Activity() {
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PBO,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_BEATING_HEART,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_CLOUD,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SKY_PATH,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_MAIN_SEQUENCE_STAR,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_TUNNEL,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {

@@ -410,6 +410,14 @@ class MainActivity : Activity() {
         data.add(itemMainSequenceStar)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MAIN_SEQUENCE_STAR)
 
+        val itemSkyPath: MutableMap<String, Any?> = HashMap()
+        itemSkyPath[ITEM_IMAGE] = R.mipmap.ic_sky_path
+        itemSkyPath[ITEM_TITLE] = "展示一段 天路"
+        itemSkyPath[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
+        data.add(itemSkyPath)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SKY_PATH)
+
+
     }
 
     companion object {

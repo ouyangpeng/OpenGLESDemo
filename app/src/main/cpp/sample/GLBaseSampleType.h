@@ -58,6 +58,7 @@
 #define SAMPLE_TYPE_KEY_CLOUD                                       SAMPLE_TYPE + 41
 #define SAMPLE_TYPE_KEY_TIME_TUNNEL                                 SAMPLE_TYPE + 42
 #define SAMPLE_TYPE_KEY_MAIN_SEQUENCE_STAR                          SAMPLE_TYPE + 43
+#define SAMPLE_TYPE_KEY_SKY_PATH                                    SAMPLE_TYPE + 44
 
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H
