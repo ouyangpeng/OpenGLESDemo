@@ -29,7 +29,7 @@ void BeatingHeartSample::create() {
             "vertex/vertex_shader_beating_heart.glsl");
     // 用于普通渲染的片段着色器脚本，简单纹理映射
     FRAGMENT_SHADER = GLUtils::openTextFile(
-            "fragment/fragment_shader_beating_heart.glsl");
+            "fragment/fragment_shader_toy_beating_heart.glsl");
     mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (mProgram == GL_NONE) {
         LOGE("CoordSystemSample::Init mProgram == GL_NONE")

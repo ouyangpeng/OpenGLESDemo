@@ -1,13 +1,16 @@
 #version 300 es
 precision highp float;
 
-// 参考自：
-// 2D Cloud的原Shader地址【shadertoy】：https://www.shadertoy.com/view/4tdSWr
+/*
+ * Original shader from: https://www.shadertoy.com/view/4tdSWr
+ */
 
 layout(location = 0) out vec4 outColor;
 
-uniform float u_time;
-uniform vec2 u_screenSize;
+uniform float iTime;
+uniform vec2 iResolution;
+
+// --------[ Original ShaderToy begins here ]---------- //
 
 const float cloudscale = 1.1;
 const float speed = 0.03;
@@ -51,11 +54,10 @@ float fbm(vec2 n) {
 
 // -----------------------------------------------
 
-void main() {
-    vec2 fragCoord = gl_FragCoord.xy;
-    vec2 p = fragCoord.xy / u_screenSize.xy;
-    vec2 uv = p*vec2(u_screenSize.x/u_screenSize.y, 1.0);
-    float time = u_time * speed;
+void mainImage( out vec4 fragColor, in vec2 fragCoord ){
+    vec2 p = fragCoord.xy / iResolution.xy;
+    vec2 uv = p*vec2(iResolution.x/iResolution.y, 1.0);
+    float time = iTime * speed;
     float q = fbm(uv * cloudscale * 0.5);
 
     //ridged noise shape
@@ -71,7 +73,7 @@ void main() {
 
     //noise shape
     float f = 0.0;
-    uv = p*vec2(u_screenSize.x/u_screenSize.y, 1.0);
+    uv = p*vec2(iResolution.x/iResolution.y, 1.0);
     uv *= cloudscale;
     uv -= q - time;
     weight = 0.7;
@@ -85,8 +87,8 @@ void main() {
 
     //noise colour
     float c = 0.0;
-    time = u_time * speed * 2.0;
-    uv = p*vec2(u_screenSize.x/u_screenSize.y, 1.0);
+    time = iTime * speed * 2.0;
+    uv = p*vec2(iResolution.x/iResolution.y, 1.0);
     uv *= cloudscale*2.0;
     uv -= q - time;
     weight = 0.4;
@@ -98,8 +100,8 @@ void main() {
 
     //noise ridge colour
     float c1 = 0.0;
-    time = u_time * speed * 3.0;
-    uv = p*vec2(u_screenSize.x/u_screenSize.y, 1.0);
+    time = iTime * speed * 3.0;
+    uv = p*vec2(iResolution.x/iResolution.y, 1.0);
     uv *= cloudscale*3.0;
     uv -= q - time;
     weight = 0.4;
@@ -118,5 +120,11 @@ void main() {
 
     vec3 result = mix(skycolour, clamp(skytint * skycolour + cloudcolour, 0.0, 1.0), clamp(f + c, 0.0, 1.0));
 
-    outColor = vec4(result, 1.0);
+    fragColor = vec4(result, 1.0);
+}
+
+// --------[ Original ShaderToy ends here ]---------- //
+void main(void)
+{
+    mainImage(outColor, gl_FragCoord.xy);
 }

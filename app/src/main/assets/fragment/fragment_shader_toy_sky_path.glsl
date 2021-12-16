@@ -9,8 +9,8 @@ precision highp float;
 layout(location = 0) out vec4 outColor;
 
 // glslsandbox uniforms
-uniform float u_time;
-uniform vec2 u_screenSize;
+uniform float iTime;
+uniform vec2 iResolution;
 
 // --------[ Original ShaderToy begins here ]---------- //
 
@@ -120,9 +120,9 @@ float curve2(float t, float d) {
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-    vec2 uv = vec2(fragCoord.x / u_screenSize.x, fragCoord.y / u_screenSize.y);
+    vec2 uv = vec2(fragCoord.x / iResolution.x, fragCoord.y / iResolution.y);
     uv -= 0.5;
-    uv /= vec2(u_screenSize.y / u_screenSize.x, 1);
+    uv /= vec2(iResolution.y / iResolution.x, 1);
 
     float rand=rnd(uv);
     float dither = 0.8+0.1*rand;
@@ -132,12 +132,12 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     vec3 tar=vec3(0, -0.7, 3);
 
     //dashxdr was here got rid of the ****ing surging
-    float motion = curve2(u_time*1.5, 0.8)*3.0;
+    float motion = curve2(iTime*1.5, 0.8)*3.0;
     s.z += motion;
     t.z += motion;
-    //tar.z += u_time*1.5*3.0;// + pow(curve(u_time, 0.7),2)*5.0;
+    //tar.z += iTime*1.5*3.0;// + pow(curve(iTime, 0.7),2)*5.0;
     float offset = 15.0;
-    tar.z += (curve2(u_time*1.5-offset, 1.1)+offset)*3.0 + pow(curve(u_time, 0.9), 3.0)*5.0;
+    tar.z += (curve2(iTime*1.5-offset, 1.1)+offset)*3.0 + pow(curve(iTime, 0.9), 3.0)*5.0;
 
     s-=tunnel(s);
     vec3 offt = tunnel(t);
@@ -148,7 +148,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     vec3 cx=normalize(cross(cz, vec3(0, 1, 0) - offt*0.2));
     vec3 cy=normalize(cross(cz, cx));
 
-    vec3 r = normalize(cx*uv.x + cy*uv.y + cz*(0.7+sin(u_time*2.0)*0.4));
+    vec3 r = normalize(cx*uv.x + cy*uv.y + cz*(0.7+sin(iTime*2.0)*0.4));
 
     vec3 col = vec3(0);
     vec3 l = normalize(vec3(-0.7, -1.0, -0.5));

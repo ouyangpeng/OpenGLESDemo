@@ -213,7 +213,7 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 m_pCurSample = new BeatingHeartSample();
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD:
-                m_pCurSample = new BaseShaderToySimpleSample("fragment/fragment_shader_cloud.glsl");
+                m_pCurSample = new BaseShaderToySimpleSample("fragment/fragment_shader_toy_cloud.glsl");
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_TIME_TUNNEL:
                 m_pCurSample = new TimeTunnelSample();
@@ -222,10 +222,10 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 m_pCurSample = new MainSequenceStarSample();
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH:
-                m_pCurSample = new BaseShaderToySimpleSample("fragment/fragment_shader_sky_path.glsl");
+                m_pCurSample = new BaseShaderToySimpleSample("fragment/fragment_shader_toy_sky_path.glsl");
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY:
-                m_pCurSample = new BaseShaderToySimpleSample("fragment/fragment_shader_a_day_1.glsl");
+                m_pCurSample = new BaseShaderToySimpleSample("fragment/fragment_shader_toy_a_day_1.glsl");
                 break;
             default:
                 throw MyGLException(

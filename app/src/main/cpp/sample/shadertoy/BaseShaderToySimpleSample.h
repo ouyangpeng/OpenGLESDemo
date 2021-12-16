@@ -27,8 +27,8 @@ private:
     const char *mFragmentShaderPath;
 
     GLint m_SamplerLoc;
-    GLint m_TimeLoc;
-    GLint m_SizeLoc;
+    GLint iTime;
+    GLint iResolution;
     GLint m_MVPMatLoc;
     GLuint m_VaoId;
     GLuint m_VboIds[2];

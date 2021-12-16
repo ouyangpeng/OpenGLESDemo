@@ -39,8 +39,9 @@ void BaseShaderToySimpleSample::create() {
 
     m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
     m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
-    m_SizeLoc = glGetUniformLocation(mProgram, "u_screenSize");
-    m_TimeLoc = glGetUniformLocation(mProgram, "u_time");
+
+    iResolution = glGetUniformLocation(mProgram, "iResolution");
+    iTime = glGetUniformLocation(mProgram, "iTime");
 
     GLfloat verticesCoords[] = {
             -1.0f, 1.0f, 0.0f,  // Position 0
@@ -98,9 +99,9 @@ void BaseShaderToySimpleSample::draw() {
     float time = sFrameIndex * 0.04f;
     LOGD("BaseShaderToySimpleSample::Draw() time=%f", time)
     // 控制输入时间周期为 2000ms
-    glUniform1f(m_TimeLoc, time);
+    glUniform1f(iTime, time);
     // 输入屏幕的尺寸
-    glUniform2f(m_SizeLoc, mWidth, mHeight);
+    glUniform2f(iResolution, mWidth, mHeight);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
 }
 
