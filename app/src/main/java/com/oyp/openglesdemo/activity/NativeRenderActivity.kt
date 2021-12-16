@@ -130,6 +130,12 @@ class NativeRenderActivity : Activity() {
                 loadRGBAImageFromResWithIndex(R.mipmap.window, 2)
             }
 
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_MAIN_SEQUENCE_STAR ->{
+                loadRGBAImageFromResWithIndex(R.mipmap.main_sequence_start_bg0, 0)
+                loadRGBAImageFromResWithIndex(R.mipmap.main_sequence_start_bg1, 1)
+            }
+
+
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
                 loadRGBAImageFromRes(R.mipmap.board_texture)
             }
@@ -163,6 +169,7 @@ class NativeRenderActivity : Activity() {
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PBO,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_BEATING_HEART,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_CLOUD,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_MAIN_SEQUENCE_STAR,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_TUNNEL,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY

@@ -402,6 +402,14 @@ class MainActivity : Activity() {
         itemTimeTunnel[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
         data.add(itemTimeTunnel)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_TUNNEL)
+
+        val itemMainSequenceStar: MutableMap<String, Any?> = HashMap()
+        itemMainSequenceStar[ITEM_IMAGE] = R.mipmap.ic_main_sequence_start
+        itemMainSequenceStar[ITEM_TITLE] = "展示一个燃烧的旋转的主序星"
+        itemMainSequenceStar[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
+        data.add(itemMainSequenceStar)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MAIN_SEQUENCE_STAR)
+
     }
 
     companion object {

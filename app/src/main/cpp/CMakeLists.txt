@@ -28,6 +28,7 @@ include_directories(
         sample/lesson
         sample/lesson/lesson7
         sample/lesson/lesson8
+        sample/shadertoy
         sample/texture
         sample/triangle
 
