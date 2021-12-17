@@ -62,5 +62,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR                      = SAMPLE_TYPE + 43
     const val SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH                                = SAMPLE_TYPE + 44
     const val SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY                                   = SAMPLE_TYPE + 45
+    const val SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST                  = SAMPLE_TYPE + 46
 
 }

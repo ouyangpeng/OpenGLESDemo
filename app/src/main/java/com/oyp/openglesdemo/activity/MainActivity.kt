@@ -424,6 +424,14 @@ class MainActivity : Activity() {
         data.add(itemADay)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY)
 
+        val itemAtmosphereSystemTest: MutableMap<String, Any?> = HashMap()
+        itemAtmosphereSystemTest[ITEM_IMAGE] = R.mipmap.ic_atmosphere_system_test
+        itemAtmosphereSystemTest[ITEM_TITLE] = "展示一段 ShaderToy的特效：Atmosphere system test "
+        itemAtmosphereSystemTest[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
+        data.add(itemAtmosphereSystemTest)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST)
+
+
     }
 
     companion object {

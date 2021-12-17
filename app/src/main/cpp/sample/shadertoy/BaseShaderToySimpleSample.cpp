@@ -56,6 +56,9 @@ void BaseShaderToySimpleSample::create() {
         case SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY:
             mFragmentShaderPath = "fragment/fragment_shader_toy_a_day_1.glsl";
             break;
+        case SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST:
+            mFragmentShaderPath = "fragment/fragment_shader_toy_atmosphere_system_test.glsl";
+            break;
         default:
             mFragmentShaderPath = GL_NONE;
             break;
@@ -197,6 +200,7 @@ void BaseShaderToySimpleSample::draw() {
             break;
         }
         case SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD:
+        case SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST:
         case SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH:
         case SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR:
         case SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY: {
