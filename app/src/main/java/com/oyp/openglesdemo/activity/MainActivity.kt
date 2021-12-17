@@ -431,6 +431,13 @@ class MainActivity : Activity() {
         data.add(itemAtmosphereSystemTest)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST)
 
+        val itemBezierCurve: MutableMap<String, Any?> = HashMap()
+        itemBezierCurve[ITEM_IMAGE] = R.mipmap.ic_bezier_currve
+        itemBezierCurve[ITEM_TITLE] = "展示几段 贝塞尔曲线 绘制的曲边扇形 混合而成的效果 "
+        itemBezierCurve[ITEM_SUBTITLE] = "学习如何绘制一段 贝塞尔曲线"
+        data.add(itemBezierCurve)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BEZIER_CURVE)
+
 
     }
 

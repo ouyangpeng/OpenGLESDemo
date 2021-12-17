@@ -169,6 +169,7 @@ class NativeRenderActivity : Activity() {
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PBO,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_BEATING_HEART,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_BEZIER_CURVE,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY,

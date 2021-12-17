@@ -46,6 +46,7 @@
 #include <PBOSample.h>
 #include <TimeTunnelSample.h>
 #include <BaseShaderToySimpleSample.h>
+#include <BezierCurveSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -64,7 +65,7 @@ MyGLRenderContext *MyGLRenderContext::m_pContext = nullptr;
 
 MyGLRenderContext::MyGLRenderContext() {
     LOGD("MyGLRenderContext::MyGLRenderContext")
-    m_pCurSample = new NativeTriangle();
+    m_pCurSample = nullptr;
     m_pBeforeSample = nullptr;
 }
 
@@ -228,9 +229,16 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
             case SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST:
                 m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST);
                 break;
+            case SAMPLE_TYPE_KEY_BEZIER_CURVE:
+                m_pCurSample = new BezierCurveSample();
+                break;
             default:
-                throw MyGLException(
-                        "MyGLRenderContext::SetRenderType() 请注意：你应该忘记初始化你要展示的Sample类型 ，请补上初始化的代码，否则无法渲染");
+                m_pCurSample = nullptr;
+                break;
+        }
+        if(m_pCurSample == nullptr){
+            throw MyGLException(
+                    "MyGLRenderContext::SetRenderType() 请注意：你应该忘记初始化你要展示的Sample类型 ，请补上初始化的代码，否则无法渲染");
         }
         LOGD("MyGLRenderContext::SetRenderType m_pBeforeSample = %p, m_pCurSample=%p",
              m_pBeforeSample, m_pCurSample)
