@@ -9,7 +9,7 @@
 
 #include "BaseShaderToySimpleSample.h"
 
-BaseShaderToySimpleSample::BaseShaderToySimpleSample(const char *fragmentShaderPath) {
+BaseShaderToySimpleSample::BaseShaderToySimpleSample(int renderSampleType) {
     m_SamplerLoc = GL_NONE;
     m_MVPMatLoc = GL_NONE;
 
@@ -21,13 +21,40 @@ BaseShaderToySimpleSample::BaseShaderToySimpleSample(const char *fragmentShaderP
     m_ScaleX = 1.0f;
     m_ScaleY = 1.0f;
 
-    mFragmentShaderPath = fragmentShaderPath;
+    mRenderSampleType = renderSampleType;
 }
 
 void BaseShaderToySimpleSample::create() {
     // 编译链接用于普通渲染的着色器程序
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_beating_heart.glsl");
+
+    switch(mRenderSampleType){
+        case SAMPLE_TYPE_KEY_SHADER_TOY_BEATING_HEART:
+            mFragmentShaderPath = "fragment/fragment_shader_toy_beating_heart.glsl";
+            break;
+        case SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD:
+            mFragmentShaderPath = "fragment/fragment_shader_toy_cloud.glsl";
+            break;
+        case SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH:
+            mFragmentShaderPath = "fragment/fragment_shader_toy_sky_path.glsl";
+            break;
+        case SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY:
+            mFragmentShaderPath = "fragment/fragment_shader_toy_a_day_1.glsl";
+            break;
+        default:
+            mFragmentShaderPath = GL_NONE;
+            break;
+    }
+
+    LOGD("BaseShaderToySimpleSample::create() mRenderSampleType =%d, mFragmentShaderPath = %s",
+         mRenderSampleType, mFragmentShaderPath)
+
+    if(mFragmentShaderPath == GL_NONE){
+         LOGD("BaseShaderToySimpleSample::create() mFragmentShaderPath == GL_NONE 直接return")
+        return;
+    }
+
     // 用于普通渲染的片段着色器脚本，简单纹理映射
     FRAGMENT_SHADER = GLUtils::openTextFile(mFragmentShaderPath);
 
@@ -91,15 +118,29 @@ void BaseShaderToySimpleSample::draw() {
 
     glBindVertexArray(m_VaoId);
 
-    static int sFrameIndex = 0;
-    sFrameIndex++;
-
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
 
-    float time = sFrameIndex * 0.04f;
-    LOGD("BaseShaderToySimpleSample::Draw() time=%f", time)
-    // 控制输入时间周期为 2000ms
-    glUniform1f(iTime, time);
+    // 根据特效的不同类型，传递不同的iTime给片段着色器
+    switch(mRenderSampleType){
+        case SAMPLE_TYPE_KEY_SHADER_TOY_BEATING_HEART: {
+            auto time = static_cast<float>(fmod(GetSysCurrentTime(), 2000) / 2000);
+            LOGD("BeatingHeartSample::Draw() time=%f", time)
+            // 控制输入时间周期为 2000ms
+            glUniform1f(iTime, time);
+            break;
+        }
+        case SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD:
+        case SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH:
+        case SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY:{
+            static int sFrameIndex = 0;
+            sFrameIndex++;
+            float time2 = sFrameIndex * 0.04f;
+            LOGD("BaseShaderToySimpleSample::Draw() time=%f", time2)
+            // 控制输入时间周期为 2000ms
+            glUniform1f(iTime, time2);
+            break;
+        }
+    }
     // 输入屏幕的尺寸
     glUniform2f(iResolution, mWidth, mHeight);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
@@ -115,8 +156,10 @@ void BaseShaderToySimpleSample::shutdown() {
 
 
 void
-BaseShaderToySimpleSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float ratio) const {
-    LOGD("BaseShaderToySimpleSample::UpdateMVPMatrix angleX = %d, angleY = %d, ratio = %f", angleX, angleY, ratio)
+BaseShaderToySimpleSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY,
+                                           float ratio) const {
+    LOGD("BaseShaderToySimpleSample::UpdateMVPMatrix angleX = %d, angleY = %d, ratio = %f", angleX,
+         angleY, ratio)
     angleX = angleX % 360;
     angleY = angleY % 360;
 

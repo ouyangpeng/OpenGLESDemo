@@ -11,7 +11,7 @@
 class BaseShaderToySimpleSample : public GLBaseSample {
 
 public:
-    BaseShaderToySimpleSample(const char *fragmentShaderPath);
+    BaseShaderToySimpleSample(int renderSampleType);
 
     virtual ~BaseShaderToySimpleSample() = default;
 
@@ -24,6 +24,7 @@ public:
     void UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float ratio) const;
 
 private:
+    int mRenderSampleType;
     const char *mFragmentShaderPath;
 
     GLint m_SamplerLoc;

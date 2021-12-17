@@ -11,30 +11,27 @@ precision highp float;
 // 输出
 layout(location = 0) out vec4 outColor;
 //时间偏移量
-uniform float u_time;
+uniform float iTime;
 //屏幕尺寸 宽和高
-uniform vec2 u_screenSize;
+uniform vec2 iResolution;
 
-void main()
+
+// --------[ Original ShaderToy begins here ]---------- //
+// Created by inigo quilez - iq/2013
+//   https://www.youtube.com/c/InigoQuilez
+//   https://iquilezles.org/
+// I share this piece (art and code) here in Shadertoy and through its Public API, only for educational purposes.
+// You cannot use, sell, share or host this piece or modifications of it as part of your own commercial or non-commercial product, website or project.
+// You can share a link to it or an unmodified screenshot of it provided you attribute "by Inigo Quilez, @iquilezles and iquilezles.org".
+// If you are a teacher, lecturer, educator or similar and these conditions are too restrictive for your needs, please contact me and we'll work it out.
+
+void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
-    // move to center
-    // 关于内建变量 gl_FragCoord ，与屏幕空间坐标相关的视区是由视口设置函数 glViewport 函数给定，
-    // 并且可以通过片段着色器中内置的 gl_FragCoord 变量访问，
-    // gl_FragCoord 的 x 和 y 表示该片段的屏幕空间坐标 ((0，0) 在左下角)，
-    // 其取值范围由 glViewport 函数决定，屏幕空间坐标原点位于左下角。
-
-    // 下面一段代码主要作用是调整坐标系，将原点从左下角移至屏幕坐标系中央，
-    // 这样所有片元的向量 gl_FragCoord.xy 均以屏幕中心为起点，则向量 p 就是屏幕中心与屏幕像素点坐标之间的方向向量。
-    vec2 fragCoord = gl_FragCoord.xy;
     // 先计算了每个像素点到中心的方向,然后再除以屏幕的高度（或宽度）
     // 这样的计算结果可以保存每个像素点距离中心的方向、远近等信息。
-    vec2 p = (2.0 * fragCoord - u_screenSize.xy) / min(u_screenSize.y, u_screenSize.x);
-
-
-
+    vec2 p = (2.0 * fragCoord - iResolution.xy) / min(iResolution.y, iResolution.x);
 
     // background color  计算背景颜色 bcol
-    vec2 uv = fragCoord / u_screenSize;
     // length(p) 表示计算当前片元（像素）与屏幕中心点的距离，
     // 背景颜色以 vec3(1.0,0.8,0.8) 该颜色为基础，距离屏幕越远颜色越暗。
 
@@ -47,15 +44,15 @@ void main()
     // 当然，0.25是经验值，我们可以把这个参数做成shader的一个属性，供调节。
     // vec3(1.0,0.8,0.7-0.07*p.y)中， vec3 ( 1.0 , 0.8 , 0.7)是背景主色调，我们同样可以把它做成一个shader属性。
     // 后面会给出。而在B通道上减去 0.07 * p . y可以当成是一个轻微的效果修正，即在y方向上，可以有些许颜色变化，其中0.07也是一个经验值，可以更改。
-//  vec3 bcol = vec3(1.0,0.8,0.7-0.07*p.y)*(1.0-0.25*length(p));
-    vec3 bcol = vec3(1.0, 0.8, 0.8) * (1.0-0.25 * length(p));
+    vec3 bcol = vec3(1.0,0.8,0.7-0.07*p.y)*(1.0-0.25*length(p));
+//    vec3 bcol = vec3(1.0, 0.8, 0.8) * (1.0-0.25 * length(p));
 
 
 
     // animate
     // 跳动效果的实现，其原理就是对屏幕像素在 x、y 方向进行周期性偏移，偏移幅度由特殊的函数来控制。
-    //u_time 为周期性输入的时间，由C++程序控制输入
-    float tt = u_time;
+    //iTime 为周期性输入的时间，由C++程序控制输入
+    float tt = mod(iTime,1.5)/1.5;
     float ss = pow(tt, 0.2) * 0.5 + 0.5;
     // 控制幅度的函数
     ss = 1.0 + ss * 0.5 * sin(tt * 6.2831 * 3.0 + p.y * 0.5) * exp(-tt * 4.0);
@@ -109,7 +106,7 @@ void main()
 
     // vec3 ( 1.0 , 0.5 * r , 0.3 )完成的是一个简单的由中心向外渐变的颜色，这个渐变色没有考虑心形的约束。
     // s的计算则相对复杂。它用于修正上面的渐变颜色，使得在心形内外的颜色有所区别。
-    vec3 hcol = vec3(1.0, 0.5 * r, 0.3) * s;
+    vec3 hcol = vec3(1.0, 0.4 * r, 0.3) * s;
 
     // 绘制心形的关键函数，hcol 是心的颜色，bcol 是背景色。
 
@@ -123,10 +120,16 @@ void main()
     // 那么为什么这里要使用smoothstep呢？其实是为了使心形的边缘模糊化，更美观。
     // smoothstep控制模糊效果的原理在于，在心形的边界部分，d-r的值在正负0左右波动，
     // 我们可以通过添加一个[-0.01, 0.01]范围内的平缓过渡，来平缓d-r的值在正负交界处的突变。
-    // 当然，我们可以更改0.06的值，来控制模糊范围。
+    // 当然，我们可以更改0.01的值，来控制模糊范围。
 
     // 重要：mix+smoothstep的组合，是实现这种模糊效果的很常见的搭配！
-    vec3 col = mix(bcol, hcol, smoothstep(-0.06, 0.06, d-r));
+    vec3 col = mix(bcol, hcol, smoothstep(-0.01, 0.01, d-r));
 
-    outColor = vec4(col, 1.0);
+    fragColor = vec4(col, 1.0);
+}
+// --------[ Original ShaderToy ends here ]---------- //
+
+void main(void)
+{
+    mainImage(outColor, gl_FragCoord.xy);
 }

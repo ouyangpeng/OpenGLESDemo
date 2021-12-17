@@ -47,7 +47,6 @@
 #include <TimeTunnelSample.h>
 #include <MainSequenceStarSample.h>
 #include <BaseShaderToySimpleSample.h>
-#include <BeatingHeartSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -210,10 +209,10 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 m_pCurSample = new PBOSample();
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_BEATING_HEART:
-                m_pCurSample = new BeatingHeartSample();
+                m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_BEATING_HEART);
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD:
-                m_pCurSample = new BaseShaderToySimpleSample("fragment/fragment_shader_toy_cloud.glsl");
+                m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD);
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_TIME_TUNNEL:
                 m_pCurSample = new TimeTunnelSample();
@@ -222,10 +221,10 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 m_pCurSample = new MainSequenceStarSample();
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH:
-                m_pCurSample = new BaseShaderToySimpleSample("fragment/fragment_shader_toy_sky_path.glsl");
+                m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH);
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY:
-                m_pCurSample = new BaseShaderToySimpleSample("fragment/fragment_shader_toy_a_day_1.glsl");
+                m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY);
                 break;
             default:
                 throw MyGLException(
