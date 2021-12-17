@@ -45,7 +45,6 @@
 #include <SkyBoxSample.h>
 #include <PBOSample.h>
 #include <TimeTunnelSample.h>
-#include <MainSequenceStarSample.h>
 #include <BaseShaderToySimpleSample.h>
 
 // 自定义异常
@@ -218,7 +217,7 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 m_pCurSample = new TimeTunnelSample();
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR:
-                m_pCurSample = new MainSequenceStarSample();
+                m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR);
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH:
                 m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH);

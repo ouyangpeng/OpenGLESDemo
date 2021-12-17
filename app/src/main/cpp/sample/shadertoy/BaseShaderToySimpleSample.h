@@ -8,12 +8,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <GLBaseSample.h>
 
+#define MAIN_SEQUENCE_STAR_RENDER_IMG_NUM 4
+
 class BaseShaderToySimpleSample : public GLBaseSample {
 
 public:
     BaseShaderToySimpleSample(int renderSampleType);
 
-    virtual ~BaseShaderToySimpleSample() = default;
+    virtual ~BaseShaderToySimpleSample();
 
     virtual void create();
 
@@ -21,9 +23,17 @@ public:
 
     virtual void shutdown();
 
+    virtual void LoadMultiImageWithIndex(int index, NativeImage *pImage);
+
     void UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float ratio) const;
 
 private:
+    // Texture handle
+    GLuint m_TextureIds[MAIN_SEQUENCE_STAR_RENDER_IMG_NUM];
+    NativeImage m_RenderImages[MAIN_SEQUENCE_STAR_RENDER_IMG_NUM];
+    GLint m_SamplerLocIChannels[MAIN_SEQUENCE_STAR_RENDER_IMG_NUM];
+    bool hasTexture;
+
     int mRenderSampleType;
     const char *mFragmentShaderPath;
 
@@ -32,7 +42,7 @@ private:
     GLint iResolution;
     GLint m_MVPMatLoc;
     GLuint m_VaoId;
-    GLuint m_VboIds[2];
+    GLuint m_VboIds[3];
     glm::mat4 m_MVPMatrix;
 
     int m_AngleX;

@@ -2,13 +2,16 @@
 precision highp float;
 
 // 着色器在ShaderToy 官网的地址： https://www.shadertoy.com/view/4dXGR4
+// 主序星是什么 https://www.tanmizhi.com/html/9001.html
 
 layout(location = 0) out vec4 outColor;
 
-uniform vec2 u_screenSize;
-uniform float u_time;
+uniform vec2 iResolution;
+uniform float iTime;
 uniform sampler2D iChannel0;
 uniform sampler2D iChannel1;
+
+// --------[ Original ShaderToy begins here ]---------- //
 
 // based on https://www.shadertoy.com/view/lsf3RH by
 // trisomie21 (THANKS!)
@@ -39,11 +42,8 @@ float snoise(vec3 uv, float res)	// by trisomie21
 
 float freqs[4];
 
-void main()
+void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
-    vec2 fragCoord = gl_FragCoord.xy;
-
-
     freqs[0] = texture( iChannel1, vec2( 0.01, 0.25 ) ).x;
     freqs[1] = texture( iChannel1, vec2( 0.07, 0.25 ) ).x;
     freqs[2] = texture( iChannel1, vec2( 0.15, 0.25 ) ).x;
@@ -55,9 +55,9 @@ void main()
 
     vec3 orange			= vec3( 0.8, 0.65, 0.3 );
     vec3 orangeRed		= vec3( 0.8, 0.35, 0.1 );
-    float time		= u_time * 0.1;
-    float aspect	= u_screenSize.x/u_screenSize.y;
-    vec2 uv			= fragCoord.xy / u_screenSize.xy;
+    float time		= iTime * 0.1;
+    float aspect	= iResolution.x/iResolution.y;
+    vec2 uv			= fragCoord.xy / iResolution.xy;
     vec2 p 			= -0.5 + uv;
     p.x *= aspect;
 
@@ -104,7 +104,12 @@ void main()
     }
 
     float starGlow	= min( max( 1.0 - dist * ( 1.0 - brightness ), 0.0 ), 1.0 );
-    outColor.rgb	= vec3( f * ( 0.75 + brightness * 0.3 ) * orange ) + starSphere + corona * orange + starGlow * orangeRed;
-    outColor.a		= 1.0;
+    fragColor.rgb	= vec3( f * ( 0.75 + brightness * 0.3 ) * orange ) + starSphere + corona * orange + starGlow * orangeRed;
+    fragColor.a		= 1.0;
 }
 
+// --------[ Original ShaderToy ends here ]---------- //
+void main(void)
+{
+    mainImage(outColor, gl_FragCoord.xy);
+}
