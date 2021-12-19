@@ -16,8 +16,10 @@ TextureMapSample::~TextureMapSample() {
 void TextureMapSample::create() {
     GLUtils::printGLInfo();
 
+    // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_texture_map.glsl");
+    // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_map.glsl");
     mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);

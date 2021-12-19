@@ -13,8 +13,10 @@ void SimpleTextureCubeMap::create() {
     GLUtils::printGLInfo();
 
     // Main Program
+    // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_simple_texture_cubemap.glsl");
+    // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_simple_texture_cubemap.glsl");
 

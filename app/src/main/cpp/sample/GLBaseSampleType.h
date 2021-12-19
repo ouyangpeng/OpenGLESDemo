@@ -62,6 +62,7 @@
 #define SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY                            SAMPLE_TYPE + 45
 #define SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST           SAMPLE_TYPE + 46
 #define SAMPLE_TYPE_KEY_BEZIER_CURVE                                SAMPLE_TYPE + 47
+#define SAMPLE_TYPE_KEY_BIG_EYES                                    SAMPLE_TYPE + 48
 
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

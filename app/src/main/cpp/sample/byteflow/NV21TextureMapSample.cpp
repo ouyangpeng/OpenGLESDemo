@@ -35,8 +35,10 @@ void NV21TextureMapSample::LoadImage(NativeImage *pImage) {
 void NV21TextureMapSample::create() {
     GLUtils::printGLInfo();
 
+    // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_texture_map.glsl");
+    // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_yuv_render.glsl");
     mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);

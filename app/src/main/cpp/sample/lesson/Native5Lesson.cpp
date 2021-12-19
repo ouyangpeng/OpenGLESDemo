@@ -25,7 +25,9 @@ void Native5Lesson::create() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Main Program
+    // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile("vertex/vertex_shader_lesson_5.glsl");
+    // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile("fragment/fragment_shader_lesson_5.glsl");
 
     // Set program handles

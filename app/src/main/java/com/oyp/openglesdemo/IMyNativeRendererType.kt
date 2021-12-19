@@ -64,5 +64,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY                                   = SAMPLE_TYPE + 45
     const val SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST                  = SAMPLE_TYPE + 46
     const val SAMPLE_TYPE_KEY_BEZIER_CURVE                                       = SAMPLE_TYPE + 47
+    const val SAMPLE_TYPE_KEY_BIG_EYES                                           = SAMPLE_TYPE + 48
 
 }

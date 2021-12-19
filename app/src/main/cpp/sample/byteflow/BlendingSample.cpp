@@ -44,8 +44,10 @@ void BlendingSample::create() {
         glBindTexture(GL_TEXTURE_2D, GL_NONE);
     }
 
+    // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_blending.glsl");
+    // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_map.glsl");
     mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);

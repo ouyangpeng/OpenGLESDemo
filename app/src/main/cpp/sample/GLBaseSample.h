@@ -54,12 +54,28 @@ public:
     virtual void UpdateTransformMatrix(float rotateX, float rotateY, float scaleX, float scaleY) {}
 
 protected:
+    /**
+     * 程序对象
+     */
     GLuint mProgram;
-    int mWidth;
-    int mHeight;
 
+    /**
+     * 顶点着色器
+     */
     const char *VERTEX_SHADER;
+    /**
+     * 片段着色器脚本
+     */
     const char *FRAGMENT_SHADER;
+
+    /**
+     * 屏幕宽度
+     */
+    int mWidth;
+    /**
+     * 屏幕高度
+     */
+    int mHeight;
 };
 
 

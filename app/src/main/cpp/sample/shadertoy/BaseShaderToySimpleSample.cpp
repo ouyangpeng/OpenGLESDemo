@@ -36,7 +36,7 @@ BaseShaderToySimpleSample::~BaseShaderToySimpleSample() {
 }
 
 void BaseShaderToySimpleSample::create() {
-    // 编译链接用于普通渲染的着色器程序
+    // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_beating_heart.glsl");
 
@@ -72,7 +72,7 @@ void BaseShaderToySimpleSample::create() {
         return;
     }
 
-    // 用于普通渲染的片段着色器脚本，简单纹理映射
+    // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(mFragmentShaderPath);
 
     mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);

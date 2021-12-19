@@ -8,7 +8,9 @@ void Native6Lesson::create() {
     glEnable(GL_DEPTH_TEST);
 
     // Main Program
+    // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile("vertex/vertex_shader_lesson_6.glsl");
+    // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile("fragment/fragment_shader_lesson_6.glsl");
 
     // Set program handles

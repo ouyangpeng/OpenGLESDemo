@@ -55,9 +55,10 @@ Native1Lesson::~Native1Lesson() = default;
 void Native1Lesson::create() {
 	GLUtils::printGLInfo();
 
-	// Main Program
+	// 顶点着色器
 	VERTEX_SHADER = GLUtils::openTextFile(
 			"vertex/vertex_shader_lesson_1.glsl");
+	// 片段着色器
 	FRAGMENT_SHADER = GLUtils::openTextFile(
 			"fragment/fragment_shader_lesson_1.glsl");
 

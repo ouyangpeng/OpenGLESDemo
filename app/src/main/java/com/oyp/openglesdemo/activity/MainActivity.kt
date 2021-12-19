@@ -438,6 +438,12 @@ class MainActivity : Activity() {
         data.add(itemBezierCurve)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BEZIER_CURVE)
 
+        val itemBigEyes: MutableMap<String, Any?> = HashMap()
+        itemBigEyes[ITEM_IMAGE] = R.mipmap.ic_big_eyes
+        itemBigEyes[ITEM_TITLE] = "展示 一个随着时间变化逐渐放大眼睛的效果 "
+        itemBigEyes[ITEM_SUBTITLE] = "学习如何实现 大眼效果"
+        data.add(itemBigEyes)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_EYES)
 
     }
 

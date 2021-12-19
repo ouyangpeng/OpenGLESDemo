@@ -8,9 +8,11 @@
 void MRT::create() {
 	GLUtils::printGLInfo();
 
-// Main Program
+	// Main Program
+	// 顶点着色器
 	VERTEX_SHADER = GLUtils::openTextFile(
 			"vertex/vertex_shader_mrt.glsl");
+	// 片段着色器
 	FRAGMENT_SHADER = GLUtils::openTextFile(
 			"fragment/fragment_shader_mrt.glsl");
 

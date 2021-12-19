@@ -47,6 +47,7 @@
 #include <TimeTunnelSample.h>
 #include <BaseShaderToySimpleSample.h>
 #include <BezierCurveSample.h>
+#include <BigEyesSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -231,6 +232,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_BEZIER_CURVE:
                 m_pCurSample = new BezierCurveSample();
+                break;
+            case SAMPLE_TYPE_KEY_BIG_EYES:
+                m_pCurSample = new BigEyesSample();
                 break;
             default:
                 m_pCurSample = nullptr;
