@@ -2,6 +2,7 @@
 // Created by OuyangPeng on 2021/11/26.
 //
 #include "MyGLRenderContext.h"
+#include "FaceSlenderSample.h"
 #include <exception>
 #include <SimpleTexture2D.h>
 #include <NativeTriangle.h>
@@ -48,6 +49,7 @@
 #include <BaseShaderToySimpleSample.h>
 #include <BezierCurveSample.h>
 #include <BigEyesSample.h>
+#include <FaceSlenderSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -235,6 +237,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_BIG_EYES:
                 m_pCurSample = new BigEyesSample();
+                break;
+            case SAMPLE_TYPE_KEY_FACE_SLENDER:
+                m_pCurSample = new FaceSlenderSample();
                 break;
             default:
                 m_pCurSample = nullptr;

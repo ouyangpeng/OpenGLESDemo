@@ -445,6 +445,12 @@ class MainActivity : Activity() {
         data.add(itemBigEyes)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_EYES)
 
+        val itemFaceSlender: MutableMap<String, Any?> = HashMap()
+        itemFaceSlender[ITEM_IMAGE] = R.mipmap.ic_face_slender
+        itemFaceSlender[ITEM_TITLE] = "展示 一个随着时间变化逐渐瘦脸的效果 "
+        itemFaceSlender[ITEM_SUBTITLE] = "学习如何实现 瘦脸效果"
+        data.add(itemFaceSlender)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_FACE_SLENDER)
     }
 
     companion object {
