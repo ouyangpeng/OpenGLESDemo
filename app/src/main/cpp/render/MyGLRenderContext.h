@@ -40,6 +40,8 @@ public:
 
     void UpdateTransformMatrix(jfloat d, jfloat d1, jfloat d2, jfloat d3);
 
+    void SetAudioData(short *buffer, int len);
+
 private:
     static MyGLRenderContext *m_pContext;
     GLBaseSample *m_pBeforeSample;

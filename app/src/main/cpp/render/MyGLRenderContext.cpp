@@ -52,6 +52,7 @@
 #include <FaceSlenderSample.h>
 #include <BigHeadSample.h>
 #include <RotaryHeadSample.h>
+#include <VisualizeAudioSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -249,6 +250,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
             case SAMPLE_TYPE_KEY_RATARY_HEAD:
                 m_pCurSample = new RotaryHeadSample();
                 break;
+            case SAMPLE_TYPE_KEY_VISUALIZE_AUDIO:
+                m_pCurSample = new VisualizeAudioSample();
+                break;
             default:
                 m_pCurSample = nullptr;
                 break;
@@ -385,6 +389,14 @@ MyGLRenderContext::UpdateTransformMatrix(float rotateX, float rotateY, float sca
          rotateX, rotateY, scaleX, scaleY)
     if (m_pCurSample) {
         m_pCurSample->UpdateTransformMatrix(rotateX, rotateY, scaleX, scaleY);
+    }
+}
+
+void MyGLRenderContext::SetAudioData(short *buffer, int len) {
+    LOGD("MyGLRenderContext::SetAudioData buffer=%p, len=%d, buffer[0]=%d", buffer, len, buffer[0]);
+    if(m_pCurSample)
+    {
+        m_pCurSample->LoadAudioData(buffer, len);
     }
 }
 

@@ -53,6 +53,8 @@ public:
 
     virtual void UpdateTransformMatrix(float rotateX, float rotateY, float scaleX, float scaleY) {}
 
+    virtual void LoadAudioData(short *buffer, int len) {}
+
 protected:
     /**
      * 程序对象

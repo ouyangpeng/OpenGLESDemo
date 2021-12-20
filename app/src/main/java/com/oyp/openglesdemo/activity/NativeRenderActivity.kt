@@ -1,10 +1,12 @@
 package com.oyp.openglesdemo.activity
 
+import android.Manifest
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.opengl.GLES20
@@ -16,14 +18,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.oyp.openglesdemo.*
 import com.oyp.openglesdemo.IMyNativeRendererType
+import com.oyp.openglesdemo.audio.AudioCollector
 import com.oyp.openglesdemo.render.MyNativeRenderer
 import java.io.IOException
 import java.io.InputStream
 import java.nio.ByteBuffer
 
-class NativeRenderActivity : Activity() {
+class NativeRenderActivity : Activity(), AudioCollector.Callback {
 
     private var mMinSetting = -1
     private var mMagSetting = -1
@@ -35,6 +39,11 @@ class NativeRenderActivity : Activity() {
         private const val MIN_SETTING = "min_setting"
         private const val MAG_SETTING = "mag_setting"
         private const val TAG: String = "NativeRenderActivity"
+
+        private val REQUEST_PERMISSIONS = arrayOf(
+            Manifest.permission.RECORD_AUDIO
+        )
+        private const val PERMISSION_REQUEST_CODE = 1
     }
 
     private var mRootView: ViewGroup? = null
@@ -47,6 +56,9 @@ class NativeRenderActivity : Activity() {
     private var renderer: MyNativeRenderer? = null
 
     var type = IMyNativeRendererType.SAMPLE_TYPE
+
+
+    private var mAudioCollector: AudioCollector? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,18 +127,18 @@ class NativeRenderActivity : Activity() {
                 loadRGBAImageFromAssets("texture/yangchaoyue.png")
             }
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FACE_SLENDER,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_EYES ->{
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_EYES -> {
                 val bitmap = loadRGBAImageFromRes(R.mipmap.yifei)
                 bitmap?.let {
-                    mGLSurfaceView?.setAspectRatio(it.width,it.height)
+                    mGLSurfaceView?.setAspectRatio(it.width, it.height)
                 }
             }
 
             IMyNativeRendererType.SAMPLE_TYPE_KEY_RATARY_HEAD,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_HEAD ->{
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_HEAD -> {
                 val bitmap = loadRGBAImageFromRes(R.mipmap.huge)
                 bitmap?.let {
-                    mGLSurfaceView?.setAspectRatio(it.width,it.height)
+                    mGLSurfaceView?.setAspectRatio(it.width, it.height)
                 }
             }
 
@@ -145,7 +157,7 @@ class NativeRenderActivity : Activity() {
                 loadRGBAImageFromResWithIndex(R.mipmap.window, 2)
             }
 
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR ->{
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR -> {
                 loadRGBAImageFromResWithIndex(R.mipmap.main_sequence_start_bg0, 0)
                 loadRGBAImageFromResWithIndex(R.mipmap.main_sequence_start_bg1, 1)
             }
@@ -194,6 +206,7 @@ class NativeRenderActivity : Activity() {
             IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_EYES,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_HEAD,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_RATARY_HEAD,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
                 it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
@@ -279,12 +292,64 @@ class NativeRenderActivity : Activity() {
         // The activity must call the GL surface view's onResume() on activity onResume().
         super.onResume()
         mGLSurfaceView?.onResume()
+        if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO) {
+            if (!hasPermissionsGranted(REQUEST_PERMISSIONS)) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    REQUEST_PERMISSIONS,
+                    PERMISSION_REQUEST_CODE
+                )
+            } else {
+                if (mAudioCollector == null) {
+                    mAudioCollector = AudioCollector()
+                    mAudioCollector!!.addCallback(this@NativeRenderActivity)
+                    mAudioCollector!!.init()
+                }
+            }
+        }
     }
+
+    private fun hasPermissionsGranted(permissions: Array<String>): Boolean {
+        for (permission in permissions) {
+            if (ActivityCompat.checkSelfPermission(this, permission)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                return false
+            }
+        }
+        return true
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (!hasPermissionsGranted(REQUEST_PERMISSIONS)) {
+                Toast.makeText(
+                    this,
+                    "We need the permission: RECORD_AUDIO",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+
 
     override fun onPause() {
         // The activity must call the GL surface view's onPause() on activity onPause().
         super.onPause()
         mGLSurfaceView?.onPause()
+
+        if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO) {
+            if (mAudioCollector != null) {
+                mAudioCollector!!.unInit()
+                mAudioCollector = null
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -470,6 +535,13 @@ class NativeRenderActivity : Activity() {
                     Log.e(TAG, e.stackTraceToString())
                 }
             }
+        }
+    }
+
+    override fun onAudioBufferCallback(buffer: ShortArray?) {
+        if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO) {
+            Log.e(TAG, "onAudioBufferCallback() called with: buffer[0] = [" + buffer!![0] + "]")
+            renderer?.setAudioData(buffer)
         }
     }
 }

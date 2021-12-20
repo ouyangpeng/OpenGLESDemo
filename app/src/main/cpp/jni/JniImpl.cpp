@@ -98,6 +98,18 @@ Java_com_oyp_openglesdemo_render_MyNativeRenderer_nativeUpdateTransformMatrix(
     MyGLRenderContext::GetInstance()->UpdateTransformMatrix(rotateX, rotateY, scaleX, scaleY);
 }
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_oyp_openglesdemo_render_MyNativeRenderer_nativeSetAudioData(
+        JNIEnv *env, jobject thiz,jshortArray audio_data) {
+    int len = env->GetArrayLength(audio_data);
+    auto *pShortBuf = new short[len];
+    env->GetShortArrayRegion(audio_data, 0, len, reinterpret_cast<jshort*>(pShortBuf));
+    MyGLRenderContext::GetInstance()->SetAudioData(pShortBuf, len);
+    delete[] pShortBuf;
+    env->DeleteLocalRef(audio_data);
+}
+
 ////////////////////////////////////////////   EGL 渲染相关 ////////////////////////////////////////////////////////////////////
 
 extern "C"

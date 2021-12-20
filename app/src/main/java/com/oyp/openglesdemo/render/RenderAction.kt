@@ -12,4 +12,6 @@ interface RenderAction {
     fun setImageDataWithIndex(index: Int, format: Int, width: Int, height: Int, imageData: ByteArray)
 
     fun updateTransformMatrix(rotateX: Float, rotateY: Float, scaleX: Float, scaleY: Float)
+
+    fun setAudioData(audioData: ShortArray)
 }

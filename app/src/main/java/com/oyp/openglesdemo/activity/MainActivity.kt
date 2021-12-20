@@ -465,6 +465,13 @@ class MainActivity : Activity() {
         itemRataryHead[ITEM_SUBTITLE] = "学习如何实现 头部晃动效果"
         data.add(itemRataryHead)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_RATARY_HEAD)
+
+        val itemVisualizeAudio: MutableMap<String, Any?> = HashMap()
+        itemVisualizeAudio[ITEM_IMAGE] = R.mipmap.ic_visual_audio
+        itemVisualizeAudio[ITEM_TITLE] = "展示 一个 可视化实时音频 的效果 "
+        itemVisualizeAudio[ITEM_SUBTITLE] = "学习如何实现 可视化实时音频 效果"
+        data.add(itemVisualizeAudio)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO)
     }
 
     companion object {

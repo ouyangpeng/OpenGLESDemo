@@ -15,6 +15,7 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
         System.loadLibrary("ouyangpeng-opengles-lib")
     }
 
+    ////////////////////////////////// Native 方法///////////////////////////////////////
     // 通用的
     private external fun nativeSurfaceCreate(assetManager: AssetManager)
     private external fun nativeSurfaceChange(width: Int, height: Int)
@@ -52,6 +53,9 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
         scaleY: Float
     )
 
+    private external fun nativeSetAudioData(audioData: ShortArray)
+
+    ////////////////////////////////// Java 方法///////////////////////////////////////
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         val assetManager: AssetManager = mActivity.assets
@@ -119,5 +123,9 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
         scaleY: Float
     ) {
         nativeUpdateTransformMatrix(rotateX, rotateY, scaleX, scaleY)
+    }
+
+    override fun setAudioData(audioData: ShortArray) {
+        nativeSetAudioData(audioData)
     }
 }
