@@ -458,6 +458,13 @@ class MainActivity : Activity() {
         itemBigHead[ITEM_SUBTITLE] = "学习如何实现 大头效果"
         data.add(itemBigHead)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_HEAD)
+
+        val itemRataryHead: MutableMap<String, Any?> = HashMap()
+        itemRataryHead[ITEM_IMAGE] = R.mipmap.ic_big_head
+        itemRataryHead[ITEM_TITLE] = "展示 一个随着时间变化头部跟着晃动的效果 "
+        itemRataryHead[ITEM_SUBTITLE] = "学习如何实现 头部晃动效果"
+        data.add(itemRataryHead)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_RATARY_HEAD)
     }
 
     companion object {

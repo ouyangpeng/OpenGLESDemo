@@ -51,6 +51,7 @@
 #include <BigEyesSample.h>
 #include <FaceSlenderSample.h>
 #include <BigHeadSample.h>
+#include <RotaryHeadSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -244,6 +245,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_BIG_HEAD:
                 m_pCurSample = new BigHeadSample();
+                break;
+            case SAMPLE_TYPE_KEY_RATARY_HEAD:
+                m_pCurSample = new RotaryHeadSample();
                 break;
             default:
                 m_pCurSample = nullptr;

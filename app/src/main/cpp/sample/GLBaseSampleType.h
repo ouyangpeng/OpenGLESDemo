@@ -65,6 +65,7 @@
 #define SAMPLE_TYPE_KEY_BIG_EYES                                    SAMPLE_TYPE + 48
 #define SAMPLE_TYPE_KEY_FACE_SLENDER                                SAMPLE_TYPE + 49
 #define SAMPLE_TYPE_KEY_BIG_HEAD                                    SAMPLE_TYPE + 50
+#define SAMPLE_TYPE_KEY_RATARY_HEAD                                 SAMPLE_TYPE + 51
 
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H
