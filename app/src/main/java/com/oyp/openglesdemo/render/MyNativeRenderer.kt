@@ -55,6 +55,8 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
 
     private external fun nativeSetAudioData(audioData: ShortArray)
 
+    private external fun nativeSetTouchLocation(x: Float, y: Float)
+
     ////////////////////////////////// Java 方法///////////////////////////////////////
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
@@ -127,5 +129,9 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
 
     override fun setAudioData(audioData: ShortArray) {
         nativeSetAudioData(audioData)
+    }
+
+    override fun setTouchLocation(x: Float, y: Float) {
+        nativeSetTouchLocation(x,y)
     }
 }

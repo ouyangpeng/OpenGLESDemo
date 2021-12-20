@@ -62,26 +62,41 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
             Log.d(TAG, "event.pointerCount == 1")
             val currentTimeMillis = System.currentTimeMillis()
             if (currentTimeMillis - mLastMultiTouchTime > 200) {
-                val x = event.x
-                val y = event.y
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    if (mRenderer.mSampleType == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FIVE) {
-                        // Ensure we call switchMode() on the OpenGL thread.
-                        // queueEvent() is a method of GLSurfaceView that will do this for us.
-                        queueEvent { mRenderer.switchBlendingMode() }
-                        return true
-                    }
-                } else if (event.action == MotionEvent.ACTION_MOVE) {
-                    val deltaX = (x - mPreviousX) / mDensity / 2
-                    val deltaY = (y - mPreviousY) / mDensity / 2
-                    if (mRenderer.mSampleType == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX) {
-                        mRenderer.setDelta(deltaX, deltaY)
+                var x: Float = -1.0f
+                var y: Float = -1.0f
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        if (mRenderer.mSampleType == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FIVE) {
+                            // Ensure we call switchMode() on the OpenGL thread.
+                            // queueEvent() is a method of GLSurfaceView that will do this for us.
+                            queueEvent { mRenderer.switchBlendingMode() }
+                            return true
+                        }
                     }
 
-                    val dy = y - mPreviousY
-                    val dx = x - mPreviousX
-                    mYAngle += (dx * TOUCH_SCALE_FACTOR).toInt()
-                    mXAngle += (dy * TOUCH_SCALE_FACTOR).toInt()
+                    MotionEvent.ACTION_MOVE -> {
+                        x = event.x
+                        y = event.y
+                        val deltaX = (x - mPreviousX) / mDensity / 2
+                        val deltaY = (y - mPreviousY) / mDensity / 2
+                        if (mRenderer.mSampleType == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_SIX) {
+                            mRenderer.setDelta(deltaX, deltaY)
+                        } else if (mRenderer.mSampleType == IMyNativeRendererType.SAMPLE_TYPE_KEY_SCRATCH_CARD) {
+                            mRenderer.setTouchLocation(x, y)
+                            // 重新请求绘制
+                            requestRender()
+                        }
+
+                        val dy = y - mPreviousY
+                        val dx = x - mPreviousX
+                        mYAngle += (dx * TOUCH_SCALE_FACTOR).toInt()
+                        mXAngle += (dy * TOUCH_SCALE_FACTOR).toInt()
+                    }
+
+                    MotionEvent.ACTION_CANCEL -> {
+                        x = -1.0f
+                        y = -1.0f
+                    }
                 }
 
                 mPreviousX = x

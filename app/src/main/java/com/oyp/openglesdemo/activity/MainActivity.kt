@@ -472,6 +472,13 @@ class MainActivity : Activity() {
         itemVisualizeAudio[ITEM_SUBTITLE] = "学习如何实现 可视化实时音频 效果"
         data.add(itemVisualizeAudio)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO)
+
+        val itemScratchCard: MutableMap<String, Any?> = HashMap()
+        itemScratchCard[ITEM_IMAGE] = R.mipmap.ic_scratch_card
+        itemScratchCard[ITEM_TITLE] = "展示 一个 刮刮卡 的效果 "
+        itemScratchCard[ITEM_SUBTITLE] = "学习如何实现 刮刮卡 效果"
+        data.add(itemScratchCard)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SCRATCH_CARD)
     }
 
     companion object {

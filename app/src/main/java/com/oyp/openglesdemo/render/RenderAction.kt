@@ -14,4 +14,6 @@ interface RenderAction {
     fun updateTransformMatrix(rotateX: Float, rotateY: Float, scaleX: Float, scaleY: Float)
 
     fun setAudioData(audioData: ShortArray)
+
+    fun setTouchLocation(x: Float, y: Float)
 }

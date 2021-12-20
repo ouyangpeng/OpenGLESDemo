@@ -126,6 +126,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback {
                 // 从assets目录加载图片
                 loadRGBAImageFromAssets("texture/yangchaoyue.png")
             }
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SCRATCH_CARD,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FACE_SLENDER,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_EYES -> {
                 val bitmap = loadRGBAImageFromRes(R.mipmap.yifei)

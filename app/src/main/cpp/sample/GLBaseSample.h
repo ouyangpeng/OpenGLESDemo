@@ -55,6 +55,8 @@ public:
 
     virtual void LoadAudioData(short *buffer, int len) {}
 
+    virtual void SetTouchLocation(jfloat x, jfloat y) {}
+
 protected:
     /**
      * 程序对象

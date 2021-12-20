@@ -42,6 +42,8 @@ public:
 
     void SetAudioData(short *buffer, int len);
 
+    void SetTouchLocation(jfloat x, jfloat y);
+
 private:
     static MyGLRenderContext *m_pContext;
     GLBaseSample *m_pBeforeSample;

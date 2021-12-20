@@ -53,6 +53,7 @@
 #include <BigHeadSample.h>
 #include <RotaryHeadSample.h>
 #include <VisualizeAudioSample.h>
+#include <ScratchCardSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -60,7 +61,7 @@ struct MyGLException : public std::exception {
     std::runtime_error m;
 
 public:
-    explicit MyGLException(const std::string& msg) : m(msg) {}
+    explicit MyGLException(const std::string &msg) : m(msg) {}
 
     const char *what() const noexcept override {
         return m.what();
@@ -215,7 +216,8 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 m_pCurSample = new PBOSample();
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_BEATING_HEART:
-                m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_BEATING_HEART);
+                m_pCurSample = new BaseShaderToySimpleSample(
+                        SAMPLE_TYPE_KEY_SHADER_TOY_BEATING_HEART);
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD:
                 m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_CLOUD);
@@ -224,7 +226,8 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 m_pCurSample = new TimeTunnelSample();
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR:
-                m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR);
+                m_pCurSample = new BaseShaderToySimpleSample(
+                        SAMPLE_TYPE_KEY_SHADER_TOY_MAIN_SEQUENCE_STAR);
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH:
                 m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_SKY_PATH);
@@ -233,7 +236,8 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_A_DAY);
                 break;
             case SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST:
-                m_pCurSample = new BaseShaderToySimpleSample(SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST);
+                m_pCurSample = new BaseShaderToySimpleSample(
+                        SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST);
                 break;
             case SAMPLE_TYPE_KEY_BEZIER_CURVE:
                 m_pCurSample = new BezierCurveSample();
@@ -253,11 +257,14 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
             case SAMPLE_TYPE_KEY_VISUALIZE_AUDIO:
                 m_pCurSample = new VisualizeAudioSample();
                 break;
+            case SAMPLE_TYPE_KEY_SCRATCH_CARD:
+                m_pCurSample = new ScratchCardSample();
+                break;
             default:
                 m_pCurSample = nullptr;
                 break;
         }
-        if(m_pCurSample == nullptr){
+        if (m_pCurSample == nullptr) {
             throw MyGLException(
                     "MyGLRenderContext::SetRenderType() 请注意：你应该忘记初始化你要展示的Sample类型 ，请补上初始化的代码，否则无法渲染");
         }
@@ -394,9 +401,15 @@ MyGLRenderContext::UpdateTransformMatrix(float rotateX, float rotateY, float sca
 
 void MyGLRenderContext::SetAudioData(short *buffer, int len) {
     LOGD("MyGLRenderContext::SetAudioData buffer=%p, len=%d, buffer[0]=%d", buffer, len, buffer[0]);
-    if(m_pCurSample)
-    {
+    if (m_pCurSample) {
         m_pCurSample->LoadAudioData(buffer, len);
+    }
+}
+
+void MyGLRenderContext::SetTouchLocation(jfloat x, jfloat y) {
+    LOGD("MyGLRenderContext::SetTouchLocation x=%f, y=%f", x, y);
+    if (m_pCurSample) {
+        m_pCurSample->SetTouchLocation(x, y);
     }
 }
 

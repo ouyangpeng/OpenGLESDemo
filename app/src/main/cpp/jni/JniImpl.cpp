@@ -110,6 +110,12 @@ Java_com_oyp_openglesdemo_render_MyNativeRenderer_nativeSetAudioData(
     env->DeleteLocalRef(audio_data);
 }
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_oyp_openglesdemo_render_MyNativeRenderer_nativeSetTouchLocation(
+        JNIEnv *env, jobject thiz,jfloat x, jfloat y) {
+    MyGLRenderContext::GetInstance()->SetTouchLocation(x, y);
+}
 ////////////////////////////////////////////   EGL 渲染相关 ////////////////////////////////////////////////////////////////////
 
 extern "C"
