@@ -122,6 +122,13 @@ class NativeRenderActivity : Activity() {
                 }
             }
 
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_HEAD ->{
+                val bitmap = loadRGBAImageFromRes(R.mipmap.huge)
+                bitmap?.let {
+                    mGLSurfaceView?.setAspectRatio(it.width,it.height)
+                }
+            }
+
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG -> {
                 // 从assets目录加载图片
                 loadRGBAImageFromAssets("texture/leg.jpg")
@@ -184,6 +191,7 @@ class NativeRenderActivity : Activity() {
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_TIME_TUNNEL,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FACE_SLENDER,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_EYES,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_HEAD,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
                 it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY

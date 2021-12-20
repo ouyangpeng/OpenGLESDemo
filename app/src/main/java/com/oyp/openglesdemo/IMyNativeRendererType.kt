@@ -66,5 +66,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_BEZIER_CURVE                                       = SAMPLE_TYPE + 47
     const val SAMPLE_TYPE_KEY_BIG_EYES                                           = SAMPLE_TYPE + 48
     const val SAMPLE_TYPE_KEY_FACE_SLENDER                                       = SAMPLE_TYPE + 49
+    const val SAMPLE_TYPE_KEY_BIG_HEAD                                           = SAMPLE_TYPE + 50
 
 }
