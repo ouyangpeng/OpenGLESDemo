@@ -38,20 +38,20 @@
 
 
 #define FUN_BEGIN_TIME(FUN) {\
-    LOGE("[%s] func start", FUN); \
+    LOGI("[%s] func start", FUN); \
     long long t0 = GetSysCurrentTime();
 
 #define FUN_END_TIME(FUN) \
     long long t1 = GetSysCurrentTime(); \
-    LOGE("[%s] func cost time %ldms", FUN, (long)(t1-t0));}
+    LOGI("[%s] func cost time %ldms", FUN, (long)(t1-t0));}
 
 #define BEGIN_TIME(FUN) {\
-    LOGE("[%s] func start", FUN); \
+    LOGI("[%s] func start", FUN); \
     long long t0 = GetSysCurrentTime();
 
 #define END_TIME(FUN) \
     long long t1 = GetSysCurrentTime(); \
-    LOGE("[%s] func cost time %ldms", FUN, (long)(t1-t0));}
+    LOGI("[%s] func cost time %ldms", FUN, (long)(t1-t0));}
 
 static long long GetSysCurrentTime()
 {

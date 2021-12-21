@@ -227,7 +227,7 @@ char *esLoadTGA(const char *fileName, int *width, int *height) {
             LOGE ("esLoadTGA FAILED to load : { %s }\n", fileName)
             return nullptr;
         }
-        LOGD ("sizeof ( TGA_HEADER ) : { %d }\n", sizeof(TGA_HEADER))
+        LOGI ("sizeof ( TGA_HEADER ) : { %d }\n", sizeof(TGA_HEADER))
         bytesRead = esFileRead(fp, sizeof(TGA_HEADER), &Header);
 
         *width = Header.Width;
@@ -257,6 +257,7 @@ char *esLoadTGA(const char *fileName, int *width, int *height) {
 GLuint GLUtils::loadTgaTexture(const char *fileName) {
     GLuint texId;
     FUN_BEGIN_TIME("GLUtils::loadTgaTexture")
+        LOGI("GLUtils::loadTgaTexture fileName [%s]" ,fileName)
         int width, height;
         char *buffer = esLoadTGA(fileName, &width, &height);
 
@@ -284,6 +285,7 @@ GLuint GLUtils::loadTgaTexture(const char *fileName) {
 GLuint GLUtils::loadTexture(const char *path) {
     GLuint textureId = 0;
     FUN_BEGIN_TIME("GLUtils::loadTexture")
+        LOGI("GLUtils::loadTexture path [%s]" ,path)
         jclass utilsClass = sEnv->FindClass(
                 "com/oyp/openglesdemo/Utils");  //com.oyp.openglesdemo.Utils类
         if (utilsClass == nullptr) {
@@ -307,6 +309,7 @@ GLuint GLUtils::loadTexture(const char *path) {
 char *GLUtils::openTextFile(const char *path) {
     char *buffer;
     FUN_BEGIN_TIME("GLUtils::openTextFile")
+        LOGI("GLUtils::openTextFile path [%s]" ,path)
         AAsset *asset = loadAsset(path);
         if (asset == nullptr) {
             LOGE("Couldn't load %s", path)
