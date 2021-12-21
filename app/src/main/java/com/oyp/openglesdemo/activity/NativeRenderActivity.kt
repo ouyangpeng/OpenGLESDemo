@@ -9,6 +9,10 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.os.Bundle
@@ -27,7 +31,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.nio.ByteBuffer
 
-class NativeRenderActivity : Activity(), AudioCollector.Callback {
+class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventListener {
 
     private var mMinSetting = -1
     private var mMagSetting = -1
@@ -60,6 +64,8 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback {
 
     private var mAudioCollector: AudioCollector? = null
 
+    private var mSensorManager: SensorManager? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!detectOpenGLES30()) {
@@ -71,6 +77,11 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback {
             IMyNativeRendererType.RENDER_TYPE,
             IMyNativeRendererType.SAMPLE_TYPE
         )
+
+        // 初始化SensorManager
+        if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR) {
+            mSensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        }
 
         // Set the renderer to out demo renderer, define below
         renderer = MyNativeRenderer(this)
@@ -143,6 +154,17 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback {
                 }
             }
 
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR -> {
+                // 素材图里的背景层是每个像素透明度均为最大值的 JPG 图
+                val bitmap = loadRGBAImageFromResWithIndex(R.mipmap.avatar_a, 0)
+                bitmap?.let {
+                    mGLSurfaceView?.setAspectRatio(it.width, it.height)
+                }
+                // 素材图里的人像层和外层是部分区域透明的 PNG 图
+                loadRGBAImageFromResWithIndex(R.mipmap.avatar_b, 1)
+                loadRGBAImageFromResWithIndex(R.mipmap.avatar_c, 2)
+            }
+
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG -> {
                 // 从assets目录加载图片
                 loadRGBAImageFromAssets("texture/leg.jpg")
@@ -208,6 +230,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback {
             IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_HEAD,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_RATARY_HEAD,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
                 it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
@@ -308,6 +331,18 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback {
                 }
             }
         }
+
+        // 注册SensorManager 监听
+        if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR) {
+            mSensorManager?.let {
+                it.registerListener(
+                    this,
+                    it.getDefaultSensor(Sensor.TYPE_GRAVITY),
+                    SensorManager.SENSOR_DELAY_FASTEST
+                )
+            }
+        }
+
     }
 
     private fun hasPermissionsGranted(permissions: Array<String>): Boolean {
@@ -350,6 +385,11 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback {
                 mAudioCollector!!.unInit()
                 mAudioCollector = null
             }
+        }
+
+        // 注销SensorManager 监听
+        if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR) {
+            mSensorManager?.unregisterListener(this)
         }
     }
 
@@ -544,5 +584,18 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback {
             Log.e(TAG, "onAudioBufferCallback() called with: buffer[0] = [" + buffer!![0] + "]")
             renderer?.setAudioData(buffer)
         }
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event!!.sensor.type == Sensor.TYPE_GRAVITY) {
+            Log.d(TAG, "onSensorChanged() called with TYPE_GRAVITY: " +
+                    "[x,y,z] = [" + event.values[0] + ", " + event.values[1] + ", " + event.values[2] + "]")
+            if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR) {
+                renderer?.setGravityXY(event.values[0], event.values[1])
+            }
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
     }
 }

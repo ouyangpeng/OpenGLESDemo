@@ -70,5 +70,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_RATARY_HEAD                                        = SAMPLE_TYPE + 51
     const val SAMPLE_TYPE_KEY_VISUALIZE_AUDIO                                    = SAMPLE_TYPE + 52
     const val SAMPLE_TYPE_KEY_SCRATCH_CARD                                       = SAMPLE_TYPE + 53
+    const val SAMPLE_TYPE_KEY_AVATAR                                             = SAMPLE_TYPE + 54
 
 }

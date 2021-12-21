@@ -54,6 +54,7 @@
 #include <RotaryHeadSample.h>
 #include <VisualizeAudioSample.h>
 #include <ScratchCardSample.h>
+#include <AvatarSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -260,6 +261,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
             case SAMPLE_TYPE_KEY_SCRATCH_CARD:
                 m_pCurSample = new ScratchCardSample();
                 break;
+            case SAMPLE_TYPE_KEY_AVATAR:
+                m_pCurSample = new AvatarSample();
+                break;
             default:
                 m_pCurSample = nullptr;
                 break;
@@ -410,6 +414,13 @@ void MyGLRenderContext::SetTouchLocation(jfloat x, jfloat y) {
     LOGD("MyGLRenderContext::SetTouchLocation x=%f, y=%f", x, y);
     if (m_pCurSample) {
         m_pCurSample->SetTouchLocation(x, y);
+    }
+}
+
+void MyGLRenderContext::SetGravityXY(jfloat x, jfloat y) {
+    LOGD("MyGLRenderContext::SetGravityXY x=%f, y=%f", x, y);
+    if (m_pCurSample) {
+        m_pCurSample->SetGravityXY(x, y);
     }
 }
 

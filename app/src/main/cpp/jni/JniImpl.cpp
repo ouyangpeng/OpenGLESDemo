@@ -116,6 +116,14 @@ Java_com_oyp_openglesdemo_render_MyNativeRenderer_nativeSetTouchLocation(
         JNIEnv *env, jobject thiz,jfloat x, jfloat y) {
     MyGLRenderContext::GetInstance()->SetTouchLocation(x, y);
 }
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_oyp_openglesdemo_render_MyNativeRenderer_nativeSetGravityXY(JNIEnv *env, jobject thiz,
+                                                                     jfloat x, jfloat y) {
+    MyGLRenderContext::GetInstance()->SetGravityXY(x, y);
+}
+
 ////////////////////////////////////////////   EGL 渲染相关 ////////////////////////////////////////////////////////////////////
 
 extern "C"

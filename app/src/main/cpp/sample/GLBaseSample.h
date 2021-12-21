@@ -55,7 +55,9 @@ public:
 
     virtual void LoadAudioData(short *buffer, int len) {}
 
-    virtual void SetTouchLocation(jfloat x, jfloat y) {}
+    virtual void SetTouchLocation(float x, float y) {}
+
+    virtual void SetGravityXY(float x, float y) {}
 
 protected:
     /**

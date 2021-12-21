@@ -68,6 +68,7 @@
 #define SAMPLE_TYPE_KEY_RATARY_HEAD                                 SAMPLE_TYPE + 51
 #define SAMPLE_TYPE_KEY_VISUALIZE_AUDIO                             SAMPLE_TYPE + 52
 #define SAMPLE_TYPE_KEY_SCRATCH_CARD                                SAMPLE_TYPE + 53
+#define SAMPLE_TYPE_KEY_AVATAR                                      SAMPLE_TYPE + 54
 
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

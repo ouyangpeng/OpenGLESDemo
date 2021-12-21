@@ -57,6 +57,8 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
 
     private external fun nativeSetTouchLocation(x: Float, y: Float)
 
+    private external fun nativeSetGravityXY(x: Float, y: Float)
+
     ////////////////////////////////// Java 方法///////////////////////////////////////
 
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
@@ -133,5 +135,9 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
 
     override fun setTouchLocation(x: Float, y: Float) {
         nativeSetTouchLocation(x,y)
+    }
+
+    override fun setGravityXY(x: Float, y: Float){
+        nativeSetGravityXY(x,y)
     }
 }

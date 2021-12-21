@@ -16,4 +16,6 @@ interface RenderAction {
     fun setAudioData(audioData: ShortArray)
 
     fun setTouchLocation(x: Float, y: Float)
+
+    fun setGravityXY(x: Float, y: Float)
 }

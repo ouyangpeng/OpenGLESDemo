@@ -479,6 +479,14 @@ class MainActivity : Activity() {
         itemScratchCard[ITEM_SUBTITLE] = "学习如何实现 刮刮卡 效果"
         data.add(itemScratchCard)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SCRATCH_CARD)
+
+        val itemAvatar: MutableMap<String, Any?> = HashMap()
+        itemAvatar[ITEM_IMAGE] = R.mipmap.ic_avatar
+        itemAvatar[ITEM_TITLE] = "展示 一个  3D 阿凡达（Avatar）效果"
+        itemAvatar[ITEM_SUBTITLE] = "学习如何实现 3D 阿凡达（Avatar）效果"
+        data.add(itemAvatar)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR)
+
     }
 
     companion object {

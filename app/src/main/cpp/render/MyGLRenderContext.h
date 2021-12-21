@@ -38,11 +38,13 @@ public:
 
     void SetImageDataWithIndex(int index, int format, int width, int height, uint8_t *pData);
 
-    void UpdateTransformMatrix(jfloat d, jfloat d1, jfloat d2, jfloat d3);
+    void UpdateTransformMatrix(float d, float d1, float d2, float d3);
 
     void SetAudioData(short *buffer, int len);
 
-    void SetTouchLocation(jfloat x, jfloat y);
+    void SetTouchLocation(float x, float y);
+
+    void SetGravityXY(float x, float y);
 
 private:
     static MyGLRenderContext *m_pContext;
