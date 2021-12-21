@@ -487,6 +487,13 @@ class MainActivity : Activity() {
         data.add(itemAvatar)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR)
 
+        val itemShockWave: MutableMap<String, Any?> = HashMap()
+        itemShockWave[ITEM_IMAGE] = R.mipmap.ic_shock_wave
+        itemShockWave[ITEM_TITLE] = "展示 动态（水波纹）涟漪 效果"
+        itemShockWave[ITEM_SUBTITLE] = "学习如何实现 3动态（水波纹）涟漪 效果"
+        data.add(itemShockWave)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE)
+
     }
 
     companion object {

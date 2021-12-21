@@ -55,6 +55,7 @@
 #include <VisualizeAudioSample.h>
 #include <ScratchCardSample.h>
 #include <AvatarSample.h>
+#include <ShockWaveSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -263,6 +264,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_AVATAR:
                 m_pCurSample = new AvatarSample();
+                break;
+            case SAMPLE_TYPE_KEY_SHOCK_WAVE:
+                m_pCurSample = new ShockWaveSample();
                 break;
             default:
                 m_pCurSample = nullptr;

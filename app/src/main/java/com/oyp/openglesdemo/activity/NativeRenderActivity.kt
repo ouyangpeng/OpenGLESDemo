@@ -165,6 +165,13 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                 loadRGBAImageFromResWithIndex(R.mipmap.avatar_c, 2)
             }
 
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE->{
+                val bitmap = loadRGBAImageFromRes(R.mipmap.lye)
+                bitmap?.let {
+                    mGLSurfaceView?.setAspectRatio(it.width, it.height)
+                }
+            }
+
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG -> {
                 // 从assets目录加载图片
                 loadRGBAImageFromAssets("texture/leg.jpg")
@@ -231,6 +238,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             IMyNativeRendererType.SAMPLE_TYPE_KEY_RATARY_HEAD,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
                 it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY

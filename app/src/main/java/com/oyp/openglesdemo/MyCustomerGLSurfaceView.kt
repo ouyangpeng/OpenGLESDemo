@@ -97,6 +97,12 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
                         x = -1.0f
                         y = -1.0f
                     }
+
+                    MotionEvent.ACTION_UP->{
+                        if (mRenderer.mSampleType == IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE) {
+                            mRenderer.setTouchLocation(event.x, event.y)
+                        }
+                    }
                 }
 
                 mPreviousX = x
