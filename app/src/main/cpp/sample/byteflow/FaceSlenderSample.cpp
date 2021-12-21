@@ -1,5 +1,5 @@
 //
-// Created by Administrator on 2021/12/19 0019.
+// Created by OuyangPeng on 2021/12/19 0019.
 //
 
 #include "FaceSlenderSample.h"

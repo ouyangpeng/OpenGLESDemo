@@ -494,6 +494,13 @@ class MainActivity : Activity() {
         data.add(itemShockWave)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE)
 
+        val itemMRT2: MutableMap<String, Any?> = HashMap()
+        itemMRT2[ITEM_IMAGE] = R.mipmap.ic_mrt2
+        itemMRT2[ITEM_TITLE] = "又见MRT"
+        itemMRT2[ITEM_SUBTITLE] = "再一次学习 MRT(多重渲染目标) 技术"
+        data.add(itemMRT2)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MRT2)
+
     }
 
     companion object {
