@@ -106,14 +106,48 @@ void ScratchCardSample::create() {
     m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
     m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
 
+    //=========================================== VBO和VAO相关===========================================
+    // Generate VBO Ids and load the VBOs with data
+    glGenBuffers(2, m_VboIds);
+    glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[0]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(m_pVtxCoords), m_pVtxCoords, GL_DYNAMIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[1]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(m_pTexCoords), m_pTexCoords, GL_DYNAMIC_DRAW);
+
+    // Generate VAO Id
+    glGenVertexArrays(1, &m_VaoId);
+    glBindVertexArray(m_VaoId);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[0]);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
+    glBindBuffer(GL_ARRAY_BUFFER, GL_NONE);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[1]);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
+    glBindBuffer(GL_ARRAY_BUFFER, GL_NONE);
+
+    glBindVertexArray(GL_NONE);
+
+    //=========================================== 纹理相关===========================================
     //create RGBA texture
     glGenTextures(1, &m_TextureId);
+    // 将纹理 m_TextureId 绑定到类型 GL_TEXTURE_2D 纹理
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
+
+    //设置纹理 S 轴（横轴）的拉伸方式为截取
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    //设置纹理 T 轴（纵轴）的拉伸方式为截取
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    //设置纹理采样方式
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
     glBindTexture(GL_TEXTURE_2D, GL_NONE);
+
 
     //upload RGBA image data
     glActiveTexture(GL_TEXTURE0);
@@ -121,6 +155,7 @@ void ScratchCardSample::create() {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_RenderImage.width, m_RenderImage.height, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, m_RenderImage.ppPlane[0]);
     glBindTexture(GL_TEXTURE_2D, GL_NONE);
+
 
     // 设置清除颜色
     glClearColor(0.2f, 0.2f, 0.2f, 1.0);
@@ -135,33 +170,6 @@ void ScratchCardSample::draw() {
 
     UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
 
-    if (m_VboIds[0] == GL_NONE) {
-        // Generate VBO Ids and load the VBOs with data
-        glGenBuffers(2, m_VboIds);
-        glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[0]);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(m_pVtxCoords), m_pVtxCoords, GL_DYNAMIC_DRAW);
-
-        glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[1]);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(m_pTexCoords), m_pTexCoords, GL_DYNAMIC_DRAW);
-    }
-
-    if (m_VaoId == GL_NONE) {
-        // Generate VAO Id
-        glGenVertexArrays(1, &m_VaoId);
-        glBindVertexArray(m_VaoId);
-
-        glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[0]);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
-        glBindBuffer(GL_ARRAY_BUFFER, GL_NONE);
-
-        glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[1]);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
-        glBindBuffer(GL_ARRAY_BUFFER, GL_NONE);
-
-        glBindVertexArray(GL_NONE);
-    }
 
     if (m_PointVector.size() < 1) return;
 
@@ -174,6 +182,7 @@ void ScratchCardSample::draw() {
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);//若模板测试和深度测试都通过了，将片段对应的模板值替换为1
     glStencilMask(0xFF);
 
+    // Bind the VAO
     glBindVertexArray(m_VaoId);
 
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
@@ -219,7 +228,8 @@ void ScratchCardSample::shutdown() {
  * @param angleY 绕Y轴旋转度数
  * @param ratio 宽高比
  * */
-void ScratchCardSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float ratio) const {
+void ScratchCardSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY,
+                                        float ratio) const {
     LOGD("ScratchCardSample::UpdateMVPMatrix angleX = %d, angleY = %d, ratio = %f", angleX,
          angleY, ratio)
     angleX = angleX % 360;
