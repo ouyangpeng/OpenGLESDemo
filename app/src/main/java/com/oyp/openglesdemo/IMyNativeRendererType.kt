@@ -73,5 +73,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_AVATAR                                             = SAMPLE_TYPE + 54
     const val SAMPLE_TYPE_KEY_SHOCK_WAVE                                         = SAMPLE_TYPE + 55
     const val SAMPLE_TYPE_KEY_MRT2                                               = SAMPLE_TYPE + 56
+    const val SAMPLE_TYPE_KEY_FBO_BLIT                                           = SAMPLE_TYPE + 57
 
 }

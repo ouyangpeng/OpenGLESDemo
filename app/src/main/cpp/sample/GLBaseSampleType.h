@@ -71,6 +71,7 @@
 #define SAMPLE_TYPE_KEY_AVATAR                                      SAMPLE_TYPE + 54
 #define SAMPLE_TYPE_KEY_SHOCK_WAVE                                  SAMPLE_TYPE + 55
 #define SAMPLE_TYPE_KEY_MRT2                                        SAMPLE_TYPE + 56
+#define SAMPLE_TYPE_KEY_FBO_BLIT                                    SAMPLE_TYPE + 57
 
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

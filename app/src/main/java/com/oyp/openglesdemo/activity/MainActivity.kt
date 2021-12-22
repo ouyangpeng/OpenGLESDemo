@@ -501,6 +501,12 @@ class MainActivity : Activity() {
         data.add(itemMRT2)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MRT2)
 
+        val itemFBOBlit: MutableMap<String, Any?> = HashMap()
+        itemFBOBlit[ITEM_IMAGE] = R.mipmap.ic_fbo_blit
+        itemFBOBlit[ITEM_TITLE] = "OpenGL ES 帧缓冲区位块传送（Blit）"
+        itemFBOBlit[ITEM_SUBTITLE] = "学习 FBO Blit 技术"
+        data.add(itemFBOBlit)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_BLIT)
     }
 
     companion object {
