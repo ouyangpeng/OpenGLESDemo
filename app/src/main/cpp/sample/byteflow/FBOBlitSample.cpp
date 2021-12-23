@@ -55,7 +55,7 @@ FBOBlitSample::~FBOBlitSample() {
 }
 
 void FBOBlitSample::create() {
-// 顶点着色器
+    // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_coord_system.glsl");
 

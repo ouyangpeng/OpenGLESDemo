@@ -58,6 +58,7 @@
 #include <ShockWaveSample.h>
 #include <MRTSample.h>
 #include <FBOBlitSample.h>
+#include <UniformBufferSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -275,6 +276,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_FBO_BLIT:
                 m_pCurSample = new FBOBlitSample();
+                break;
+            case SAMPLE_TYPE_KEY_UBO:
+                m_pCurSample = new UniformBufferSample();
                 break;
             default:
                 m_pCurSample = nullptr;

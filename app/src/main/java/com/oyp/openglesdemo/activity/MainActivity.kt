@@ -507,6 +507,14 @@ class MainActivity : Activity() {
         itemFBOBlit[ITEM_SUBTITLE] = "学习 FBO Blit 技术"
         data.add(itemFBOBlit)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_BLIT)
+
+        val itemTBO: MutableMap<String, Any?> = HashMap()
+        itemTBO[ITEM_IMAGE] = R.mipmap.ic_ubo
+        itemTBO[ITEM_TITLE] = "展示uniform 缓冲区对象，即UBO来展示图片"
+        itemTBO[ITEM_SUBTITLE] = "学习uniform 缓冲区对象，即 UBO技术"
+        data.add(itemTBO)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_UBO)
+
     }
 
     companion object {

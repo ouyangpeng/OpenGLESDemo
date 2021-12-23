@@ -165,6 +165,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                 loadRGBAImageFromResWithIndex(R.mipmap.avatar_c, 2)
             }
 
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_UBO,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_BLIT,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_MRT2,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE->{
