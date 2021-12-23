@@ -59,6 +59,7 @@
 #include <MRTSample.h>
 #include <FBOBlitSample.h>
 #include <UniformBufferSample.h>
+#include <RGB2YUVSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -279,6 +280,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_UBO:
                 m_pCurSample = new UniformBufferSample();
+                break;
+            case SAMPLE_TYPE_KEY_RGB2YUV:
+                m_pCurSample = new RGB2YUVSample();
                 break;
             default:
                 m_pCurSample = nullptr;

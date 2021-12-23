@@ -508,12 +508,21 @@ class MainActivity : Activity() {
         data.add(itemFBOBlit)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_BLIT)
 
-        val itemTBO: MutableMap<String, Any?> = HashMap()
-        itemTBO[ITEM_IMAGE] = R.mipmap.ic_ubo
-        itemTBO[ITEM_TITLE] = "展示uniform 缓冲区对象，即UBO来展示图片"
-        itemTBO[ITEM_SUBTITLE] = "学习uniform 缓冲区对象，即 UBO技术"
-        data.add(itemTBO)
+        val itemUBO: MutableMap<String, Any?> = HashMap()
+        itemUBO[ITEM_IMAGE] = R.mipmap.ic_ubo
+        itemUBO[ITEM_TITLE] = "展示uniform 缓冲区对象，即UBO来展示图片"
+        itemUBO[ITEM_SUBTITLE] = "学习uniform 缓冲区对象，即 UBO技术"
+        data.add(itemUBO)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_UBO)
+
+
+        val itemRgb2Yuv: MutableMap<String, Any?> = HashMap()
+        itemRgb2Yuv[ITEM_IMAGE] = R.mipmap.ic_ubo
+        itemRgb2Yuv[ITEM_TITLE] = "展示uniform 缓冲区对象，即UBO来展示图片"
+        itemRgb2Yuv[ITEM_SUBTITLE] = "学习uniform 缓冲区对象，即 UBO技术"
+        data.add(itemRgb2Yuv)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_RGB2YUV)
+
 
     }
 

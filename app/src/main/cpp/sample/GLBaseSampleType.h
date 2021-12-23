@@ -73,6 +73,7 @@
 #define SAMPLE_TYPE_KEY_MRT2                                        SAMPLE_TYPE + 56
 #define SAMPLE_TYPE_KEY_FBO_BLIT                                    SAMPLE_TYPE + 57
 #define SAMPLE_TYPE_KEY_UBO                                         SAMPLE_TYPE + 58
+#define SAMPLE_TYPE_KEY_RGB2YUV                                     SAMPLE_TYPE + 59
 
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

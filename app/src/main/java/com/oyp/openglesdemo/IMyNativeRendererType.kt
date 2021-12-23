@@ -75,5 +75,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_MRT2                                               = SAMPLE_TYPE + 56
     const val SAMPLE_TYPE_KEY_FBO_BLIT                                           = SAMPLE_TYPE + 57
     const val SAMPLE_TYPE_KEY_UBO                                                = SAMPLE_TYPE + 58
+    const val SAMPLE_TYPE_KEY_RGB2YUV                                            = SAMPLE_TYPE + 59
 
 }

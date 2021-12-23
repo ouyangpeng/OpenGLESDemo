@@ -16,6 +16,7 @@ import android.hardware.SensorManager
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.os.Bundle
+import android.os.Environment
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
@@ -27,6 +28,7 @@ import com.oyp.openglesdemo.*
 import com.oyp.openglesdemo.IMyNativeRendererType
 import com.oyp.openglesdemo.audio.AudioCollector
 import com.oyp.openglesdemo.render.MyNativeRenderer
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.nio.ByteBuffer
@@ -45,6 +47,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
         private const val TAG: String = "NativeRenderActivity"
 
         private val REQUEST_PERMISSIONS = arrayOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.RECORD_AUDIO
         )
         private const val PERMISSION_REQUEST_CODE = 1
@@ -165,10 +168,11 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                 loadRGBAImageFromResWithIndex(R.mipmap.avatar_c, 2)
             }
 
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_RGB2YUV,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_UBO,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_BLIT,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_MRT2,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE->{
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE -> {
                 val bitmap = loadRGBAImageFromRes(R.mipmap.lye)
                 bitmap?.let {
                     mGLSurfaceView?.setAspectRatio(it.width, it.height)
@@ -327,7 +331,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
         // The activity must call the GL surface view's onResume() on activity onResume().
         super.onResume()
         mGLSurfaceView?.onResume()
-        if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO) {
+        if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO || type == IMyNativeRendererType.SAMPLE_TYPE_KEY_RGB2YUV) {
             if (!hasPermissionsGranted(REQUEST_PERMISSIONS)) {
                 ActivityCompat.requestPermissions(
                     this,
@@ -340,6 +344,13 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                     mAudioCollector!!.addCallback(this@NativeRenderActivity)
                     mAudioCollector!!.init()
                 }
+
+                //  /sdcard/Android/data/com.oyp.openglesdemo/files/Download
+                //  这个目录在C层会被调用，写入到这个目录
+                File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.absolutePath).let {
+                    if (!it.exists()) it.mkdirs()
+                }
+
             }
         }
 
@@ -376,7 +387,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             if (!hasPermissionsGranted(REQUEST_PERMISSIONS)) {
                 Toast.makeText(
                     this,
-                    "We need the permission: RECORD_AUDIO",
+                    "We need the permission: RECORD_AUDIO && WRITE_EXTERNAL_STORAGE",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -599,8 +610,10 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event!!.sensor.type == Sensor.TYPE_GRAVITY) {
-            Log.d(TAG, "onSensorChanged() called with TYPE_GRAVITY: " +
-                    "[x,y,z] = [" + event.values[0] + ", " + event.values[1] + ", " + event.values[2] + "]")
+            Log.d(
+                TAG, "onSensorChanged() called with TYPE_GRAVITY: " +
+                        "[x,y,z] = [" + event.values[0] + ", " + event.values[1] + ", " + event.values[2] + "]"
+            )
             if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR) {
                 renderer?.setGravityXY(event.values[0], event.values[1])
             }
