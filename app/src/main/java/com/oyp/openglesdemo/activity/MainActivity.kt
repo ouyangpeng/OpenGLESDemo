@@ -529,6 +529,13 @@ class MainActivity : Activity() {
         itemMultiThreadRender[ITEM_SUBTITLE] = "学习 MULTI_THREAD_RENDER 技术"
         data.add(itemMultiThreadRender)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_THREAD_RENDER)
+
+        val itemTextRender: MutableMap<String, Any?> = HashMap()
+        itemTextRender[ITEM_IMAGE] = R.mipmap.ic_textrender
+        itemTextRender[ITEM_TITLE] = "展示 OpenGL 使用 FreeType 渲染文字"
+        itemTextRender[ITEM_SUBTITLE] = "学习 OpenGL ES 文字渲染 技术，请同意弹出的权限对话框，需要复制字体到SDCard"
+        data.add(itemTextRender)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXT_RENDER)
     }
 
     companion object {

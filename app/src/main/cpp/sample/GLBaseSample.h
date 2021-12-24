@@ -10,7 +10,7 @@
 #include "GLBaseSampleType.h"
 
 // 注意，这个目录在java层创建，参考 com.oyp.openglesdemo.activity.NativeRenderActivity.onResume方法
-#define DEFAULT_OGL_ASSETS_DIR "/sdcard/Android/data/com.oyp.openglesdemo/files/Download"
+#define DEFAULT_OGL_ASSETS_DIR "/data/data/com.oyp.openglesdemo/cache"
 
 class GLBaseSample {
 public:

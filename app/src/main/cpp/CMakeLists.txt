@@ -16,6 +16,8 @@ project("openglesdemo")
 
 #设置包含的目录
 include_directories(
+        inc/freetype_2_9_1
+
         include
 
         jni
@@ -79,6 +81,16 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log)
 
+
+add_library(freetype STATIC IMPORTED)
+set_target_properties(freetype PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/../jniLibs/${CMAKE_ANDROID_ARCH_ABI}/libfreetype.a)
+
+# 第三方库
+set(third-party-libs
+    freetype
+)
+
+
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
@@ -93,4 +105,7 @@ target_link_libraries( # Specifies the target library.
 
         # Links the target library to the log library
         # included in the NDK.
-        ${log-lib})
+        ${log-lib}
+        # 第三方库
+        ${third-party-libs}
+        )

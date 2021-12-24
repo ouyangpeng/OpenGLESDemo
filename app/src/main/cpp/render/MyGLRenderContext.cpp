@@ -61,6 +61,7 @@
 #include <UniformBufferSample.h>
 #include <RGB2YUVSample.h>
 #include <SharedEGLContextSample.h>
+#include <TextRenderSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -287,6 +288,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_MULTI_THREAD_RENDER:
                 m_pCurSample = new SharedEGLContextSample();
+                break;
+            case SAMPLE_TYPE_KEY_TEXT_RENDER:
+                m_pCurSample = new TextRenderSample();
                 break;
             default:
                 m_pCurSample = nullptr;

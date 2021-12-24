@@ -257,6 +257,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_THREAD_RENDER,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXT_RENDER,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
                 it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
@@ -356,7 +357,10 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
 
         mGLSurfaceView?.onResume()
 
-        if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO || type == IMyNativeRendererType.SAMPLE_TYPE_KEY_RGB2YUV) {
+        if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO
+            || type == IMyNativeRendererType.SAMPLE_TYPE_KEY_RGB2YUV
+            || type == IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXT_RENDER
+        ) {
             if (!hasPermissionsGranted(REQUEST_PERMISSIONS)) {
                 ActivityCompat.requestPermissions(
                     this,
@@ -370,12 +374,14 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                     mAudioCollector!!.init()
                 }
 
-                //  /sdcard/Android/data/com.oyp.openglesdemo/files/Download
                 //  这个目录在C层会被调用，写入到这个目录
-                File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.absolutePath).let {
+                //  /data/data/com.oyp.openglesdemo/cache
+                val fileDir = cacheDir!!.absolutePath
+                File(fileDir).let {
                     if (!it.exists()) it.mkdirs()
                 }
-
+                // 复制assets目录文件到sdcard
+                CommonUtils.copyAssetsDirToSDCard(this, "fonts", fileDir)
             }
         }
 
