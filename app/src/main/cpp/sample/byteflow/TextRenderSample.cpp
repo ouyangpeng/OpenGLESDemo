@@ -186,7 +186,7 @@ TextRenderSample::RenderText(std::string text, GLfloat x, GLfloat y, GLfloat sca
     glUseProgram(m_ProgramObj);
     glUniform3f(glGetUniformLocation(m_ProgramObj, "u_textColor"), color.x, color.y, color.z);
     glBindVertexArray(m_VaoId);
-    GO_CHECK_GL_ERROR()
+//    GO_CHECK_GL_ERROR()
     // 对文本中的所有字符迭代
     std::string::const_iterator c;
     x *= viewport.x;
@@ -207,7 +207,7 @@ TextRenderSample::RenderText(std::string text, GLfloat x, GLfloat y, GLfloat sca
         w /= viewport.x;
         h /= viewport.y;
 
-        LOGD("TextRenderSample::RenderText [xpos,ypos,w,h]=[%f, %f, %f, %f], ch.advance >> 6 = %d", xpos, ypos, w, h, ch.advance >> 6)
+//        LOGD("TextRenderSample::RenderText [xpos,ypos,w,h]=[%f, %f, %f, %f], ch.advance >> 6 = %d", xpos, ypos, w, h, ch.advance >> 6)
 
         // 当前字符的VBO
         GLfloat vertices[6][4] = {
@@ -224,7 +224,7 @@ TextRenderSample::RenderText(std::string text, GLfloat x, GLfloat y, GLfloat sca
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, ch.textureID);
         glUniform1i(m_SamplerLoc, 0);
-        GO_CHECK_GL_ERROR()
+//        GO_CHECK_GL_ERROR()
         
         // 更新当前字符的VBO
         glBindBuffer(GL_ARRAY_BUFFER, m_VboId);
@@ -234,7 +234,7 @@ TextRenderSample::RenderText(std::string text, GLfloat x, GLfloat y, GLfloat sca
         
         // 绘制方块
         glDrawArrays(GL_TRIANGLES, 0, 6);
-        GO_CHECK_GL_ERROR()
+//        GO_CHECK_GL_ERROR()
         
         // 更新位置到下一个字形的原点，注意单位是1/64像素
         x += (ch.advance >> 6) * scale; //(2^6 = 64)
@@ -269,7 +269,7 @@ TextRenderSample::RenderText(const wchar_t *text, int textLen, GLfloat x, GLfloa
         w /= viewport.x;
         h /= viewport.y;
 
-        LOGD("TextRenderSample::RenderText [xpos,ypos,w,h]=[%f, %f, %f, %f]", xpos, ypos, w, h)
+//        LOGD("TextRenderSample::RenderText [xpos,ypos,w,h]=[%f, %f, %f, %f]", xpos, ypos, w, h)
 
         // 当前字符的VBO
         GLfloat vertices[6][4] = {
@@ -286,15 +286,15 @@ TextRenderSample::RenderText(const wchar_t *text, int textLen, GLfloat x, GLfloa
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, ch.textureID);
         glUniform1i(m_SamplerLoc, 0);
-        GO_CHECK_GL_ERROR()
+//        GO_CHECK_GL_ERROR()
         // 更新当前字符的VBO
         glBindBuffer(GL_ARRAY_BUFFER, m_VboId);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
-        GO_CHECK_GL_ERROR()
+//        GO_CHECK_GL_ERROR()
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         // 绘制方块
         glDrawArrays(GL_TRIANGLES, 0, 6);
-        GO_CHECK_GL_ERROR()
+//        GO_CHECK_GL_ERROR()
         // 更新位置到下一个字形的原点，注意单位是1/64像素
         x += (ch.advance >> 6) * scale; //(2^6 = 64)
     }
