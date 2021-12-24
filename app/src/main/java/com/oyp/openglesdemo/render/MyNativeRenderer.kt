@@ -61,15 +61,35 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
 
     ////////////////////////////////// Java 方法///////////////////////////////////////
 
+    /**
+     * 当Surface被创建的时候，GLSurfaceView 会调用这个方法。
+     * 这发送在应用程序第一次运行的时候，并且，当设备被唤醒或者用户从其他Activity切换换来时，
+     * 这个方法也可能被调用。在实践中，这意味着，当应用程序运行时，本方法可能会被调用多次。
+     *
+     *
+     * 为什么会有一个未被使用的参数类型GL10呢？
+     * 它是OpenGL ES 1.0的API遗留下来的。如果要编写OpenGL ES 1.0的渲染器，就要用这个参数。
+     * 但是，对应OpenGL ES 3.0，GLES20/GLEL30类提供了静态方法来读取。
+     */
     override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
         val assetManager: AssetManager = mActivity.assets
         nativeSurfaceCreate(assetManager)
     }
 
+    /**
+     * 当Surface被创建以后，每次Surface尺寸变化时，这个方法都会被 GLSurfaceView 调用到。
+     * 在横屏、竖屏来回切换的时候，Surface尺寸会发生变化
+     */
     override fun onSurfaceChanged(gl: GL10, width: Int, height: Int) {
         nativeSurfaceChange(width, height)
     }
 
+    /**
+     * 当绘制一帧时，这个方法会被 GLSurfaceView 调用。
+     * 在这个方法中，我们一定要绘制一些东西，即使只是清空屏幕。
+     * 因为，在这个方法返回后，渲染缓冲区会被交换并显示在屏幕上，
+     * 如果什么都没画，可能会看到糟糕的闪烁效果。
+     */
     override fun onDrawFrame(gl: GL10) {
         nativeDrawFrame()
     }

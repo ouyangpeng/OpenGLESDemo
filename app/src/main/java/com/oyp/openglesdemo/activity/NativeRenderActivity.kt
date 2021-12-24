@@ -15,6 +15,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.DisplayMetrics
@@ -215,6 +216,14 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
         }
     }
 
+    /**
+     * GLSurfaceView会在一个单独的线程中调用渲染器的方法。
+     * 默认情况下，GLSurfaceView 会以显示设备的刷新频率不断地渲染，当然，它也可以配置为按请求渲染，
+     * 只需要用 GLSurfaceView.RENDERMODE_WHEN_DIRTY作为参数调用GLSurfaceView.setRenderMode() 即可。
+     *
+     *  GLSurfaceView.RENDERMODE_WHEN_DIRTY
+     *  GLSurfaceView.RENDERMODE_CONTINUOUSLY
+     */
     private fun setRenderMode(it: MyCustomerGLSurfaceView) {
         // 默认渲染模式设置为RENDERMODE_WHEN_DIRTY
         it.renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
@@ -312,7 +321,19 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
         val am = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val info = am.deviceConfigurationInfo
         val reqGlEsVersion = info.reqGlEsVersion
+
+        // 有些GPU模拟部分有缺陷，为了使代码在模拟器上正常工作，写下面的代码
+        // 这段代码判断当前设备是不是模拟器，如果是，就假定它支持OpenGL ES 3.0
+        // 要确保程序能运行，模拟器一定要配置OpenGL ES 3.0
         val isSupportedOpenGLES30 = reqGlEsVersion >= 0x30000
+                || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2
+                && (Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")))
+
+
         if (!isSupportedOpenGLES30) {
             Log.e(
                 TAG,
@@ -330,7 +351,9 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
     override fun onResume() {
         // The activity must call the GL surface view's onResume() on activity onResume().
         super.onResume()
+
         mGLSurfaceView?.onResume()
+
         if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO || type == IMyNativeRendererType.SAMPLE_TYPE_KEY_RGB2YUV) {
             if (!hasPermissionsGranted(REQUEST_PERMISSIONS)) {
                 ActivityCompat.requestPermissions(
@@ -400,6 +423,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
     override fun onPause() {
         // The activity must call the GL surface view's onPause() on activity onPause().
         super.onPause()
+
         mGLSurfaceView?.onPause()
 
         if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO) {

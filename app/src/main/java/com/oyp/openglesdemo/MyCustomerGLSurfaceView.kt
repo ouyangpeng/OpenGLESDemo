@@ -67,6 +67,12 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         if (mRenderer.mSampleType == IMyNativeRendererType.SAMPLE_TYPE_KEY_LESSON_FIVE) {
+                            // Android的 GLSurfaceView 在后台线程中执行渲染，必须要小心，
+                            // 只能在这个渲染线程中调用OpenGL，在Android主线程中使用UI(用户界面)相关的调用
+                            // 两个线程之间的通信可以用如下方法：
+                            // 在主线程中的 GLSurfaceView实例可以调用 queueEven() 方法传递一个Runnable给后台渲染线程
+                            // 渲染线程可以调用Activity的runOnUIThread()来传递事件(event)给主线程
+
                             // Ensure we call switchMode() on the OpenGL thread.
                             // queueEvent() is a method of GLSurfaceView that will do this for us.
                             queueEvent { mRenderer.switchBlendingMode() }
