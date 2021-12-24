@@ -173,6 +173,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             IMyNativeRendererType.SAMPLE_TYPE_KEY_UBO,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_BLIT,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_MRT2,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_THREAD_RENDER,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE -> {
                 val bitmap = loadRGBAImageFromRes(R.mipmap.lye)
                 bitmap?.let {
@@ -254,6 +255,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             IMyNativeRendererType.SAMPLE_TYPE_KEY_RATARY_HEAD,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_THREAD_RENDER,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY

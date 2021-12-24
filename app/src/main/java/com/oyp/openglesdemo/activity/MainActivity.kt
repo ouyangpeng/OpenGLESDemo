@@ -523,7 +523,12 @@ class MainActivity : Activity() {
         data.add(itemRgb2Yuv)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_RGB2YUV)
 
-
+        val itemMultiThreadRender: MutableMap<String, Any?> = HashMap()
+        itemMultiThreadRender[ITEM_IMAGE] = R.mipmap.ic_multi_thread_render
+        itemMultiThreadRender[ITEM_TITLE] = "展示 OpenGL ES 共享上下文 多线程绘制 技术"
+        itemMultiThreadRender[ITEM_SUBTITLE] = "学习 MULTI_THREAD_RENDER 技术"
+        data.add(itemMultiThreadRender)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_THREAD_RENDER)
     }
 
     companion object {

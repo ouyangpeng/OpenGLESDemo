@@ -21,6 +21,8 @@ include_directories(
         jni
 
         render
+        render/egl
+        render/looper
 
         sample
         sample/byteflow
