@@ -5,6 +5,9 @@
 
 cmake_minimum_required(VERSION 3.10.2)
 
+# 设置 jnilibs 目录的值，后面会引用这个变量${jnilibs}
+set(jnilibs "${CMAKE_SOURCE_DIR}/../jniLibs")
+
 # Declares and names the project.
 
 project("openglesdemo")
@@ -83,7 +86,7 @@ find_library( # Sets the name of the path variable.
 
 
 add_library(freetype STATIC IMPORTED)
-set_target_properties(freetype PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/../jniLibs/${CMAKE_ANDROID_ARCH_ABI}/libfreetype.a)
+set_target_properties(freetype PROPERTIES IMPORTED_LOCATION ${jnilibs}/${CMAKE_ANDROID_ARCH_ABI}/libfreetype.a)
 
 # 第三方库
 set(third-party-libs
