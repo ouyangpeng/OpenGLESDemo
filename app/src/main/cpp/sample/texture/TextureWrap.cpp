@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include "TextureWrap.h"
 
-void TextureWrap::create() {
+void TextureWrap::Create() {
 	GLUtils::printGLInfo();
 
 	// Main Program
@@ -16,18 +16,18 @@ void TextureWrap::create() {
 	FRAGMENT_SHADER = GLUtils::openTextFile(
 			"fragment/fragment_shader_texture_mipmap_2d.glsl");
 
-	mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-	if (!mProgram) {
-		LOGD("Could not create program")
+	if (!m_ProgramObj) {
+		LOGD("Could not Create program")
 		return;
 	}
 
 	// Get the sampler location
-	samplerLoc = glGetUniformLocation(mProgram, "s_texture");
+	samplerLoc = glGetUniformLocation(m_ProgramObj, "s_texture");
 
 	// Get the offset location
-	offsetLoc = glGetUniformLocation(mProgram, "u_offset");
+	offsetLoc = glGetUniformLocation(m_ProgramObj, "u_offset");
 
 	// Load the texture  加载纹理
 	textureId = CreateTexture2D();
@@ -36,7 +36,7 @@ void TextureWrap::create() {
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void TextureWrap::draw() {
+void TextureWrap::Draw() {
 	GLfloat vVertices[] = {
 			-0.3f,  0.3f, 0.0f, 1.0f,   // Position 0
 			-1.0f,  -1.0f,              // TexCoord 0
@@ -61,7 +61,7 @@ void TextureWrap::draw() {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// Use the program object
-	glUseProgram(mProgram);
+	glUseProgram(m_ProgramObj);
 
 	// Load the vertex position
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), vVertices);
@@ -115,12 +115,12 @@ void TextureWrap::draw() {
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
 }
 
-void TextureWrap::shutdown() {
+void TextureWrap::Shutdown() {
 	// Delete texture object
 	glDeleteTextures(1, &textureId);
 
 	// Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 }
 
 // Create a mipmapped 2D texture image

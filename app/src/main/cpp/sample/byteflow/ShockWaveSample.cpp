@@ -45,7 +45,7 @@ ShockWaveSample::~ShockWaveSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void ShockWaveSample::create() {
+void ShockWaveSample::Create() {
 
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
@@ -54,9 +54,9 @@ void ShockWaveSample::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_shock_wave.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGE("RotaryHeadSample::Init create program fail")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGE("RotaryHeadSample::Init Create program fail")
         return;
     }
 
@@ -91,7 +91,7 @@ void ShockWaveSample::create() {
 
     glBindVertexArray(GL_NONE);
     //=========================================== 纹理相关===========================================
-    //create RGBA texture
+    //Create RGBA texture
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -110,44 +110,44 @@ void ShockWaveSample::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-void ShockWaveSample::draw() {
+void ShockWaveSample::Draw() {
     LOGD("ShockWaveSample::Draw()")
-    if(mProgram == GL_NONE || m_TextureId == GL_NONE) return;
+    if(m_ProgramObj == GL_NONE || m_TextureId == GL_NONE) return;
 
     // 清空缓冲区: STENCIL_BUFFER、COLOR_BUFFER、DEPTH_BUFFER
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glUseProgram (mProgram);
+    glUseProgram (m_ProgramObj);
 
     m_FrameIndex ++;
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float)mWidth / (float)mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float)m_Width / (float)m_Height);
 
     glBindVertexArray(m_VaoId);
 
-    GLUtils::setMat4(mProgram, "u_MVPMatrix", m_MVPMatrix);
+    GLUtils::setMat4(m_ProgramObj, "u_MVPMatrix", m_MVPMatrix);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
-    GLUtils::setFloat(mProgram, "s_TextureMap", 0);
+    GLUtils::setFloat(m_ProgramObj, "s_TextureMap", 0);
 
     //float time = static_cast<float>(fmod(GetSysCurrentTime(), 2000) / 2000);
     auto time = static_cast<float>(fmod(m_FrameIndex, 150) / 120);
-    GLUtils::setFloat(mProgram, "u_Time", time);
+    GLUtils::setFloat(m_ProgramObj, "u_Time", time);
     //设置点击位置
-    GLUtils::setVec2(mProgram, "u_TouchXY", m_touchXY);
+    GLUtils::setVec2(m_ProgramObj, "u_TouchXY", m_touchXY);
     //设置纹理尺寸
-    GLUtils::setVec2(mProgram, "u_TexSize", vec2(m_RenderImage.width, m_RenderImage.height));
+    GLUtils::setVec2(m_ProgramObj, "u_TexSize", vec2(m_RenderImage.width, m_RenderImage.height));
     //设置边界值
-    GLUtils::setFloat(mProgram, "u_Boundary", 0.1f);
+    GLUtils::setFloat(m_ProgramObj, "u_Boundary", 0.1f);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
 }
 
-void ShockWaveSample::shutdown() {
-    if (mProgram)
+void ShockWaveSample::Shutdown() {
+    if (m_ProgramObj)
     {
-        glDeleteProgram(mProgram);
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(3, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);
@@ -206,6 +206,6 @@ void ShockWaveSample::UpdateMVPMatrix(mat4 &mvpMatrix, int angleX, int angleY, f
 }
 
 void ShockWaveSample::SetTouchLocation(float x, float y) {
-    m_touchXY = vec2(x / mWidth, y / mHeight);
+    m_touchXY = vec2(x / m_Width, y / m_Height);
     m_FrameIndex = 0;
 }

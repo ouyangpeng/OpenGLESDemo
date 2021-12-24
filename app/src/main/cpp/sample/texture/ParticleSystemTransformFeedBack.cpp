@@ -5,8 +5,8 @@
 #include "ParticleSystemTransformFeedBack.h"
 
 
-void ParticleSystemTransformFeedBack::create() {
-    LOGD("create()")
+void ParticleSystemTransformFeedBack::Create() {
+    LOGD("Create()")
     GLUtils::printGLInfo();
 
     int i;
@@ -81,7 +81,7 @@ void ParticleSystemTransformFeedBack::initEmitParticles() {
     emitProgramObject = GLUtils::createProgram(&vertex, &fragment);
 
     if (!emitProgramObject) {
-        LOGD("Could not create program")
+        LOGD("Could not Create program")
         return;
     }
 
@@ -112,8 +112,8 @@ void ParticleSystemTransformFeedBack::initEmitParticles() {
 }
 
 
-void ParticleSystemTransformFeedBack::draw() {
-    LOGD("draw()")
+void ParticleSystemTransformFeedBack::Draw() {
+    LOGD("Draw()")
     // 每次更新一下
     update(getDeltaTime());
 
@@ -128,7 +128,7 @@ void ParticleSystemTransformFeedBack::draw() {
     glDeleteSync ( emitSync );
 
     // Set the viewport
-    glViewport ( 0, 0, mWidth, mHeight );
+    glViewport (0, 0, m_Width, m_Height );
 
     // Clear the color buffer
     glClear ( GL_COLOR_BUFFER_BIT );
@@ -158,7 +158,7 @@ void ParticleSystemTransformFeedBack::draw() {
     glDrawArrays (GL_POINTS, 0, NUM_PARTICLES );
 }
 
-void ParticleSystemTransformFeedBack::shutdown() {
+void ParticleSystemTransformFeedBack::Shutdown() {
     // Delete texture object
     glDeleteTextures ( 1, &textureId );
 
@@ -251,7 +251,7 @@ void ParticleSystemTransformFeedBack::emitParticles() {
     glDrawArrays (GL_POINTS, 0, NUM_PARTICLES );
     glEndTransformFeedback();
 
-    // Create a sync object to ensure transform feedback results are completed before the draw that uses them.
+    // Create a sync object to ensure transform feedback results are completed before the Draw that uses them.
     emitSync = glFenceSync ( GL_SYNC_GPU_COMMANDS_COMPLETE, 0 );
 
     // Restore state

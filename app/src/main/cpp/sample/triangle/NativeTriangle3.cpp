@@ -34,7 +34,7 @@ static GLushort indices[3] = {
 static GLfloat *vtxBuf[2] = {vertexPos, color};
 
 
-void NativeTriangle3::create() {
+void NativeTriangle3::Create() {
     GLUtils::printGLInfo();
 
     // 顶点着色器
@@ -43,10 +43,10 @@ void NativeTriangle3::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_hello_triangle2.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (!mProgram) {
-        LOGD("Could not create program")
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
@@ -58,7 +58,7 @@ void NativeTriangle3::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void NativeTriangle3::draw() {
+void NativeTriangle3::Draw() {
     // Clear the color buffer
     // 清除屏幕
     // 在OpenGL ES中，绘图中涉及多种缓冲区类型：颜色、深度、模板。
@@ -71,10 +71,10 @@ void NativeTriangle3::draw() {
     // Use the program object
     // 在glUseProgram函数调用之后，每个着色器调用和渲染调用都会使用这个程序对象（也就是之前写的着色器)了。
     // 当我们渲染一个物体时要使用着色器程序 , 将其设置为活动程序。这样就可以开始渲染了
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     if (vboIds[0] == 0 && vboIds[1] == 0 && vboIds[2] == 0) {
-        // Only allocate on the first draw
+        // Only allocate on the first Draw
 
         // 使用glGenBuffers函数生成3个VBO对象
         glGenBuffers(3, vboIds);
@@ -181,9 +181,9 @@ void NativeTriangle3::draw() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void NativeTriangle3::shutdown() {
+void NativeTriangle3::Shutdown() {
     // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 
     glDeleteBuffers(3, &vboIds[0]);
 }

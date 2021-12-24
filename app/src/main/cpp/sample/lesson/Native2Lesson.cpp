@@ -1,8 +1,8 @@
 #include "Native2Lesson.h"
 
 Native2Lesson::Native2Lesson() {
-    mWidth = 0;
-    mHeight = 0;
+    m_Width = 0;
+    m_Height = 0;
 
     mViewMatrix = nullptr;
     mModelMatrix = nullptr;
@@ -35,8 +35,8 @@ Native2Lesson::Native2Lesson() {
     LOGD("Create Native2Lesson instance successful")
 }
 
-void Native2Lesson::create() {
-    LOGD("Native2Lesson create")
+void Native2Lesson::Create() {
+    LOGD("Native2Lesson Create")
 
     // Use culling to remove back face.
     glEnable(GL_CULL_FACE);
@@ -54,7 +54,7 @@ void Native2Lesson::create() {
             "fragment/fragment_shader_lesson_2.glsl");
     mPerVertexProgramHandle = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (!mPerVertexProgramHandle) {
-        LOGD("Could not create program")
+        LOGD("Could not Create program")
         return;
     }
 
@@ -66,7 +66,7 @@ void Native2Lesson::create() {
     mPointProgramHandle = GLUtils::createProgram(&POINT_VERTEX_SHADER_CODE,
                                                  &POINT_FRAGMENT_SHADER_CODE);
     if (!mPointProgramHandle) {
-        LOGD("Could not create program")
+        LOGD("Could not Create program")
         return;
     }
 
@@ -93,13 +93,13 @@ void Native2Lesson::create() {
     mViewMatrix = Matrix::newLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 }
 
-void Native2Lesson::change(int width, int height) {
-    LOGD("Native2Lesson change")
+void Native2Lesson::Change(int width, int height) {
+    LOGD("Native2Lesson Change")
 
-    mWidth = width;
-    mHeight = height;
+    m_Width = width;
+    m_Height = height;
 
-    glViewport(0, 0, mWidth, mHeight);
+    glViewport(0, 0, m_Width, m_Height);
 
     // Create a new perspective projection matrix. The height will stay the same
     // while the width will vary as per aspect ratio.
@@ -114,7 +114,7 @@ void Native2Lesson::change(int width, int height) {
     mProjectionMatrix = Matrix::newFrustum(left, right, bottom, top, near, far);
 }
 
-void Native2Lesson::draw() {
+void Native2Lesson::Draw() {
     // Set the OpenGL viewport to same size as the surface.
 
     glClearColor(0, 0, 0, 1);
@@ -179,7 +179,7 @@ void Native2Lesson::draw() {
     drawLight();
 }
 
-void Native2Lesson::shutdown() {
+void Native2Lesson::Shutdown() {
     delete mModelMatrix;
     mModelMatrix = nullptr;
 

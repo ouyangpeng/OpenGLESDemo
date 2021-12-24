@@ -57,17 +57,17 @@ AvatarSample::~AvatarSample() {
     }
 }
 
-void AvatarSample::create() {
+void AvatarSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_blending.glsl");
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_avatar.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (mProgram == GL_NONE) {
-        LOGE("BasicLightingSample::Init mProgram == GL_NONE")
+    if (m_ProgramObj == GL_NONE) {
+        LOGE("BasicLightingSample::Init m_ProgramObj == GL_NONE")
         return;
     }
 
@@ -76,12 +76,12 @@ void AvatarSample::create() {
             "fragment/fragment_shader_avatar_blur.glsl");
     m_BlurProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &fBlurShader);
     if (m_BlurProgramObj == GL_NONE) {
-        LOGE("BasicLightingSample::Init mProgram == GL_NONE")
+        LOGE("BasicLightingSample::Init m_ProgramObj == GL_NONE")
         return;
     }
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
 
     //=========================================== VBO和VAO相关===========================================
     // Generate VBO Ids and load the VBOs with data
@@ -114,7 +114,7 @@ void AvatarSample::create() {
 
     glBindVertexArray(GL_NONE);
     //=========================================== 纹理相关===========================================
-    //create RGBA texture
+    //Create RGBA texture
     glGenTextures(RENDER_IMG_NUM, m_TextureIds);
     for (int i = 0; i < RENDER_IMG_NUM; ++i) {
         glActiveTexture(GL_TEXTURE0 + i);
@@ -133,16 +133,16 @@ void AvatarSample::create() {
 }
 
 
-void AvatarSample::draw() {
+void AvatarSample::Draw() {
     LOGD("AvatarSample::Draw()")
 
-    if (mProgram == GL_NONE) return;
+    if (m_ProgramObj == GL_NONE) return;
     float dScaleLevel = m_FrameIndex % 200 * 1.0f / 1000 + 0.0001f;
 
 
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
     glBindVertexArray(m_VaoId);
 
     // 素材图里的人像层和外层是部分区域透明的 PNG 图，而背景层是每个像素透明度均为最大值的 JPG 图。
@@ -158,14 +158,14 @@ void AvatarSample::draw() {
     auto scaleLevel = static_cast<float>(1.0f + dScaleLevel * pow(-1, m_FrameIndex / 200));
     scaleLevel = scaleLevel < 1.0 ? scaleLevel + 0.2f : scaleLevel;
     m_ScaleY = m_ScaleX = scaleLevel + 0.4f;
-    GLUtils::setVec2(mProgram, "u_texSize",
+    GLUtils::setVec2(m_ProgramObj, "u_texSize",
                      glm::vec2(m_RenderImages[0].width, m_RenderImages[0].height));
-    GLUtils::setFloat(mProgram, "u_needRotate", 1.0f); // u_needRotate == 1 开启形变
-    GLUtils::setFloat(mProgram, "u_rotateAngle", m_TransX * 1.5f);
+    GLUtils::setFloat(m_ProgramObj, "u_needRotate", 1.0f); // u_needRotate == 1 开启形变
+    GLUtils::setFloat(m_ProgramObj, "u_rotateAngle", m_TransX * 1.5f);
 
     //设置变换矩阵 m_TransX m_TransY 为 x,y 方向的重力传感器数据
     UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, m_TransX / 2, m_TransY / 2,
-                    (float) mWidth / (float) mHeight);
+                    (float) m_Width / (float) m_Height);
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
     //绘制
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
@@ -183,11 +183,11 @@ void AvatarSample::draw() {
 
     //设置变换矩阵 m_TransX m_TransY 为 x,y 方向的重力传感器数据
     UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, m_TransX * 1.2f, m_TransY * 1.2f,
-                    (float) mWidth / (float) mHeight);
-    GLUtils::setVec2(mProgram, "u_texSize",
+                    (float) m_Width / (float) m_Height);
+    GLUtils::setVec2(m_ProgramObj, "u_texSize",
                      glm::vec2(m_RenderImages[0].width, m_RenderImages[0].height));
-    GLUtils::setFloat(mProgram, "u_needRotate", 0.0f);// u_needRotate == 0 关闭形变
-    GLUtils::setFloat(mProgram, "u_rotateAngle", m_TransX / 20);
+    GLUtils::setFloat(m_ProgramObj, "u_needRotate", 0.0f);// u_needRotate == 0 关闭形变
+    GLUtils::setFloat(m_ProgramObj, "u_rotateAngle", m_TransX / 20);
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
     //绘制
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
@@ -210,7 +210,7 @@ void AvatarSample::draw() {
 
     //设置变换矩阵 m_TransX m_TransY 为 x,y 方向的重力传感器数据
     UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, m_TransX * 2.5f, m_TransY * 2.5f,
-                    (float) mWidth / (float) mHeight);
+                    (float) m_Width / (float) m_Height);
     GLUtils::setMat4(m_BlurProgramObj, "u_MVPMatrix", m_MVPMatrix);
     //绘制
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
@@ -230,9 +230,9 @@ void AvatarSample::LoadMultiImageWithIndex(int index, NativeImage *pImage) {
     }
 }
 
-void AvatarSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void AvatarSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(3, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(RENDER_IMG_NUM, m_TextureIds);

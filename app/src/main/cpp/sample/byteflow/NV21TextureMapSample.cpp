@@ -32,7 +32,7 @@ void NV21TextureMapSample::LoadImage(NativeImage *pImage) {
     }
 }
 
-void NV21TextureMapSample::create() {
+void NV21TextureMapSample::Create() {
     GLUtils::printGLInfo();
 
     // 顶点着色器
@@ -41,15 +41,15 @@ void NV21TextureMapSample::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_yuv_render.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGD("Could not create program")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
     // Get the sampler location
-    m_ySamplerLoc = glGetUniformLocation (mProgram, "y_texture" );
-    m_uvSamplerLoc = glGetUniformLocation(mProgram, "uv_texture");
+    m_ySamplerLoc = glGetUniformLocation (m_ProgramObj, "y_texture" );
+    m_uvSamplerLoc = glGetUniformLocation(m_ProgramObj, "uv_texture");
 
     // 生成2个纹理，将纹理 id 赋值给 textureIds
     GLuint textureIds[2] = {0};
@@ -62,16 +62,16 @@ void NV21TextureMapSample::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void NV21TextureMapSample::draw() {
+void NV21TextureMapSample::Draw() {
     LOGD("NV21TextureMapSample::Draw()")
 
-    if(mProgram == GL_NONE || m_yTextureId == GL_NONE || m_uvTextureId == GL_NONE) return;
+    if(m_ProgramObj == GL_NONE || m_yTextureId == GL_NONE || m_uvTextureId == GL_NONE) return;
 
     // 清空缓冲区: STENCIL_BUFFER、COLOR_BUFFER、DEPTH_BUFFER
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     //upload Y plane data
     // 将纹理 m_TextureId 绑定到类型 GL_TEXTURE_2D 纹理
@@ -130,8 +130,8 @@ void NV21TextureMapSample::draw() {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, yuv_indices);
 }
 
-void NV21TextureMapSample::shutdown() {
-    if(mProgram){
+void NV21TextureMapSample::Shutdown() {
+    if(m_ProgramObj){
         if (m_yTextureId) {
             // 删除纹理
             glDeleteTextures(1, &m_yTextureId);
@@ -144,6 +144,6 @@ void NV21TextureMapSample::shutdown() {
             m_uvTextureId = GL_NONE;
         }
 
-        GLUtils::DeleteProgram(mProgram);
+        GLUtils::DeleteProgram(m_ProgramObj);
     }
 }

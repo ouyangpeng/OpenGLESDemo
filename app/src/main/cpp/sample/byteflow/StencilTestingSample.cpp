@@ -78,8 +78,8 @@ StencilTestingSample::~StencilTestingSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void StencilTestingSample::create() {
-//create RGBA texture
+void StencilTestingSample::Create() {
+//Create RGBA texture
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -94,41 +94,41 @@ void StencilTestingSample::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_multi_light.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
     const char *fFrameShaderStr = GLUtils::openTextFile(
             "fragment/fragment_shader_hello_triangle.glsl");
     m_FrameProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &fFrameShaderStr);
 
-    if (mProgram == GL_NONE || m_FrameProgramObj == GL_NONE) {
-        LOGE("StencilTestingSample::create()  mProgram == GL_NONE || m_FrameProgramObj == GL_NONE")
+    if (m_ProgramObj == GL_NONE || m_FrameProgramObj == GL_NONE) {
+        LOGE("StencilTestingSample::Create()  m_ProgramObj == GL_NONE || m_FrameProgramObj == GL_NONE")
         return;
     }
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
     GO_CHECK_GL_ERROR()
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
     GO_CHECK_GL_ERROR()
-    m_ModelMatrixLoc = glGetUniformLocation(mProgram, "u_ModelMatrix");
+    m_ModelMatrixLoc = glGetUniformLocation(m_ProgramObj, "u_ModelMatrix");
     GO_CHECK_GL_ERROR()
-    m_ViewPosLoc = glGetUniformLocation(mProgram, "viewPos");
+    m_ViewPosLoc = glGetUniformLocation(m_ProgramObj, "viewPos");
     GO_CHECK_GL_ERROR()
 
-    m_LightPosition = glGetUniformLocation(mProgram, "light.position");
+    m_LightPosition = glGetUniformLocation(m_ProgramObj, "light.position");
     GO_CHECK_GL_ERROR()
-    m_LightColor = glGetUniformLocation(mProgram, "light.color");
+    m_LightColor = glGetUniformLocation(m_ProgramObj, "light.color");
     GO_CHECK_GL_ERROR()
-    m_LightDirection = glGetUniformLocation(mProgram, "light.direction");
+    m_LightDirection = glGetUniformLocation(m_ProgramObj, "light.direction");
     GO_CHECK_GL_ERROR()
-    m_LightCutOff = glGetUniformLocation(mProgram, "light.cutOff");
+    m_LightCutOff = glGetUniformLocation(m_ProgramObj, "light.cutOff");
     GO_CHECK_GL_ERROR()
-    m_LightOuterCutOff = glGetUniformLocation(mProgram, "light.outerCutOff");
+    m_LightOuterCutOff = glGetUniformLocation(m_ProgramObj, "light.outerCutOff");
     GO_CHECK_GL_ERROR()
-    m_LightConstant = glGetUniformLocation(mProgram, "light.constant");
+    m_LightConstant = glGetUniformLocation(m_ProgramObj, "light.constant");
     GO_CHECK_GL_ERROR()
-    m_LightLinear = glGetUniformLocation(mProgram, "light.linear");
+    m_LightLinear = glGetUniformLocation(m_ProgramObj, "light.linear");
     GO_CHECK_GL_ERROR()
-    m_LightQuadratic = glGetUniformLocation(mProgram, "light.quadratic");
+    m_LightQuadratic = glGetUniformLocation(m_ProgramObj, "light.quadratic");
     GO_CHECK_GL_ERROR()
 
     // Generate VBO Ids and load the VBOs with data
@@ -165,12 +165,12 @@ void StencilTestingSample::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void StencilTestingSample::draw() {
+void StencilTestingSample::Draw() {
     LOGD("StencilTestingSample::Draw()")
 
-    if (mProgram == GL_NONE || m_TextureId == GL_NONE) return;
+    if (m_ProgramObj == GL_NONE || m_TextureId == GL_NONE) return;
 
-    float ratio = (float) mWidth / (float) mHeight;
+    float ratio = (float) m_Width / (float) m_Height;
 
     // 如果这句话不写，直接会黑屏。当使用 GL_DEPTH_TEST的时候，要记得调用下面这句话，搭配使用。
     // 黑屏的Bug，参考博客
@@ -227,7 +227,7 @@ void StencilTestingSample::draw() {
     // 下面开始绘制物体
 
     glBindVertexArray(m_VaoId);
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
     glUniform3f(m_ViewPosLoc, 0.0f, 0.0f, 3.0f);
     // Bind the RGBA map
     glActiveTexture(GL_TEXTURE0);
@@ -286,13 +286,13 @@ void StencilTestingSample::draw() {
     glEnable(GL_DEPTH_TEST);
 }
 
-void StencilTestingSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void StencilTestingSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(1, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);
-        mProgram = GL_NONE;
+        m_ProgramObj = GL_NONE;
         m_VaoId = GL_NONE;
         m_TextureId = GL_NONE;
     }

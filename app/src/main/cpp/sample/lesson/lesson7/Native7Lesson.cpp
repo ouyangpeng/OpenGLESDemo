@@ -58,7 +58,7 @@ Native7Lesson::~Native7Lesson() {
 
 }
 
-void Native7Lesson::create() {
+void Native7Lesson::Create() {
 
 //    genData->setNative7Lesson(this);
 
@@ -99,7 +99,7 @@ void Native7Lesson::create() {
     // Set program handles
     mProgramHandle = GLUtils::createProgram(&vertex, &fragment);
     if (!mProgramHandle) {
-        LOGD("Could not create program")
+        LOGD("Could not Create program")
         return;
     }
 
@@ -122,7 +122,7 @@ void Native7Lesson::create() {
     mLightModelMatrix = new Matrix();
 }
 
-void Native7Lesson::change(int width, int height) {
+void Native7Lesson::Change(int width, int height) {
 
     glViewport(0, 0, width, height);
 
@@ -139,7 +139,7 @@ void Native7Lesson::change(int width, int height) {
     mProjectionMatrix = Matrix::newFrustum(left, right, bottom, top, near, far);
 }
 
-void Native7Lesson::draw() {
+void Native7Lesson::Draw() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Do a compile rotation every 10 seconds;
@@ -244,33 +244,33 @@ void Native7Lesson::draw() {
     }
 }
 
-void Native7Lesson::decreaseCubeCount() {
+void Native7Lesson::DecreaseCubeCount() {
     if (genData != nullptr && genData->mLastRequestedCubeFactor > 1) {
         genData->genCube(--genData->mLastRequestedCubeFactor, false, false);
     }
 }
 
-void Native7Lesson::increaseCubeCount() {
+void Native7Lesson::IncreaseCubeCount() {
     if (genData != nullptr && genData->mLastRequestedCubeFactor < 16) {
         genData->genCube(++genData->mLastRequestedCubeFactor, false, false);
     }
 }
 
-void Native7Lesson::setDelta(float x, float y) {
+void Native7Lesson::SetDelta(float x, float y) {
     mDeltaX += x;
     mDeltaY += y;
 }
 
-void Native7Lesson::toggleStride() {
+void Native7Lesson::ToggleStride() {
     genData->genCube(genData->mLastRequestedCubeFactor, false, true);
 }
 
-void Native7Lesson::toggleVBOs() {
+void Native7Lesson::ToggleVBOs() {
     genData->genCube(genData->mLastRequestedCubeFactor, true, false);
 }
 
-void Native7Lesson::updateVboStatus(bool useVbos) {
-    LOGD("updateVboStatus %d", useVbos)
+void Native7Lesson::UpdateVboStatus(bool useVbos) {
+    LOGD("UpdateVboStatus %d", useVbos)
     Context *pctx = &g_ctx;
     JavaVM *javaVM = pctx->javaVM;
     JNIEnv *env;
@@ -279,12 +279,13 @@ void Native7Lesson::updateVboStatus(bool useVbos) {
         LOGE("Failed to Get env, ErrorCode = %d", res)
         return;
     }
+    // 调用 com.oyp.openglesdemo.lesson.lesson7.LessonSevenNativeRenderer.updateVboStatus 方法
     jmethodID statusId = env->GetMethodID(pctx->nativeRendererClz, "updateVboStatus", "(Z)V");
     env->CallVoidMethod(pctx->nativeRendererObj, statusId, useVbos);
 }
 
-void Native7Lesson::updateStrideStatus(bool useStride) {
-    LOGD("updateStrideStatus %d", useStride)
+void Native7Lesson::UpdateStrideStatus(bool useStride) {
+    LOGD("UpdateStrideStatus %d", useStride)
     Context *pctx = &g_ctx;
     JavaVM *javaVM = pctx->javaVM;
     JNIEnv *env;
@@ -293,6 +294,7 @@ void Native7Lesson::updateStrideStatus(bool useStride) {
         LOGE("Failed to Get env, ErrorCode = %d", res)
         return;
     }
+    // 调用 com.oyp.openglesdemo.lesson.lesson7.LessonSevenNativeRenderer.updateStrideStatus 方法
     jmethodID statusId = env->GetMethodID(pctx->nativeRendererClz, "updateStrideStatus", "(Z)V");
     env->CallVoidMethod(pctx->nativeRendererObj, statusId, useStride);
 }
@@ -352,7 +354,7 @@ Java_com_oyp_openglesdemo_lesson_lesson7_LessonSevenNativeRenderer_nativeSurface
     genData = new GenData(lesson7);
 
     if (lesson7 != nullptr) {
-        lesson7->create();
+        lesson7->Create();
     }
 }
 
@@ -361,7 +363,7 @@ JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_lesson_lesson7_LessonSevenNativeRenderer_nativeSurfaceChange(
         JNIEnv *env, jobject thiz, jint width, jint height) {
     if (lesson7 != nullptr) {
-        lesson7->change(width, height);
+        lesson7->Change(width, height);
     }
 }
 
@@ -370,7 +372,7 @@ JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_lesson_lesson7_LessonSevenNativeRenderer_nativeDrawFrame(
         JNIEnv *env, jobject thiz) {
     if (lesson7 != nullptr) {
-        lesson7->draw();
+        lesson7->Draw();
     }
 }
 
@@ -379,7 +381,7 @@ JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_lesson_lesson7_LessonSevenNativeRenderer_nativeSetDelta(
         JNIEnv *env, jobject thiz, jfloat x, jfloat y) {
     if (lesson7 != nullptr) {
-        lesson7->setDelta(x, y);
+        lesson7->SetDelta(x, y);
     }
 }
 
@@ -388,7 +390,7 @@ JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_lesson_lesson7_LessonSevenNativeRenderer_nativeDecreaseCubeCount(
         JNIEnv *env, jobject thiz) {
     if (lesson7 != nullptr) {
-        lesson7->decreaseCubeCount();
+        lesson7->DecreaseCubeCount();
     }
 }
 
@@ -397,7 +399,7 @@ JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_lesson_lesson7_LessonSevenNativeRenderer_nativeIncreaseCubeCount(
         JNIEnv *env, jobject thiz) {
     if (lesson7 != nullptr) {
-        lesson7->increaseCubeCount();
+        lesson7->IncreaseCubeCount();
     }
 }
 
@@ -406,7 +408,7 @@ JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_lesson_lesson7_LessonSevenNativeRenderer_nativeToggleVBOs(
         JNIEnv *env, jobject thiz) {
     if (lesson7 != nullptr) {
-        lesson7->toggleVBOs();
+        lesson7->ToggleVBOs();
     }
 }
 
@@ -415,6 +417,6 @@ JNIEXPORT void JNICALL
 Java_com_oyp_openglesdemo_lesson_lesson7_LessonSevenNativeRenderer_nativeToggleStride(
         JNIEnv *env, jobject thiz) {
     if (lesson7 != nullptr) {
-        lesson7->toggleStride();
+        lesson7->ToggleStride();
     }
 }

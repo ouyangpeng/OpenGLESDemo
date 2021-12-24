@@ -74,7 +74,7 @@ FaceSlenderSample::~FaceSlenderSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void FaceSlenderSample::create() {
+void FaceSlenderSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_coord_system.glsl");
@@ -82,14 +82,14 @@ void FaceSlenderSample::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_face_slender.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGE("FaceSlenderSample::Init create program fail")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGE("FaceSlenderSample::Init Create program fail")
         return;
     }
 
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
 
     //=========================================== VBO和VAO相关===========================================
     // Generate VBO Ids and load the VBOs with data
@@ -143,18 +143,18 @@ void FaceSlenderSample::create() {
     glClearColor(0.1, 0.1, 0.1, 0.1);
 }
 
-void FaceSlenderSample::draw() {
-    if (mProgram == GL_NONE) {
-        LOGE("FaceSlenderSample::draw() mProgram == GL_NONE return")
+void FaceSlenderSample::Draw() {
+    if (m_ProgramObj == GL_NONE) {
+        LOGE("FaceSlenderSample::Draw() m_ProgramObj == GL_NONE return")
         return;
     }
     // 清除缓存
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
 
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
 
@@ -170,9 +170,9 @@ void FaceSlenderSample::draw() {
     LOGD("FaceSlenderSample::Draw() ratio=%f, effectRadius=%f", ratio, effectRadius)
 
     // 赋值给片段着色器
-    GLUtils::setFloat(mProgram, "u_reshapeRatio", ratio);
-    GLUtils::setFloat(mProgram, "u_reshapeRadius", effectRadius);
-    GLUtils::setVec4(mProgram, "u_preCtrlPoints",
+    GLUtils::setFloat(m_ProgramObj, "u_reshapeRatio", ratio);
+    GLUtils::setFloat(m_ProgramObj, "u_reshapeRadius", effectRadius);
+    GLUtils::setVec4(m_ProgramObj, "u_preCtrlPoints",
                      LeftSlenderCtlPoint[0] / (float) m_RenderImage.width,
                      LeftSlenderCtlPoint[1] / (float) m_RenderImage.height,
                      RightSlenderCtlPoint[0] / (float) m_RenderImage.width,
@@ -188,12 +188,12 @@ void FaceSlenderSample::draw() {
             PointF(ChinKeyPoint[0], ChinKeyPoint[1]));
     rightCurPoint = PointUtil::PointDivide(rightCurPoint, 2);
 
-    GLUtils::setVec4(mProgram, "u_curCtrlPoints",
+    GLUtils::setVec4(m_ProgramObj, "u_curCtrlPoints",
                      leftCurPoint.x / (float) m_RenderImage.width,
                      leftCurPoint.y / (float) m_RenderImage.height,
                      rightCurPoint.x / (float) m_RenderImage.width,
                      rightCurPoint.y / (float) m_RenderImage.height);
-    GLUtils::setVec2(mProgram, "u_texSize",
+    GLUtils::setVec2(m_ProgramObj, "u_texSize",
                      (float) m_RenderImage.width,
                      (float) m_RenderImage.height);
 
@@ -220,10 +220,10 @@ void FaceSlenderSample::draw() {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
 }
 
-void FaceSlenderSample::shutdown() {
-    if (mProgram) {
-        LOGD("FaceSlenderSample::shutdown()")
-        glDeleteProgram(mProgram);
+void FaceSlenderSample::Shutdown() {
+    if (m_ProgramObj) {
+        LOGD("FaceSlenderSample::Shutdown()")
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(3, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);

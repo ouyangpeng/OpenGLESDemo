@@ -6,7 +6,7 @@
 #include "Noise3DRender.h"
 
 
-void Noise3DRender::create() {
+void Noise3DRender::Create() {
     GLUtils::printGLInfo();
 
     // Create the 3D texture
@@ -19,21 +19,21 @@ void Noise3DRender::create() {
             "fragment/fragment_shader_noise3d.glsl");
 
     // Set program handles
-    mProgram = GLUtils::createProgram(&vertex, &fragment);
+    m_ProgramObj = GLUtils::createProgram(&vertex, &fragment);
 
-    if (!mProgram) {
-        LOGD("Could not create program")
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
     // Get the uniform locations
-    mvpLoc = glGetUniformLocation(mProgram, "u_mvpMatrix");
-    mvLoc = glGetUniformLocation(mProgram, "u_mvMatrix");
-    noiseTexLoc = glGetUniformLocation(mProgram, "s_noiseTex");
-    fogMinDistLoc = glGetUniformLocation(mProgram, "u_fogMinDist");
-    fogMaxDistLoc = glGetUniformLocation(mProgram, "u_fogMaxDist");
-    fogColorLoc = glGetUniformLocation(mProgram, "u_fogColor");
-    timeLoc = glGetUniformLocation(mProgram, "u_time");
+    mvpLoc = glGetUniformLocation(m_ProgramObj, "u_mvpMatrix");
+    mvLoc = glGetUniformLocation(m_ProgramObj, "u_mvMatrix");
+    noiseTexLoc = glGetUniformLocation(m_ProgramObj, "s_noiseTex");
+    fogMinDistLoc = glGetUniformLocation(m_ProgramObj, "u_fogMinDist");
+    fogMaxDistLoc = glGetUniformLocation(m_ProgramObj, "u_fogMaxDist");
+    fogColorLoc = glGetUniformLocation(m_ProgramObj, "u_fogColor");
+    timeLoc = glGetUniformLocation(m_ProgramObj, "u_time");
 
     // Generate the vertex data
     numIndices = esGenCube(3.0, &vertices,
@@ -47,18 +47,18 @@ void Noise3DRender::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void Noise3DRender::draw() {
+void Noise3DRender::Draw() {
     // 每次更新一下
     update(getDeltaTime());
 
     // Set the viewport
-    glViewport(0, 0, mWidth, mHeight);
+    glViewport(0, 0, m_Width, m_Height);
 
     // Clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // Load the vertex position
     glVertexAttribPointer(ATTRIB_LOCATION_POS, 3, GL_FLOAT,
@@ -100,7 +100,7 @@ void Noise3DRender::draw() {
 
 }
 
-void Noise3DRender::shutdown() {
+void Noise3DRender::Shutdown() {
     if (vertices != nullptr) {
         free(vertices);
     }
@@ -117,7 +117,7 @@ void Noise3DRender::shutdown() {
     glDeleteTextures(1, &textureId);
 
     // Delete program object
-    glDeleteProgram(mProgram);
+    glDeleteProgram(m_ProgramObj);
 }
 
 void Noise3DRender::update(float deltaTime) {
@@ -128,7 +128,7 @@ void Noise3DRender::update(float deltaTime) {
     curTime += deltaTime;
 
     // Compute the window aspect ratio
-    aspect = (GLfloat) mWidth / (GLfloat) mHeight;
+    aspect = (GLfloat) m_Width / (GLfloat) m_Height;
 
     // Generate a perspective matrix with a 60 degree FOV
     esMatrixLoadIdentity(&perspective);

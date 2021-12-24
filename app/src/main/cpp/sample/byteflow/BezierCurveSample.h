@@ -13,11 +13,11 @@ public:
 
 	virtual ~BezierCurveSample();
 
-	virtual void create();
+	virtual void Create();
 
-	virtual void draw();
+	virtual void Draw();
 
-	virtual void shutdown();
+	virtual void Shutdown();
 
 	virtual void UpdateTransformMatrix(float rotateX, float rotateY, float scaleX, float scaleY);
 

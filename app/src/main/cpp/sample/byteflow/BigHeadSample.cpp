@@ -61,7 +61,7 @@ BigHeadSample::~BigHeadSample() {
 
 }
 
-void BigHeadSample::create() {
+void BigHeadSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_big_head.glsl");
@@ -69,14 +69,14 @@ void BigHeadSample::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_big_head.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGE("BigHeadSample::Init create program fail")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGE("BigHeadSample::Init Create program fail")
         return;
     }
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
 
     CalculateMesh(0);
 
@@ -128,19 +128,19 @@ void BigHeadSample::create() {
     glClearColor(0.1, 0.1, 0.1, 0.1);
 }
 
-void BigHeadSample::draw() {
-    if (mProgram == GL_NONE) {
-        LOGE("FaceSlenderSample::draw() mProgram == GL_NONE return")
+void BigHeadSample::Draw() {
+    if (m_ProgramObj == GL_NONE) {
+        LOGE("FaceSlenderSample::Draw() m_ProgramObj == GL_NONE return")
         return;
     }
     // 清除缓存
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     //变换矩阵
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
 
     m_FrameIndex++;
@@ -174,16 +174,16 @@ void BigHeadSample::draw() {
 
     glUniform1i(m_SamplerLoc, 0);
 
-    GLUtils::setFloat(mProgram, "u_type", 0);
+    GLUtils::setFloat(m_ProgramObj, "u_type", 0);
     glDrawArrays(GL_TRIANGLES, 0, TRIANGLE_COUNT * 3);
 
-    GLUtils::setFloat(mProgram, "u_type", 1);
+    GLUtils::setFloat(m_ProgramObj, "u_type", 1);
 }
 
-void BigHeadSample::shutdown() {
-    if (mProgram) {
-        LOGD("BigHeadSample::shutdown()")
-        glDeleteProgram(mProgram);
+void BigHeadSample::Shutdown() {
+    if (m_ProgramObj) {
+        LOGD("BigHeadSample::Shutdown()")
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(2, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);

@@ -84,7 +84,7 @@ void PBOSample::LoadImage(NativeImage *pImage) {
     }
 }
 
-void PBOSample::create() {
+void PBOSample::Create() {
     //顶点坐标
     GLfloat vVertices[] = {
             -1.0f, -1.0f, 0.0f,
@@ -118,7 +118,7 @@ void PBOSample::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_map.glsl");
     // 编译链接用于普通渲染的着色器程序
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
     // 用于离屏渲染的顶点着色器脚本，不使用变换矩阵
     const char *vFboShaderStr = GLUtils::openTextFile(
@@ -129,13 +129,13 @@ void PBOSample::create() {
     // 编译链接用于离屏渲染的着色器程序
     m_FboProgramObj = GLUtils::createProgram(&vFboShaderStr, &fFboFragmentShader);
 
-    if (mProgram == GL_NONE || m_FboProgramObj == GL_NONE) {
-        LOGD("PBOSample::Init mProgram == GL_NONE")
+    if (m_ProgramObj == GL_NONE || m_FboProgramObj == GL_NONE) {
+        LOGD("PBOSample::Init m_ProgramObj == GL_NONE")
         return;
     }
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
-    m_MVPMatrixLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
+    m_MVPMatrixLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
     m_FboSamplerLoc = glGetUniformLocation(m_FboProgramObj, "s_TextureMap");
 
     //=================================== VBO 相关 ===================================
@@ -255,7 +255,7 @@ void PBOSample::create() {
     }
 }
 
-void PBOSample::draw() {
+void PBOSample::Draw() {
     // 离屏渲染
     //glPixelStorei(GL_UNPACK_ALIGNMENT,1);
     glViewport(0, 0, m_RenderImage.width, m_RenderImage.height);
@@ -284,9 +284,9 @@ void PBOSample::draw() {
 
     // 普通渲染
     // Do normal rendering
-    glViewport(0, 0, mWidth, mHeight);
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
-    glUseProgram(mProgram);
+    glViewport(0, 0, m_Width, m_Height);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
+    glUseProgram(m_ProgramObj);
     GO_CHECK_GL_ERROR()
     glBindVertexArray(m_VaoIds[0]);
     glActiveTexture(GL_TEXTURE0);
@@ -302,10 +302,10 @@ void PBOSample::draw() {
     m_FrameIndex++;
 }
 
-void PBOSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
-        mProgram = GL_NONE;
+void PBOSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
+        m_ProgramObj = GL_NONE;
     }
 
     if (m_FboProgramObj) {

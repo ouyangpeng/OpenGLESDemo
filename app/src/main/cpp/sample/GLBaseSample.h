@@ -15,40 +15,40 @@
 class GLBaseSample {
 public:
     GLBaseSample() {
-        mProgram = 0;
-        mWidth = 0;
-        mHeight = 0;
+        m_ProgramObj = 0;
+        m_Width = 0;
+        m_Height = 0;
     }
 
     virtual ~GLBaseSample() {
 
     }
 
-    virtual void create() = 0;
+    virtual void Create() = 0;
 
-    virtual void change(int width, int height) {
-        LOGD("change() width = %d , height = %d\n", width, height)
-        mWidth = width;
-        mHeight = height;
+    virtual void Change(int width, int height) {
+        LOGD("Change() width = %d , height = %d\n", width, height)
+        m_Width = width;
+        m_Height = height;
         // Set the viewport
         // 通知OpenGL ES 用于绘制的2D渲染表面的原点、宽度和高度。
         // 在OpenGL ES 中，视口(Viewport) 定义所有OpenGL ES 渲染操作最终显示的2D矩形
         // 视口(Viewport) 由原点坐标(x,y)和宽度(width) 、高度(height)定义。
-        glViewport(0, 0, mWidth, mHeight);
+        glViewport(0, 0, m_Width, m_Height);
     }
 
-    virtual void draw() = 0;
+    virtual void Draw() = 0;
 
-    virtual void shutdown() = 0;
+    virtual void Shutdown() = 0;
 
     // 默认啥都不做，等待有需要的子类去重写
-    virtual void switchBlendingMode() {}
+    virtual void SwitchBlendingMode() {}
 
-    virtual void setDelta(float x, float y) {}
+    virtual void SetDelta(float x, float y) {}
 
-    virtual void setMinFilter(int filter) {}
+    virtual void SetMinFilter(int filter) {}
 
-    virtual void setMagFilter(int filter) {}
+    virtual void SetMagFilter(int filter) {}
 
     virtual void LoadImage(NativeImage *pImage) {};
 
@@ -66,7 +66,7 @@ protected:
     /**
      * 程序对象
      */
-    GLuint mProgram;
+    GLuint m_ProgramObj;
 
     /**
      * 顶点着色器
@@ -80,11 +80,11 @@ protected:
     /**
      * 屏幕宽度
      */
-    int mWidth;
+    int m_Width;
     /**
      * 屏幕高度
      */
-    int mHeight;
+    int m_Height;
 };
 
 

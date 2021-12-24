@@ -55,7 +55,7 @@ UniformBufferSample::~UniformBufferSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void UniformBufferSample::create() {
+void UniformBufferSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_ubo.glsl");
@@ -64,14 +64,14 @@ void UniformBufferSample::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_map.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGE("UniformBufferSample::Init create program fail")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGE("UniformBufferSample::Init Create program fail")
         return;
     }
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
 
     //=========================================== VBO和VAO相关===========================================
     // Generate VBO Ids and load the VBOs with data
@@ -105,7 +105,7 @@ void UniformBufferSample::create() {
     glBindVertexArray(GL_NONE);
 
     //=========================================== 纹理相关===========================================
-    //create RGBA texture
+    //Create RGBA texture
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -124,8 +124,8 @@ void UniformBufferSample::create() {
     //=========================================== UBO相关===========================================
 
     // 设置 uniform 块的绑定点为 0 ，生成一个 UBO 。
-    GLuint uniformBlockIndex = glGetUniformBlockIndex(mProgram, "MVPMatrix");
-    glUniformBlockBinding(mProgram, uniformBlockIndex, 0);
+    GLuint uniformBlockIndex = glGetUniformBlockIndex(m_ProgramObj, "MVPMatrix");
+    glUniformBlockBinding(m_ProgramObj, uniformBlockIndex, 0);
 
     glGenBuffers(1, &m_UboId);
     glBindBuffer(GL_UNIFORM_BUFFER, m_UboId);
@@ -150,16 +150,16 @@ void UniformBufferSample::LoadImage(NativeImage *pImage) {
     }
 }
 
-void UniformBufferSample::draw() {
+void UniformBufferSample::Draw() {
     LOGD("UniformBufferSample::Draw()")
-    if (mProgram == GL_NONE || m_TextureId == GL_NONE) return;
+    if (m_ProgramObj == GL_NONE || m_TextureId == GL_NONE) return;
 
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     glBindVertexArray(m_VaoId);
 
@@ -181,9 +181,9 @@ void UniformBufferSample::draw() {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
 }
 
-void UniformBufferSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void UniformBufferSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(3, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);

@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include "Shadows.h"
 
-void Shadows::create() {
+void Shadows::Create() {
     GLUtils::printGLInfo();
 
     GLfloat *positions;
@@ -30,7 +30,7 @@ void Shadows::create() {
     sceneProgramObject = GLUtils::createProgram(&vSceneShaderStr, &fSceneShaderStr);
 
     if (!shadowMapProgramObject || !sceneProgramObject) {
-        LOGD("Could not create program")
+        LOGD("Could not Create program")
         return;
     }
 
@@ -96,7 +96,7 @@ void Shadows::create() {
     lightPosition[1] = 5.0f;
     lightPosition[2] = 2.0f;
 
-    // create depth texture
+    // Create depth texture
     if (!initShadowMap()) {
         return;
     }
@@ -123,7 +123,7 @@ void Shadows::initMVP() {
 
     float aspect;
     // Compute the window aspect ratio
-    aspect = (GLfloat) mWidth / (GLfloat) mHeight;
+    aspect = (GLfloat) m_Width / (GLfloat) m_Height;
 
     // Generate a perspective matrix with a 45 degree FOV for the scene rendering
     esMatrixLoadIdentity(&perspective);
@@ -146,7 +146,7 @@ void Shadows::initMVP() {
 
     // ----------   用眼睛位置建立MVP矩阵  ----------  开始
 
-    // create view matrix transformation from the eye position
+    // Create view matrix transformation from the eye position
     esMatrixLookAt(&view,
                    eyePosition[0], eyePosition[1], eyePosition[2],
                    0.0f, 0.0f, 0.0f,
@@ -158,7 +158,7 @@ void Shadows::initMVP() {
     // modelview and perspective matrices together
     esMatrixMultiply(&groundMvpMatrix, &modelView, &perspective);
 
-    // create view matrix transformation from the light position
+    // Create view matrix transformation from the light position
     esMatrixLookAt(&view,
                    lightPosition[0], lightPosition[1], lightPosition[2],
                    0.0f, 0.0f, 0.0f,
@@ -179,7 +179,7 @@ void Shadows::initMVP() {
     esScale(&model, 1.0f, 2.5f, 1.0f);
     esRotate(&model, -15.0f, 0.0f, 1.0f, 0.0f);
 
-    // create view matrix transformation from the eye position
+    // Create view matrix transformation from the eye position
     esMatrixLookAt(&view,
                    eyePosition[0], eyePosition[1], eyePosition[2],
                    0.0f, 0.0f, 0.0f,
@@ -191,7 +191,7 @@ void Shadows::initMVP() {
     // modelview and perspective matrices together
     esMatrixMultiply(&cubeMvpMatrix, &modelView, &perspective);
 
-    // create view matrix transformation from the light position
+    // Create view matrix transformation from the light position
     esMatrixLookAt(&view,
                    lightPosition[0], lightPosition[1], lightPosition[2],
                    0.0f, 0.0f, 0.0f,
@@ -258,7 +258,7 @@ int Shadows::initShadowMap() {
     return GL_TRUE;
 }
 
-void Shadows::draw() {
+void Shadows::Draw() {
 
     GLint defaultFramebuffer = 0;
 
@@ -297,7 +297,7 @@ void Shadows::draw() {
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
     // Set the viewport
-    glViewport(0, 0, mWidth, mHeight);
+    glViewport(0, 0, m_Width, m_Height);
 
     // Clear the color and depth buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -359,7 +359,7 @@ void Shadows::drawScene(GLint mvpLoc, GLint mvpLightLoc) {
     glDrawElements(GL_TRIANGLES, cubeNumIndices, GL_UNSIGNED_INT, (const void *) nullptr);
 }
 
-void Shadows::shutdown() {
+void Shadows::Shutdown() {
     glDeleteBuffers(1, &groundPositionVBO);
     glDeleteBuffers(1, &groundIndicesIBO);
 

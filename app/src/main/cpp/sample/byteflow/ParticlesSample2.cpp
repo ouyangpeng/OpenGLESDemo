@@ -42,8 +42,8 @@ void ParticlesSample2::LoadImage(NativeImage *pImage) {
     }
 }
 
-void ParticlesSample2::create() {
-    //create RGBA texture
+void ParticlesSample2::Create() {
+    //Create RGBA texture
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -61,13 +61,13 @@ void ParticlesSample2::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_particlesystem2.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGD("Could not create program")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
 
     m_pParticlesPosData = new GLfloat[MAX_PARTICLES * 3];
     m_pParticlesColorData = new GLubyte[MAX_PARTICLES * 4];
@@ -132,12 +132,12 @@ void ParticlesSample2::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void ParticlesSample2::draw() {
+void ParticlesSample2::Draw() {
     LOGD("ParticlesSample::Draw()")
-    if (mProgram == GL_NONE || m_TextureId == GL_NONE) return;
+    if (m_ProgramObj == GL_NONE || m_TextureId == GL_NONE) return;
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // 启用深度测试
@@ -145,7 +145,7 @@ void ParticlesSample2::draw() {
     // 禁用 混合
     glDisable(GL_BLEND);
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
 
     int particleCount = UpdateParticles();
 
@@ -160,15 +160,15 @@ void ParticlesSample2::draw() {
     glDrawArraysInstanced(GL_TRIANGLES, 0, 36, particleCount);
 }
 
-void ParticlesSample2::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void ParticlesSample2::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);
         glDeleteBuffers(1, &m_ParticlesPosVboId);
         glDeleteBuffers(1, &m_ParticlesVertexVboId);
         glDeleteBuffers(1, &m_ParticlesPosVboId);
-        mProgram = GL_NONE;
+        m_ProgramObj = GL_NONE;
     }
 }
 

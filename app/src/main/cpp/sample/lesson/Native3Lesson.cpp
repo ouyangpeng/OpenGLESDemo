@@ -1,8 +1,8 @@
 #include "Native3Lesson.h"
 
 Native3Lesson::Native3Lesson() {
-    mWidth = 0;
-    mHeight = 0;
+    m_Width = 0;
+    m_Height = 0;
 
     mViewMatrix = nullptr;
     mModelMatrix = nullptr;
@@ -35,8 +35,8 @@ Native3Lesson::Native3Lesson() {
 
 Native3Lesson::~Native3Lesson() = default;
 
-void Native3Lesson::create() {
-    LOGD("Native3Lesson create")
+void Native3Lesson::Create() {
+    LOGD("Native3Lesson Create")
 
     // Use culling to remove back face.
     glEnable(GL_CULL_FACE);
@@ -53,7 +53,7 @@ void Native3Lesson::create() {
             "fragment/fragment_shader_lesson_3.glsl");
     mPerVertexProgramHandle = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (!mPerVertexProgramHandle) {
-        LOGD("Could not create program")
+        LOGD("Could not Create program")
         return;
     }
 
@@ -67,7 +67,7 @@ void Native3Lesson::create() {
     mPointProgramHandle = GLUtils::createProgram(&POINT_VERTEX_SHADER_CODE,
                                                  &POINT_FRAGMENT_SHADER_CODE);
     if (!mPointProgramHandle) {
-        LOGD("Could not create program")
+        LOGD("Could not Create program")
         return;
     }
 
@@ -94,12 +94,12 @@ void Native3Lesson::create() {
     mViewMatrix = Matrix::newLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 }
 
-void Native3Lesson::change(int width, int height) {
+void Native3Lesson::Change(int width, int height) {
 
-    mWidth = width;
-    mHeight = height;
+    m_Width = width;
+    m_Height = height;
 
-    glViewport(0, 0, mWidth, mHeight);
+    glViewport(0, 0, m_Width, m_Height);
 
     // Create a new perspective projection matrix. The height will stay the same
     // while the width will vary as per aspect ratio.
@@ -114,7 +114,7 @@ void Native3Lesson::change(int width, int height) {
     mProjectionMatrix = Matrix::newFrustum(left, right, bottom, top, near, far);
 }
 
-void Native3Lesson::draw() {
+void Native3Lesson::Draw() {
 // Set the OpenGL viewport to same size as the surface.
 
     glClearColor(0, 0, 0, 1);
@@ -280,7 +280,7 @@ void Native3Lesson::drawLight() {
     glDrawArrays(GL_POINTS, 0, 1);
 }
 
-void Native3Lesson::shutdown() {
+void Native3Lesson::Shutdown() {
     delete mModelMatrix;
     mModelMatrix = nullptr;
     delete mViewMatrix;

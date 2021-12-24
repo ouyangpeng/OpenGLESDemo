@@ -31,7 +31,7 @@ TimeTunnelSample::~TimeTunnelSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void TimeTunnelSample::create() {
+void TimeTunnelSample::Create() {
 //顶点坐标
     GLfloat vVertices[] = {
             -1.0f, -1.0f, 0.0f,
@@ -64,7 +64,7 @@ void TimeTunnelSample::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_map.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
     // 用于离屏渲染的顶点着色器脚本，不使用变换矩阵
     const char* vFboShaderStr = GLUtils::openTextFile(
@@ -74,13 +74,13 @@ void TimeTunnelSample::create() {
     // 编译链接用于离屏渲染的着色器程序
     m_FboProgramObj = GLUtils::createProgram(&vFboShaderStr, &fFboShaderStr);
 
-    if (mProgram == GL_NONE || m_FboProgramObj == GL_NONE)
+    if (m_ProgramObj == GL_NONE || m_FboProgramObj == GL_NONE)
     {
-        LOGD("TimeTunnelSample::Init mProgram == GL_NONE")
+        LOGD("TimeTunnelSample::Init m_ProgramObj == GL_NONE")
         return;
     }
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
-    m_MVPMatrixLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
+    m_MVPMatrixLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
 
     m_FboSamplerLoc = glGetUniformLocation(m_FboProgramObj, "s_TextureMap");
 
@@ -174,7 +174,7 @@ void TimeTunnelSample::LoadImage(NativeImage *pImage) {
     }
 }
 
-void TimeTunnelSample::draw() {
+void TimeTunnelSample::Draw() {
 // 离屏渲染
     //glPixelStorei(GL_UNPACK_ALIGNMENT,1);
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -205,9 +205,9 @@ void TimeTunnelSample::draw() {
 
     // 普通渲染
     // Do normal rendering
-    glViewport(0, 0, mWidth, mHeight);
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float)mWidth / mHeight);
-    glUseProgram(mProgram);
+    glViewport(0, 0, m_Width, m_Height);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float)m_Width / m_Height);
+    glUseProgram(m_ProgramObj);
     GO_CHECK_GL_ERROR()
     glBindVertexArray(m_VaoIds[0]);
     glActiveTexture(GL_TEXTURE0);
@@ -222,11 +222,11 @@ void TimeTunnelSample::draw() {
     m_FrameIndex++;
 }
 
-void TimeTunnelSample::shutdown() {
-    if (mProgram)
+void TimeTunnelSample::Shutdown() {
+    if (m_ProgramObj)
     {
-        glDeleteProgram(mProgram);
-        mProgram = GL_NONE;
+        glDeleteProgram(m_ProgramObj);
+        m_ProgramObj = GL_NONE;
     }
 
     if (m_FboProgramObj)

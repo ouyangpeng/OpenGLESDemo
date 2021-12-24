@@ -1,8 +1,8 @@
 #include "Native4Lesson.h"
 
 Native4Lesson::Native4Lesson() {
-    mWidth = 0;
-    mHeight = 0;
+    m_Width = 0;
+    m_Height = 0;
 
     mViewMatrix = nullptr;
     mModelMatrix = nullptr;
@@ -35,8 +35,8 @@ Native4Lesson::Native4Lesson() {
 
 Native4Lesson::~Native4Lesson() = default;
 
-void Native4Lesson::create() {
-    LOGD("Native4Lesson create")
+void Native4Lesson::Create() {
+    LOGD("Native4Lesson Create")
 
     // Use culling to remove back face.
     glEnable(GL_CULL_FACE);
@@ -53,7 +53,7 @@ void Native4Lesson::create() {
     // Set program handles
     mPerVertexProgramHandle = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (!mPerVertexProgramHandle) {
-        LOGD("Could not create program")
+        LOGD("Could not Create program")
         return;
     }
 
@@ -90,12 +90,12 @@ void Native4Lesson::create() {
     mViewMatrix = Matrix::newLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 }
 
-void Native4Lesson::change(int width, int height) {
+void Native4Lesson::Change(int width, int height) {
 
-    mWidth = width;
-    mHeight = height;
+    m_Width = width;
+    m_Height = height;
 
-    glViewport(0, 0, mWidth, mHeight);
+    glViewport(0, 0, m_Width, m_Height);
 
     // Create a new perspective projection matrix. The height will stay the same
     // while the width will vary as per aspect ratio.
@@ -110,7 +110,7 @@ void Native4Lesson::change(int width, int height) {
     mProjectionMatrix = Matrix::newFrustum(left, right, bottom, top, near, far);
 }
 
-void Native4Lesson::draw() {
+void Native4Lesson::Draw() {
 // Set the OpenGL viewport to same size as the surface.
 
     glClearColor(0, 0, 0, 1);
@@ -302,7 +302,7 @@ void Native4Lesson::drawLight() {
     glDrawArrays(GL_POINTS, 0, 1);
 }
 
-void Native4Lesson::shutdown() {
+void Native4Lesson::Shutdown() {
     delete mModelMatrix;
     mModelMatrix = nullptr;
     delete mViewMatrix;

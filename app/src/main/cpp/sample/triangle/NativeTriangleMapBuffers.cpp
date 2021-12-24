@@ -2,7 +2,7 @@
 #include "NativeTriangleMapBuffers.h"
 
 // 可以参考这篇讲解： https://learnopengl-cn.github.io/01%20Getting%20started/04%20Hello%20Triangle/
-void NativeTriangleMapBuffers::create() {
+void NativeTriangleMapBuffers::Create() {
     GLUtils::printGLInfo();
 
     // 顶点着色器
@@ -11,10 +11,10 @@ void NativeTriangleMapBuffers::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_hello_triangle2.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (!mProgram) {
-        LOGD("Could not create program")
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
@@ -25,7 +25,7 @@ void NativeTriangleMapBuffers::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void NativeTriangleMapBuffers::draw() {
+void NativeTriangleMapBuffers::Draw() {
     // 3 vertices, with (x,y,z) ,(r, g, b, a)  per-vertex
     GLfloat vertices[3 * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE)] =
             {
@@ -56,7 +56,7 @@ void NativeTriangleMapBuffers::draw() {
     // Use the program object
     // 在glUseProgram函数调用之后，每个着色器调用和渲染调用都会使用这个程序对象（也就是之前写的着色器)了。
     // 当我们渲染一个物体时要使用着色器程序 , 将其设置为活动程序。这样就可以开始渲染了
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     DrawPrimitiveWithVBOsMapBuffers(3, vertices,
                                     sizeof(GLfloat) * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE),
@@ -80,7 +80,7 @@ void NativeTriangleMapBuffers::DrawPrimitiveWithVBOsMapBuffers(
         GLfloat *vtxMappedBuf;
         GLushort *idxMappedBuf;
 
-        // Only allocate on the first draw
+        // Only allocate on the first Draw
         glGenBuffers(2, vboIds);
 
         glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
@@ -176,9 +176,9 @@ void NativeTriangleMapBuffers::DrawPrimitiveWithVBOsMapBuffers(
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void NativeTriangleMapBuffers::shutdown() {
+void NativeTriangleMapBuffers::Shutdown() {
     // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 
     glDeleteBuffers(2, &vboIds[0]);
 }

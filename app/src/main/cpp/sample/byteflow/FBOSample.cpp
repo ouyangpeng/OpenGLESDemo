@@ -58,7 +58,7 @@ void FBOSample::LoadImage(NativeImage *pImage) {
     }
 }
 
-void FBOSample::create() {
+void FBOSample::Create() {
      // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_texture_map.glsl");
@@ -69,16 +69,16 @@ void FBOSample::create() {
     const char * m_FboFragmentShader =  GLUtils::openTextFile(
             "fragment/fragment_shader_texture_fbo.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     // 编译链接用于离屏渲染的着色器程序
     m_FboProgramObj =GLUtils::createProgram(&VERTEX_SHADER, &m_FboFragmentShader);
 
-    if (mProgram == GL_NONE || m_FboProgramObj == GL_NONE)
+    if (m_ProgramObj == GL_NONE || m_FboProgramObj == GL_NONE)
     {
-        LOGE("FBOSample::Init mProgram == GL_NONE")
+        LOGE("FBOSample::Init m_ProgramObj == GL_NONE")
         return;
     }
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
     m_FboSamplerLoc = glGetUniformLocation(m_FboProgramObj, "s_TextureMap");
 
     // 生成 VBO ，加载顶点数据和索引数据
@@ -162,8 +162,8 @@ void FBOSample::create() {
 
 }
 
-void FBOSample::draw() {
-    FUN_BEGIN_TIME(" FBOSample::draw()")
+void FBOSample::Draw() {
+    FUN_BEGIN_TIME(" FBOSample::Draw()")
         // ====================离屏渲染====================
         glPixelStorei(GL_UNPACK_ALIGNMENT,1);
         glViewport(0, 0, m_RenderImage.width, m_RenderImage.height);
@@ -192,13 +192,13 @@ void FBOSample::draw() {
 
         // ====================普通渲染====================
         // Do normal rendering
-        glViewport(0, 0, mWidth, mHeight);
+        glViewport(0, 0, m_Width, m_Height);
 
         // 完成离屏渲染后，结果图数据便保存在我们之前连接到 FBO 的纹理 m_FboTextureId 。
         // 我们再拿 FBO 纹理 m_FboTextureId 做一次普通渲染便可将之前离屏渲染的结果绘制到屏幕上。
-        // 这里我们编译连接了 2 个 program ,一个用作离屏渲染的 m_FboProgramObj，一个用于普通渲染的 mProgram
+        // 这里我们编译连接了 2 个 program ,一个用作离屏渲染的 m_FboProgramObj，一个用于普通渲染的 m_ProgramObj
 
-        glUseProgram(mProgram);
+        glUseProgram(m_ProgramObj);
         GO_CHECK_GL_ERROR()
         glBindVertexArray(m_VaoIds[0]);
         glActiveTexture(GL_TEXTURE0);
@@ -210,13 +210,13 @@ void FBOSample::draw() {
         GO_CHECK_GL_ERROR()
         glBindTexture(GL_TEXTURE_2D, GL_NONE);
         glBindVertexArray(GL_NONE);
-    FUN_END_TIME(" FBOSample::draw()")
+    FUN_END_TIME(" FBOSample::Draw()")
 }
 
-void FBOSample::shutdown() {
-    if (mProgram)
+void FBOSample::Shutdown() {
+    if (m_ProgramObj)
     {
-        glDeleteProgram(mProgram);
+        glDeleteProgram(m_ProgramObj);
     }
 
     if (m_FboProgramObj)

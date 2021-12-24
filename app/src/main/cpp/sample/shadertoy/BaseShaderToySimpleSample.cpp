@@ -35,7 +35,7 @@ BaseShaderToySimpleSample::~BaseShaderToySimpleSample() {
     }
 }
 
-void BaseShaderToySimpleSample::create() {
+void BaseShaderToySimpleSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_beating_heart.glsl");
@@ -64,31 +64,31 @@ void BaseShaderToySimpleSample::create() {
             break;
     }
 
-    LOGD("BaseShaderToySimpleSample::create() mRenderSampleType =%d, mFragmentShaderPath = %s",
+    LOGD("BaseShaderToySimpleSample::Create() mRenderSampleType =%d, mFragmentShaderPath = %s",
          mRenderSampleType, mFragmentShaderPath)
 
     if (mFragmentShaderPath == GL_NONE) {
-        LOGD("BaseShaderToySimpleSample::create() mFragmentShaderPath == GL_NONE 直接return")
+        LOGD("BaseShaderToySimpleSample::Create() mFragmentShaderPath == GL_NONE 直接return")
         return;
     }
 
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(mFragmentShaderPath);
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (mProgram == GL_NONE) {
-        LOGE("CoordSystemSample::Init mProgram == GL_NONE")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (m_ProgramObj == GL_NONE) {
+        LOGE("CoordSystemSample::Init m_ProgramObj == GL_NONE")
         return;
     }
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
 
-    iResolution = glGetUniformLocation(mProgram, "iResolution");
-    iTime = glGetUniformLocation(mProgram, "iTime");
+    iResolution = glGetUniformLocation(m_ProgramObj, "iResolution");
+    iTime = glGetUniformLocation(m_ProgramObj, "iTime");
 
     if(hasTexture){
-        //create RGBA textures
+        //Create RGBA textures
         glGenTextures(MAIN_SEQUENCE_STAR_RENDER_IMG_NUM, m_TextureIds);
         for (unsigned int m_TextureId : m_TextureIds) {
             glBindTexture(GL_TEXTURE_2D, m_TextureId);
@@ -99,10 +99,10 @@ void BaseShaderToySimpleSample::create() {
             glBindTexture(GL_TEXTURE_2D, GL_NONE);
         }
 
-        m_SamplerLocIChannels[0] = glGetUniformLocation(mProgram, "iChannel0");
-        m_SamplerLocIChannels[1] = glGetUniformLocation(mProgram, "iChannel1");
-        m_SamplerLocIChannels[2] = glGetUniformLocation(mProgram, "iChannel2");
-        m_SamplerLocIChannels[3] = glGetUniformLocation(mProgram, "iChannel3");
+        m_SamplerLocIChannels[0] = glGetUniformLocation(m_ProgramObj, "iChannel0");
+        m_SamplerLocIChannels[1] = glGetUniformLocation(m_ProgramObj, "iChannel1");
+        m_SamplerLocIChannels[2] = glGetUniformLocation(m_ProgramObj, "iChannel2");
+        m_SamplerLocIChannels[3] = glGetUniformLocation(m_ProgramObj, "iChannel3");
     }
 
     GLfloat verticesCoords[] = {
@@ -158,20 +158,20 @@ void BaseShaderToySimpleSample::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void BaseShaderToySimpleSample::draw() {
+void BaseShaderToySimpleSample::Draw() {
     LOGD("BaseShaderToySimpleSample::Draw()")
 
-    if (mProgram == GL_NONE) {
-        LOGD("BaseShaderToySimpleSample::Draw() mProgram == GL_NONE")
+    if (m_ProgramObj == GL_NONE) {
+        LOGD("BaseShaderToySimpleSample::Draw() m_ProgramObj == GL_NONE")
         return;
     }
 
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
 
     glBindVertexArray(m_VaoId);
 
@@ -215,7 +215,7 @@ void BaseShaderToySimpleSample::draw() {
     }
 
     // 输入屏幕的尺寸给片段着色器
-    glUniform2f(iResolution, mWidth, mHeight);
+    glUniform2f(iResolution, m_Width, m_Height);
 
     // 输入多个纹理给片段着色器
     if(hasTexture) {
@@ -242,9 +242,9 @@ void BaseShaderToySimpleSample::LoadMultiImageWithIndex(int index, NativeImage *
 }
 
 
-void BaseShaderToySimpleSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void BaseShaderToySimpleSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(3, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
     }

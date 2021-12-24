@@ -31,8 +31,8 @@ BasicLightingSample::~BasicLightingSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void BasicLightingSample::create() {
-    //create RGBA texture
+void BasicLightingSample::Create() {
+    //Create RGBA texture
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -48,19 +48,19 @@ void BasicLightingSample::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_basic_light.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (mProgram == GL_NONE) {
-        LOGE("BasicLightingSample::Init mProgram == GL_NONE")
+    if (m_ProgramObj == GL_NONE) {
+        LOGE("BasicLightingSample::Init m_ProgramObj == GL_NONE")
         return;
     }
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
-    m_ModelMatrixLoc = glGetUniformLocation(mProgram, "u_ModelMatrix");
-    m_LightPosLoc = glGetUniformLocation(mProgram, "lightPos");
-    m_LightColorLoc = glGetUniformLocation(mProgram, "lightColor");
-    m_ViewPosLoc = glGetUniformLocation(mProgram, "viewPos");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
+    m_ModelMatrixLoc = glGetUniformLocation(m_ProgramObj, "u_ModelMatrix");
+    m_LightPosLoc = glGetUniformLocation(m_ProgramObj, "lightPos");
+    m_LightColorLoc = glGetUniformLocation(m_ProgramObj, "lightColor");
+    m_ViewPosLoc = glGetUniformLocation(m_ProgramObj, "viewPos");
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
 
     // Generate VBO Ids and load the VBOs with data
     glGenBuffers(1, m_VboIds);
@@ -103,15 +103,15 @@ void BasicLightingSample::LoadImage(NativeImage *pImage) {
     }
 }
 
-void BasicLightingSample::draw() {
+void BasicLightingSample::Draw() {
     LOGD("BasicLightingSample::Draw()")
 
-    if (mProgram == GL_NONE || m_TextureId == GL_NONE) {
-        LOGD("BasicLightingSample::Draw()  mProgram == GL_NONE || m_TextureId == GL_NONE")
+    if (m_ProgramObj == GL_NONE || m_TextureId == GL_NONE) {
+        LOGD("BasicLightingSample::Draw()  m_ProgramObj == GL_NONE || m_TextureId == GL_NONE")
         return;
     }
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // 如果这句话不写，直接会黑屏。当使用 GL_DEPTH_TEST的时候，要记得调用下面这句话，搭配使用。
     // 黑屏的Bug，参考博客
@@ -123,7 +123,7 @@ void BasicLightingSample::draw() {
     // 启用深度测试
     glEnable(GL_DEPTH_TEST);
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
 
     //upload RGBA image data
     glActiveTexture(GL_TEXTURE0);
@@ -150,9 +150,9 @@ void BasicLightingSample::draw() {
     GO_CHECK_GL_ERROR()
 }
 
-void BasicLightingSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void BasicLightingSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(1, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);

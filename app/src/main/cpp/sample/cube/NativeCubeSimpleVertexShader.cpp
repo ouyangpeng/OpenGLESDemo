@@ -3,7 +3,7 @@
 
 #include "NativeCubeSimpleVertexShader.h"
 
-void NativeCubeSimpleVertexShader::create() {
+void NativeCubeSimpleVertexShader::Create() {
     GLUtils::printGLInfo();
 
     // 顶点着色器
@@ -12,10 +12,10 @@ void NativeCubeSimpleVertexShader::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_hello_triangle2.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (!mProgram) {
-        LOGD("Could not create program")
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
@@ -37,7 +37,7 @@ void NativeCubeSimpleVertexShader::create() {
     //  观察变换就是从世界坐标系下变换到观察坐标系下，就是在世界坐标系下设置个观察点（相机位置以及相机方向），然后把世界坐标系下的坐标变换到相机空间。
 
     // Get the uniform locations
-    mvpLoc = glGetUniformLocation(mProgram, "u_mvpMatrix");
+    mvpLoc = glGetUniformLocation(m_ProgramObj, "u_mvpMatrix");
 
     // Generate the vertex data
     numIndices = esGenCube(1.0, &vertices, nullptr, nullptr, &indices);
@@ -49,7 +49,7 @@ void NativeCubeSimpleVertexShader::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void NativeCubeSimpleVertexShader::draw() {
+void NativeCubeSimpleVertexShader::Draw() {
     // 每次绘制之前先update一下
     update(getDeltaTime());
 
@@ -57,7 +57,7 @@ void NativeCubeSimpleVertexShader::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // Load the vertex position
     glVertexAttribPointer(VERTEX_POS_INDX, 3, GL_FLOAT,
@@ -99,7 +99,7 @@ void NativeCubeSimpleVertexShader::update(float deltaTime) {
 
     // Compute the window aspect ratio
     // 计算窗口纵横比
-    aspect = (GLfloat) mWidth / (GLfloat) mHeight;
+    aspect = (GLfloat) m_Width / (GLfloat) m_Height;
 
     // Generate a perspective matrix with a 60 degree FOV
     // and near and far clip planes at 1.0 and 20.0
@@ -124,7 +124,7 @@ void NativeCubeSimpleVertexShader::update(float deltaTime) {
     esMatrixMultiply(&mvpMatrix, &modelview, &perspective);
 }
 
-void NativeCubeSimpleVertexShader::shutdown() {
+void NativeCubeSimpleVertexShader::Shutdown() {
     if (vertices != nullptr) {
         free(vertices);
     }
@@ -134,5 +134,5 @@ void NativeCubeSimpleVertexShader::shutdown() {
     }
 
     // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 }

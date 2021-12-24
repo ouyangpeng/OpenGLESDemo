@@ -43,20 +43,20 @@ SkyBoxSample::~SkyBoxSample() {
     }
 }
 
-void SkyBoxSample::create() {
+void SkyBoxSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_skybox.glsl");
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_skybox.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (mProgram == GL_NONE) {
-        LOGE("SkyBoxSample::create()  mProgram == GL_NONE")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (m_ProgramObj == GL_NONE) {
+        LOGE("SkyBoxSample::Create()  m_ProgramObj == GL_NONE")
         return;
     }
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_SkyBox");
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_SkyBox");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
 
 
     const char *vCubeShaderStr = GLUtils::openTextFile(
@@ -65,7 +65,7 @@ void SkyBoxSample::create() {
             "fragment/fragment_shader_skybox_cube.glsl");
     m_CubeProgramObj = GLUtils::createProgram(&vCubeShaderStr, &fCubeShaderStr);
     if (m_CubeProgramObj == GL_NONE) {
-        LOGE("SkyBoxSample::create()  m_CubeProgramObj == GL_NONE")
+        LOGE("SkyBoxSample::Create()  m_CubeProgramObj == GL_NONE")
         return;
     }
     m_CubeSamplerLoc = glGetUniformLocation(m_CubeProgramObj, "s_SkyBox");
@@ -111,10 +111,10 @@ void SkyBoxSample::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void SkyBoxSample::draw() {
+void SkyBoxSample::Draw() {
     LOGD("SkyBoxSample::Draw()")
 
-    if (mProgram == GL_NONE || m_CubeProgramObj == GL_NONE) return;
+    if (m_ProgramObj == GL_NONE || m_CubeProgramObj == GL_NONE) return;
 
     // 如果这句话不写，直接会黑屏。当使用 GL_DEPTH_TEST的时候，要记得调用下面这句话，搭配使用。
     // 黑屏的Bug，参考博客
@@ -126,12 +126,12 @@ void SkyBoxSample::draw() {
     // 启用深度测试
     glEnable(GL_DEPTH_TEST);
 
-    // ========================================== draw SkyBox ==========================================
+    // ========================================== Draw SkyBox ==========================================
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 1.0, (float) mWidth / (float) mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 1.0, (float) m_Width / (float) m_Height);
 
     if (!m_TextureId) {
-        //create RGBA texture
+        //Create RGBA texture
         // 生成一个纹理，激活相应纹理单元，然后绑定到 GL_TEXTURE_CUBE_MAP类型纹理。
         glGenTextures(1, &m_TextureId);
         glBindTexture(GL_TEXTURE_CUBE_MAP, m_TextureId);
@@ -166,8 +166,8 @@ void SkyBoxSample::draw() {
         glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
     }
 
-    // draw SkyBox
-    glUseProgram(mProgram);
+    // Draw SkyBox
+    glUseProgram(m_ProgramObj);
     glBindVertexArray(m_SkyBoxVaoId);
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
     glActiveTexture(GL_TEXTURE0);
@@ -177,8 +177,8 @@ void SkyBoxSample::draw() {
     GO_CHECK_GL_ERROR()
 
 
-    // ========================================== draw Cube ==========================================
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 0.4f, (float) mWidth / (float) mHeight);
+    // ========================================== Draw Cube ==========================================
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 0.4f, (float) m_Width / (float) m_Height);
 
     glUseProgram(m_CubeProgramObj);
     glBindVertexArray(m_CubeVaoId);
@@ -192,13 +192,13 @@ void SkyBoxSample::draw() {
     GO_CHECK_GL_ERROR()
 }
 
-void SkyBoxSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void SkyBoxSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteVertexArrays(1, &m_SkyBoxVaoId);
         glDeleteBuffers(1, &m_SkyBoxVboId);
         glDeleteTextures(1, &m_TextureId);
-        mProgram = GL_NONE;
+        m_ProgramObj = GL_NONE;
     }
 
     if (m_CubeProgramObj) {

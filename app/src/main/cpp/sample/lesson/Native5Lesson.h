@@ -13,15 +13,15 @@ public:
     Native5Lesson();
 
     virtual ~Native5Lesson();
-    virtual void create();
+    virtual void Create();
 
-    virtual void change(int width, int height);
+    virtual void Change(int width, int height);
 
-    virtual void draw();
+    virtual void Draw();
 
-    virtual void shutdown();
+    virtual void Shutdown();
 
-    virtual void switchBlendingMode();
+    virtual void SwitchBlendingMode();
 
 private:
     float *mCubePositionData;

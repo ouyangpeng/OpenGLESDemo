@@ -9,7 +9,7 @@
 #include <cstdlib>
 #include "SimpleTextureCubeMap.h"
 
-void SimpleTextureCubeMap::create() {
+void SimpleTextureCubeMap::Create() {
     GLUtils::printGLInfo();
 
     // Main Program
@@ -20,14 +20,14 @@ void SimpleTextureCubeMap::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_simple_texture_cubemap.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (!mProgram) {
-        LOGD("Could not create program")
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
     // Get the sampler location
-    samplerLoc = glGetUniformLocation(mProgram, "s_texture");
+    samplerLoc = glGetUniformLocation(m_ProgramObj, "s_texture");
 
     // Load the texture  加载纹理
     textureId = CreateSimpleTextureCubemap();
@@ -40,7 +40,7 @@ void SimpleTextureCubeMap::create() {
 }
 
 
-void SimpleTextureCubeMap::draw() {
+void SimpleTextureCubeMap::Draw() {
 
     // Clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT);
@@ -49,7 +49,7 @@ void SimpleTextureCubeMap::draw() {
     glEnable(GL_CULL_FACE);
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // Load the vertext position
     glVertexAttribPointer(SIMPLE_TEXTURE_CUBE_MAP_VERTEX_POS_INDEX, 3, GL_FLOAT,
@@ -171,7 +171,7 @@ GLuint SimpleTextureCubeMap::CreateSimpleTextureCubemap() {
     return textureId;
 }
 
-void SimpleTextureCubeMap::shutdown() {
+void SimpleTextureCubeMap::Shutdown() {
     if (vertices != nullptr) {
         free(vertices);
     }
@@ -188,5 +188,5 @@ void SimpleTextureCubeMap::shutdown() {
     glDeleteTextures(1, &textureId);
 
     // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 }

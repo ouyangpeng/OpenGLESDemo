@@ -15,19 +15,19 @@ public:
 
     ~Native6Lesson() = default;
 
-    virtual void create();
+    virtual void Create();
 
-    virtual void change(int width, int height);
+    virtual void Change(int width, int height);
 
-    virtual void draw();
+    virtual void Draw();
 
-    virtual void shutdown();
+    virtual void Shutdown();
 
-    virtual void setDelta(float x, float y);
+    virtual void SetDelta(float x, float y);
 
-    virtual void setMinFilter(int filter);
+    virtual void SetMinFilter(int filter);
 
-    virtual void setMagFilter(int filter);
+    virtual void SetMagFilter(int filter);
 
 private:
 

@@ -315,8 +315,8 @@ void GenData::genCube(int requestedCubeFactor, bool toggleVbos, bool toggleStrid
     mUseStride = useStride;
 
     if (lesson7 != nullptr) {
-        lesson7->updateVboStatus(mUseVBOs);
-        lesson7->updateStrideStatus(mUseStride);
+        lesson7->UpdateVboStatus(mUseVBOs);
+        lesson7->UpdateStrideStatus(mUseStride);
     }
 }
 

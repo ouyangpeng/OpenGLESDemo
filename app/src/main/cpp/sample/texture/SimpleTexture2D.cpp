@@ -4,7 +4,7 @@
 
 #include "SimpleTexture2D.h"
 
-void SimpleTexture2D::create() {
+void SimpleTexture2D::Create() {
     GLUtils::printGLInfo();
 
     // Main Program
@@ -15,15 +15,15 @@ void SimpleTexture2D::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_simple_texture_2d.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (!mProgram) {
-        LOGD("Could not create program")
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
     // Get the sampler location
-    samplerLoc = glGetUniformLocation(mProgram, "s_texture");
+    samplerLoc = glGetUniformLocation(m_ProgramObj, "s_texture");
 
     // Load the texture  加载纹理
     textureId = CreateSimpleTexture2D();
@@ -33,7 +33,7 @@ void SimpleTexture2D::create() {
 }
 
 
-void SimpleTexture2D::draw() {
+void SimpleTexture2D::Draw() {
     GLfloat vVertices[] =
             {
                     -0.5f, 0.5f, 0.0f,     // Position 0
@@ -59,7 +59,7 @@ void SimpleTexture2D::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // Load the vertext position
     glVertexAttribPointer(SIMPLE_TEXTURE_2D_VERTEX_POS_INDEX, 3, GL_FLOAT,
@@ -120,10 +120,10 @@ GLuint SimpleTexture2D::CreateSimpleTexture2D() {
     return simple_textureId;
 }
 
-void SimpleTexture2D::shutdown() {
+void SimpleTexture2D::Shutdown() {
     // Delete texture object
     glDeleteTextures ( 1, &textureId );
 
     // Delete program object
-    GLUtils::DeleteProgram ( mProgram );
+    GLUtils::DeleteProgram (m_ProgramObj );
 }

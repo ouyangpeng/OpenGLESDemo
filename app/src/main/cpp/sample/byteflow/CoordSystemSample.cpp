@@ -29,8 +29,8 @@ CoordSystemSample::~CoordSystemSample() {
 }
 
 
-void CoordSystemSample::create() {
-    // create RGBA texture
+void CoordSystemSample::Create() {
+    // Create RGBA texture
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
 
@@ -48,13 +48,13 @@ void CoordSystemSample::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_map.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (mProgram == GL_NONE) {
-        LOGE("CoordSystemSample::Init mProgram == GL_NONE")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (m_ProgramObj == GL_NONE) {
+        LOGE("CoordSystemSample::Init m_ProgramObj == GL_NONE")
         return;
     }
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
 
     // Generate VBO Ids and load the VBOs with data
     glGenBuffers(3, m_VboIds);
@@ -100,18 +100,18 @@ void CoordSystemSample::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void CoordSystemSample::draw() {
+void CoordSystemSample::Draw() {
 
-    if (mProgram == GL_NONE || m_TextureId == GL_NONE) return;
+    if (m_ProgramObj == GL_NONE || m_TextureId == GL_NONE) return;
 
     // 清空缓冲区: STENCIL_BUFFER、COLOR_BUFFER、DEPTH_BUFFER
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // 旋转角度变换，更新变换矩阵
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     glBindVertexArray(m_VaoId);
 
@@ -125,9 +125,9 @@ void CoordSystemSample::draw() {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
 }
 
-void CoordSystemSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void CoordSystemSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(3, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);

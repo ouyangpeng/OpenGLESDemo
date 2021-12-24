@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include "MRT.h"
 
-void MRT::create() {
+void MRT::Create() {
 	GLUtils::printGLInfo();
 
 	// Main Program
@@ -16,10 +16,10 @@ void MRT::create() {
 	FRAGMENT_SHADER = GLUtils::openTextFile(
 			"fragment/fragment_shader_mrt.glsl");
 
-	mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-	if (!mProgram) {
-		LOGD("Could not create program")
+	if (!m_ProgramObj) {
+		LOGD("Could not Create program")
 		return;
 	}
 
@@ -79,7 +79,7 @@ void MRT::initFBO() {
 	glBindFramebuffer( GL_FRAMEBUFFER, defaultFramebuffer);
 }
 
-void MRT::shutdown() {
+void MRT::Shutdown() {
 	// Delete texture objects
 	glDeleteTextures ( 4, colorTexId );
 
@@ -88,10 +88,10 @@ void MRT::shutdown() {
 
 	// Delete program object
 	    // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 }
 
-void MRT::draw() {
+void MRT::Draw() {
 	GLint defaultFramebuffer = 0;
 	const GLenum attachments[4] =
 			{
@@ -136,7 +136,7 @@ void MRT::drawGeometry() {
 	glClear ( GL_COLOR_BUFFER_BIT );
 
 	// Use the program object
-	glUseProgram ( mProgram );
+	glUseProgram (m_ProgramObj );
 
 	// Load the vertex position
 	glVertexAttribPointer(0,3, GL_FLOAT, 
@@ -159,25 +159,25 @@ void MRT::blitTextures() {
 	
 	// copy the output red buffer to lower left quadrant
 	glReadBuffer( GL_COLOR_ATTACHMENT0 );
-	glBlitFramebuffer( 0, 0, textureWidth, textureHeight,
-					   0, 0, mWidth/2, mHeight/2,
-					   GL_COLOR_BUFFER_BIT, GL_LINEAR);
+	glBlitFramebuffer(0, 0, textureWidth, textureHeight,
+					  0, 0, m_Width / 2, m_Height / 2,
+					  GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
 	// Copy the output green buffer to lower right quadrant
 	glReadBuffer ( GL_COLOR_ATTACHMENT1 );
-	glBlitFramebuffer ( 0, 0, textureWidth, textureHeight,
-						mWidth/2, 0, mWidth, mHeight/2,
-						GL_COLOR_BUFFER_BIT, GL_LINEAR );
+	glBlitFramebuffer (0, 0, textureWidth, textureHeight,
+					   m_Width / 2, 0, m_Width, m_Height / 2,
+					   GL_COLOR_BUFFER_BIT, GL_LINEAR );
 
 	// Copy the output blue buffer to upper left quadrant
 	glReadBuffer ( GL_COLOR_ATTACHMENT2 );
-	glBlitFramebuffer ( 0, 0, textureWidth, textureHeight,
-						0, mHeight/2, mWidth/2, mHeight,
-						GL_COLOR_BUFFER_BIT, GL_LINEAR );
+	glBlitFramebuffer (0, 0, textureWidth, textureHeight,
+					   0, m_Height / 2, m_Width / 2, m_Height,
+					   GL_COLOR_BUFFER_BIT, GL_LINEAR );
 
 	// Copy the output gray buffer to upper right quadrant
 	glReadBuffer ( GL_COLOR_ATTACHMENT3 );
-	glBlitFramebuffer ( 0, 0, textureWidth, textureHeight,
-						mWidth/2, mHeight/2, mWidth, mHeight,
-						GL_COLOR_BUFFER_BIT, GL_LINEAR );
+	glBlitFramebuffer (0, 0, textureWidth, textureHeight,
+					   m_Width / 2, m_Height / 2, m_Width, m_Height,
+					   GL_COLOR_BUFFER_BIT, GL_LINEAR );
 }

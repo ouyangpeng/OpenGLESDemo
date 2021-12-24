@@ -31,7 +31,7 @@ static GLfloat vVertices[] = {
 // 设置顶点的颜色值  这里设置成蓝色
 static GLfloat color[4] = {0.0f, 0.0f, 1.0f, 1.0f};
 
-void NativeTriangle2::create() {
+void NativeTriangle2::Create() {
     GLUtils::printGLInfo();
 
     // 顶点着色器
@@ -40,9 +40,9 @@ void NativeTriangle2::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_hello_triangle2.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGD("Could not create program")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
     // 设置清除颜色
@@ -50,7 +50,7 @@ void NativeTriangle2::create() {
 }
 
 
-void NativeTriangle2::draw() {
+void NativeTriangle2::Draw() {
     // Clear the color buffer
     // 清除屏幕
     // 在OpenGL ES中，绘图中涉及多种缓冲区类型：颜色、深度、模板。
@@ -63,7 +63,7 @@ void NativeTriangle2::draw() {
     // Use the program object
     // 在glUseProgram函数调用之后，每个着色器调用和渲染调用都会使用这个程序对象（也就是之前写的着色器)了。
     // 当我们渲染一个物体时要使用着色器程序 , 将其设置为活动程序。这样就可以开始渲染了
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // Load the vertex data
     //  顶点着色器允许我们指定任何以顶点属性为形式的输入。这使其具有很强的灵活性的同时，
@@ -121,7 +121,7 @@ void NativeTriangle2::draw() {
     glDisableVertexAttribArray(0);
 }
 
-void NativeTriangle2::shutdown() {
+void NativeTriangle2::Shutdown() {
     // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 }

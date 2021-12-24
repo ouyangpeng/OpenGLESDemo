@@ -89,7 +89,7 @@ ScratchCardSample::~ScratchCardSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void ScratchCardSample::create() {
+void ScratchCardSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_coord_system.glsl");
@@ -97,14 +97,14 @@ void ScratchCardSample::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_map.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGE("RotaryHeadSample::Init create program fail")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGE("RotaryHeadSample::Init Create program fail")
         return;
     }
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
 
     //=========================================== VBO和VAO相关===========================================
     // Generate VBO Ids and load the VBOs with data
@@ -132,7 +132,7 @@ void ScratchCardSample::create() {
     glBindVertexArray(GL_NONE);
 
     //=========================================== 纹理相关===========================================
-    //create RGBA texture
+    //Create RGBA texture
     glGenTextures(1, &m_TextureId);
     // 将纹理 m_TextureId 绑定到类型 GL_TEXTURE_2D 纹理
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
@@ -161,20 +161,20 @@ void ScratchCardSample::create() {
     glClearColor(0.2f, 0.2f, 0.2f, 1.0);
 }
 
-void ScratchCardSample::draw() {
+void ScratchCardSample::Draw() {
     LOGD("ScratchCardSample::Draw()")
-    if (mProgram == GL_NONE || m_TextureId == GL_NONE) return;
+    if (m_ProgramObj == GL_NONE || m_TextureId == GL_NONE) return;
 
     // 清空缓冲区: STENCIL_BUFFER、COLOR_BUFFER、DEPTH_BUFFER
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
 
 
     if (m_PointVector.size() < 1) return;
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
     // 绘制部分的逻辑，其中为了防止重复绘制，我们开启模板测试，
     // 下面代码设置的意思是，我们之前已经绘制过的位置，后面就不再进行重复绘制了。
     glEnable(GL_STENCIL_TEST);
@@ -214,9 +214,9 @@ void ScratchCardSample::LoadImage(NativeImage *pImage) {
     }
 }
 
-void ScratchCardSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void ScratchCardSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(2, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);
@@ -383,17 +383,17 @@ void ScratchCardSample::CalculateMesh(vec2 pre, vec2 cur) {
 
 void ScratchCardSample::SetTouchLocation(float x, float y) {
     GLBaseSample::SetTouchLocation(x, y);
-    if (mWidth * mHeight != 0) {
+    if (m_Width * m_Height != 0) {
         if (x == -1) m_bReset = true;
 
         if (m_bReset) {
             if (x != -1) {
-                m_CurTouchPoint = vec2(x / mWidth, y / mHeight);
+                m_CurTouchPoint = vec2(x / m_Width, y / m_Height);
                 m_bReset = false;
             }
         } else {
             m_PreTouchPoint = m_CurTouchPoint;
-            m_CurTouchPoint = vec2(x / mWidth, y / mHeight);
+            m_CurTouchPoint = vec2(x / m_Width, y / m_Height);
             if (m_CurTouchPoint == m_PreTouchPoint)
                 return;
             m_PointVector.emplace_back(m_PreTouchPoint.x, m_PreTouchPoint.y, m_CurTouchPoint.x,

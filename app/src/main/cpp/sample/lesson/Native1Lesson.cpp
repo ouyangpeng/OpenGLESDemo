@@ -52,7 +52,7 @@ Native1Lesson::Native1Lesson() {
 
 Native1Lesson::~Native1Lesson() = default;
 
-void Native1Lesson::create() {
+void Native1Lesson::Create() {
 	GLUtils::printGLInfo();
 
 	// 顶点着色器
@@ -62,9 +62,9 @@ void Native1Lesson::create() {
 	FRAGMENT_SHADER = GLUtils::openTextFile(
 			"fragment/fragment_shader_lesson_1.glsl");
 
-	mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-	if (!mProgram) {
-		LOGD("Could not create program")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+	if (!m_ProgramObj) {
+		LOGD("Could not Create program")
 		return;
 	}
 
@@ -90,7 +90,7 @@ void Native1Lesson::create() {
 	mViewMatrix = Matrix::newLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 }
 
-void Native1Lesson::change(int width, int height) {
+void Native1Lesson::Change(int width, int height) {
 
 	glViewport(0, 0, width, height);
 
@@ -107,15 +107,15 @@ void Native1Lesson::change(int width, int height) {
 	mProjectionMatrix = Matrix::newFrustum(left, right, bottom, top, near, far);
 }
 
-void Native1Lesson::draw() {
+void Native1Lesson::Draw() {
 	glClearColor(0.5F, 0.5F, 0.5F, 0.5F);
 	glClear(GL_COLOR_BUFFER_BIT);
 	GLUtils::checkGlError("glClear");
 
-	glUseProgram(mProgram);
+	glUseProgram(m_ProgramObj);
 
 	// 返回统一变量的位置
-	mMVPMatrixHandle = (GLuint)glGetUniformLocation(mProgram, "u_MVPMatrix");
+	mMVPMatrixHandle = (GLuint)glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
 
 	long time = TimeUtils::currentTimeMillis() % 10000L;
 	float angleInDegrees = (360.0f / 10000.0f) * ((int)time);
@@ -189,7 +189,7 @@ void Native1Lesson::drawTriangle(GLfloat* vertices,
 	glDisableVertexAttribArray(VERTEX_COLOR_INDX);
 }
 
-void Native1Lesson::shutdown() {
+void Native1Lesson::Shutdown() {
 	if(mModelMatrix){
 		delete mModelMatrix;
 		mModelMatrix = nullptr;
@@ -209,5 +209,5 @@ void Native1Lesson::shutdown() {
 	}
 
 	// Delete program object
-	GLUtils::DeleteProgram(mProgram);
+	GLUtils::DeleteProgram(m_ProgramObj);
 }

@@ -100,7 +100,7 @@ void Native8Lesson::create() {
     // Set the program.
     program = GLUtils::createProgram(&vertex, &fragment);
     if (!program) {
-        LOGD("Could not create program")
+        LOGD("Could not Create program")
         return;
     }
 
@@ -111,7 +111,7 @@ void Native8Lesson::create() {
     currentRotaion = new Matrix();
     lightModelMatrix = new Matrix();
 
-    LOGD("create")
+    LOGD("Create")
 }
 
 void Native8Lesson::change(int width, int height) {
@@ -131,7 +131,7 @@ void Native8Lesson::change(int width, int height) {
 
     projectionMatrix = Matrix::newFrustum(left, right, bottom, top, near, far);
 
-    LOGD("change")
+    LOGD("Change")
 }
 
 void Native8Lesson::draw() {

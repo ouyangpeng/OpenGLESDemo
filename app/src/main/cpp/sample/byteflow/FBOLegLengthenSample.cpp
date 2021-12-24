@@ -93,7 +93,7 @@ void FBOLegLengthenSample::LoadImage(NativeImage *pImage) {
     }
 }
 
-void FBOLegLengthenSample::create() {
+void FBOLegLengthenSample::Create() {
     m_bIsVerticalMode = true;
 
     RectF inRectF;
@@ -493,18 +493,18 @@ void FBOLegLengthenSample::create() {
     m_MVPMatrix = Projection * View * Model;
 
 
-    mProgram = GLUtils::createProgram(&vShaderStr, &fShaderStr);
+    m_ProgramObj = GLUtils::createProgram(&vShaderStr, &fShaderStr);
 
     m_FboProgramObj = GLUtils::createProgram(&vFboShaderStr, &fFboShaderStr);
 
-    if (mProgram == GL_NONE || m_FboProgramObj == GL_NONE) {
-        LOGD("FBOLegLengthenSample::Init mProgram == GL_NONE")
+    if (m_ProgramObj == GL_NONE || m_FboProgramObj == GL_NONE) {
+        LOGD("FBOLegLengthenSample::Init m_ProgramObj == GL_NONE")
         return;
     }
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
     m_FboSamplerLoc = glGetUniformLocation(m_FboProgramObj, "s_TextureMap");
 
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
     m_FboMVPMatLoc = glGetUniformLocation(m_FboProgramObj, "u_MVPMatrix");
 
     // Generate VBO Ids and load the VBOs with data
@@ -686,8 +686,8 @@ void FBOLegLengthenSample::create() {
     }
 }
 
-void FBOLegLengthenSample::draw() {
-    LOGD("FBOLegLengthenSample::Draw [screenW, screenH] = [%d, %d]", mWidth, mHeight)
+void FBOLegLengthenSample::Draw() {
+    LOGD("FBOLegLengthenSample::Draw [screenW, screenH] = [%d, %d]", m_Width, m_Height)
     //纹理就是一个“可以被采样的复杂的数据集合” 纹理作为 GPU 图像数据结构
     //glPixelStorei(GL_UNPACK_ALIGNMENT,1);
     if (m_bIsVerticalMode) {
@@ -735,9 +735,9 @@ void FBOLegLengthenSample::draw() {
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glViewport(0, 0, mWidth, mHeight);
+    glViewport(0, 0, m_Width, m_Height);
     // Do normal rendering
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
     GO_CHECK_GL_ERROR()
     glBindVertexArray(m_VaoIds[0]);
     glActiveTexture(GL_TEXTURE0);
@@ -766,9 +766,9 @@ void FBOLegLengthenSample::draw() {
 //	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void FBOLegLengthenSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void FBOLegLengthenSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
     }
 
     if (m_FboProgramObj) {

@@ -7,7 +7,7 @@ Native5Lesson::Native5Lesson() :
 
 Native5Lesson::~Native5Lesson() = default;
 
-void Native5Lesson::create() {
+void Native5Lesson::Create() {
 
     // Set the background clear color to black
     glClearColor(0, 0, 0, 0);
@@ -31,13 +31,13 @@ void Native5Lesson::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile("fragment/fragment_shader_lesson_5.glsl");
 
     // Set program handles
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGD("Could not create program")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
-    // create Cube data
+    // Create Cube data
     createCubeData();
 
     //
@@ -63,12 +63,12 @@ void Native5Lesson::create() {
     mViewMatrix = Matrix::newLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 }
 
-void Native5Lesson::change(int width, int height) {
+void Native5Lesson::Change(int width, int height) {
 
-    mWidth = width;
-    mHeight = height;
+    m_Width = width;
+    m_Height = height;
 
-    glViewport(0, 0, mWidth, mHeight);
+    glViewport(0, 0, m_Width, m_Height);
 
     // Create a new perspective projection matrix. The height will stay the same
     // while the width will vary as per aspect ratio.
@@ -83,7 +83,7 @@ void Native5Lesson::change(int width, int height) {
     mProjectionMatrix = Matrix::newFrustum(left, right, bottom, top, near, far);
 }
 
-void Native5Lesson::draw() {
+void Native5Lesson::Draw() {
 
     if (mBending) {
         glClear(GL_COLOR_BUFFER_BIT);
@@ -97,12 +97,12 @@ void Native5Lesson::draw() {
     float angleInDegrees = (360.0f / 10000.0f) * ((int) time);
 
     // Set out pre-vertex lighting program.
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // Set program handle for cube drawing.
-    mMVPMatrixHandle = (GLuint) glGetUniformLocation(mProgram, "u_MVPMatrix");
+    mMVPMatrixHandle = (GLuint) glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
 
-    // draw mCubes
+    // Draw mCubes
 
     // right
     mModelMatrix->identity();
@@ -212,7 +212,7 @@ void Native5Lesson::createCubeData() {
                                         (sizeof(p1c) / sizeof(*p1c)));
 }
 
-void Native5Lesson::switchBlendingMode() {
+void Native5Lesson::SwitchBlendingMode() {
     mBending = !mBending;
 
     if (mBending) {
@@ -238,7 +238,7 @@ void Native5Lesson::switchBlendingMode() {
     }
 }
 
-void Native5Lesson::shutdown() {
+void Native5Lesson::Shutdown() {
     delete mCubePositionData;
     mCubePositionData = nullptr;
 
@@ -258,5 +258,5 @@ void Native5Lesson::shutdown() {
     mMVPMatrix = nullptr;
 
     // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 }

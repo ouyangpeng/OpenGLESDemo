@@ -20,11 +20,11 @@ public:
 
     virtual ~ParticleSystem() = default;
 
-    virtual void create();
+    virtual void Create();
 
-    virtual void draw();
+    virtual void Draw();
 
-    virtual void shutdown();
+    virtual void Shutdown();
 
 private:
     // Uniform location

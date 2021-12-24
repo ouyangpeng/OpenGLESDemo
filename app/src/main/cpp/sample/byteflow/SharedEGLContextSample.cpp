@@ -77,7 +77,7 @@ void SharedEGLContextSample::LoadImage(NativeImage *pImage) {
     }
 }
 
-void SharedEGLContextSample::create() {
+void SharedEGLContextSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_texture_map.glsl");
@@ -86,7 +86,7 @@ void SharedEGLContextSample::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_map.glsl");
     // 编译链接用于普通渲染的着色器程序
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
     // 用于离屏渲染的片段着色器脚本，作为另一个线程的着色器程序
     const char *fragmentRgb2yuv = GLUtils::openTextFile(
@@ -94,8 +94,8 @@ void SharedEGLContextSample::create() {
     // 编译链接用于离屏渲染的着色器程序
     m_FboProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &fragmentRgb2yuv);
 
-    if (mProgram == GL_NONE || m_FboProgramObj == GL_NONE) {
-        LOGE("RGB2YUVSample::Init create program fail")
+    if (m_ProgramObj == GL_NONE || m_FboProgramObj == GL_NONE) {
+        LOGE("RGB2YUVSample::Init Create program fail")
         return;
     }
 
@@ -184,7 +184,7 @@ void SharedEGLContextSample::create() {
 // 新线程渲染结束后会调用 OnAsyncRenderDone 函数通知主线程进行上屏渲染。
 
 // 需要注意的是：多线程渲染要确保纹理等共享资源不会被同时访问，否则会导致渲染出错。
-void SharedEGLContextSample::draw() {
+void SharedEGLContextSample::Draw() {
     LOGD("SharedEGLContextSample::Draw")
     // 清空缓冲区: STENCIL_BUFFER、COLOR_BUFFER
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT );
@@ -198,14 +198,14 @@ void SharedEGLContextSample::draw() {
 
     // 主线程进行上屏渲染
     // 普通渲染
-    glViewport(0, 0, mWidth, mHeight);
-    glUseProgram(mProgram);
+    glViewport(0, 0, m_Width, m_Height);
+    glUseProgram(m_ProgramObj);
     GO_CHECK_GL_ERROR()
 
     glBindVertexArray(m_VaoId);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_FboTextureId);
-    GLUtils::setInt(mProgram, "s_TextureMap", 0);
+    GLUtils::setInt(m_ProgramObj, "s_TextureMap", 0);
     GO_CHECK_GL_ERROR()
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
@@ -224,11 +224,11 @@ void SharedEGLContextSample::OnAsyncRenderDone(void *callback, int fboTexId) {
     ctx->m_Cond.notify_all();
 }
 
-void SharedEGLContextSample::shutdown() {
+void SharedEGLContextSample::Shutdown() {
     GLRenderLooper::GetInstance()->postMessage(MSG_SurfaceDestroyed);
     GLRenderLooper::ReleaseInstance();
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
     }
 
     if (m_FboProgramObj) {

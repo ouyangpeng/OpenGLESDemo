@@ -45,7 +45,7 @@ static GLfloat vertices[3 * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE)] =
 // Index buffer data
 static GLushort indices[3] = {0, 1, 2};
 
-void NativeTriangleVAO::create() {
+void NativeTriangleVAO::Create() {
     GLUtils::printGLInfo();
 
     // 顶点着色器
@@ -54,10 +54,10 @@ void NativeTriangleVAO::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_hello_triangle2.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (!mProgram) {
-        LOGD("Could not create program")
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
@@ -107,7 +107,7 @@ void NativeTriangleVAO::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void NativeTriangleVAO::draw() {
+void NativeTriangleVAO::Draw() {
     // Clear the color buffer
     // 清除屏幕
     // 在OpenGL ES中，绘图中涉及多种缓冲区类型：颜色、深度、模板。
@@ -120,7 +120,7 @@ void NativeTriangleVAO::draw() {
     // Use the program object
     // 在glUseProgram函数调用之后，每个着色器调用和渲染调用都会使用这个程序对象（也就是之前写的着色器)了。
     // 当我们渲染一个物体时要使用着色器程序 , 将其设置为活动程序。这样就可以开始渲染了
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // Bind the VAO
     glBindVertexArray(vaoId);
@@ -132,9 +132,9 @@ void NativeTriangleVAO::draw() {
     glBindVertexArray(0);
 }
 
-void NativeTriangleVAO::shutdown() {
+void NativeTriangleVAO::Shutdown() {
     // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 
     glDeleteBuffers(2, &vboIds[0]);
     glDeleteVertexArrays(1, &vaoId);

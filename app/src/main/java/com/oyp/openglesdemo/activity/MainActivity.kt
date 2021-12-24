@@ -518,8 +518,8 @@ class MainActivity : Activity() {
 
         val itemRgb2Yuv: MutableMap<String, Any?> = HashMap()
         itemRgb2Yuv[ITEM_IMAGE] = R.mipmap.ic_ubo
-        itemRgb2Yuv[ITEM_TITLE] = "展示uniform 缓冲区对象，即UBO来展示图片"
-        itemRgb2Yuv[ITEM_SUBTITLE] = "学习uniform 缓冲区对象，即 UBO技术"
+        itemRgb2Yuv[ITEM_TITLE] = "使用OpenGL实现RGB到YUV的图像格式转换"
+        itemRgb2Yuv[ITEM_SUBTITLE] = "学习 OpenGL实现RGB到YUV的图像格式转换技术"
         data.add(itemRgb2Yuv)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_RGB2YUV)
 

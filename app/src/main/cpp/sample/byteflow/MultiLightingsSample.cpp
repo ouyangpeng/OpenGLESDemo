@@ -22,8 +22,8 @@ MultiLightingsSample::~MultiLightingsSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void MultiLightingsSample::create() {
-    //create RGBA texture
+void MultiLightingsSample::Create() {
+    //Create RGBA texture
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -38,20 +38,20 @@ void MultiLightingsSample::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_multi_light.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (mProgram == GL_NONE) {
-        LOGE("BasicLightingSample::Init mProgram == GL_NONE")
+    if (m_ProgramObj == GL_NONE) {
+        LOGE("BasicLightingSample::Init m_ProgramObj == GL_NONE")
         return;
     }
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
     GO_CHECK_GL_ERROR()
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
     GO_CHECK_GL_ERROR()
-    m_ModelMatrixLoc = glGetUniformLocation(mProgram, "u_ModelMatrix");
+    m_ModelMatrixLoc = glGetUniformLocation(m_ProgramObj, "u_ModelMatrix");
     GO_CHECK_GL_ERROR()
-    m_ViewPosLoc = glGetUniformLocation(mProgram, "viewPos");
+    m_ViewPosLoc = glGetUniformLocation(m_ProgramObj, "viewPos");
     GO_CHECK_GL_ERROR()
 
 
@@ -88,12 +88,12 @@ void MultiLightingsSample::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void MultiLightingsSample::draw() {
+void MultiLightingsSample::Draw() {
     LOGD("MultiLightingsSample::Draw()");
 
-    if (mProgram == GL_NONE || m_TextureId == GL_NONE) return;
+    if (m_ProgramObj == GL_NONE || m_TextureId == GL_NONE) return;
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // 如果这句话不写，直接会黑屏。当使用 GL_DEPTH_TEST的时候，要记得调用下面这句话，搭配使用。
     // 黑屏的Bug，参考博客
@@ -105,7 +105,7 @@ void MultiLightingsSample::draw() {
     // 启用深度测试
     glEnable(GL_DEPTH_TEST);
 
-    float ratio = (float) mWidth / (float) mHeight;
+    float ratio = (float) m_Width / (float) m_Height;
 
     glBindVertexArray(m_VaoId);
 
@@ -117,18 +117,18 @@ void MultiLightingsSample::draw() {
     glUniform1i(m_SamplerLoc, 0);
 
     // 设置光源的位置、颜色和方向
-    glUniform3f(glGetUniformLocation(mProgram, "light.position"), 0.0f, 0.0f, 3.0f);
-    glUniform3f(glGetUniformLocation(mProgram, "light.color"), 1.0f, 1.0f, 1.0f);
-    glUniform3f(glGetUniformLocation(mProgram, "light.direction"), 0.0f, 0.0f, -1.0f);
+    glUniform3f(glGetUniformLocation(m_ProgramObj, "light.position"), 0.0f, 0.0f, 3.0f);
+    glUniform3f(glGetUniformLocation(m_ProgramObj, "light.color"), 1.0f, 1.0f, 1.0f);
+    glUniform3f(glGetUniformLocation(m_ProgramObj, "light.direction"), 0.0f, 0.0f, -1.0f);
 
     // 用于计算边缘的过度，cutOff 表示内切光角，outerCutOff 表示外切光角
-    glUniform1f(glGetUniformLocation(mProgram, "light.cutOff"), glm::cos(glm::radians(10.5f)));
-    glUniform1f(glGetUniformLocation(mProgram, "light.outerCutOff"), glm::cos(glm::radians(11.5f)));
+    glUniform1f(glGetUniformLocation(m_ProgramObj, "light.cutOff"), glm::cos(glm::radians(10.5f)));
+    glUniform1f(glGetUniformLocation(m_ProgramObj, "light.outerCutOff"), glm::cos(glm::radians(11.5f)));
 
     // 衰减系数,常数项 constant，一次项 linear 和二次项 quadratic。
-    glUniform1f(glGetUniformLocation(mProgram, "light.constant"), 1.0f);
-    glUniform1f(glGetUniformLocation(mProgram, "light.linear"), 0.09);
-    glUniform1f(glGetUniformLocation(mProgram, "light.quadratic"), 0.032);
+    glUniform1f(glGetUniformLocation(m_ProgramObj, "light.constant"), 1.0f);
+    glUniform1f(glGetUniformLocation(m_ProgramObj, "light.linear"), 0.09);
+    glUniform1f(glGetUniformLocation(m_ProgramObj, "light.quadratic"), 0.032);
 
     // 绘制多个立方体，不同的位移和旋转角度
     for (int i = 0; i < sizeof(ml_transPositions) / sizeof(ml_transPositions[0]); i++) {
@@ -140,13 +140,13 @@ void MultiLightingsSample::draw() {
     }
 }
 
-void MultiLightingsSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void MultiLightingsSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(1, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);
-        mProgram = GL_NONE;
+        m_ProgramObj = GL_NONE;
         m_VaoId = GL_NONE;
         m_TextureId = GL_NONE;
     }

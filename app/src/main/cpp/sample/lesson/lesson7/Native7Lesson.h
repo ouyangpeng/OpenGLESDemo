@@ -9,25 +9,25 @@ public:
 
 	~Native7Lesson();
 
-	void create();
+	void Create();
 
-	void change(int width, int height);
+	void Change(int width, int height);
 
-	void draw();
+	void Draw();
 
-	static void decreaseCubeCount();
+	static void DecreaseCubeCount();
 
-	static void increaseCubeCount();
+	static void IncreaseCubeCount();
 
-	void setDelta(float x, float y);
+	void SetDelta(float x, float y);
 
-	static void toggleStride();
+	static void ToggleStride();
 
-	static void toggleVBOs();
+	static void ToggleVBOs();
 
-	static void updateVboStatus(bool useVbos);
+	static void UpdateVboStatus(bool useVbos);
 
-	static void updateStrideStatus(bool useStride);
+	static void UpdateStrideStatus(bool useStride);
 
 private:
 

@@ -47,8 +47,8 @@ Instancing3DSample::~Instancing3DSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void Instancing3DSample::create() {
-    //create RGBA texture
+void Instancing3DSample::Create() {
+    //Create RGBA texture
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -63,37 +63,37 @@ void Instancing3DSample::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_multi_light.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (mProgram == GL_NONE) {
-        LOGE("BasicLightingSample::Init mProgram == GL_NONE")
+    if (m_ProgramObj == GL_NONE) {
+        LOGE("BasicLightingSample::Init m_ProgramObj == GL_NONE")
         return;
     }
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
     GO_CHECK_GL_ERROR()
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
     GO_CHECK_GL_ERROR()
-    m_ModelMatrixLoc = glGetUniformLocation(mProgram, "u_ModelMatrix");
+    m_ModelMatrixLoc = glGetUniformLocation(m_ProgramObj, "u_ModelMatrix");
     GO_CHECK_GL_ERROR()
-    m_ViewPosLoc = glGetUniformLocation(mProgram, "viewPos");
+    m_ViewPosLoc = glGetUniformLocation(m_ProgramObj, "viewPos");
     GO_CHECK_GL_ERROR()
 
-    m_LightPosition = glGetUniformLocation(mProgram, "light.position");
+    m_LightPosition = glGetUniformLocation(m_ProgramObj, "light.position");
     GO_CHECK_GL_ERROR()
-    m_LightColor = glGetUniformLocation(mProgram, "light.color");
+    m_LightColor = glGetUniformLocation(m_ProgramObj, "light.color");
     GO_CHECK_GL_ERROR()
-    m_LightDirection = glGetUniformLocation(mProgram, "light.direction");
+    m_LightDirection = glGetUniformLocation(m_ProgramObj, "light.direction");
     GO_CHECK_GL_ERROR()
-    m_LightCutOff = glGetUniformLocation(mProgram, "light.cutOff");
+    m_LightCutOff = glGetUniformLocation(m_ProgramObj, "light.cutOff");
     GO_CHECK_GL_ERROR()
-    m_LightOuterCutOff = glGetUniformLocation(mProgram, "light.outerCutOff");
+    m_LightOuterCutOff = glGetUniformLocation(m_ProgramObj, "light.outerCutOff");
     GO_CHECK_GL_ERROR()
-    m_LightConstant = glGetUniformLocation(mProgram, "light.constant");
+    m_LightConstant = glGetUniformLocation(m_ProgramObj, "light.constant");
     GO_CHECK_GL_ERROR()
-    m_LightLinear = glGetUniformLocation(mProgram, "light.linear");
+    m_LightLinear = glGetUniformLocation(m_ProgramObj, "light.linear");
     GO_CHECK_GL_ERROR()
-    m_LightQuadratic = glGetUniformLocation(mProgram, "light.quadratic");
+    m_LightQuadratic = glGetUniformLocation(m_ProgramObj, "light.quadratic");
     GO_CHECK_GL_ERROR()
 
     // 在 3D 空间中产生 125 个偏移量（offset）：
@@ -156,11 +156,11 @@ void Instancing3DSample::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void Instancing3DSample::draw() {
+void Instancing3DSample::Draw() {
     LOGD("Instancing3DSample::Draw()")
 
-    if (mProgram == GL_NONE || m_TextureId == GL_NONE) {
-        LOGD("Instancing3DSample::Draw() mProgram == GL_NONE || m_TextureId == GL_NONE")
+    if (m_ProgramObj == GL_NONE || m_TextureId == GL_NONE) {
+        LOGD("Instancing3DSample::Draw() m_ProgramObj == GL_NONE || m_TextureId == GL_NONE")
         return;
     }
     // 如果这句话不写，直接会黑屏。当使用 GL_DEPTH_TEST的时候，要记得调用下面这句话，搭配使用。
@@ -173,10 +173,10 @@ void Instancing3DSample::draw() {
     // 启用深度测试
     glEnable(GL_DEPTH_TEST);
 
-    float ratio = (float) mWidth / (float) mHeight;
+    float ratio = (float) m_Width / (float) m_Height;
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     glBindVertexArray(m_VaoId);
 
@@ -214,13 +214,13 @@ void Instancing3DSample::draw() {
     glBindVertexArray(0);
 }
 
-void Instancing3DSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void Instancing3DSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(2, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);
-        mProgram = GL_NONE;
+        m_ProgramObj = GL_NONE;
         m_VaoId = GL_NONE;
         m_TextureId = GL_NONE;
     }

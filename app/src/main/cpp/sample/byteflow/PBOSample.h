@@ -14,11 +14,11 @@ public:
 
     virtual ~PBOSample();
 
-    virtual void create();
+    virtual void Create();
 
-    virtual void draw();
+    virtual void Draw();
 
-    virtual void shutdown();
+    virtual void Shutdown();
 
     virtual void LoadImage(NativeImage *pImage);
 

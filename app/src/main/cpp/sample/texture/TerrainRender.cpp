@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include "TerrainRender.h"
 
-void TerrainRender::create() {
+void TerrainRender::Create() {
     GLUtils::printGLInfo();
 
     GLfloat *positions;
@@ -18,18 +18,18 @@ void TerrainRender::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_terrinrender.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGD("Could not create program")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
     // Get the uniform locations
-    mvpLoc = glGetUniformLocation(mProgram, "u_mvpMatrix");
-    lightDirectionLoc = glGetUniformLocation(mProgram, "u_lightDirection");
+    mvpLoc = glGetUniformLocation(m_ProgramObj, "u_mvpMatrix");
+    lightDirectionLoc = glGetUniformLocation(m_ProgramObj, "u_lightDirection");
 
     // Get the sampler location
-    samplerLoc = glGetUniformLocation(mProgram, "s_texture");
+    samplerLoc = glGetUniformLocation(m_ProgramObj, "s_texture");
 
     textureId = GLUtils::loadTgaTexture("texture/heightmap.tga");
     if (textureId == 0) {
@@ -70,7 +70,7 @@ void TerrainRender::initMVP() {
     float aspect;
 
     // Compute the window aspect ratio
-    aspect = (GLfloat) mWidth / (GLfloat) mHeight;
+    aspect = (GLfloat) m_Width / (GLfloat) m_Height;
 
     // Generate a perspective matrix with a 60 degree FOV
     esMatrixLoadIdentity(&perspective);
@@ -90,13 +90,13 @@ void TerrainRender::initMVP() {
     esMatrixMultiply(&mvpMatrix, &modelview, &perspective);
 }
 
-void TerrainRender::draw() {
+void TerrainRender::Draw() {
     initMVP();
 
     // Clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // Load the vertex position
     glBindBuffer(GL_ARRAY_BUFFER, positionVBO);
@@ -124,11 +124,11 @@ void TerrainRender::draw() {
     glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, nullptr);
 }
 
-void TerrainRender::shutdown() {
+void TerrainRender::Shutdown() {
     // Delete texture object
     glDeleteBuffers(1, &positionVBO);
     glDeleteBuffers(1, &indicesIBO);
 
         // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 }

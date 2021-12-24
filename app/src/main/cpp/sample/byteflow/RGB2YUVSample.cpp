@@ -55,7 +55,7 @@ RGB2YUVSample::~RGB2YUVSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void RGB2YUVSample::create() {
+void RGB2YUVSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_texture_map.glsl");
@@ -64,18 +64,18 @@ void RGB2YUVSample::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_map.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
     const char *fragmentRgb2yuv = GLUtils::openTextFile(
             "fragment/fragment_shader_rgb2yuv.glsl");
     m_FboProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &fragmentRgb2yuv);
 
-    if (mProgram == GL_NONE || m_FboProgramObj == GL_NONE) {
-        LOGE("RGB2YUVSample::Init create program fail")
+    if (m_ProgramObj == GL_NONE || m_FboProgramObj == GL_NONE) {
+        LOGE("RGB2YUVSample::Init Create program fail")
         return;
     }
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
     m_FboSamplerLoc = glGetUniformLocation(m_FboProgramObj, "s_TextureMap");
 
     //=========================================== VBO和VAO相关===========================================
@@ -158,7 +158,7 @@ void RGB2YUVSample::create() {
     }
 }
 
-void RGB2YUVSample::draw() {
+void RGB2YUVSample::Draw() {
     // 离屏渲染
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     // Do FBO off screen rendering
@@ -205,8 +205,8 @@ void RGB2YUVSample::draw() {
 
     // 普通渲染
     // Do normal rendering
-    glViewport(0, 0, mWidth, mHeight);
-    glUseProgram(mProgram);
+    glViewport(0, 0, m_Width, m_Height);
+    glUseProgram(m_ProgramObj);
     GO_CHECK_GL_ERROR()
 
     glBindVertexArray(m_VaoIds[0]);
@@ -222,9 +222,9 @@ void RGB2YUVSample::draw() {
     glBindVertexArray(GL_NONE);
 }
 
-void RGB2YUVSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void RGB2YUVSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
     }
 
     if (m_FboProgramObj) {

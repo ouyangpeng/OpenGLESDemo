@@ -6,7 +6,7 @@
 #include "ParticleSystem.h"
 
 
-void ParticleSystem::create() {
+void ParticleSystem::Create() {
     GLUtils::printGLInfo();
 
     // Main Program
@@ -17,19 +17,19 @@ void ParticleSystem::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_particlesystem.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (!mProgram) {
-        LOGD("Could not create program")
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
     // Get the uniform locations
-    mTimeLoc = glGetUniformLocation ( mProgram, "u_time" );
-    mCenterPositionLoc = glGetUniformLocation ( mProgram, "u_centerPosition" );
+    mTimeLoc = glGetUniformLocation (m_ProgramObj, "u_time" );
+    mCenterPositionLoc = glGetUniformLocation (m_ProgramObj, "u_centerPosition" );
 
-    mColorLoc = glGetUniformLocation ( mProgram, "u_color" );
-    mSamplerLoc = glGetUniformLocation ( mProgram, "s_texture" );
+    mColorLoc = glGetUniformLocation (m_ProgramObj, "u_color" );
+    mSamplerLoc = glGetUniformLocation (m_ProgramObj, "s_texture" );
 
     glClearColor ( 0.0f, 0.0f, 0.0f, 0.0f );
 
@@ -64,7 +64,7 @@ void ParticleSystem::create() {
     mTextureId = GLUtils::loadTexture(  "texture/smoke.png" );
 }
 
-void ParticleSystem::draw() {
+void ParticleSystem::Draw() {
     // 每次更新一下
     update(getDeltaTime());
 
@@ -72,7 +72,7 @@ void ParticleSystem::draw() {
     glClear ( GL_COLOR_BUFFER_BIT );
 
     // Use the program object
-    glUseProgram ( mProgram );
+    glUseProgram (m_ProgramObj );
 
     
     // Load the vertex attributes
@@ -113,19 +113,19 @@ void ParticleSystem::draw() {
     
 }
 
-void ParticleSystem::shutdown() {
+void ParticleSystem::Shutdown() {
     // Delete texture object
     glDeleteTextures ( 1, &mTextureId );
 
     // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 }
 
 void ParticleSystem::update(float deltaTime) {
 
     mTime += deltaTime;
 
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // 一秒之后 重置时间，然后设置另一次爆炸的新的中心位置和时间
     if (mTime >= 1.0f )

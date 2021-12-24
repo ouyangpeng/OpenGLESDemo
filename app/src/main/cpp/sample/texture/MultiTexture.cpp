@@ -5,7 +5,7 @@
 #include "MultiTexture.h"
 
 
-void MultiTexture::create() {
+void MultiTexture::Create() {
 	GLUtils::printGLInfo();
 
 	// Main Program
@@ -16,16 +16,16 @@ void MultiTexture::create() {
 	FRAGMENT_SHADER = GLUtils::openTextFile(
 			"fragment/fragment_shader_multi_texture.glsl");
 
-	mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-	if (!mProgram) {
-		LOGD("Could not create program")
+	if (!m_ProgramObj) {
+		LOGD("Could not Create program")
 		return;
 	}
 
 	// Get the sampler location
-	baseMapLoc = glGetUniformLocation(mProgram, "s_baseMap");
-	lightMapLoc = glGetUniformLocation(mProgram, "s_lightMap");
+	baseMapLoc = glGetUniformLocation(m_ProgramObj, "s_baseMap");
+	lightMapLoc = glGetUniformLocation(m_ProgramObj, "s_lightMap");
 
 	// Load the textures
 	// 从assets目录下 取出对应的Texture
@@ -41,7 +41,7 @@ void MultiTexture::create() {
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void MultiTexture::draw() {
+void MultiTexture::Draw() {
 	GLfloat vVertices[] = {
 			-0.5f,  0.5f, 0.0f,  // Position 0
 			0.0f,  0.0f,        // TexCoord 0
@@ -66,7 +66,7 @@ void MultiTexture::draw() {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// Use the program object
-	glUseProgram(mProgram);
+	glUseProgram(m_ProgramObj);
 
 	// Load the vertex position
 	glVertexAttribPointer(MULTI_TEXTURE_VERTEX_POS_INDX, 3, GL_FLOAT,
@@ -95,12 +95,12 @@ void MultiTexture::draw() {
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
 }
 
-void MultiTexture::shutdown() {
+void MultiTexture::Shutdown() {
 	// Delete texture object
 	glDeleteTextures(1, &baseMapTexId);
 	glDeleteTextures(1, &lightMapTexId);
 
 	// Delete program object
 	    // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 }

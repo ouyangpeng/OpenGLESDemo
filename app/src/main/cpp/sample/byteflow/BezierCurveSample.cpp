@@ -34,16 +34,16 @@ BezierCurveSample::~BezierCurveSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void BezierCurveSample::create() {
+void BezierCurveSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_bezier_curve.glsl");
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_bezier_curve.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGE("BezierCurveSample::Init create program fail")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGE("BezierCurveSample::Init Create program fail")
     }
 
     // 获取 t 的取值数组，实际上就是对 t∈[0，1] 区间进行等间隔取值：
@@ -96,15 +96,15 @@ void BezierCurveSample::create() {
 }
 
 
-void BezierCurveSample::draw() {
+void BezierCurveSample::Draw() {
     LOGD("BezierCurveSample::Draw()")
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    if (mProgram == GL_NONE) return;
+    if (m_ProgramObj == GL_NONE) return;
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // 启动混合模式
     glEnable(GL_BLEND);
@@ -149,22 +149,22 @@ void BezierCurveSample::draw() {
 
     // ==============================绘制第一个==============================
     //绘制 一条 贝塞尔曲线
-    GLUtils::setVec4(mProgram, "u_StartEndPoints", glm::vec4(-1, 0, 1, 0));
-    GLUtils::setVec4(mProgram, "u_ControlPoints", glm::vec4(-0.04f, 0.99f, 0.0f, 0.99f));
-    GLUtils::setVec4(mProgram, "u_Color", glm::vec4(1.0f, 0.3f, 0.0f, 1.0f));
+    GLUtils::setVec4(m_ProgramObj, "u_StartEndPoints", glm::vec4(-1, 0, 1, 0));
+    GLUtils::setVec4(m_ProgramObj, "u_ControlPoints", glm::vec4(-0.04f, 0.99f, 0.0f, 0.99f));
+    GLUtils::setVec4(m_ProgramObj, "u_Color", glm::vec4(1.0f, 0.3f, 0.0f, 1.0f));
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
-    GLUtils::setMat4(mProgram, "u_MVPMatrix", m_MVPMatrix);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
+    GLUtils::setMat4(m_ProgramObj, "u_MVPMatrix", m_MVPMatrix);
 
     float offset = (float) (m_FrameIndex % 100) * 1.0f / 100;
     offset = (m_FrameIndex / 100) % 2 == 1 ? (1 - offset) : offset;
-    GLUtils::setFloat(mProgram, "u_Offset", offset);
+    GLUtils::setFloat(m_ProgramObj, "u_Offset", offset);
     // 绘制
     DrawArray();
 
     //旋转 180 度后再绘制 一条 贝塞尔曲线
-    UpdateMVPMatrix(m_MVPMatrix, 180, m_AngleY, (float) mWidth / (float) mHeight);
-    GLUtils::setMat4(mProgram, "u_MVPMatrix", m_MVPMatrix);
+    UpdateMVPMatrix(m_MVPMatrix, 180, m_AngleY, (float) m_Width / (float) m_Height);
+    GLUtils::setMat4(m_ProgramObj, "u_MVPMatrix", m_MVPMatrix);
     // 绘制
     DrawArray();
 
@@ -172,17 +172,17 @@ void BezierCurveSample::draw() {
     int newIndex = m_FrameIndex + 33;
     offset = (float) (newIndex % 100) * 1.0f / 100;
     offset = (newIndex / 100) % 2 == 1 ? (1 - offset) : offset;
-    GLUtils::setFloat(mProgram, "u_Offset", offset);
-    GLUtils::setVec4(mProgram, "u_Color", glm::vec4(0.0f, 0.3f, 0.8f, 1.0f));
-    GLUtils::setVec4(mProgram, "u_ControlPoints", glm::vec4(-0.8f, 0.99f,
-                                                            0.0f, 0.0f));
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
-    GLUtils::setMat4(mProgram, "u_MVPMatrix", m_MVPMatrix);
+    GLUtils::setFloat(m_ProgramObj, "u_Offset", offset);
+    GLUtils::setVec4(m_ProgramObj, "u_Color", glm::vec4(0.0f, 0.3f, 0.8f, 1.0f));
+    GLUtils::setVec4(m_ProgramObj, "u_ControlPoints", glm::vec4(-0.8f, 0.99f,
+                                                                0.0f, 0.0f));
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
+    GLUtils::setMat4(m_ProgramObj, "u_MVPMatrix", m_MVPMatrix);
 
     DrawArray();
 
-    UpdateMVPMatrix(m_MVPMatrix, 180, m_AngleY, (float) mWidth / (float) mHeight);
-    GLUtils::setMat4(mProgram, "u_MVPMatrix", m_MVPMatrix);
+    UpdateMVPMatrix(m_MVPMatrix, 180, m_AngleY, (float) m_Width / (float) m_Height);
+    GLUtils::setMat4(m_ProgramObj, "u_MVPMatrix", m_MVPMatrix);
 
     DrawArray();
 
@@ -190,16 +190,16 @@ void BezierCurveSample::draw() {
     newIndex = newIndex + 33;
     offset = (float) (newIndex % 100) * 1.0f / 100;
     offset = (newIndex / 100) % 2 == 1 ? (1 - offset) : offset;
-    GLUtils::setFloat(mProgram, "u_Offset", offset);
-    GLUtils::setVec4(mProgram, "u_Color", glm::vec4(0.1f, 0.6f, 0.3f, 1.0f));
-    GLUtils::setVec4(mProgram, "u_ControlPoints", glm::vec4(0.0f, 0.0f, 0.8f, 0.99f));
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
-    GLUtils::setMat4(mProgram, "u_MVPMatrix", m_MVPMatrix);
+    GLUtils::setFloat(m_ProgramObj, "u_Offset", offset);
+    GLUtils::setVec4(m_ProgramObj, "u_Color", glm::vec4(0.1f, 0.6f, 0.3f, 1.0f));
+    GLUtils::setVec4(m_ProgramObj, "u_ControlPoints", glm::vec4(0.0f, 0.0f, 0.8f, 0.99f));
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
+    GLUtils::setMat4(m_ProgramObj, "u_MVPMatrix", m_MVPMatrix);
 
     DrawArray();
 
-    UpdateMVPMatrix(m_MVPMatrix, 180, m_AngleY, (float) mWidth / (float) mHeight);
-    GLUtils::setMat4(mProgram, "u_MVPMatrix", m_MVPMatrix);
+    UpdateMVPMatrix(m_MVPMatrix, 180, m_AngleY, (float) m_Width / (float) m_Height);
+    GLUtils::setMat4(m_ProgramObj, "u_MVPMatrix", m_MVPMatrix);
 
     DrawArray();
 
@@ -207,16 +207,16 @@ void BezierCurveSample::draw() {
     newIndex = newIndex + 33;
     offset = (float) (newIndex % 100) * 1.0f / 100;
     offset = (newIndex / 100) % 2 == 1 ? (1 - offset) : offset;
-    GLUtils::setFloat(mProgram, "u_Offset", offset);
-    GLUtils::setVec4(mProgram, "u_Color", glm::vec4(1.0f, 0.0f, 0.3f, 1.0f));
-    GLUtils::setVec4(mProgram, "u_ControlPoints", glm::vec4(-0.2f, 0.99f, 0.0f, 0.0f));
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
-    GLUtils::setMat4(mProgram, "u_MVPMatrix", m_MVPMatrix);
+    GLUtils::setFloat(m_ProgramObj, "u_Offset", offset);
+    GLUtils::setVec4(m_ProgramObj, "u_Color", glm::vec4(1.0f, 0.0f, 0.3f, 1.0f));
+    GLUtils::setVec4(m_ProgramObj, "u_ControlPoints", glm::vec4(-0.2f, 0.99f, 0.0f, 0.0f));
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
+    GLUtils::setMat4(m_ProgramObj, "u_MVPMatrix", m_MVPMatrix);
 
     DrawArray();
 
-    UpdateMVPMatrix(m_MVPMatrix, 180, m_AngleY, (float) mWidth / (float) mHeight);
-    GLUtils::setMat4(mProgram, "u_MVPMatrix", m_MVPMatrix);
+    UpdateMVPMatrix(m_MVPMatrix, 180, m_AngleY, (float) m_Width / (float) m_Height);
+    GLUtils::setMat4(m_ProgramObj, "u_MVPMatrix", m_MVPMatrix);
 
     DrawArray();
 
@@ -224,16 +224,16 @@ void BezierCurveSample::draw() {
     newIndex = newIndex + 33;
     offset = (float) (newIndex % 100) * 1.0f / 100;
     offset = (newIndex / 100) % 2 == 1 ? (1 - offset) : offset;
-    GLUtils::setFloat(mProgram, "u_Offset", offset);
-    GLUtils::setVec4(mProgram, "u_Color", glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-    GLUtils::setVec4(mProgram, "u_ControlPoints", glm::vec4(0.0f, 0.0f, 0.2f, 0.99f));
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
-    GLUtils::setMat4(mProgram, "u_MVPMatrix", m_MVPMatrix);
+    GLUtils::setFloat(m_ProgramObj, "u_Offset", offset);
+    GLUtils::setVec4(m_ProgramObj, "u_Color", glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+    GLUtils::setVec4(m_ProgramObj, "u_ControlPoints", glm::vec4(0.0f, 0.0f, 0.2f, 0.99f));
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
+    GLUtils::setMat4(m_ProgramObj, "u_MVPMatrix", m_MVPMatrix);
 
     DrawArray();
 
-    UpdateMVPMatrix(m_MVPMatrix, 180, m_AngleY, (float) mWidth / (float) mHeight);
-    GLUtils::setMat4(mProgram, "u_MVPMatrix", m_MVPMatrix);
+    UpdateMVPMatrix(m_MVPMatrix, 180, m_AngleY, (float) m_Width / (float) m_Height);
+    GLUtils::setMat4(m_ProgramObj, "u_MVPMatrix", m_MVPMatrix);
 
     DrawArray();
     // ==============================绘制完毕==============================
@@ -241,9 +241,9 @@ void BezierCurveSample::draw() {
     glDisable(GL_BLEND);
 }
 
-void BezierCurveSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void BezierCurveSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(1, &m_VboId);
         glDeleteVertexArrays(1, &m_VaoId);
     }

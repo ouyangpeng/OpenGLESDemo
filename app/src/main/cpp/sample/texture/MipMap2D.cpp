@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include "MipMap2D.h"
 
-void MipMap2D::create() {
+void MipMap2D::Create() {
     GLUtils::printGLInfo();
 
     // Main Program
@@ -16,18 +16,18 @@ void MipMap2D::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_mipmap_2d.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    if (!mProgram) {
-        LOGD("Could not create program")
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
     // Get the sampler location
-    samplerLoc = glGetUniformLocation(mProgram, "s_texture");
+    samplerLoc = glGetUniformLocation(m_ProgramObj, "s_texture");
 
     // Get the offset location
-    offsetLoc = glGetUniformLocation(mProgram, "u_offset");
+    offsetLoc = glGetUniformLocation(m_ProgramObj, "u_offset");
 
     // Load the texture  加载纹理
     textureId = CreateMipMappedTexture2D();
@@ -36,15 +36,15 @@ void MipMap2D::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void MipMap2D::shutdown() {
+void MipMap2D::Shutdown() {
     // Delete texture object
     glDeleteTextures(1, &textureId);
 
     // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 }
 
-void MipMap2D::draw() {
+void MipMap2D::Draw() {
     GLfloat vVertices[] =
             {
                     -0.5f, 0.5f, 0.0f, 1.5f,    // Position 0
@@ -68,7 +68,7 @@ void MipMap2D::draw() {
 
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // Load the vertex position
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), vVertices);

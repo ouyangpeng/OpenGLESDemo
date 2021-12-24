@@ -49,7 +49,7 @@ VisualizeAudioSample::~VisualizeAudioSample() {
     }
 }
 
-void VisualizeAudioSample::create() {
+void VisualizeAudioSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_visualize_audio.glsl");
@@ -57,21 +57,21 @@ void VisualizeAudioSample::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_visualize_audio.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGE("BigEyesSample::Init create program fail")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGE("BigEyesSample::Init Create program fail")
         return;
     }
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
 
     // 设置清除颜色
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-void VisualizeAudioSample::draw() {
+void VisualizeAudioSample::Draw() {
     LOGD("VisualizeAudioSample::Draw()")
 
-    if (mProgram == GL_NONE) return;
+    if (m_ProgramObj == GL_NONE) return;
 
     // 清空缓冲区: STENCIL_BUFFER、COLOR_BUFFER、DEPTH_BUFFER
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -84,7 +84,7 @@ void VisualizeAudioSample::draw() {
     UpdateMesh();
     lock.unlock();
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
 
     // Generate VBO Ids and load the VBOs with data
     if (m_VboIds[0] == 0) {
@@ -126,23 +126,23 @@ void VisualizeAudioSample::draw() {
 
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
     glBindVertexArray(m_VaoId);
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
-    GLUtils::setFloat(mProgram, "drawType", 1.0f);
+    GLUtils::setFloat(m_ProgramObj, "drawType", 1.0f);
     glDrawArrays(GL_TRIANGLES, 0, m_RenderDataSize * 6);
-    GLUtils::setFloat(mProgram, "drawType", 0.0f);
+    GLUtils::setFloat(m_ProgramObj, "drawType", 0.0f);
     glDrawArrays(GL_LINES, 0, m_RenderDataSize * 6);
 }
 
-void VisualizeAudioSample::shutdown() {
+void VisualizeAudioSample::Shutdown() {
     std::unique_lock<std::mutex> lock(m_Mutex);
     LOGD("m_Mutex addr = %d", &m_Mutex)
     m_Cond.notify_all();
     lock.unlock();
 
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(2, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
     }

@@ -66,7 +66,7 @@ BigEyesSample::~BigEyesSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void BigEyesSample::create() {
+void BigEyesSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_coord_system.glsl");
@@ -74,14 +74,14 @@ void BigEyesSample::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_big_eyes.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGE("BigEyesSample::Init create program fail")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGE("BigEyesSample::Init Create program fail")
         return;
     }
 
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
 
     //=========================================== VBO和VAO相关===========================================
     // Generate VBO Ids and load the VBOs with data
@@ -135,18 +135,18 @@ void BigEyesSample::create() {
     glClearColor(0.1, 0.1, 0.1, 0.1);
 }
 
-void BigEyesSample::draw() {
-    if (mProgram == GL_NONE) {
-        LOGE("BigEyesSample::draw() mProgram == GL_NONE return")
+void BigEyesSample::Draw() {
+    if (m_ProgramObj == GL_NONE) {
+        LOGE("BigEyesSample::Draw() m_ProgramObj == GL_NONE return")
         return;
     }
     // 清除缓存
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Use the program object
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) mWidth / (float) mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
 
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
 
@@ -155,11 +155,11 @@ void BigEyesSample::draw() {
     offset = (m_FrameIndex / 100) % 2 == 1 ? (1 - offset) : offset;
 
     // 赋值给片段着色器
-    GLUtils::setFloat(mProgram, "u_ScaleRatio", offset * 1.6f);
-    GLUtils::setFloat(mProgram, "u_Radius", EyeRadius);
-    GLUtils::setVec2(mProgram, "u_LeftEyeCenterPos", LeftEyePoint[0], LeftEyePoint[1]);
-    GLUtils::setVec2(mProgram, "u_RightEyeCenterPos", RightEyePoint[0], RightEyePoint[1]);
-    GLUtils::setVec2(mProgram, "u_ImgSize",
+    GLUtils::setFloat(m_ProgramObj, "u_ScaleRatio", offset * 1.6f);
+    GLUtils::setFloat(m_ProgramObj, "u_Radius", EyeRadius);
+    GLUtils::setVec2(m_ProgramObj, "u_LeftEyeCenterPos", LeftEyePoint[0], LeftEyePoint[1]);
+    GLUtils::setVec2(m_ProgramObj, "u_RightEyeCenterPos", RightEyePoint[0], RightEyePoint[1]);
+    GLUtils::setVec2(m_ProgramObj, "u_ImgSize",
                      (float) m_RenderImage.width,
                      (float) m_RenderImage.height);
 
@@ -187,10 +187,10 @@ void BigEyesSample::draw() {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
 }
 
-void BigEyesSample::shutdown() {
-    if (mProgram) {
-        LOGD("BigEyesSample::shutdown()")
-        glDeleteProgram(mProgram);
+void BigEyesSample::Shutdown() {
+    if (m_ProgramObj) {
+        LOGD("BigEyesSample::Shutdown()")
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(3, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);

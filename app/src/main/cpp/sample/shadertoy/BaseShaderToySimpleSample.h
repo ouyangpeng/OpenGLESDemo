@@ -17,11 +17,11 @@ public:
 
     virtual ~BaseShaderToySimpleSample();
 
-    virtual void create();
+    virtual void Create();
 
-    virtual void draw();
+    virtual void Draw();
 
-    virtual void shutdown();
+    virtual void Shutdown();
 
     virtual void LoadMultiImageWithIndex(int index, NativeImage *pImage);
 

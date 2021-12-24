@@ -24,11 +24,11 @@ public:
 
     virtual ~ParticleSystemTransformFeedBack() = default;
 
-    virtual void create();
+    virtual void Create();
 
-    virtual void draw();
+    virtual void Draw();
 
-    virtual void shutdown();
+    virtual void Shutdown();
 
 private:
     // 定义粒子的顶点结构
@@ -77,7 +77,7 @@ private:
     // Current time
     float time;
 
-    // synch object to synchronize the transform feedback results and the draw
+    // synch object to synchronize the transform feedback results and the Draw
     GLsync emitSync;
 
     // 获取时间

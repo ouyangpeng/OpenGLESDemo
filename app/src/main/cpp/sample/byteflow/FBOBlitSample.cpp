@@ -47,14 +47,14 @@ FBOBlitSample::FBOBlitSample() {
     m_ScaleX = 1.0f;
     m_ScaleY = 1.0f;
 
-    mProgram = GL_NONE;
+    m_ProgramObj = GL_NONE;
 }
 
 FBOBlitSample::~FBOBlitSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void FBOBlitSample::create() {
+void FBOBlitSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_coord_system.glsl");
@@ -63,14 +63,14 @@ void FBOBlitSample::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_mrt2.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGE("RotaryHeadSample::Init create program fail")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGE("RotaryHeadSample::Init Create program fail")
         return;
     }
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_Texture");
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_Texture");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
 
     //=========================================== VBO和VAO相关===========================================
     // Generate VBO Ids and load the VBOs with data
@@ -104,7 +104,7 @@ void FBOBlitSample::create() {
     glBindVertexArray(GL_NONE);
 
     //=========================================== 纹理相关===========================================
-    //create RGBA texture
+    //Create RGBA texture
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -126,9 +126,9 @@ void FBOBlitSample::create() {
     LOGD("MRTSample::Init InitFBO = %d", InitFBO())
 }
 
-void FBOBlitSample::draw() {
+void FBOBlitSample::Draw() {
     LOGD("FBOBlitSample::Draw()")
-    if (mProgram == GL_NONE || m_TextureId == GL_NONE) return;
+    if (m_ProgramObj == GL_NONE || m_TextureId == GL_NONE) return;
 
     //首先获取当前默认帧缓冲区的 id
     GLint defaultFrameBuffer = GL_NONE;
@@ -145,10 +145,10 @@ void FBOBlitSample::draw() {
     glDrawBuffers(ATTACHMENT_NUM, attachments);
 
     //渲染（采样） 4 个纹理的着色器程序
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
     glBindVertexArray(m_VaoId);
 
-    UpdateMVPMatrix(m_MVPMatrix, 0, m_AngleY, (float) mWidth / (float) mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, 0, m_AngleY, (float) m_Width / (float) m_Height);
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
 
     // Bind the RGBA map
@@ -160,16 +160,16 @@ void FBOBlitSample::draw() {
     //绑定默认的帧缓冲区对象，将像素从新建的帧缓冲区拷贝到当前默认的帧缓冲区
     // 目标帧缓冲区 GL_DRAW_FRAMEBUFFER
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, defaultFrameBuffer);
-    glViewport(0, 0, mWidth, mHeight);
+    glViewport(0, 0, m_Width, m_Height);
     glClear(GL_COLOR_BUFFER_BIT);
     //位块传送
     BlitTextures();
 }
 
-void FBOBlitSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
-        glDeleteProgram(mProgram);
+void FBOBlitSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(3, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);
         glDeleteTextures(1, &m_TextureId);
@@ -291,23 +291,23 @@ void FBOBlitSample::BlitTextures() {
     //          GL_NEAREST
     //          GL_LINEAR
     glBlitFramebuffer(0, 0, m_RenderImage.width, m_RenderImage.height,
-                      0, 0, mWidth / 2, mHeight / 2,
+                      0, 0, m_Width / 2, m_Height / 2,
                       GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
 
     glReadBuffer(GL_COLOR_ATTACHMENT1);
     glBlitFramebuffer(0, 0, m_RenderImage.width, m_RenderImage.height,
-                      mWidth / 2, 0, mWidth, mHeight / 2,
+                      m_Width / 2, 0, m_Width, m_Height / 2,
                       GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
     glReadBuffer(GL_COLOR_ATTACHMENT2);
     glBlitFramebuffer(0, 0, m_RenderImage.width, m_RenderImage.height,
-                      0, mHeight / 2, mWidth / 2, mHeight,
+                      0, m_Height / 2, m_Width / 2, m_Height,
                       GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
     glReadBuffer(GL_COLOR_ATTACHMENT3);
     glBlitFramebuffer(0, 0, m_RenderImage.width, m_RenderImage.height,
-                      mWidth / 2, mHeight / 2, mWidth, mHeight,
+                      m_Width / 2, m_Height / 2, m_Width, m_Height,
                       GL_COLOR_BUFFER_BIT, GL_LINEAR);
 }
 

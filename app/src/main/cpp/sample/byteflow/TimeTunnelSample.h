@@ -16,11 +16,11 @@ public:
 
     virtual void LoadImage(NativeImage *pImage);
 
-    virtual void create();
+    virtual void Create();
 
-    virtual void draw();
+    virtual void Draw();
 
-    virtual void shutdown();
+    virtual void Shutdown();
 
     void UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float ratio) const;
 

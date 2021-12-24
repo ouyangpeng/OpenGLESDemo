@@ -20,7 +20,7 @@ static GLfloat vertices[3 * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE)] =
 // Index buffer data
 static GLushort indices[3] = {0, 1, 2};
 
-void NativeTriangleVBO::create() {
+void NativeTriangleVBO::Create() {
     GLUtils::printGLInfo();
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
@@ -28,12 +28,12 @@ void NativeTriangleVBO::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_hello_triangle2.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
-    offsetLoc = glGetUniformLocation(mProgram, "u_offset");
+    offsetLoc = glGetUniformLocation(m_ProgramObj, "u_offset");
 
-    if (!mProgram) {
-        LOGD("Could not create program")
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
@@ -44,10 +44,10 @@ void NativeTriangleVBO::create() {
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
-void NativeTriangleVBO::draw() {
+void NativeTriangleVBO::Draw() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // without VBOs
     glUniform1f(offsetLoc, 0.0f);
@@ -103,7 +103,7 @@ void NativeTriangleVBO::DrawPrimitiveWithVBOs(GLint numVertices, GLfloat *vtxBuf
         // vboIds[0] - used to store vertex attribute data
         // vboIds[l] - used to store element indicesParam
         if (vboIds[0] == 0 && vboIds[1] == 0) {
-            //Only allocate on the first draw
+            //Only allocate on the first Draw
             // 使用glGenBuffers函数生成2个VBO对象
             glGenBuffers(2, vboIds);
             // OpenGL有很多缓冲对象类型，顶点缓冲对象的缓冲类型是GL_ARRAY_BUFFER。
@@ -206,9 +206,9 @@ void NativeTriangleVBO::DrawPrimitiveWithVBOs(GLint numVertices, GLfloat *vtxBuf
     FUN_END_TIME("NativeTriangleVBO::DrawPrimitiveWithVBOs")
 }
 
-void NativeTriangleVBO::shutdown() {
+void NativeTriangleVBO::Shutdown() {
     // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
 
     glDeleteBuffers(2, &vboIds[0]);
 }

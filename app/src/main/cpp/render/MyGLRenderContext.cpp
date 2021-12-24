@@ -87,13 +87,13 @@ MyGLRenderContext::~MyGLRenderContext() {
     LOGD("MyGLRenderContext::~MyGLRenderContext")
 
     if (m_pCurSample) {
-        m_pCurSample->shutdown();
+        m_pCurSample->Shutdown();
         delete m_pCurSample;
         m_pCurSample = nullptr;
     }
 
     if (m_pBeforeSample) {
-        m_pBeforeSample->shutdown();
+        m_pBeforeSample->Shutdown();
         delete m_pBeforeSample;
         m_pBeforeSample = nullptr;
     }
@@ -308,50 +308,50 @@ void MyGLRenderContext::OnSurfaceCreated(JNIEnv *env, jobject assetManager) {
     GLUtils::setEnvAndAssetManager(env, assetManager);
 
     if (m_pBeforeSample) {
-        m_pBeforeSample->shutdown();
+        m_pBeforeSample->Shutdown();
         delete m_pBeforeSample;
         m_pBeforeSample = nullptr;
     }
 
     if (m_pCurSample) {
-        m_pCurSample->create();
+        m_pCurSample->Create();
     }
 }
 
 void MyGLRenderContext::OnSurfaceChanged(int width, int height) {
     LOGD("MyGLRenderContext::OnSurfaceChanged [w, h] = [%d, %d]", width, height)
     if (m_pCurSample) {
-        m_pCurSample->change(width, height);
+        m_pCurSample->Change(width, height);
     }
 }
 
 void MyGLRenderContext::OnDrawFrame() {
     if (m_pCurSample) {
-        m_pCurSample->draw();
+        m_pCurSample->Draw();
     }
 }
 
 void MyGLRenderContext::SwitchBlendingMode() {
     if (m_pCurSample) {
-        m_pCurSample->switchBlendingMode();
+        m_pCurSample->SwitchBlendingMode();
     }
 }
 
 void MyGLRenderContext::SetDelta(float x, float y) {
     if (m_pCurSample) {
-        m_pCurSample->setDelta(x, y);
+        m_pCurSample->SetDelta(x, y);
     }
 }
 
 void MyGLRenderContext::SetMinFilter(int filter) {
     if (m_pCurSample) {
-        m_pCurSample->setMinFilter(filter);
+        m_pCurSample->SetMinFilter(filter);
     }
 }
 
 void MyGLRenderContext::SetMagFilter(int filter) {
     if (m_pCurSample) {
-        m_pCurSample->setMagFilter(filter);
+        m_pCurSample->SetMagFilter(filter);
     }
 }
 

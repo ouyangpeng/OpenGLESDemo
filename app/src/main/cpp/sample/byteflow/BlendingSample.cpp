@@ -32,8 +32,8 @@ BlendingSample::~BlendingSample() {
     }
 }
 
-void BlendingSample::create() {
-    //create RGBA textures
+void BlendingSample::Create() {
+    //Create RGBA textures
     glGenTextures(RENDER_IMG_NUM, m_TextureIds);
     for (unsigned int m_TextureId : m_TextureIds) {
         glBindTexture(GL_TEXTURE_2D, m_TextureId);
@@ -50,15 +50,15 @@ void BlendingSample::create() {
     // 片段着色器
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_map.glsl");
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGD("Could not create program")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
-    m_SamplerLoc = glGetUniformLocation(mProgram, "s_TextureMap");
+    m_SamplerLoc = glGetUniformLocation(m_ProgramObj, "s_TextureMap");
     GO_CHECK_GL_ERROR()
-    m_MVPMatLoc = glGetUniformLocation(mProgram, "u_MVPMatrix");
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
     GO_CHECK_GL_ERROR()
 
 
@@ -141,14 +141,14 @@ void BlendingSample::LoadMultiImageWithIndex(int index, NativeImage *pImage) {
     }
 }
 
-void BlendingSample::draw() {
+void BlendingSample::Draw() {
     LOGD("BlendingSample::Draw()")
 
-    if (mProgram == GL_NONE) return;
+    if (m_ProgramObj == GL_NONE) return;
 
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
-    float ratio = (float) mWidth / (float) mHeight;
+    float ratio = (float) m_Width / (float) m_Height;
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -221,13 +221,13 @@ void BlendingSample::draw() {
     glDisable(GL_BLEND);
 }
 
-void BlendingSample::shutdown() {
-    if (mProgram) {
-        glDeleteProgram(mProgram);
+void BlendingSample::Shutdown() {
+    if (m_ProgramObj) {
+        glDeleteProgram(m_ProgramObj);
         glDeleteBuffers(3, m_VboIds);
         glDeleteVertexArrays(3, m_VaoIds);
         glDeleteTextures(3, m_TextureIds);
-        mProgram = GL_NONE;
+        m_ProgramObj = GL_NONE;
     }
 }
 

@@ -53,7 +53,7 @@ MRTSample::~MRTSample() {
     NativeImageUtil::FreeNativeImage(&m_RenderImage);
 }
 
-void MRTSample::create() {
+void MRTSample::Create() {
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_coord_system.glsl");
@@ -63,7 +63,7 @@ void MRTSample::create() {
             "fragment/fragment_shader_mrt2.glsl");
     m_MRTProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER2);
     if (!m_MRTProgramObj) {
-        LOGE("RotaryHeadSample::Init create program fail")
+        LOGE("RotaryHeadSample::Init Create program fail")
         return;
     }
 
@@ -74,9 +74,9 @@ void MRTSample::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_mrt3.glsl");
 
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGE("RotaryHeadSample::Init create program fail")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGE("RotaryHeadSample::Init Create program fail")
         return;
     }
 
@@ -112,7 +112,7 @@ void MRTSample::create() {
     glBindVertexArray(GL_NONE);
 
     //=========================================== 纹理相关===========================================
-    //create RGBA texture
+    //Create RGBA texture
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -133,7 +133,7 @@ void MRTSample::create() {
     LOGD("MRTSample::Init InitFBO = %d", InitFBO())
 }
 
-void MRTSample::draw() {
+void MRTSample::Draw() {
     LOGD("MRTSample::Draw()")
     if(m_MRTProgramObj == GL_NONE || m_TextureId == GL_NONE) return;
 
@@ -156,7 +156,7 @@ void MRTSample::draw() {
     //使用渲染输出到 4 个纹理的着色器程序
     glUseProgram (m_MRTProgramObj);
     glBindVertexArray(m_VaoId);
-    UpdateMVPMatrix(m_MVPMatrix, 180, m_AngleY, (float)mWidth / (float)mHeight);
+    UpdateMVPMatrix(m_MVPMatrix, 180, m_AngleY, (float)m_Width / (float)m_Height);
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
 
     // Bind the RGBA map
@@ -169,11 +169,11 @@ void MRTSample::draw() {
     //绑定默认帧缓冲区对象，绘制到屏幕上
     // Restore the default framebuffer
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, defaultFrameBuffer);
-    glViewport ( 0, 0, mWidth,mHeight);
+    glViewport (0, 0, m_Width, m_Height);
     glClear(GL_COLOR_BUFFER_BIT);
     //渲染（采样） 4 个纹理的着色器程序
-    glUseProgram (mProgram);
-    UpdateMVPMatrix(m_MVPMatrix, 0, m_AngleY, (float)mWidth / (float)mHeight);
+    glUseProgram (m_ProgramObj);
+    UpdateMVPMatrix(m_MVPMatrix, 0, m_AngleY, (float)m_Width / (float)m_Height);
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
     //指定 4 个纹理作为输入
     for (int i = 0; i < ATTACHMENT_NUM; ++i)
@@ -182,15 +182,15 @@ void MRTSample::draw() {
         glBindTexture(GL_TEXTURE_2D, m_AttachTexIds[i]);
         char samplerName[64] = {0};
         sprintf(samplerName, "s_Texture%d", i);
-        GLUtils::setInt(mProgram, samplerName, i);
+        GLUtils::setInt(m_ProgramObj, samplerName, i);
     }
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
 }
 
-void MRTSample::shutdown() {
-    if (mProgram)
+void MRTSample::Shutdown() {
+    if (m_ProgramObj)
     {
-        glDeleteProgram(mProgram);
+        glDeleteProgram(m_ProgramObj);
         glDeleteProgram(m_MRTProgramObj);
         glDeleteBuffers(3, m_VboIds);
         glDeleteVertexArrays(1, &m_VaoId);

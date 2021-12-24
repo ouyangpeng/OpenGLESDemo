@@ -9,13 +9,13 @@ public:
 
     virtual ~Native2Lesson();
 
-    virtual void create();
+    virtual void Create();
 
-    virtual void change(int width, int height);
+    virtual void Change(int width, int height);
 
-    virtual void draw();
+    virtual void Draw();
 
-    virtual void shutdown();
+    virtual void Shutdown();
 
 private:
     Matrix *mViewMatrix;

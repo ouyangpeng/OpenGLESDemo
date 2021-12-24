@@ -1,6 +1,6 @@
 #include "Native6Lesson.h"
 
-void Native6Lesson::create() {
+void Native6Lesson::Create() {
     // Use culling to remove back face.
     glEnable(GL_CULL_FACE);
 
@@ -14,9 +14,9 @@ void Native6Lesson::create() {
     FRAGMENT_SHADER = GLUtils::openTextFile("fragment/fragment_shader_lesson_6.glsl");
 
     // Set program handles
-    mProgram = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
-    if (!mProgram) {
-        LOGD("Could not create program")
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
+    if (!m_ProgramObj) {
+        LOGD("Could not Create program")
         return;
     }
 
@@ -28,7 +28,7 @@ void Native6Lesson::create() {
     mPointProgramHandle = GLUtils::createProgram(&POINT_VERTEX_SHADER_CODE,
                                                  &POINT_FRAGMENT_SHADER_CODE);
     if (!mPointProgramHandle) {
-        LOGD("Could not create program")
+        LOGD("Could not Create program")
         return;
     }
 
@@ -64,20 +64,20 @@ void Native6Lesson::create() {
     mViewMatrix = Matrix::newLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 
     if (mQueuedMinFilter != 0) {
-        setMinFilter(mQueuedMinFilter);
+        SetMinFilter(mQueuedMinFilter);
     }
 
     if (mQueuedMagFilter != 0) {
-        setMagFilter(mQueuedMagFilter);
+        SetMagFilter(mQueuedMagFilter);
     }
 }
 
-void Native6Lesson::change(int width, int height) {
+void Native6Lesson::Change(int width, int height) {
 
-    mWidth = width;
-    mHeight = height;
+    m_Width = width;
+    m_Height = height;
 
-    glViewport(0, 0, mWidth, mHeight);
+    glViewport(0, 0, m_Width, m_Height);
 
     // Create a new perspective projection matrix. The height will stay the same
     // while the width will vary as per aspect ratio.
@@ -92,7 +92,7 @@ void Native6Lesson::change(int width, int height) {
     mProjectionMatrix = Matrix::newFrustum(left, right, bottom, top, near, far);
 }
 
-void Native6Lesson::draw() {
+void Native6Lesson::Draw() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -103,13 +103,13 @@ void Native6Lesson::draw() {
     float slowAngleInDegrees = (180.0f / 1000000.0f) * ((int) slowTime);
 
     // Set out pre-vertex lighting program.
-    glUseProgram(mProgram);
+    glUseProgram(m_ProgramObj);
 
     // Set program handles for cube drawing.
-    mMVPMatrixHandle = glGetUniformLocation(mProgram, "u_MVPMatrix");
-    mMVMatrixHandle = glGetUniformLocation(mProgram, "u_MVMatrix");
-    mLightPosHandle = glGetUniformLocation(mProgram, "u_LightPos");
-    mTextureUniformHandle = glGetUniformLocation(mProgram, "u_Texture");
+    mMVPMatrixHandle = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
+    mMVMatrixHandle = glGetUniformLocation(m_ProgramObj, "u_MVMatrix");
+    mLightPosHandle = glGetUniformLocation(m_ProgramObj, "u_LightPos");
+    mTextureUniformHandle = glGetUniformLocation(m_ProgramObj, "u_Texture");
 
     // Calculate position of the light
     // Rotate and then push into the distance.
@@ -179,7 +179,7 @@ void Native6Lesson::draw() {
     drawLight();
 }
 
-void Native6Lesson::setMinFilter(int filter) {
+void Native6Lesson::SetMinFilter(int filter) {
     if (mBrickDataHandle != 0 && mGrassDataHandle != 0) {
         glBindTexture(GL_TEXTURE_2D, mBrickDataHandle);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
@@ -190,7 +190,7 @@ void Native6Lesson::setMinFilter(int filter) {
     }
 }
 
-void Native6Lesson::setMagFilter(int filter) {
+void Native6Lesson::SetMagFilter(int filter) {
     if (mBrickDataHandle != 0 && mGrassDataHandle != 0) {
         glBindTexture(GL_TEXTURE_2D, mBrickDataHandle);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
@@ -303,12 +303,12 @@ void Native6Lesson::drawLight() {
     glDrawArrays(GL_POINTS, 0, 1);
 }
 
-void Native6Lesson::setDelta(float x, float y) {
+void Native6Lesson::SetDelta(float x, float y) {
     mDeltaX += x;
     mDeltaY += y;
 }
 
-void Native6Lesson::shutdown() {
+void Native6Lesson::Shutdown() {
     delete mModelMatrix;
     mModelMatrix = nullptr;
 
@@ -335,6 +335,6 @@ void Native6Lesson::shutdown() {
     glDeleteTextures ( 1, &mGrassDataHandle );
 
     // Delete program object
-    GLUtils::DeleteProgram(mProgram);
+    GLUtils::DeleteProgram(m_ProgramObj);
     GLUtils::DeleteProgram(mPointProgramHandle);
 }
