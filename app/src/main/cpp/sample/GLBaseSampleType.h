@@ -76,6 +76,7 @@
 #define SAMPLE_TYPE_KEY_RGB2YUV                                     SAMPLE_TYPE + 59
 #define SAMPLE_TYPE_KEY_MULTI_THREAD_RENDER                         SAMPLE_TYPE + 60
 #define SAMPLE_TYPE_KEY_TEXT_RENDER                                 SAMPLE_TYPE + 61
+#define SAMPLE_TYPE_KEY_STAY_COLOR                                  SAMPLE_TYPE + 62
 
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

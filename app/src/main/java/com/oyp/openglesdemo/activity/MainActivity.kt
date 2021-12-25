@@ -469,7 +469,7 @@ class MainActivity : Activity() {
         val itemVisualizeAudio: MutableMap<String, Any?> = HashMap()
         itemVisualizeAudio[ITEM_IMAGE] = R.mipmap.ic_visual_audio
         itemVisualizeAudio[ITEM_TITLE] = "展示 一个 可视化实时音频 的效果 "
-        itemVisualizeAudio[ITEM_SUBTITLE] = "学习如何实现 可视化实时音频 效果"
+        itemVisualizeAudio[ITEM_SUBTITLE] = "学习如何实现 可视化实时音频 效果，，请同意弹出的权限对话框，需要录音"
         data.add(itemVisualizeAudio)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO)
 
@@ -519,7 +519,7 @@ class MainActivity : Activity() {
         val itemRgb2Yuv: MutableMap<String, Any?> = HashMap()
         itemRgb2Yuv[ITEM_IMAGE] = R.mipmap.ic_ubo
         itemRgb2Yuv[ITEM_TITLE] = "使用OpenGL实现RGB到YUV的图像格式转换"
-        itemRgb2Yuv[ITEM_SUBTITLE] = "学习 OpenGL实现RGB到YUV的图像格式转换技术"
+        itemRgb2Yuv[ITEM_SUBTITLE] = "学习 OpenGL实现RGB到YUV的图像格式转换技术，，请同意弹出的权限对话框，需要到处YUV文件到SDcard"
         data.add(itemRgb2Yuv)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_RGB2YUV)
 
@@ -536,6 +536,14 @@ class MainActivity : Activity() {
         itemTextRender[ITEM_SUBTITLE] = "学习 OpenGL ES 文字渲染 技术，请同意弹出的权限对话框，需要复制字体到SDCard"
         data.add(itemTextRender)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXT_RENDER)
+
+        val itemStayColor: MutableMap<String, Any?> = HashMap()
+        itemStayColor[ITEM_IMAGE] = R.mipmap.ic_stay_color
+        itemStayColor[ITEM_TITLE] = "展示 人像留色"
+        itemStayColor[ITEM_SUBTITLE] = "学习 人像留色技术：人体区域保留彩色，人体区域之外灰度化。"
+        data.add(itemStayColor)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_STAY_COLOR)
+
     }
 
     companion object {

@@ -62,6 +62,7 @@
 #include <RGB2YUVSample.h>
 #include <SharedEGLContextSample.h>
 #include <TextRenderSample.h>
+#include <PortraitStayColorExample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -291,6 +292,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_TEXT_RENDER:
                 m_pCurSample = new TextRenderSample();
+                break;
+            case SAMPLE_TYPE_KEY_STAY_COLOR:
+                m_pCurSample = new PortraitStayColorExample();
                 break;
             default:
                 m_pCurSample = nullptr;

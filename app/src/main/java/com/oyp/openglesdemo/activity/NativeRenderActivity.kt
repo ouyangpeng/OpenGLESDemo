@@ -17,7 +17,6 @@ import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
@@ -181,6 +180,15 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                 }
             }
 
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_STAY_COLOR -> {
+                loadGrayImageFromAssetsWithIndex("gray/lye_1280x800.Gray", 0, 1280, 800)
+                val b5 = loadRGBAImageFromRes(R.mipmap.lye2)
+                b5?.let {
+                    mGLSurfaceView?.setAspectRatio(it.width, it.height)
+                }
+                loadRGBAImageFromResWithIndex(R.drawable.ascii_mapping, 1)
+            }
+
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO_LEG -> {
                 // 从assets目录加载图片
                 loadRGBAImageFromAssets("texture/leg.jpg")
@@ -257,6 +265,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             IMyNativeRendererType.SAMPLE_TYPE_KEY_AVATAR,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_THREAD_RENDER,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_STAY_COLOR,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
                 it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
@@ -544,6 +553,33 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             return bitmap
         }
         return null
+    }
+
+    private fun loadGrayImageFromAssetsWithIndex(fileName: String, index: Int, width: Int, height: Int) {
+        renderer?.let {
+            var inputStream: InputStream? = null
+            try {
+                inputStream = assets.open(fileName)
+                val length = inputStream.available()
+                val buffer = ByteArray(length)
+                inputStream.read(buffer)
+                it.setImageDataWithIndex(
+                    index,
+                    ImageFormat.IMAGE_FORMAT_GARY,
+                    width,
+                    height,
+                    buffer
+                )
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } finally {
+                try {
+                    inputStream!!.close()
+                } catch (e: IOException) {
+                    Log.e(TAG, e.stackTraceToString())
+                }
+            }
+        }
     }
 
     private fun loadRGBAImageFromResWithIndex(resId: Int, index: Int): Bitmap? {
