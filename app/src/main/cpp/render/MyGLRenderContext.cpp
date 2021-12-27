@@ -63,6 +63,7 @@
 #include <SharedEGLContextSample.h>
 #include <TextRenderSample.h>
 #include <PortraitStayColorExample.h>
+#include <GLTransitionExample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -295,6 +296,18 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_STAY_COLOR:
                 m_pCurSample = new PortraitStayColorExample();
+                break;
+            case SAMPLE_TYPE_KEY_TRANSITIONS_1:
+                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_1);
+                break;
+            case SAMPLE_TYPE_KEY_TRANSITIONS_2:
+                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_2);
+                break;
+            case SAMPLE_TYPE_KEY_TRANSITIONS_3:
+                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_3);
+                break;
+            case SAMPLE_TYPE_KEY_TRANSITIONS_4:
+                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_4);
                 break;
             default:
                 m_pCurSample = nullptr;

@@ -79,5 +79,9 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_MULTI_THREAD_RENDER                                = SAMPLE_TYPE + 60
     const val SAMPLE_TYPE_KEY_TEXT_RENDER                                        = SAMPLE_TYPE + 61
     const val SAMPLE_TYPE_KEY_STAY_COLOR                                         = SAMPLE_TYPE + 62
+    const val SAMPLE_TYPE_KEY_TRANSITIONS_1                                      = SAMPLE_TYPE + 63
+    const val SAMPLE_TYPE_KEY_TRANSITIONS_2                                      = SAMPLE_TYPE + 64
+    const val SAMPLE_TYPE_KEY_TRANSITIONS_3                                      = SAMPLE_TYPE + 65
+    const val SAMPLE_TYPE_KEY_TRANSITIONS_4                                      = SAMPLE_TYPE + 66
 
 }

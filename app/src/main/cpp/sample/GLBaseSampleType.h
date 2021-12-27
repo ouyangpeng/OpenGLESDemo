@@ -77,6 +77,10 @@
 #define SAMPLE_TYPE_KEY_MULTI_THREAD_RENDER                         SAMPLE_TYPE + 60
 #define SAMPLE_TYPE_KEY_TEXT_RENDER                                 SAMPLE_TYPE + 61
 #define SAMPLE_TYPE_KEY_STAY_COLOR                                  SAMPLE_TYPE + 62
-
+// 转场动画
+#define SAMPLE_TYPE_KEY_TRANSITIONS_1      		                    SAMPLE_TYPE + 63
+#define SAMPLE_TYPE_KEY_TRANSITIONS_2      		                    SAMPLE_TYPE + 64
+#define SAMPLE_TYPE_KEY_TRANSITIONS_3      		                    SAMPLE_TYPE + 65
+#define SAMPLE_TYPE_KEY_TRANSITIONS_4      		                    SAMPLE_TYPE + 66
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

@@ -222,6 +222,19 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                 loadRGBAImageFromResWithIndex(R.mipmap.direction_back, 4)
                 loadRGBAImageFromResWithIndex(R.mipmap.direction_front, 5)
             }
+
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_1,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_2,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_3,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_4 -> {
+                loadRGBAImageFromResWithIndex(R.mipmap.yangchaoyue1, 0)
+                loadRGBAImageFromResWithIndex(R.mipmap.yangchaoyue2, 1)
+                loadRGBAImageFromResWithIndex(R.mipmap.yangchaoyue3, 2)
+                loadRGBAImageFromResWithIndex(R.mipmap.yangchaoyue4, 3)
+                loadRGBAImageFromResWithIndex(R.mipmap.yangchaoyue5, 4)
+                loadRGBAImageFromResWithIndex(R.mipmap.yangchaoyue6, 5)
+                loadRGBAImageFromResWithIndex(R.mipmap.yangchaoyue7, 6)
+            }
         }
     }
 
@@ -266,7 +279,11 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             IMyNativeRendererType.SAMPLE_TYPE_KEY_MULTI_THREAD_RENDER,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHOCK_WAVE,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_STAY_COLOR,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2 -> {
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM2,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_1,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_2,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_3,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_4 -> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
                 it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
             }

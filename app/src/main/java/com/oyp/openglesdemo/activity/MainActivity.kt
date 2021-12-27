@@ -25,7 +25,7 @@ class MainActivity : Activity() {
     val data: MutableList<Map<String, Any?>> = ArrayList()
     private val typeMapping = SparseIntArray()
     private val activityMapping = SparseArray<Class<out Activity?>>()
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,12 +40,12 @@ class MainActivity : Activity() {
         recyclerView.layoutManager = layoutManager
 
         // 设置系统自带的间割线
-        recyclerView.addItemDecoration(DividerItemDecoration(this,LinearLayoutManager.VERTICAL))
+        recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
-        val adapter = GLRecyclerAdapter(data,this)
+        val adapter = GLRecyclerAdapter(data, this)
         recyclerView.adapter = adapter
         // 设置点击事件回调接口
-        adapter.setOnItemClickListener { position->
+        adapter.setOnItemClickListener { position ->
             val type = typeMapping[position]
             // 这两个demo没有改造完，用原来的方式启动
             Log.d("MainActivity", "type = $type")
@@ -280,14 +280,16 @@ class MainActivity : Activity() {
         val itemTextureMap: MutableMap<String, Any> = HashMap()
         itemTextureMap[ITEM_IMAGE] = R.mipmap.ic_texture_map
         itemTextureMap[ITEM_TITLE] = "展示 纹理映射"
-        itemTextureMap[ITEM_SUBTITLE] = "纹理映射就是通过为图元的顶点坐标指定恰当的纹理坐标，通过纹理坐标在纹理图中选定特定的纹理区域，最后通过纹理坐标与顶点的映射关系，将选定的纹理区域映射到指定图元上。"
+        itemTextureMap[ITEM_SUBTITLE] =
+            "纹理映射就是通过为图元的顶点坐标指定恰当的纹理坐标，通过纹理坐标在纹理图中选定特定的纹理区域，最后通过纹理坐标与顶点的映射关系，将选定的纹理区域映射到指定图元上。"
         data.add(itemTextureMap)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP)
 
         val itemYUVRender: MutableMap<String, Any> = HashMap()
         itemYUVRender[ITEM_IMAGE] = R.mipmap.ic_yuv
         itemYUVRender[ITEM_TITLE] = "YUV 渲染"
-        itemYUVRender[ITEM_SUBTITLE] = "YUV 图不能直接用于显示，需要转换为 RGB 格式，而 YUV 转 RGB 是一个逐像素处理的耗时操作，在 CPU 端进行转换效率过低，这时正好可以利用 GPU 强大的并行处理能力来实现 YUV 到 RGB 的转换。"
+        itemYUVRender[ITEM_SUBTITLE] =
+            "YUV 图不能直接用于显示，需要转换为 RGB 格式，而 YUV 转 RGB 是一个逐像素处理的耗时操作，在 CPU 端进行转换效率过低，这时正好可以利用 GPU 强大的并行处理能力来实现 YUV 到 RGB 的转换。"
         data.add(itemYUVRender)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_YUV_RENDER)
 
@@ -328,7 +330,8 @@ class MainActivity : Activity() {
         val itemBasicLight: MutableMap<String, Any> = HashMap()
         itemBasicLight[ITEM_IMAGE] = R.mipmap.ic_basic_lightings
         itemBasicLight[ITEM_TITLE] = "学习光照基础"
-        itemBasicLight[ITEM_SUBTITLE] = "学习冯氏光照模型(Phong Lighting Model)，它由三种元素光组成，分别是环境光(Ambient Lighting)、散射光(Diffuse Lighting)及镜面光(Specular Lighting)。"
+        itemBasicLight[ITEM_SUBTITLE] =
+            "学习冯氏光照模型(Phong Lighting Model)，它由三种元素光组成，分别是环境光(Ambient Lighting)、散射光(Diffuse Lighting)及镜面光(Specular Lighting)。"
         data.add(itemBasicLight)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT)
 
@@ -342,21 +345,24 @@ class MainActivity : Activity() {
         val itemInstancing: MutableMap<String, Any> = HashMap()
         itemInstancing[ITEM_IMAGE] = R.mipmap.ic_multi_lightings
         itemInstancing[ITEM_TITLE] = "学习 OpenGL ES 实例化（Instancing）"
-        itemInstancing[ITEM_SUBTITLE] = "OpenGL ES 实例化（Instancing）是一种只调用一次渲染函数就能绘制出很多物体的技术，可以实现将数据一次性发送给 GPU ，告诉 OpenGL ES 使用一个绘制函数，将这些数据绘制成多个物体。"
+        itemInstancing[ITEM_SUBTITLE] =
+            "OpenGL ES 实例化（Instancing）是一种只调用一次渲染函数就能绘制出很多物体的技术，可以实现将数据一次性发送给 GPU ，告诉 OpenGL ES 使用一个绘制函数，将这些数据绘制成多个物体。"
         data.add(itemInstancing)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_INSTANCING)
 
         val itemStencilTesting: MutableMap<String, Any> = HashMap()
         itemStencilTesting[ITEM_IMAGE] = R.mipmap.ic_stencil_testing
         itemStencilTesting[ITEM_TITLE] = "学习 OpenGL ES 模板测试"
-        itemStencilTesting[ITEM_SUBTITLE] = "OpenGL ES 模板测试与深度测试类似，主要作用是利用模板缓冲区(Stencil Buffer)所保存的模板值决定当前片段是否被丢弃，且发生于深度测试之前。"
+        itemStencilTesting[ITEM_SUBTITLE] =
+            "OpenGL ES 模板测试与深度测试类似，主要作用是利用模板缓冲区(Stencil Buffer)所保存的模板值决定当前片段是否被丢弃，且发生于深度测试之前。"
         data.add(itemStencilTesting)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_STENCIL_TESTING)
 
         val itemBLENDING: MutableMap<String, Any> = HashMap()
         itemBLENDING[ITEM_IMAGE] = R.mipmap.ic_stencil_testing
         itemBLENDING[ITEM_TITLE] = "学习 OpenGL ES 混合"
-        itemBLENDING[ITEM_SUBTITLE] = "OpenGL ES 混合本质上是将 2 个片元的颜色进行调和，产生一个新的颜色。OpenGL ES 混合发生在片元通过各项测试之后，准备进入帧缓冲区的片元和原有的片元按照特定比例加权计算出最终片元的颜色值，不再是新（源）片元直接覆盖缓冲区中的（目标）片元。"
+        itemBLENDING[ITEM_SUBTITLE] =
+            "OpenGL ES 混合本质上是将 2 个片元的颜色进行调和，产生一个新的颜色。OpenGL ES 混合发生在片元通过各项测试之后，准备进入帧缓冲区的片元和原有的片元按照特定比例加权计算出最终片元的颜色值，不再是新（源）片元直接覆盖缓冲区中的（目标）片元。"
         data.add(itemBLENDING)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_BLENDING)
 
@@ -378,7 +384,8 @@ class MainActivity : Activity() {
         val itemPBO: MutableMap<String, Any?> = HashMap()
         itemPBO[ITEM_IMAGE] = R.mipmap.ic_pbo
         itemPBO[ITEM_TITLE] = "展示一个PBO示例"
-        itemPBO[ITEM_SUBTITLE] = "OpenGL PBO（Pixel Buffer Object），被称为像素缓冲区对象，主要被用于异步像素传输操作。PBO 仅用于执行像素传输，不连接到纹理，且与 FBO （帧缓冲区对象）无关。"
+        itemPBO[ITEM_SUBTITLE] =
+            "OpenGL PBO（Pixel Buffer Object），被称为像素缓冲区对象，主要被用于异步像素传输操作。PBO 仅用于执行像素传输，不连接到纹理，且与 FBO （帧缓冲区对象）无关。"
         data.add(itemPBO)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_PBO)
 
@@ -429,7 +436,10 @@ class MainActivity : Activity() {
         itemAtmosphereSystemTest[ITEM_TITLE] = "展示一段 ShaderToy的特效：Atmosphere system test "
         itemAtmosphereSystemTest[ITEM_SUBTITLE] = "一个ShaderToy上的案例，移植到Android端来展示"
         data.add(itemAtmosphereSystemTest)
-        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST)
+        typeMapping.put(
+            i++,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_ATMOSPHERE_SYSTEM_TEST
+        )
 
         val itemBezierCurve: MutableMap<String, Any?> = HashMap()
         itemBezierCurve[ITEM_IMAGE] = R.mipmap.ic_bezier_currve
@@ -543,6 +553,20 @@ class MainActivity : Activity() {
         itemStayColor[ITEM_SUBTITLE] = "学习 人像留色技术：人体区域保留彩色，人体区域之外灰度化。"
         data.add(itemStayColor)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_STAY_COLOR)
+
+        for (index in IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_1..IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_4) {
+            val itemTransitions: MutableMap<String, Any?> = HashMap()
+
+            val id = index - IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_1 + 1
+            // 使用getIdentifier()获取资源Id
+            itemTransitions[ITEM_IMAGE] =
+                resources.getIdentifier("ic_transaction$id", "mipmap", packageName)
+            itemTransitions[ITEM_TITLE] = "展示 Android 图片转场和轮播特效$id"
+            itemTransitions[ITEM_SUBTITLE] = "学习 Android 图片转场和轮播特效 如何实现"
+            data.add(itemTransitions)
+            typeMapping.put(i++, index)
+        }
+
 
     }
 
