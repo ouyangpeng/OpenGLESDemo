@@ -92,5 +92,13 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_TRANSITIONS_11                                     = SAMPLE_TYPE + 73
     const val SAMPLE_TYPE_KEY_TRANSITIONS_12                                     = SAMPLE_TYPE + 74
     const val SAMPLE_TYPE_KEY_TRANSITIONS_13                                     = SAMPLE_TYPE + 75
+    const val SAMPLE_TYPE_KEY_TRANSITIONS_14                                     = SAMPLE_TYPE + 76
+    const val SAMPLE_TYPE_KEY_TRANSITIONS_15                                     = SAMPLE_TYPE + 77
+    const val SAMPLE_TYPE_KEY_TRANSITIONS_16                                     = SAMPLE_TYPE + 78
+    const val SAMPLE_TYPE_KEY_TRANSITIONS_17                                     = SAMPLE_TYPE + 79
+    const val SAMPLE_TYPE_KEY_TRANSITIONS_18                                     = SAMPLE_TYPE + 80
+    const val SAMPLE_TYPE_KEY_TRANSITIONS_19                                     = SAMPLE_TYPE + 81
+    const val SAMPLE_TYPE_KEY_TRANSITIONS_20                                     = SAMPLE_TYPE + 82
+    const val SAMPLE_TYPE_KEY_TRANSITIONS_21                                     = SAMPLE_TYPE + 83
 
 }

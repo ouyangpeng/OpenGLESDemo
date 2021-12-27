@@ -91,5 +91,14 @@
 #define SAMPLE_TYPE_KEY_TRANSITIONS_11      		                SAMPLE_TYPE + 73
 #define SAMPLE_TYPE_KEY_TRANSITIONS_12     		                    SAMPLE_TYPE + 74
 #define SAMPLE_TYPE_KEY_TRANSITIONS_13      		                SAMPLE_TYPE + 75
+#define SAMPLE_TYPE_KEY_TRANSITIONS_14      		                SAMPLE_TYPE + 76
+#define SAMPLE_TYPE_KEY_TRANSITIONS_15      		                SAMPLE_TYPE + 77
+#define SAMPLE_TYPE_KEY_TRANSITIONS_16      		                SAMPLE_TYPE + 78
+#define SAMPLE_TYPE_KEY_TRANSITIONS_17      		                SAMPLE_TYPE + 79
+#define SAMPLE_TYPE_KEY_TRANSITIONS_18      		                SAMPLE_TYPE + 80
+#define SAMPLE_TYPE_KEY_TRANSITIONS_19      		                SAMPLE_TYPE + 81
+#define SAMPLE_TYPE_KEY_TRANSITIONS_20      		                SAMPLE_TYPE + 82
+#define SAMPLE_TYPE_KEY_TRANSITIONS_21      		                SAMPLE_TYPE + 83
+
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

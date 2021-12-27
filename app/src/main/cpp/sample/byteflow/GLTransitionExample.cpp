@@ -99,6 +99,30 @@ void GLTransitionExample::Create() {
         case SAMPLE_TYPE_KEY_TRANSITIONS_13:
             mFragmentShaderPath = "fragment/fragment_shader_transition13.glsl";
             break;
+        case SAMPLE_TYPE_KEY_TRANSITIONS_14:
+            mFragmentShaderPath = "fragment/fragment_shader_transition14.glsl";
+            break;
+        case SAMPLE_TYPE_KEY_TRANSITIONS_15:
+            mFragmentShaderPath = "fragment/fragment_shader_transition15.glsl";
+            break;
+        case SAMPLE_TYPE_KEY_TRANSITIONS_16:
+            mFragmentShaderPath = "fragment/fragment_shader_transition16.glsl";
+            break;
+        case SAMPLE_TYPE_KEY_TRANSITIONS_17:
+            mFragmentShaderPath = "fragment/fragment_shader_transition17.glsl";
+            break;
+        case SAMPLE_TYPE_KEY_TRANSITIONS_18:
+            mFragmentShaderPath = "fragment/fragment_shader_transition18.glsl";
+            break;
+        case SAMPLE_TYPE_KEY_TRANSITIONS_19:
+            mFragmentShaderPath = "fragment/fragment_shader_transition19.glsl";
+            break;
+        case SAMPLE_TYPE_KEY_TRANSITIONS_20:
+            mFragmentShaderPath = "fragment/fragment_shader_transition20.glsl";
+            break;
+        case SAMPLE_TYPE_KEY_TRANSITIONS_21:
+            mFragmentShaderPath = "fragment/fragment_shader_transition21.glsl";
+            break;
         default:
             break;
     }

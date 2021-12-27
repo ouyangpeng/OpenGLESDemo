@@ -13,6 +13,8 @@ uniform sampler2D u_texture1;
 uniform float u_offset;
 uniform vec2 u_texSize;
 
+
+
 const float MIN_AMOUNT = -0.16;
 const float MAX_AMOUNT = 1.5;
 
