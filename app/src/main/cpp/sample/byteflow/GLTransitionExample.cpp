@@ -6,6 +6,8 @@
 
 // 转场特效
 // https://gl-transitions.com/gallery
+
+// https://github.com/gl-transitions/gl-transitions
 //
 
 #include "GLTransitionExample.h"
@@ -69,6 +71,9 @@ void GLTransitionExample::Create() {
             break;
         case SAMPLE_TYPE_KEY_TRANSITIONS_4:
             mFragmentShaderPath = "fragment/fragment_shader_transition4.glsl";
+            break;
+        case SAMPLE_TYPE_KEY_TRANSITIONS_5:
+            mFragmentShaderPath = "fragment/fragment_shader_transition5.glsl";
             break;
         default:
             break;
