@@ -10,9 +10,9 @@ uniform sampler2D u_texture1;
 uniform float u_offset;
 uniform vec2 u_texSize;
 
-float reflection = 0.4;
-float perspective = 0.2;
-float depth = 3.0;
+const float reflection = 0.4;
+const float perspective = 0.2;
+const float depth = 3.0;
 
 const vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
 const vec2 boundMin = vec2(0.0, 0.0);

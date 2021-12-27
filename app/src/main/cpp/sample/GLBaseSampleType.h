@@ -86,5 +86,10 @@
 #define SAMPLE_TYPE_KEY_TRANSITIONS_6      		                    SAMPLE_TYPE + 68
 #define SAMPLE_TYPE_KEY_TRANSITIONS_7      		                    SAMPLE_TYPE + 69
 #define SAMPLE_TYPE_KEY_TRANSITIONS_8      		                    SAMPLE_TYPE + 70
+#define SAMPLE_TYPE_KEY_TRANSITIONS_9      		                    SAMPLE_TYPE + 71
+#define SAMPLE_TYPE_KEY_TRANSITIONS_10      		                SAMPLE_TYPE + 72
+#define SAMPLE_TYPE_KEY_TRANSITIONS_11      		                SAMPLE_TYPE + 73
+#define SAMPLE_TYPE_KEY_TRANSITIONS_12     		                    SAMPLE_TYPE + 74
+#define SAMPLE_TYPE_KEY_TRANSITIONS_13      		                SAMPLE_TYPE + 75
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

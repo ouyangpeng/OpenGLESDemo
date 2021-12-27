@@ -1,5 +1,8 @@
 #version 300 es
 precision mediump float;
+
+// 源着色器地址： https://gl-transitions.com/editor/SimpleZoom
+
 in vec2 v_texCoord;
 layout(location = 0) out vec4 outColor;
 uniform sampler2D u_texture0;

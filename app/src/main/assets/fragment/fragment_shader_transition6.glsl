@@ -10,8 +10,8 @@ uniform sampler2D u_texture1;
 uniform float u_offset;
 uniform vec2 u_texSize;
 
-float count = 10.0;
-float smoothness = 0.5;
+const float count = 10.0;
+const float smoothness = 0.5;
 
 vec4 transition (vec2 uv) {
     float progress =  u_offset;

@@ -230,7 +230,12 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_5,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_6,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_7,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_8 -> {
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_8,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_9,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_10,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_11,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_12,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_13, -> {
                 loadRGBAImageFromResWithIndex(R.mipmap.yangchaoyue1, 0)
                 loadRGBAImageFromResWithIndex(R.mipmap.yangchaoyue2, 1)
                 loadRGBAImageFromResWithIndex(R.mipmap.yangchaoyue3, 2)
@@ -291,7 +296,12 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_5,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_6,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_7,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_8 -> {
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_8,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_9,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_10,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_11,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_12,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_13, -> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
                 it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
             }

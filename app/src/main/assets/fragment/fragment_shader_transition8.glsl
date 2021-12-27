@@ -10,11 +10,11 @@ uniform sampler2D u_texture1;
 uniform float u_offset;
 uniform vec2 u_texSize;
 
-vec2 bottom_left = vec2(0.0, 1.0);
-vec2 bottom_right = vec2(1.0, 1.0);
-vec2 top_left = vec2(0.0, 0.0);
-vec2 top_right = vec2(1.0, 0.0);
-vec2 center = vec2(0.5, 0.5);
+const vec2 bottom_left = vec2(0.0, 1.0);
+const vec2 bottom_right = vec2(1.0, 1.0);
+const vec2 top_left = vec2(0.0, 0.0);
+const vec2 top_right = vec2(1.0, 0.0);
+const vec2 center = vec2(0.5, 0.5);
 
 float check(vec2 p1, vec2 p2, vec2 p3)
 {

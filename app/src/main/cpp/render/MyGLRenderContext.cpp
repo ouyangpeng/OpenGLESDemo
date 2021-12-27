@@ -298,28 +298,19 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 m_pCurSample = new PortraitStayColorExample();
                 break;
             case SAMPLE_TYPE_KEY_TRANSITIONS_1:
-                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_1);
-                break;
             case SAMPLE_TYPE_KEY_TRANSITIONS_2:
-                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_2);
-                break;
             case SAMPLE_TYPE_KEY_TRANSITIONS_3:
-                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_3);
-                break;
             case SAMPLE_TYPE_KEY_TRANSITIONS_4:
-                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_4);
-                break;
             case SAMPLE_TYPE_KEY_TRANSITIONS_5:
-                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_5);
-                break;
             case SAMPLE_TYPE_KEY_TRANSITIONS_6:
-                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_6);
-                break;
             case SAMPLE_TYPE_KEY_TRANSITIONS_7:
-                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_7);
-                break;
             case SAMPLE_TYPE_KEY_TRANSITIONS_8:
-                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_8);
+            case SAMPLE_TYPE_KEY_TRANSITIONS_9:
+            case SAMPLE_TYPE_KEY_TRANSITIONS_10:
+            case SAMPLE_TYPE_KEY_TRANSITIONS_11:
+            case SAMPLE_TYPE_KEY_TRANSITIONS_12:
+            case SAMPLE_TYPE_KEY_TRANSITIONS_13:
+                m_pCurSample = new GLTransitionExample(renderSampleType);
                 break;
             default:
                 m_pCurSample = nullptr;
