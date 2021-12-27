@@ -318,6 +318,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
             case SAMPLE_TYPE_KEY_TRANSITIONS_7:
                 m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_7);
                 break;
+            case SAMPLE_TYPE_KEY_TRANSITIONS_8:
+                m_pCurSample = new GLTransitionExample(SAMPLE_TYPE_KEY_TRANSITIONS_8);
+                break;
             default:
                 m_pCurSample = nullptr;
                 break;

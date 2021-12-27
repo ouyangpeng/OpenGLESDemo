@@ -554,7 +554,7 @@ class MainActivity : Activity() {
         data.add(itemStayColor)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_STAY_COLOR)
 
-        for (index in IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_1..IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_7) {
+        for (index in IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_1..IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_8) {
             val itemTransitions: MutableMap<String, Any?> = HashMap()
 
             val id = index - IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_1 + 1

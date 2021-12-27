@@ -81,6 +81,9 @@ void GLTransitionExample::Create() {
         case SAMPLE_TYPE_KEY_TRANSITIONS_7:
             mFragmentShaderPath = "fragment/fragment_shader_transition7.glsl";
             break;
+        case SAMPLE_TYPE_KEY_TRANSITIONS_8:
+            mFragmentShaderPath = "fragment/fragment_shader_transition8.glsl";
+            break;
         default:
             break;
     }
