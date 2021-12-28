@@ -9,6 +9,7 @@
 # 相关链接
 关于 OpenGL ES的相关知识，
 可以参考下面的博客查看：
+
 1. [字节卷动 的 OpenGL ES 专栏](https://blog.csdn.net/ouyang_peng/category_11380480.html)
 2. [字节流动 的 Android OpenGLES 3.0 专栏](https://blog.csdn.net/kennethdroid/category_9120765.html)
 3. [【Learn OpenGL ES】 ](http://www.learnopengles.com/)
@@ -20,29 +21,29 @@
 
 # 案例效果展示
 
-##1. 展示一个基本的红色三角形
+## 1. 展示一个基本的红色三角形
 
 颜色在片段着色器写死的红色
 
-![1640693434242](D:\SourceCode\Android\OpenGLESDemo\pics\triangle.png)
+![1640693434242](.\pics\triangle.png)
 
 ## 2. 展示一个基本的蓝色三角形
 
 颜色由glVertexAttrib4fv传给片段着色器
 
-![1640693559272](D:\SourceCode\Android\OpenGLESDemo\pics\triangle2.png)
+![1640693559272](.\pics\triangle2.png)
 
 ## 3. 展示一个基本的由红、绿、蓝三种颜色绘制而成的三角形
 
 使用了顶点缓冲对象(Vertex Buffer Objects, VBO) 和 EBO 技术
 
-![1640693675439](D:\SourceCode\Android\OpenGLESDemo\pics\triangle3.png)
+![1640693675439](.\pics\triangle3.png)
 
 ## 4. 展示一个基本的由红、绿、蓝三种颜色绘制而成的三角形
 
 使用了顶点缓冲对象(Vertex Buffer Objects, VBO) 、 EBO 和 映射缓冲区对象(Map Buffer) 技术
 
-![1640693675439](D:\SourceCode\Android\OpenGLESDemo\pics\triangle3.png)
+![1640693675439](.\pics\triangle3.png)
 
 
 
@@ -50,7 +51,7 @@
 
 使用了 VBO 、 EBO 和 VAO 技术
 
-![1640693675439](D:\SourceCode\Android\OpenGLESDemo\pics\triangle3.png)
+![1640693675439](.\pics\triangle3.png)
 
 
 
@@ -58,34 +59,31 @@
 
 一个使用VBO绘制，另外一个不使用VBO绘制
 
-![1640693823560](D:\SourceCode\Android\OpenGLESDemo\pics\triangle4.png)
+![1640693823560](.\pics\triangle4.png)
 
 ## 7. 展示一个在不停旋转的红色立方体
 
 使用到了MVP矩阵（模型矩阵，观察矩阵和投影矩阵）技术
 
-![](D:\SourceCode\Android\OpenGLESDemo\pics\cube.gif)
+![](.\pics\cube.gif)
 
 
 ## 8. 展示一个简单的2D Texture 纹理
 学习如何绘制一个2D纹理
 
-![1640694310959](D:\SourceCode\Android\OpenGLESDemo\pics\texture_2d.png)
+![1640694310959](.\pics\texture_2d.png)
 
 ## 9. 展示一个立方体贴图Cubemap
 学习如何绘制一个立方体贴图Cubemap
 
-![1640694372144](D:\SourceCode\Android\OpenGLESDemo\pics\cubemap.gif)
+![1640694372144](.\pics\cubemap.gif)
 
 ## 10. 展示mip贴图(mipmapping)
 学习纹理过滤和mip贴图(mipmapping)知识
 
-![1640694492499](D:\SourceCode\Android\OpenGLESDemo\pics\mipmap2d.gif)
+![1640694492499](.\pics\mipmap2d.gif)
 
 ## 11. 对比 三种不同纹理包装模式
 学习GL_REPEAT、GL_CLAMP_TO_EDGE、GL_MIRRORED_REPEAT三种不同纹理包装模式
-
-
-
-![1640694582671](D:\SourceCode\Android\OpenGLESDemo\pics\texture_wrap.png)
+![1640694582671](.\pics\texture_wrap.png)
 
