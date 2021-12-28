@@ -63,4 +63,6 @@ static long long GetSysCurrentTime()
 
 #define GO_CHECK_GL_ERROR(...)   LOGD("CHECK_GL_ERROR %s glGetError = %d, line = %d, ",  __FUNCTION__, glGetError(), __LINE__)
 
+#define DEBUG_LOGCATE(...) LOGD("DEBUG_LOGCATE %s line = %d",  __FUNCTION__, __LINE__)
+
 #endif //OPEN_GL_LESSON_NATIVE_LOG_UTILS_H_

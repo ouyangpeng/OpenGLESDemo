@@ -419,6 +419,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
         if (type == IMyNativeRendererType.SAMPLE_TYPE_KEY_VISUALIZE_AUDIO
             || type == IMyNativeRendererType.SAMPLE_TYPE_KEY_RGB2YUV
             || type == IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXT_RENDER
+            || type == IMyNativeRendererType.SAMPLE_TYPE_KEY_3D_MODEL
         ) {
             if (!hasPermissionsGranted(REQUEST_PERMISSIONS)) {
                 ActivityCompat.requestPermissions(
@@ -441,6 +442,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                 }
                 // 复制assets目录文件到sdcard
                 CommonUtils.copyAssetsDirToSDCard(this, "fonts", fileDir)
+                CommonUtils.copyAssetsDirToSDCard(this, "poly", fileDir)
             }
         }
 

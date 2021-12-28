@@ -100,5 +100,6 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_TRANSITIONS_19                                     = SAMPLE_TYPE + 81
     const val SAMPLE_TYPE_KEY_TRANSITIONS_20                                     = SAMPLE_TYPE + 82
     const val SAMPLE_TYPE_KEY_TRANSITIONS_21                                     = SAMPLE_TYPE + 83
+    const val SAMPLE_TYPE_KEY_3D_MODEL                                           = SAMPLE_TYPE + 84
 
 }

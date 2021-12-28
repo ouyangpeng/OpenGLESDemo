@@ -554,6 +554,7 @@ class MainActivity : Activity() {
         data.add(itemStayColor)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_STAY_COLOR)
 
+        // 多个转场特效
         for (index in IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_1..IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_21) {
             val itemTransitions: MutableMap<String, Any?> = HashMap()
 
@@ -567,6 +568,13 @@ class MainActivity : Activity() {
             typeMapping.put(i++, index)
         }
 
+//        i += (IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_21 - IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_1)
+        val item3DModel: MutableMap<String, Any?> = HashMap()
+        item3DModel[ITEM_IMAGE] = R.mipmap.ic_model_3d
+        item3DModel[ITEM_TITLE] = "展示 3D模型"
+        item3DModel[ITEM_SUBTITLE] = "学习如何使用模型加载库Assimp来加载3D模型"
+        data.add(item3DModel)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_3D_MODEL)
 
     }
 

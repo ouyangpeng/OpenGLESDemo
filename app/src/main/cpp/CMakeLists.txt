@@ -19,11 +19,16 @@ project("openglesdemo")
 
 #设置包含的目录
 include_directories(
+        inc
+#       inc/assimp
         inc/freetype_2_9_1
+        inc/opencv_3_0_0
 
         include
 
         jni
+
+        model
 
         render
         render/egl
@@ -58,6 +63,15 @@ file(GLOB src-files
 
         ${CMAKE_SOURCE_DIR}/*/*/*/*.cpp
         ${CMAKE_SOURCE_DIR}/*/*/*/*.h
+
+        ${CMAKE_SOURCE_DIR}/*/*/*/*/*.cpp
+        ${CMAKE_SOURCE_DIR}/*/*/*/*/*.h
+
+        ${CMAKE_SOURCE_DIR}/*/*/*/*/*/*.cpp
+        ${CMAKE_SOURCE_DIR}/*/*/*/*/*/*.h
+
+        ${CMAKE_SOURCE_DIR}/*/*/*/*/*/*/*.cpp
+        ${CMAKE_SOURCE_DIR}/*/*/*/*/*/*/*.h
 )
 
 
@@ -84,15 +98,31 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log)
 
-
+########################## 第三方库 相关配置  开始################################
 add_library(freetype STATIC IMPORTED)
-set_target_properties(freetype PROPERTIES IMPORTED_LOCATION ${jnilibs}/${CMAKE_ANDROID_ARCH_ABI}/libfreetype.a)
+set_target_properties(freetype
+        PROPERTIES
+        IMPORTED_LOCATION
+        ${jnilibs}/${CMAKE_ANDROID_ARCH_ABI}/libfreetype.a)
 
-# 第三方库
+add_library(assimp SHARED IMPORTED )
+set_target_properties(assimp
+        PROPERTIES
+        IMPORTED_LOCATION
+        ${jnilibs}/${CMAKE_ANDROID_ARCH_ABI}/libassimp.so)
+
+add_library(opencv_java3 SHARED IMPORTED )
+set_target_properties(opencv_java3
+        PROPERTIES
+        IMPORTED_LOCATION
+        ${jnilibs}/${CMAKE_ANDROID_ARCH_ABI}/libopencv_java3.so)
+
 set(third-party-libs
     freetype
+    assimp
+    opencv_java3
 )
-
+########################## 第三方库 相关配置  结束################################
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
@@ -102,7 +132,6 @@ target_link_libraries( # Specifies the target library.
         ouyangpeng-opengles-lib
 
         EGL
-#        GLESv2  # 把opengl库文件添加进来，GLESv2
         GLESv3   # 把opengl库文件添加进来，GLESv3
         android
 
