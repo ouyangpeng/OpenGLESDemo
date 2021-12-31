@@ -7,15 +7,14 @@
 #define VERTEX_POS_INDX       0
 
 static GLfloat tableVerticesWithTriangles[] = {
-        // Triangle 1
-        -0.5f, -0.5f,
-        0.5f, 0.5f,
-        -0.5f, 0.5f,
-
-        // Triangle 2
-        -0.5f, -0.5f,
-        0.5f, -0.5f,
-        0.5f, 0.5f,
+        // Triangle Fan 三角形扇  其实绘制了4个三角形
+        // 123,134,145,152
+        0.0f, 0.0f,     // 第1个顶点：以中心顶点作为起始点
+        -0.5f, -0.5f,   // 第2个顶点
+        0.5f, -0.5f,    // 第3个顶点
+        0.5f, 0.5f,     // 第4个顶点
+        -0.5f, 0.5f,    // 第5个顶点
+        -0.5f, -0.5f,   // 重复第2个点
 
         // Line 1
         -0.5f, 0.0f,
@@ -58,7 +57,7 @@ void AirHockeySample::Draw() {
 
     // Draw the table.
     glUniform4f(uColorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
 
     // Draw the center dividing line.
     glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
