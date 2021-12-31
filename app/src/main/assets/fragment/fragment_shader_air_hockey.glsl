@@ -2,11 +2,11 @@
 
 precision mediump float;
 
-uniform vec4 u_Color;
+in vec4 v_Color;
 
 out vec4 fragColor;
 
 void main()
 {
-    fragColor = u_Color;
+    fragColor = v_Color;
 }
