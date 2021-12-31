@@ -11,31 +11,31 @@
 #define VERTEX_COLOR_SIZE     3 // r, g, b
 
 // 10 vertices, with (x,y,z) ,(r, g, b, a)  per-vertex
-static GLfloat tableVerticesWithTriangles[ 10 * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE)] = {
+static GLfloat tableVerticesWithTriangles[10 * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE)] = {
         // Order of coordinates: X, Y, R, G, B
 
         // Triangle Fan 三角形扇  其实绘制了4个三角形
         // 123,134,145,152
         // 第1个顶点：以中心顶点作为起始点
-        0.0f, 0.0f,     1.0f, 1.0f, 1.0f,
+        0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
         // 第2个顶点
-        -0.5f, -0.5f,   0.7f, 0.7f, 0.7f,
+        -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
         // 第3个顶点
-        0.5f, -0.5f,    0.7f, 0.7f, 0.7f,
+        0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
         // 第4个顶点
-        0.5f, 0.5f,     0.7f, 0.7f, 0.7f,
+        0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
         // 第5个顶点
-        -0.5f, 0.5f,    0.7f, 0.7f, 0.7f,
+        -0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
         // 重复第2个点
-        -0.5f, -0.5f,   0.7f, 0.7f, 0.7f,
+        -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
 
         // Line 1
-        -0.5f, 0.0f,    1.0f, 0.0f, 0.0f,
-        0.5f, 0.0f,     1.0f, 0.0f, 0.0f,
+        -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
 
         // Mallets
-        0.0f, -0.25f,   0.0f, 0.0f, 1.0f,
-        0.0f, 0.25f,    1.0f, 0.0f, 0.0f
+        0.0f, -0.4f, 0.0f, 0.0f, 1.0f,
+        0.0f, 0.4f, 1.0f, 0.0f, 0.0f
 };
 
 void AirHockeySample::Create() {
@@ -54,15 +54,17 @@ void AirHockeySample::Create() {
 
     glUseProgram(m_ProgramObj);
 
+    m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
+
     GLint vtxStride = sizeof(GLfloat) * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE);
 
     glVertexAttribPointer(VERTEX_POS_INDX, VERTEX_POS_SIZE,
                           GL_FLOAT, GL_FALSE,
-                          vtxStride,tableVerticesWithTriangles);
+                          vtxStride, tableVerticesWithTriangles);
 
     glVertexAttribPointer(VERTEX_COLOR_INDX, VERTEX_COLOR_SIZE,
                           GL_FLOAT, GL_FALSE,
-                          vtxStride,tableVerticesWithTriangles+ VERTEX_POS_SIZE);
+                          vtxStride, tableVerticesWithTriangles + VERTEX_POS_SIZE);
 
     glEnableVertexAttribArray(VERTEX_POS_INDX);
     glEnableVertexAttribArray(VERTEX_COLOR_INDX);
@@ -72,7 +74,11 @@ void AirHockeySample::Create() {
 }
 
 void AirHockeySample::Draw() {
+    // Clear the rendering surface.
     glClear(GL_COLOR_BUFFER_BIT);
+
+    // Assign the matrix
+    glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
 
     // Draw the table.
     glDrawArrays(GL_TRIANGLE_FAN, 0, 6);
@@ -93,4 +99,21 @@ void AirHockeySample::Draw() {
 void AirHockeySample::Shutdown() {
     // Delete program object
     GLUtils::DeleteProgram(m_ProgramObj);
+}
+
+void AirHockeySample::Change(int width, int height) {
+    GLBaseSample::Change(width, height);
+    aspectRatio = m_Width > m_Height
+                  ? (float) m_Width / (float) m_Height
+                  : (float) m_Height / (float) m_Width;
+    LOGD("aspectRatio = %f", aspectRatio)
+
+    // Projection matrix
+    if (m_Width > m_Height) {
+        // Landscape
+        m_MVPMatrix = glm::ortho(-aspectRatio, aspectRatio, -1.0f, 1.0f, -1.0f, 1.0f);
+    } else {
+        // Portrait or square
+        m_MVPMatrix = glm::ortho(-1.0f, 1.0f, -aspectRatio, aspectRatio, -1.0f, 1.0f);
+    }
 }

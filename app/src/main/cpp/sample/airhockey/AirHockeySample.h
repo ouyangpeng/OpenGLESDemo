@@ -5,7 +5,10 @@
 #ifndef OPENGLESDEMO_AIRHOCKEYSAMPLE_H
 #define OPENGLESDEMO_AIRHOCKEYSAMPLE_H
 
+#include <glm/gtc/matrix_transform.hpp>
 #include <GLBaseSample.h>
+
+using namespace glm;
 
 class AirHockeySample : public GLBaseSample {
 public:
@@ -15,9 +18,16 @@ public:
 
     virtual void Create();
 
+    virtual void Change(int width, int height);
+
     virtual void Draw();
 
     virtual void Shutdown();
+
+private:
+    GLint m_MVPMatLoc;
+    mat4 m_MVPMatrix;
+    float aspectRatio;
 };
 
 
