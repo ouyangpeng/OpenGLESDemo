@@ -35,6 +35,7 @@ include_directories(
         render/looper
 
         sample
+        sample/airhockey
         sample/byteflow
         sample/cube
         sample/lesson

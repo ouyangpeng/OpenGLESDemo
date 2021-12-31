@@ -99,7 +99,8 @@
 #define SAMPLE_TYPE_KEY_TRANSITIONS_19      		                SAMPLE_TYPE + 81
 #define SAMPLE_TYPE_KEY_TRANSITIONS_20      		                SAMPLE_TYPE + 82
 #define SAMPLE_TYPE_KEY_TRANSITIONS_21      		                SAMPLE_TYPE + 83
-#define SAMPLE_TYPE_KEY_3D_MODEL      		                            SAMPLE_TYPE + 84
+#define SAMPLE_TYPE_KEY_3D_MODEL      		                        SAMPLE_TYPE + 84
+#define SAMPLE_TYPE_KEY_AIR_HOCKEY      		                    SAMPLE_TYPE + 85
 
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

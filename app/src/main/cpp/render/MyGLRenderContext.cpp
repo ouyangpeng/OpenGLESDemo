@@ -65,6 +65,7 @@
 #include <PortraitStayColorExample.h>
 #include <GLTransitionExample.h>
 #include <Model3DSample.h>
+#include <AirHockeySample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -323,6 +324,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_3D_MODEL:
                 m_pCurSample = new Model3DSample();
+                break;
+            case SAMPLE_TYPE_KEY_AIR_HOCKEY:
+                m_pCurSample = new AirHockeySample();
                 break;
             default:
                 m_pCurSample = nullptr;
