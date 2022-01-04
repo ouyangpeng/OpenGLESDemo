@@ -7,35 +7,35 @@
 #define VERTEX_POS_INDX       0
 #define VERTEX_COLOR_INDX     1
 
-#define VERTEX_POS_SIZE       2 // x, y
+#define VERTEX_POS_SIZE       4 // x, y,z,w
 #define VERTEX_COLOR_SIZE     3 // r, g, b
 
 // 10 vertices, with (x,y,z) ,(r, g, b, a)  per-vertex
 static GLfloat tableVerticesWithTriangles[10 * (VERTEX_POS_SIZE + VERTEX_COLOR_SIZE)] = {
-        // Order of coordinates: X, Y, R, G, B
+        // Order of coordinates: X, Y, Z, W, R, G, B
 
         // Triangle Fan 三角形扇  其实绘制了4个三角形
         // 123,134,145,152
         // 第1个顶点：以中心顶点作为起始点
-        0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+        0.0f, 0.0f, 0.0f,   1.5f,   1.0f, 1.0f, 1.0f,
         // 第2个顶点
-        -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+        -0.5f, -0.8f, 0.0f,  1.0f,   0.7f, 0.7f, 0.7f,
         // 第3个顶点
-        0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+        0.5f, -0.8f, 0.0f,  1.0f,   0.7f, 0.7f, 0.7f,
         // 第4个顶点
-        0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
+        0.5f, 0.8f, 0.0f,   2.0f,   0.7f, 0.7f, 0.7f,
         // 第5个顶点
-        -0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
+        -0.5f, 0.8f, 0.0f,  2.0f,    0.7f, 0.7f, 0.7f,
         // 重复第2个点
-        -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+        -0.5f, -0.8f, 0.0f,  1.0f,   0.7f, 0.7f, 0.7f,
 
         // Line 1
-        -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-        0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+        -0.5f, 0.0f, 0.0f,  1.5f,   1.0f, 0.0f, 0.0f,
+        0.5f, 0.0f, 0.0f,   1.5f,   1.0f, 0.0f, 0.0f,
 
         // Mallets
-        0.0f, -0.4f, 0.0f, 0.0f, 1.0f,
-        0.0f, 0.4f, 1.0f, 0.0f, 0.0f
+        0.0f, -0.4f, 0.0f,  1.25f,  0.0f, 0.0f, 1.0f,
+        0.0f, 0.4f, 0.0f,   1.75f,  1.0f, 0.0f, 0.0f
 };
 
 void AirHockeySample::Create() {
