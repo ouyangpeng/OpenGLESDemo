@@ -97,6 +97,8 @@ private:
 	const char *fShaderStr_reshape2;
 	// 灰度
 	const char *fShaderStr_gray;
+	// 图像颠倒
+	const char *fShaderStr_upside_down;
 
 	EGLConfig  m_eglConf;
 	EGLSurface m_eglSurface;

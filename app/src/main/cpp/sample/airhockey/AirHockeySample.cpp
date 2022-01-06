@@ -1,5 +1,7 @@
 //
 // Created by OuyangPeng on 2021/12/30.
+// 例子参考自：《OpenGL ES应用开发实践指南 Android卷》
+// https://gitee.com/osc_repo/opengles-android
 //
 
 #include "AirHockeySample.h"

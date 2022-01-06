@@ -85,6 +85,8 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     // 灰度
     fShaderStr_gray = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_gray.glsl");
+    fShaderStr_upside_down= GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_upside_down.glsl");
 
     m_fShaderStrs[0] = fShaderStr_normal;
     m_fShaderStrs[1] = fShaderStr_mosaic;
@@ -95,6 +97,7 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     m_fShaderStrs[6] = fShaderStr_reshape;
     m_fShaderStrs[7] = fShaderStr_reshape2;
     m_fShaderStrs[8] = fShaderStr_gray;
+    m_fShaderStrs[9] = fShaderStr_upside_down;
 
     // 创建并初始化图像纹理
     glGenTextures(1, &m_ImageTextureId);
