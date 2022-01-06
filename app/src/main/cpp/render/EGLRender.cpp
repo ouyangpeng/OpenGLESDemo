@@ -93,7 +93,7 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     fShaderStr_gray = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_grey.glsl");
     // 上下颠倒
-    fShaderStr_upside_down= GLUtils::openTextFile(
+    fShaderStr_upside_down = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_upside_down.glsl");
     // 马赛克2
     fShaderStr_mosaic2 = GLUtils::openTextFile(
@@ -105,8 +105,14 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     fShaderStr_mosaic4 = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_mosaic4.glsl");
     // 浮雕效果
-    fShaderStr_relief= GLUtils::openTextFile(
+    fShaderStr_relief = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_relief.glsl");
+    // 暖色
+    fShaderStr_warm_color = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_warm_color.glsl");
+    // 冷色
+    fShaderStr_cool_color = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_cool_color.glsl");
 
     m_fShaderStrs[0] = fShaderStr_normal;
     m_fShaderStrs[1] = fShaderStr_mosaic;
@@ -122,6 +128,8 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     m_fShaderStrs[11] = fShaderStr_mosaic3;
     m_fShaderStrs[12] = fShaderStr_mosaic4;
     m_fShaderStrs[13] = fShaderStr_relief;
+    m_fShaderStrs[14] = fShaderStr_warm_color;
+    m_fShaderStrs[15] = fShaderStr_cool_color;
 
     // 创建并初始化图像纹理
     glGenTextures(1, &m_ImageTextureId);

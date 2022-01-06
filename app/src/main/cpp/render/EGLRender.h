@@ -107,7 +107,10 @@ private:
 	const char *fShaderStr_upside_down;
 	// 浮雕效果
 	const char *fShaderStr_relief;
-
+	// 暖色
+	const char *fShaderStr_warm_color;
+	// 冷色
+	const char *fShaderStr_cool_color;
 	EGLConfig  m_eglConf;
 	EGLSurface m_eglSurface;
 	EGLContext m_eglCtx;

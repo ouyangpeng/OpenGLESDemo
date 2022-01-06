@@ -82,4 +82,14 @@
         android:icon="@drawable/ic_aspect_sample"
         android:title="浮雕"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader14"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="暖色"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader15"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="冷色"
+        app:showAsAction="never" />
 </menu>
