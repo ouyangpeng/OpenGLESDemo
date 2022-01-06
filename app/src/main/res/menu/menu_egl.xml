@@ -61,4 +61,10 @@
         android:icon="@drawable/ic_aspect_sample"
         android:title="图像颠倒"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_shader10"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="马赛克2"
+        app:showAsAction="never" />
 </menu>

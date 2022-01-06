@@ -19,6 +19,8 @@
 //版权声明：本文为CSDN博主「欧阳鹏」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 //原文链接：https://blog.csdn.net/ouyang_peng/article/details/121241714
 
+// 部分效果参考：https://www.jianshu.com/p/e4a8c83cd373
+
 #include "EGLRender.h"
 
 EGLRender *EGLRender::m_Instance = nullptr;
@@ -64,7 +66,7 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     // 马赛克
     fShaderStr_mosaic = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_mosaic.glsl");
-    // 马赛克
+    // 网格
     fShaderStr_grid = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_grid.glsl");
     // 旋转
@@ -85,8 +87,12 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     // 灰度
     fShaderStr_gray = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_gray.glsl");
+    // 上下颠倒
     fShaderStr_upside_down= GLUtils::openTextFile(
             "fragment/fragment_shader_egl_upside_down.glsl");
+    // 马赛克2
+    fShaderStr_mosaic2 = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_mosaic2.glsl");
 
     m_fShaderStrs[0] = fShaderStr_normal;
     m_fShaderStrs[1] = fShaderStr_mosaic;
@@ -98,6 +104,7 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     m_fShaderStrs[7] = fShaderStr_reshape2;
     m_fShaderStrs[8] = fShaderStr_gray;
     m_fShaderStrs[9] = fShaderStr_upside_down;
+    m_fShaderStrs[10] = fShaderStr_mosaic2;
 
     // 创建并初始化图像纹理
     glGenTextures(1, &m_ImageTextureId);
