@@ -49,4 +49,10 @@
         android:icon="@drawable/ic_aspect_sample"
         android:title="形变2"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_shader8"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="灰度"
+        app:showAsAction="never" />
 </menu>

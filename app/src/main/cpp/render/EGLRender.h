@@ -14,7 +14,7 @@
 #include <GLES2/gl2ext.h>
 #include <GLUtils.h>
 
-#define EGL_FEATURE_NUM 8
+#define EGL_FEATURE_NUM 20
 
 #define EGL_VERTEX_POS_LOC  0
 #define EGL_TEXTURE_POS_LOC 1
@@ -95,6 +95,8 @@ private:
 	const char *fShaderStr_reshape;
 	// 型变2
 	const char *fShaderStr_reshape2;
+	// 灰度
+	const char *fShaderStr_gray;
 
 	EGLConfig  m_eglConf;
 	EGLSurface m_eglSurface;
