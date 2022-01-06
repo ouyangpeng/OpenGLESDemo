@@ -72,4 +72,9 @@
         android:icon="@drawable/ic_aspect_sample"
         android:title="六边形马赛克"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader12"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="三角形马赛克"
+        app:showAsAction="never" />
 </menu>

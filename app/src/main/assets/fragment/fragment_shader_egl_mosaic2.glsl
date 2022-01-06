@@ -5,6 +5,7 @@ precision highp float;
 
 // https://www.jianshu.com/p/b1f9572b01a1
 // https://www.jianshu.com/p/0eec2727fc2f
+// https://www.jianshu.com/p/87866b7b46d9
 // 正方形马赛克
 // 正方形马赛克就是在获取像素点颜色的时候不去获取当前像素点的颜色，而是使用周边的颜色对这个像素点进行覆盖。如图所示：
 // 比如一个图片有4个像素点，分别为
@@ -36,11 +37,11 @@ void main() {
         floor(intXY.x / mosaicSize.x) * mosaicSize.x,
         floor(intXY.y / mosaicSize.y) * mosaicSize.y
     );
-    // 换算回纹理坐标
+    // 换算回纹理坐标，此时的纹理坐标是小马赛克的部分的纹理坐标，即某一个色块
     vec2 UVMosaic = vec2(
         XYMosaic.x / u_texSize.x,
         XYMosaic.y / u_texSize.y
     );
-    // 获取到马赛克后的纹理坐标的颜色值
+    // 获取到马赛克后的纹理坐标的颜色值,将马赛克颜色值赋值给outColor
     outColor = texture(s_TextureMap, UVMosaic);
 }

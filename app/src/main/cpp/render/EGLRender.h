@@ -87,6 +87,8 @@ private:
 	const char *fShaderStr_mosaic2;
 	// 马赛克
 	const char *fShaderStr_mosaic3;
+	// 马赛克
+	const char *fShaderStr_mosaic4;
 	// 网格
 	const char *fShaderStr_grid;
 	// 旋转

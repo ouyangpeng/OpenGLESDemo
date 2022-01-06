@@ -23,6 +23,8 @@
 // https://www.jianshu.com/p/e4a8c83cd373
 // https://www.jianshu.com/p/b1f9572b01a1
 // https://www.jianshu.com/p/0eec2727fc2f
+// https://www.jianshu.com/p/87866b7b46d9
+// https://www.cnblogs.com/zhangzhang-y/p/13499360.html
 
 #include "EGLRender.h"
 
@@ -96,9 +98,12 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     // 马赛克2
     fShaderStr_mosaic2 = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_mosaic2.glsl");
-    // 马赛克2
+    // 马赛克3
     fShaderStr_mosaic3 = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_mosaic3.glsl");
+    // 马赛克4
+    fShaderStr_mosaic4 = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_mosaic4.glsl");
 
     m_fShaderStrs[0] = fShaderStr_normal;
     m_fShaderStrs[1] = fShaderStr_mosaic;
@@ -112,6 +117,7 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     m_fShaderStrs[9] = fShaderStr_upside_down;
     m_fShaderStrs[10] = fShaderStr_mosaic2;
     m_fShaderStrs[11] = fShaderStr_mosaic3;
+    m_fShaderStrs[12] = fShaderStr_mosaic4;
 
     // 创建并初始化图像纹理
     glGenTextures(1, &m_ImageTextureId);
