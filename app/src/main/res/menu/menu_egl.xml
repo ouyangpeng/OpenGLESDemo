@@ -65,6 +65,11 @@
     <item
         android:id="@+id/action_shader10"
         android:icon="@drawable/ic_aspect_sample"
-        android:title="马赛克2"
+        android:title="正方形马赛克"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader11"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="六边形马赛克"
         app:showAsAction="never" />
 </menu>
