@@ -77,4 +77,9 @@
         android:icon="@drawable/ic_aspect_sample"
         android:title="三角形马赛克"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader13"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="浮雕"
+        app:showAsAction="never" />
 </menu>

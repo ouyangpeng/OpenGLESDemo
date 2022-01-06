@@ -105,6 +105,8 @@ private:
 	const char *fShaderStr_gray;
 	// 图像颠倒
 	const char *fShaderStr_upside_down;
+	// 浮雕效果
+	const char *fShaderStr_relief;
 
 	EGLConfig  m_eglConf;
 	EGLSurface m_eglSurface;

@@ -91,7 +91,7 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
             "fragment/fragment_shader_egl_reshape2.glsl");
     // 灰度
     fShaderStr_gray = GLUtils::openTextFile(
-            "fragment/fragment_shader_egl_gray.glsl");
+            "fragment/fragment_shader_egl_grey.glsl");
     // 上下颠倒
     fShaderStr_upside_down= GLUtils::openTextFile(
             "fragment/fragment_shader_egl_upside_down.glsl");
@@ -104,6 +104,9 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     // 马赛克4
     fShaderStr_mosaic4 = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_mosaic4.glsl");
+    // 浮雕效果
+    fShaderStr_relief= GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_relief.glsl");
 
     m_fShaderStrs[0] = fShaderStr_normal;
     m_fShaderStrs[1] = fShaderStr_mosaic;
@@ -118,6 +121,7 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     m_fShaderStrs[10] = fShaderStr_mosaic2;
     m_fShaderStrs[11] = fShaderStr_mosaic3;
     m_fShaderStrs[12] = fShaderStr_mosaic4;
+    m_fShaderStrs[13] = fShaderStr_relief;
 
     // 创建并初始化图像纹理
     glGenTextures(1, &m_ImageTextureId);
