@@ -140,6 +140,14 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                 // 从assets目录加载图片
                 loadRGBAImageFromAssets("texture/yangchaoyue.png")
             }
+
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_AIR_HOCKEY->{
+                val bitmap = loadRGBAImageFromRes(R.drawable.air_hockey_surface)
+                bitmap?.let {
+                    mGLSurfaceView?.setAspectRatio(it.width, it.height)
+                }
+            }
+
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SCRATCH_CARD,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_FACE_SLENDER,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_BIG_EYES -> {

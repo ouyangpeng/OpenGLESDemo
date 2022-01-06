@@ -20,14 +20,27 @@ public:
 
     virtual void Change(int width, int height);
 
+    virtual void LoadImage(NativeImage *pImage);
+
     virtual void Draw();
 
     virtual void Shutdown();
 
 private:
-    GLint m_MVPMatLoc;
+    GLuint m_TextureId;
+
+    GLint m_SamplerLoc;
+
+    GLint m_TableMVPMatLoc;
+    GLint m_MalletMVPMatLoc;
+
     mat4 m_MVPMatrix;
+
     float aspectRatio;
+
+    NativeImage m_RenderImage;
+
+    GLuint m_MalletProgramObj;
 };
 
 
