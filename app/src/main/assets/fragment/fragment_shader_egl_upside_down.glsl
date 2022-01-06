@@ -10,6 +10,7 @@ in vec2 v_texCoord;
 uniform sampler2D s_TextureMap;
 
 void main() {
+    // 将纹理坐标做映射 （y -> 1 - y）
     vec4 color = texture(s_TextureMap, vec2(v_texCoord.x, 1.0 - v_texCoord.y));
     outColor = color;
 }
