@@ -19,7 +19,7 @@ in vec2 v_texCoord;
 // 纹理采样器
 uniform sampler2D s_TextureMap;
 // 纹理图片size
-const vec2 u_texSize = vec2(400.0, 400.0);
+uniform vec2 u_texSize;
 // 马赛克size 通过设置size的大小来控制马赛克的大小
 const vec2 mosaicSize = vec2(8.0, 8.0);
 
