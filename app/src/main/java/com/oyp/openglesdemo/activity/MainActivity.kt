@@ -578,7 +578,7 @@ class MainActivity : Activity() {
 
 
         val itemAirHockey: MutableMap<String, Any?> = HashMap()
-        itemAirHockey[ITEM_IMAGE] = R.mipmap.ic_model_3d
+        itemAirHockey[ITEM_IMAGE] = R.mipmap.ic_airhockey
         itemAirHockey[ITEM_TITLE] = "展示 一个简单的空气曲棍球游戏"
         itemAirHockey[ITEM_SUBTITLE] = "学习如何 实现一个简单的空气曲棍球游戏"
         data.add(itemAirHockey)
