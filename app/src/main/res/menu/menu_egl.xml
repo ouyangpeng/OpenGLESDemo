@@ -92,4 +92,34 @@
         android:icon="@drawable/ic_aspect_sample"
         android:title="冷色"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader16"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="二分屏"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader17"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="三分屏"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader18"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="四分屏"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader19"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="六分屏"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader20"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="九分屏"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader21"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="十六分屏"
+        app:showAsAction="never" />
 </menu>

@@ -114,6 +114,25 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     fShaderStr_cool_color = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_cool_color.glsl");
 
+    // 2分屏
+    fShaderStr_split_screen_2 = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_split_screen_2.glsl");
+    // 3分屏
+    fShaderStr_split_screen_3 = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_split_screen_3.glsl");
+    // 4分屏
+    fShaderStr_split_screen_4 = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_split_screen_4.glsl");
+    // 6分屏
+    fShaderStr_split_screen_6 = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_split_screen_6.glsl");
+    // 9分屏
+    fShaderStr_split_screen_9 = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_split_screen_9.glsl");
+    // 16分屏
+    fShaderStr_split_screen_16 = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_split_screen_16.glsl");
+
     m_fShaderStrs[0] = fShaderStr_normal;
     m_fShaderStrs[1] = fShaderStr_mosaic;
     m_fShaderStrs[2] = fShaderStr_grid;
@@ -130,6 +149,12 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     m_fShaderStrs[13] = fShaderStr_relief;
     m_fShaderStrs[14] = fShaderStr_warm_color;
     m_fShaderStrs[15] = fShaderStr_cool_color;
+    m_fShaderStrs[16] = fShaderStr_split_screen_2;
+    m_fShaderStrs[17] = fShaderStr_split_screen_3;
+    m_fShaderStrs[18] = fShaderStr_split_screen_4;
+    m_fShaderStrs[19] = fShaderStr_split_screen_6;
+    m_fShaderStrs[20] = fShaderStr_split_screen_9;
+    m_fShaderStrs[21] = fShaderStr_split_screen_16;
 
     // 创建并初始化图像纹理
     glGenTextures(1, &m_ImageTextureId);
