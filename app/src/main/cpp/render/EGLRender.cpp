@@ -26,6 +26,12 @@
 // https://www.jianshu.com/p/87866b7b46d9
 // https://www.cnblogs.com/zhangzhang-y/p/13499360.html
 
+// 分屏效果原理相关链接
+// https://www.cnblogs.com/zhangzhang-y/p/13496126.html
+// https://juejin.cn/post/6859934701932118024
+// https://juejin.cn/post/7003867568851124238
+// https://blog.csdn.net/lin1109221208/article/details/107900718
+
 #include "EGLRender.h"
 
 EGLRender *EGLRender::m_Instance = nullptr;
@@ -65,96 +71,74 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     // 编译链接用于普通渲染的着色器程序
     vertexShader = GLUtils::openTextFile(
             "vertex/vertex_shader_texture_map.glsl");
+
     // 用于普通渲染的片段着色器脚本，简单纹理映射
-    fShaderStr_normal = GLUtils::openTextFile(
+    m_fShaderStrs[0] = GLUtils::openTextFile(
             "fragment/fragment_shader_texture_map.glsl");
     // 马赛克
-    fShaderStr_mosaic = GLUtils::openTextFile(
+    m_fShaderStrs[1] =  GLUtils::openTextFile(
             "fragment/fragment_shader_egl_mosaic.glsl");
-    // 网格
-    fShaderStr_grid = GLUtils::openTextFile(
-            "fragment/fragment_shader_egl_grid.glsl");
-    // 旋转
-    fShaderStr_rotate = GLUtils::openTextFile(
-            "fragment/fragment_shader_egl_rotate.glsl");
-    // 边缘
-    fShaderStr_edge = GLUtils::openTextFile(
-            "fragment/fragment_shader_egl_edge.glsl");
-    // 放大
-    fShaderStr_enlarge = GLUtils::openTextFile(
-            "fragment/fragment_shader_egl_enlarge.glsl");
-    // 型变
-    fShaderStr_reshape = GLUtils::openTextFile(
-            "fragment/fragment_shader_egl_reshape.glsl");
-    // 型变2
-    fShaderStr_reshape2 = GLUtils::openTextFile(
-            "fragment/fragment_shader_egl_reshape2.glsl");
-    // 灰度
-    fShaderStr_gray = GLUtils::openTextFile(
-            "fragment/fragment_shader_egl_grey.glsl");
-    // 上下颠倒
-    fShaderStr_upside_down = GLUtils::openTextFile(
-            "fragment/fragment_shader_egl_upside_down.glsl");
     // 马赛克2
-    fShaderStr_mosaic2 = GLUtils::openTextFile(
+    m_fShaderStrs[2] = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_mosaic2.glsl");
     // 马赛克3
-    fShaderStr_mosaic3 = GLUtils::openTextFile(
+    m_fShaderStrs[3] =GLUtils::openTextFile(
             "fragment/fragment_shader_egl_mosaic3.glsl");
     // 马赛克4
-    fShaderStr_mosaic4 = GLUtils::openTextFile(
+    m_fShaderStrs[4] = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_mosaic4.glsl");
+    // 网格
+    m_fShaderStrs[5] = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_grid.glsl");
+    // 旋转
+    m_fShaderStrs[6] = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_rotate.glsl");
+    // 边缘
+    m_fShaderStrs[7] = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_edge.glsl");
+    // 放大
+    m_fShaderStrs[8] =  GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_enlarge.glsl");
+    // 型变
+    m_fShaderStrs[9] =  GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_reshape.glsl");
+    // 型变2
+    m_fShaderStrs[10] =  GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_reshape2.glsl");
+    // 灰度
+    m_fShaderStrs[11] = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_grey.glsl");
+    // 上下颠倒
+    m_fShaderStrs[12] = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_upside_down.glsl");
     // 浮雕效果
-    fShaderStr_relief = GLUtils::openTextFile(
+    m_fShaderStrs[13] = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_relief.glsl");
     // 暖色
-    fShaderStr_warm_color = GLUtils::openTextFile(
+    m_fShaderStrs[14] = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_warm_color.glsl");
     // 冷色
-    fShaderStr_cool_color = GLUtils::openTextFile(
+    m_fShaderStrs[15] = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_cool_color.glsl");
 
     // 2分屏
-    fShaderStr_split_screen_2 = GLUtils::openTextFile(
+    m_fShaderStrs[16] =  GLUtils::openTextFile(
             "fragment/fragment_shader_egl_split_screen_2.glsl");
     // 3分屏
-    fShaderStr_split_screen_3 = GLUtils::openTextFile(
+    m_fShaderStrs[17] = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_split_screen_3.glsl");
     // 4分屏
-    fShaderStr_split_screen_4 = GLUtils::openTextFile(
+    m_fShaderStrs[18] = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_split_screen_4.glsl");
     // 6分屏
-    fShaderStr_split_screen_6 = GLUtils::openTextFile(
+    m_fShaderStrs[19] = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_split_screen_6.glsl");
     // 9分屏
-    fShaderStr_split_screen_9 = GLUtils::openTextFile(
+    m_fShaderStrs[20] =  GLUtils::openTextFile(
             "fragment/fragment_shader_egl_split_screen_9.glsl");
     // 16分屏
-    fShaderStr_split_screen_16 = GLUtils::openTextFile(
-            "fragment/fragment_shader_egl_split_screen_16.glsl");
-
-    m_fShaderStrs[0] = fShaderStr_normal;
-    m_fShaderStrs[1] = fShaderStr_mosaic;
-    m_fShaderStrs[2] = fShaderStr_grid;
-    m_fShaderStrs[3] = fShaderStr_rotate;
-    m_fShaderStrs[4] = fShaderStr_edge;
-    m_fShaderStrs[5] = fShaderStr_enlarge;
-    m_fShaderStrs[6] = fShaderStr_reshape;
-    m_fShaderStrs[7] = fShaderStr_reshape2;
-    m_fShaderStrs[8] = fShaderStr_gray;
-    m_fShaderStrs[9] = fShaderStr_upside_down;
-    m_fShaderStrs[10] = fShaderStr_mosaic2;
-    m_fShaderStrs[11] = fShaderStr_mosaic3;
-    m_fShaderStrs[12] = fShaderStr_mosaic4;
-    m_fShaderStrs[13] = fShaderStr_relief;
-    m_fShaderStrs[14] = fShaderStr_warm_color;
-    m_fShaderStrs[15] = fShaderStr_cool_color;
-    m_fShaderStrs[16] = fShaderStr_split_screen_2;
-    m_fShaderStrs[17] = fShaderStr_split_screen_3;
-    m_fShaderStrs[18] = fShaderStr_split_screen_4;
-    m_fShaderStrs[19] = fShaderStr_split_screen_6;
-    m_fShaderStrs[20] = fShaderStr_split_screen_9;
-    m_fShaderStrs[21] = fShaderStr_split_screen_16;
+    m_fShaderStrs[21] =  GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_split_screen_16.glsl");;
 
     // 创建并初始化图像纹理
     glGenTextures(1, &m_ImageTextureId);
@@ -504,6 +488,11 @@ void EGLRender::UnInit() {
         m_IsGLContextReady = false;
     }
 
+    //释放内存
+    for(auto & m_fShaderStr : m_fShaderStrs){
+        delete[] m_fShaderStr;
+        m_fShaderStr = nullptr;
+    }
 }
 
 void EGLRender::DestroyGlesEnv() {

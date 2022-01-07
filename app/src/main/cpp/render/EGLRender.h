@@ -14,7 +14,7 @@
 #include <GLES2/gl2ext.h>
 #include <GLUtils.h>
 
-#define EGL_FEATURE_NUM 30
+#define EGL_FEATURE_NUM 22
 
 #define EGL_VERTEX_POS_LOC  0
 #define EGL_TEXTURE_POS_LOC 1
@@ -79,53 +79,6 @@ private:
 
 	GLuint m_ProgramObj;
 	const char *vertexShader;
-	// 正常纹理
-	const char *fShaderStr_normal;
-	// 马赛克
-	const char *fShaderStr_mosaic;
-	// 马赛克
-	const char *fShaderStr_mosaic2;
-	// 马赛克
-	const char *fShaderStr_mosaic3;
-	// 马赛克
-	const char *fShaderStr_mosaic4;
-	// 网格
-	const char *fShaderStr_grid;
-	// 旋转
-	const char *fShaderStr_rotate;
-	// 边缘
-	const char *fShaderStr_edge;
-	// 放大
-	const char *fShaderStr_enlarge;
-	// 型变
-	const char *fShaderStr_reshape;
-	// 型变2
-	const char *fShaderStr_reshape2;
-	// 灰度
-	const char *fShaderStr_gray;
-	// 图像颠倒
-	const char *fShaderStr_upside_down;
-	// 浮雕效果
-	const char *fShaderStr_relief;
-	// 暖色
-	const char *fShaderStr_warm_color;
-	// 冷色
-	const char *fShaderStr_cool_color;
-
-	// 2分屏
-	const char *fShaderStr_split_screen_2;
-	// 3分屏
-	const char *fShaderStr_split_screen_3;
-	// 4分屏
-	const char *fShaderStr_split_screen_4;
-	// 6分屏
-	const char *fShaderStr_split_screen_6;
-	// 9分屏
-	const char *fShaderStr_split_screen_9;
-	// 16分屏
-	const char *fShaderStr_split_screen_16;
-
-
 
 	EGLConfig  m_eglConf;
 	EGLSurface m_eglSurface;

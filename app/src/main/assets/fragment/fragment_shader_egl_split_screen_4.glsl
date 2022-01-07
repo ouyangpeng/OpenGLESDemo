@@ -16,7 +16,7 @@ uniform sampler2D s_TextureMap;
 //  当 y 在[0.5, 1]范围时，y = (y-0.5)*2
 
 //  链接：https://juejin.cn/post/6859934701932118024
-
+// https://blog.csdn.net/lin1109221208/article/details/107900718
 
 void main() {
     lowp vec2 uv = v_texCoord.xy;
