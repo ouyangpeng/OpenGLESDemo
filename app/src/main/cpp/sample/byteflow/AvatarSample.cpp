@@ -231,12 +231,10 @@ void AvatarSample::LoadMultiImageWithIndex(int index, NativeImage *pImage) {
 }
 
 void AvatarSample::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(3, m_VboIds);
-        glDeleteVertexArrays(1, &m_VaoId);
-        glDeleteTextures(RENDER_IMG_NUM, m_TextureIds);
-    }
+    GLBaseSample::Shutdown();
+    glDeleteBuffers(3, m_VboIds);
+    glDeleteVertexArrays(1, &m_VaoId);
+    glDeleteTextures(RENDER_IMG_NUM, m_TextureIds);
 }
 
 void AvatarSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float transX,

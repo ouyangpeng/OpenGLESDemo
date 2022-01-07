@@ -215,12 +215,11 @@ void ScratchCardSample::LoadImage(NativeImage *pImage) {
 }
 
 void ScratchCardSample::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(2, m_VboIds);
-        glDeleteVertexArrays(1, &m_VaoId);
-        glDeleteTextures(1, &m_TextureId);
-    }
+    GLBaseSample::Shutdown();
+
+    glDeleteBuffers(2, m_VboIds);
+    glDeleteVertexArrays(1, &m_VaoId);
+    glDeleteTextures(1, &m_TextureId);
 }
 
 /**

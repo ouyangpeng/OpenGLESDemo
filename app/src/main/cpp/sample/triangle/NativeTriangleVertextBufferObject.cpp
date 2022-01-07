@@ -207,8 +207,7 @@ void NativeTriangleVBO::DrawPrimitiveWithVBOs(GLint numVertices, GLfloat *vtxBuf
 }
 
 void NativeTriangleVBO::Shutdown() {
-    // Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
+    GLBaseSample::Shutdown();
 
     glDeleteBuffers(2, &vboIds[0]);
 }

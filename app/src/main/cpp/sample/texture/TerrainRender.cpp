@@ -125,10 +125,8 @@ void TerrainRender::Draw() {
 }
 
 void TerrainRender::Shutdown() {
+    GLBaseSample::Shutdown();
     // Delete texture object
     glDeleteBuffers(1, &positionVBO);
     glDeleteBuffers(1, &indicesIBO);
-
-        // Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
 }

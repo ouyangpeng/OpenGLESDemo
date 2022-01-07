@@ -131,19 +131,17 @@ void NV21TextureMapSample::Draw() {
 }
 
 void NV21TextureMapSample::Shutdown() {
-    if(m_ProgramObj){
-        if (m_yTextureId) {
-            // 删除纹理
-            glDeleteTextures(1, &m_yTextureId);
-            m_yTextureId = GL_NONE;
-        }
+    GLBaseSample::Shutdown();
 
-        if (m_uvTextureId) {
-            // 删除纹理
-            glDeleteTextures(1, &m_uvTextureId);
-            m_uvTextureId = GL_NONE;
-        }
+    if (m_yTextureId) {
+        // 删除纹理
+        glDeleteTextures(1, &m_yTextureId);
+        m_yTextureId = GL_NONE;
+    }
 
-        GLUtils::DeleteProgram(m_ProgramObj);
+    if (m_uvTextureId) {
+        // 删除纹理
+        glDeleteTextures(1, &m_uvTextureId);
+        m_uvTextureId = GL_NONE;
     }
 }

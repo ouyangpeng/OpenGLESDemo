@@ -80,15 +80,12 @@ void MRT::initFBO() {
 }
 
 void MRT::Shutdown() {
+	GLBaseSample::Shutdown();
 	// Delete texture objects
 	glDeleteTextures ( 4, colorTexId );
 
 	// Delete fbo
 	glDeleteFramebuffers ( 1, &fbo );
-
-	// Delete program object
-	    // Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
 }
 
 void MRT::Draw() {

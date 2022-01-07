@@ -309,6 +309,7 @@ void Native6Lesson::SetDelta(float x, float y) {
 }
 
 void Native6Lesson::Shutdown() {
+    GLBaseSample::Shutdown();
     delete mModelMatrix;
     mModelMatrix = nullptr;
 

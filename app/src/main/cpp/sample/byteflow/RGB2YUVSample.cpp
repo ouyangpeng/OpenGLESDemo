@@ -223,9 +223,7 @@ void RGB2YUVSample::Draw() {
 }
 
 void RGB2YUVSample::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-    }
+    GLBaseSample::Shutdown();
 
     if (m_FboProgramObj) {
         glDeleteProgram(m_FboProgramObj);

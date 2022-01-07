@@ -182,8 +182,6 @@ void NativeTriangle3::Draw() {
 }
 
 void NativeTriangle3::Shutdown() {
-    // Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
-
+    GLBaseSample::Shutdown();
     glDeleteBuffers(3, &vboIds[0]);
 }

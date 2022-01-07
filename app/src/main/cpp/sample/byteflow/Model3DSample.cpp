@@ -70,6 +70,7 @@ void Model3DSample::Draw() {
 
 void Model3DSample::Shutdown() {
     LOGD("Model3DSample::Destroy")
+    GLBaseSample::Shutdown();
     // 销毁对象
     if (m_pModel != nullptr) {
         m_pModel->Destroy();

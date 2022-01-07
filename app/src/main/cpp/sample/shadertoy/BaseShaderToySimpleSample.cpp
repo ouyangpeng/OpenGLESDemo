@@ -243,11 +243,10 @@ void BaseShaderToySimpleSample::LoadMultiImageWithIndex(int index, NativeImage *
 
 
 void BaseShaderToySimpleSample::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(3, m_VboIds);
-        glDeleteVertexArrays(1, &m_VaoId);
-    }
+    GLBaseSample::Shutdown();
+
+    glDeleteBuffers(3, m_VboIds);
+    glDeleteVertexArrays(1, &m_VaoId);
 }
 
 

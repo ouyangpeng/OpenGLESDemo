@@ -227,9 +227,8 @@ void SharedEGLContextSample::OnAsyncRenderDone(void *callback, int fboTexId) {
 void SharedEGLContextSample::Shutdown() {
     GLRenderLooper::GetInstance()->postMessage(MSG_SurfaceDestroyed);
     GLRenderLooper::ReleaseInstance();
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-    }
+
+    GLBaseSample::Shutdown();
 
     if (m_FboProgramObj) {
         glDeleteProgram(m_FboProgramObj);

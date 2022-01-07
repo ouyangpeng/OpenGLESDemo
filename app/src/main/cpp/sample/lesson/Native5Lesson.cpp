@@ -239,6 +239,7 @@ void Native5Lesson::SwitchBlendingMode() {
 }
 
 void Native5Lesson::Shutdown() {
+    GLBaseSample::Shutdown();
     delete mCubePositionData;
     mCubePositionData = nullptr;
 

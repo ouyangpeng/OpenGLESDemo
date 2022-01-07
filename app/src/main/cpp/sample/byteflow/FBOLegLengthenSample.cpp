@@ -767,9 +767,7 @@ void FBOLegLengthenSample::Draw() {
 }
 
 void FBOLegLengthenSample::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-    }
+    GLBaseSample::Shutdown();
 
     if (m_FboProgramObj) {
         glDeleteProgram(m_FboProgramObj);

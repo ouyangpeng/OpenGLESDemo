@@ -141,11 +141,9 @@ void VisualizeAudioSample::Shutdown() {
     m_Cond.notify_all();
     lock.unlock();
 
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(2, m_VboIds);
-        glDeleteVertexArrays(1, &m_VaoId);
-    }
+    GLBaseSample::Shutdown();
+    glDeleteBuffers(2, m_VboIds);
+    glDeleteVertexArrays(1, &m_VaoId);
 }
 
 void VisualizeAudioSample::LoadAudioData(short *buffer, int len) {

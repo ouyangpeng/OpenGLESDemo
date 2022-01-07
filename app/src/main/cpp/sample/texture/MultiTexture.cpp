@@ -96,11 +96,8 @@ void MultiTexture::Draw() {
 }
 
 void MultiTexture::Shutdown() {
+	GLBaseSample::Shutdown();
 	// Delete texture object
 	glDeleteTextures(1, &baseMapTexId);
 	glDeleteTextures(1, &lightMapTexId);
-
-	// Delete program object
-	    // Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
 }

@@ -7,7 +7,6 @@
 void SimpleTexture2D::Create() {
     GLUtils::printGLInfo();
 
-    // Main Program
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_simple_texture_2d.glsl");
@@ -121,9 +120,8 @@ GLuint SimpleTexture2D::CreateSimpleTexture2D() {
 }
 
 void SimpleTexture2D::Shutdown() {
+    GLBaseSample::Shutdown();
+
     // Delete texture object
     glDeleteTextures ( 1, &textureId );
-
-    // Delete program object
-    GLUtils::DeleteProgram (m_ProgramObj );
 }

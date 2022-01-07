@@ -281,6 +281,7 @@ void Native3Lesson::drawLight() {
 }
 
 void Native3Lesson::Shutdown() {
+    GLBaseSample::Shutdown();
     delete mModelMatrix;
     mModelMatrix = nullptr;
     delete mViewMatrix;

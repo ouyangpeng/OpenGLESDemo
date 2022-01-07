@@ -360,6 +360,7 @@ void Shadows::drawScene(GLint mvpLoc, GLint mvpLightLoc) {
 }
 
 void Shadows::Shutdown() {
+    GLBaseSample::Shutdown();
     glDeleteBuffers(1, &groundPositionVBO);
     glDeleteBuffers(1, &groundIndicesIBO);
 

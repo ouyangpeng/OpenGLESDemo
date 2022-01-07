@@ -287,16 +287,14 @@ void StencilTestingSample::Draw() {
 }
 
 void StencilTestingSample::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(1, m_VboIds);
-        glDeleteVertexArrays(1, &m_VaoId);
-        glDeleteTextures(1, &m_TextureId);
-        m_ProgramObj = GL_NONE;
-        m_VaoId = GL_NONE;
-        m_TextureId = GL_NONE;
-    }
+    GLBaseSample::Shutdown();
 
+    glDeleteBuffers(1, m_VboIds);
+    glDeleteVertexArrays(1, &m_VaoId);
+    glDeleteTextures(1, &m_TextureId);
+    m_ProgramObj = GL_NONE;
+    m_VaoId = GL_NONE;
+    m_TextureId = GL_NONE;
 }
 
 void StencilTestingSample::LoadImage(NativeImage *pImage) {

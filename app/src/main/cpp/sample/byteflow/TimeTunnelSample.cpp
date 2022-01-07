@@ -223,11 +223,7 @@ void TimeTunnelSample::Draw() {
 }
 
 void TimeTunnelSample::Shutdown() {
-    if (m_ProgramObj)
-    {
-        glDeleteProgram(m_ProgramObj);
-        m_ProgramObj = GL_NONE;
-    }
+    GLBaseSample::Shutdown();
 
     if (m_FboProgramObj)
     {

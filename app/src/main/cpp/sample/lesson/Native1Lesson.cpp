@@ -190,6 +190,7 @@ void Native1Lesson::drawTriangle(GLfloat* vertices,
 }
 
 void Native1Lesson::Shutdown() {
+	GLBaseSample::Shutdown();
 	if(mModelMatrix){
 		delete mModelMatrix;
 		mModelMatrix = nullptr;
@@ -207,7 +208,4 @@ void Native1Lesson::Shutdown() {
 		delete mViewMatrix;
 		mViewMatrix = nullptr;
 	}
-
-	// Delete program object
-	GLUtils::DeleteProgram(m_ProgramObj);
 }

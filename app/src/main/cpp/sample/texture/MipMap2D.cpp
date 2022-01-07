@@ -37,11 +37,9 @@ void MipMap2D::Create() {
 }
 
 void MipMap2D::Shutdown() {
+    GLBaseSample::Shutdown();
     // Delete texture object
     glDeleteTextures(1, &textureId);
-
-    // Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
 }
 
 void MipMap2D::Draw() {

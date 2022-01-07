@@ -145,13 +145,13 @@ void ShockWaveSample::Draw() {
 }
 
 void ShockWaveSample::Shutdown() {
-    if (m_ProgramObj)
-    {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(3, m_VboIds);
-        glDeleteVertexArrays(1, &m_VaoId);
-        glDeleteTextures(1, &m_TextureId);
-    }
+    GLBaseSample::Shutdown();
+
+    glDeleteProgram(m_ProgramObj);
+    glDeleteBuffers(3, m_VboIds);
+    glDeleteVertexArrays(1, &m_VaoId);
+    glDeleteTextures(1, &m_TextureId);
+
 }
 
 void ShockWaveSample::LoadImage(NativeImage *pImage) {

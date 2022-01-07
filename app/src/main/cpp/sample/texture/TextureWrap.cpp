@@ -8,7 +8,6 @@
 void TextureWrap::Create() {
 	GLUtils::printGLInfo();
 
-	// Main Program
 	// 顶点着色器
 	VERTEX_SHADER = GLUtils::openTextFile(
 			"vertex/vertex_shader_texture_mipmap_2d.glsl");
@@ -116,11 +115,10 @@ void TextureWrap::Draw() {
 }
 
 void TextureWrap::Shutdown() {
+	GLBaseSample::Shutdown();
+
 	// Delete texture object
 	glDeleteTextures(1, &textureId);
-
-	// Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
 }
 
 // Create a mipmapped 2D texture image

@@ -113,18 +113,16 @@ void TextRenderSample::Draw() {
 }
 
 void TextRenderSample::Shutdown() {
-    if (m_ProgramObj)
-    {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(1, &m_VboId);
-        glDeleteVertexArrays(1, &m_VaoId);
-        glDeleteTextures(1, &m_TextureId);
+    GLBaseSample::Shutdown();
 
-        std::map<GLint, Character>::const_iterator iter;
-        for (iter = m_Characters.begin(); iter != m_Characters.end(); iter++)
-        {
-            glDeleteTextures(1, &m_Characters[iter->first].textureID);
-        }
+    glDeleteBuffers(1, &m_VboId);
+    glDeleteVertexArrays(1, &m_VaoId);
+    glDeleteTextures(1, &m_TextureId);
+
+    std::map<GLint, Character>::const_iterator iter;
+    for (iter = m_Characters.begin(); iter != m_Characters.end(); iter++)
+    {
+        glDeleteTextures(1, &m_Characters[iter->first].textureID);
     }
 }
 

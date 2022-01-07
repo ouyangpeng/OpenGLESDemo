@@ -161,15 +161,14 @@ void ParticlesSample2::Draw() {
 }
 
 void ParticlesSample2::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteVertexArrays(1, &m_VaoId);
-        glDeleteTextures(1, &m_TextureId);
-        glDeleteBuffers(1, &m_ParticlesPosVboId);
-        glDeleteBuffers(1, &m_ParticlesVertexVboId);
-        glDeleteBuffers(1, &m_ParticlesPosVboId);
-        m_ProgramObj = GL_NONE;
-    }
+    GLBaseSample::Shutdown();
+
+    glDeleteProgram(m_ProgramObj);
+    glDeleteVertexArrays(1, &m_VaoId);
+    glDeleteTextures(1, &m_TextureId);
+    glDeleteBuffers(1, &m_ParticlesPosVboId);
+    glDeleteBuffers(1, &m_ParticlesVertexVboId);
+    glDeleteBuffers(1, &m_ParticlesPosVboId);
 }
 
 

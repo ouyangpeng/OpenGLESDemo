@@ -133,8 +133,7 @@ void NativeTriangleVAO::Draw() {
 }
 
 void NativeTriangleVAO::Shutdown() {
-    // Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
+    GLBaseSample::Shutdown();
 
     glDeleteBuffers(2, &vboIds[0]);
     glDeleteVertexArrays(1, &vaoId);

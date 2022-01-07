@@ -181,13 +181,10 @@ void BigHeadSample::Draw() {
 }
 
 void BigHeadSample::Shutdown() {
-    if (m_ProgramObj) {
-        LOGD("BigHeadSample::Shutdown()")
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(2, m_VboIds);
-        glDeleteVertexArrays(1, &m_VaoId);
-        glDeleteTextures(1, &m_TextureId);
-    }
+    GLBaseSample::Shutdown();
+    glDeleteBuffers(2, m_VboIds);
+    glDeleteVertexArrays(1, &m_VaoId);
+    glDeleteTextures(1, &m_TextureId);
 }
 
 void BigHeadSample::LoadImage(NativeImage *pImage) {

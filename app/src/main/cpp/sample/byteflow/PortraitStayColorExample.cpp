@@ -201,14 +201,14 @@ void PortraitStayColorExample::Draw() {
 }
 
 void PortraitStayColorExample::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(3, m_VboIds);
-        glDeleteVertexArrays(1, &m_VaoId);
-        glDeleteTextures(1, &m_TextureId);
-        glDeleteTextures(1, &m_GrayTexId);
-        glDeleteTextures(1, &m_MappingTexId);
-    }
+    GLBaseSample::Shutdown();
+
+    glDeleteBuffers(3, m_VboIds);
+    glDeleteVertexArrays(1, &m_VaoId);
+    glDeleteTextures(1, &m_TextureId);
+    glDeleteTextures(1, &m_GrayTexId);
+    glDeleteTextures(1, &m_MappingTexId);
+
 }
 
 void PortraitStayColorExample::LoadImage(NativeImage *pImage) {

@@ -106,12 +106,12 @@ void TextureMapSample::Draw() {
 }
 
 void TextureMapSample::Shutdown() {
+    GLBaseSample::Shutdown();
     if (mTextureId) {
         // 删除纹理
         glDeleteTextures(1, &mTextureId);
         mTextureId = GL_NONE;
     }
-    GLUtils::DeleteProgram(m_ProgramObj);
 }
 
 void TextureMapSample::LoadImage(NativeImage *pImage) {

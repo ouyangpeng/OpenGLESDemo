@@ -15,14 +15,14 @@
 class GLBaseSample {
 public:
     GLBaseSample() {
+        VERTEX_SHADER = GL_NONE;
+        FRAGMENT_SHADER = GL_NONE;
         m_ProgramObj = 0;
         m_Width = 0;
         m_Height = 0;
     }
 
-    virtual ~GLBaseSample() {
-
-    }
+    virtual ~GLBaseSample() {}
 
     virtual void Create() = 0;
 
@@ -39,7 +39,20 @@ public:
 
     virtual void Draw() = 0;
 
-    virtual void Shutdown() = 0;
+    virtual void Shutdown(){
+        if (m_ProgramObj) {
+            glDeleteProgram(m_ProgramObj);
+            m_ProgramObj = GL_NONE;
+        }
+        if(VERTEX_SHADER != nullptr){
+            delete[] VERTEX_SHADER;
+            VERTEX_SHADER = nullptr;
+        }
+        if(FRAGMENT_SHADER!= nullptr){
+            delete[] FRAGMENT_SHADER;
+            FRAGMENT_SHADER = nullptr;
+        }
+    }
 
     // 默认啥都不做，等待有需要的子类去重写
     virtual void SwitchBlendingMode() {}

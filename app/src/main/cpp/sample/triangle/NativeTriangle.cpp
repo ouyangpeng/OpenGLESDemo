@@ -106,6 +106,5 @@ void NativeTriangle::Draw() {
 }
 
 void NativeTriangle::Shutdown() {
-    // Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
+    GLBaseSample::Shutdown();
 }

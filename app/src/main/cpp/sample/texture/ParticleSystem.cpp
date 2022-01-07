@@ -9,7 +9,6 @@
 void ParticleSystem::Create() {
     GLUtils::printGLInfo();
 
-    // Main Program
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_particlesystem.glsl");
@@ -114,11 +113,9 @@ void ParticleSystem::Draw() {
 }
 
 void ParticleSystem::Shutdown() {
+    GLBaseSample::Shutdown();
     // Delete texture object
     glDeleteTextures ( 1, &mTextureId );
-
-    // Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
 }
 
 void ParticleSystem::update(float deltaTime) {

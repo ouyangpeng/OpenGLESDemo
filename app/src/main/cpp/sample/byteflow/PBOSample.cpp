@@ -303,10 +303,7 @@ void PBOSample::Draw() {
 }
 
 void PBOSample::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-        m_ProgramObj = GL_NONE;
-    }
+    GLBaseSample::Shutdown();
 
     if (m_FboProgramObj) {
         glDeleteProgram(m_FboProgramObj);

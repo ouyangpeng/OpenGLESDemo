@@ -214,10 +214,7 @@ void FBOSample::Draw() {
 }
 
 void FBOSample::Shutdown() {
-    if (m_ProgramObj)
-    {
-        glDeleteProgram(m_ProgramObj);
-    }
+    GLBaseSample::Shutdown();
 
     if (m_FboProgramObj)
     {

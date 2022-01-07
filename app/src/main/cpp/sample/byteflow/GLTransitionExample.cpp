@@ -250,12 +250,11 @@ void GLTransitionExample::Draw() {
 }
 
 void GLTransitionExample::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(3, m_VboIds);
-        glDeleteVertexArrays(1, &m_VaoId);
-        glDeleteTextures(BF_IMG_NUM, m_TextureIds);
-    }
+    GLBaseSample::Shutdown();
+
+    glDeleteBuffers(3, m_VboIds);
+    glDeleteVertexArrays(1, &m_VaoId);
+    glDeleteTextures(BF_IMG_NUM, m_TextureIds);
 }
 
 void GLTransitionExample::UpdateTransformMatrix(float rotateX, float rotateY, float scaleX,

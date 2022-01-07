@@ -188,17 +188,15 @@ void MRTSample::Draw() {
 }
 
 void MRTSample::Shutdown() {
-    if (m_ProgramObj)
-    {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteProgram(m_MRTProgramObj);
-        glDeleteBuffers(3, m_VboIds);
-        glDeleteVertexArrays(1, &m_VaoId);
-        // Delete texture objects
-        glDeleteTextures(1, &m_TextureId);
-        // Delete fbo
-        glDeleteFramebuffers(1,&m_FBO);
-    }
+    GLBaseSample::Shutdown();
+
+    glDeleteProgram(m_MRTProgramObj);
+    glDeleteBuffers(3, m_VboIds);
+    glDeleteVertexArrays(1, &m_VaoId);
+    // Delete texture objects
+    glDeleteTextures(1, &m_TextureId);
+    // Delete fbo
+    glDeleteFramebuffers(1,&m_FBO);
 }
 
 void MRTSample::LoadImage(NativeImage *pImage) {

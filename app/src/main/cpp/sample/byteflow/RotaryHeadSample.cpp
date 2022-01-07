@@ -175,13 +175,13 @@ void RotaryHeadSample::Draw() {
 }
 
 void RotaryHeadSample::Shutdown() {
-    if (m_ProgramObj) {
-        LOGD("RotaryHeadSample::Shutdown()")
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(2, m_VboIds);
-        glDeleteVertexArrays(1, &m_VaoId);
-        glDeleteTextures(1, &m_TextureId);
-    }
+    GLBaseSample::Shutdown();
+
+    LOGD("RotaryHeadSample::Shutdown()")
+    glDeleteBuffers(2, m_VboIds);
+    glDeleteVertexArrays(1, &m_VaoId);
+    glDeleteTextures(1, &m_TextureId);
+
 }
 
 void RotaryHeadSample::LoadImage(NativeImage *pImage) {

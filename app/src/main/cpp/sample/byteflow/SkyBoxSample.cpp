@@ -193,13 +193,13 @@ void SkyBoxSample::Draw() {
 }
 
 void SkyBoxSample::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteVertexArrays(1, &m_SkyBoxVaoId);
-        glDeleteBuffers(1, &m_SkyBoxVboId);
-        glDeleteTextures(1, &m_TextureId);
-        m_ProgramObj = GL_NONE;
-    }
+    GLBaseSample::Shutdown();
+
+    glDeleteVertexArrays(1, &m_SkyBoxVaoId);
+    glDeleteBuffers(1, &m_SkyBoxVboId);
+    glDeleteTextures(1, &m_TextureId);
+    m_ProgramObj = GL_NONE;
+
 
     if (m_CubeProgramObj) {
         glDeleteProgram(m_CubeProgramObj);

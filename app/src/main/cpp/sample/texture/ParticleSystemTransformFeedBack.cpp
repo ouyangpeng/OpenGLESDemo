@@ -71,7 +71,6 @@ void ParticleSystemTransformFeedBack::Create() {
 
 // 初始化发射粒子
 void ParticleSystemTransformFeedBack::initEmitParticles() {
-// Main Program
     const char *vertex = GLUtils::openTextFile(
             "vertex/vertex_shader_particlesystem_transform_feedback.glsl");
     const char *fragment = GLUtils::openTextFile(
@@ -159,6 +158,7 @@ void ParticleSystemTransformFeedBack::Draw() {
 }
 
 void ParticleSystemTransformFeedBack::Shutdown() {
+    GLBaseSample::Shutdown();
     // Delete texture object
     glDeleteTextures ( 1, &textureId );
 

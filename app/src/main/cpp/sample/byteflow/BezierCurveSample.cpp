@@ -242,11 +242,9 @@ void BezierCurveSample::Draw() {
 }
 
 void BezierCurveSample::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(1, &m_VboId);
-        glDeleteVertexArrays(1, &m_VaoId);
-    }
+    GLBaseSample::Shutdown();
+    glDeleteBuffers(1, &m_VboId);
+    glDeleteVertexArrays(1, &m_VaoId);
 }
 
 

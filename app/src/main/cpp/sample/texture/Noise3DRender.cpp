@@ -12,14 +12,13 @@ void Noise3DRender::Create() {
     // Create the 3D texture
     Create3DNoiseTexture(64, 5.0f);
 
-    // Main Program
-    const char *vertex = GLUtils::openTextFile(
+    VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_noise3d.glsl");
-    const char *fragment = GLUtils::openTextFile(
+    FRAGMENT_SHADER = GLUtils::openTextFile(
             "fragment/fragment_shader_noise3d.glsl");
 
     // Set program handles
-    m_ProgramObj = GLUtils::createProgram(&vertex, &fragment);
+    m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
 
     if (!m_ProgramObj) {
         LOGD("Could not Create program")
@@ -101,6 +100,7 @@ void Noise3DRender::Draw() {
 }
 
 void Noise3DRender::Shutdown() {
+    GLBaseSample::Shutdown();
     if (vertices != nullptr) {
         free(vertices);
     }
@@ -115,9 +115,6 @@ void Noise3DRender::Shutdown() {
 
     // Delete texture object
     glDeleteTextures(1, &textureId);
-
-    // Delete program object
-    glDeleteProgram(m_ProgramObj);
 }
 
 void Noise3DRender::update(float deltaTime) {

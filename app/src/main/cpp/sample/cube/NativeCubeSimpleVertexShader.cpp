@@ -125,6 +125,7 @@ void NativeCubeSimpleVertexShader::update(float deltaTime) {
 }
 
 void NativeCubeSimpleVertexShader::Shutdown() {
+    GLBaseSample::Shutdown();
     if (vertices != nullptr) {
         free(vertices);
     }
@@ -132,7 +133,4 @@ void NativeCubeSimpleVertexShader::Shutdown() {
     if (indices != nullptr) {
         free(indices);
     }
-
-    // Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
 }

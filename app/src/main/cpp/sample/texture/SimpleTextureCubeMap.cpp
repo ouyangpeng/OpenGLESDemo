@@ -12,7 +12,6 @@
 void SimpleTextureCubeMap::Create() {
     GLUtils::printGLInfo();
 
-    // Main Program
     // 顶点着色器
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_simple_texture_cubemap.glsl");
@@ -172,6 +171,7 @@ GLuint SimpleTextureCubeMap::CreateSimpleTextureCubemap() {
 }
 
 void SimpleTextureCubeMap::Shutdown() {
+    GLBaseSample::Shutdown();
     if (vertices != nullptr) {
         free(vertices);
     }
@@ -186,7 +186,4 @@ void SimpleTextureCubeMap::Shutdown() {
 
     // Delete texture object
     glDeleteTextures(1, &textureId);
-
-    // Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
 }

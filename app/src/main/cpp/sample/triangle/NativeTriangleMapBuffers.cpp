@@ -177,8 +177,7 @@ void NativeTriangleMapBuffers::DrawPrimitiveWithVBOsMapBuffers(
 }
 
 void NativeTriangleMapBuffers::Shutdown() {
-    // Delete program object
-    GLUtils::DeleteProgram(m_ProgramObj);
+    GLBaseSample::Shutdown();
 
     glDeleteBuffers(2, &vboIds[0]);
 }

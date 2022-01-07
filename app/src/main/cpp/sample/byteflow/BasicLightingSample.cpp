@@ -151,12 +151,10 @@ void BasicLightingSample::Draw() {
 }
 
 void BasicLightingSample::Shutdown() {
-    if (m_ProgramObj) {
-        glDeleteProgram(m_ProgramObj);
-        glDeleteBuffers(1, m_VboIds);
-        glDeleteVertexArrays(1, &m_VaoId);
-        glDeleteTextures(1, &m_TextureId);
-    }
+    GLBaseSample::Shutdown();
+    glDeleteBuffers(1, m_VboIds);
+    glDeleteVertexArrays(1, &m_VaoId);
+    glDeleteTextures(1, &m_TextureId);
 }
 
 /**

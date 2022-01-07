@@ -180,6 +180,7 @@ void Native2Lesson::Draw() {
 }
 
 void Native2Lesson::Shutdown() {
+    GLBaseSample::Shutdown();
     delete mModelMatrix;
     mModelMatrix = nullptr;
 
