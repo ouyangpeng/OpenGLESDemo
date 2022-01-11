@@ -128,4 +128,9 @@
         android:icon="@drawable/ic_aspect_sample"
         android:title="素描"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader23"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="怀旧"
+        app:showAsAction="never" />
 </menu>

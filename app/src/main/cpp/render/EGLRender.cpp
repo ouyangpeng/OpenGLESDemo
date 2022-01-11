@@ -141,7 +141,8 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
             "fragment/fragment_shader_egl_split_screen_16.glsl");;
     m_fShaderStrs[22] = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_sketch.glsl");
-
+    m_fShaderStrs[23] = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_nostalgic.glsl");
     // 创建并初始化图像纹理
     glGenTextures(1, &m_ImageTextureId);
     glBindTexture(GL_TEXTURE_2D, m_ImageTextureId);
