@@ -149,6 +149,10 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     m_fShaderStrs[24] = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_fleeting_time.glsl");
 
+    // 动态网格
+    m_fShaderStrs[25] = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_dynamic_grid.glsl");
+
 
     // 创建并初始化图像纹理
     glGenTextures(1, &m_ImageTextureId);

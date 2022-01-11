@@ -35,7 +35,11 @@
         android:icon="@drawable/ic_aspect_sample"
         android:title="网格"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/action_shader25"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="动态网格"
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_shader6"
         android:icon="@drawable/ic_aspect_sample"
