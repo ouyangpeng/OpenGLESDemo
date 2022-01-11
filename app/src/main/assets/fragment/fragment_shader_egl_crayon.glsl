@@ -1,7 +1,8 @@
 #version 300 es
 precision highp float;
 
-// 素描
+// 蜡笔
+// 和 素描的部分代码一样
 // 参考自： https://github.com/wuhaoyu1990/MagicCamera
 
 layout(location = 0) out vec4 outColor;
@@ -11,27 +12,35 @@ precision mediump float;
 
 uniform sampler2D s_TextureMap;
 
-const highp vec3 W = vec3(0.299, 0.587, 0.114);
-
 // 可以从外部传入
 //uniform vec2 singleStepOffset;     // 传入 0.5
 //uniform float strength;           // 传入  {1.0f / width, 1.0f / height}
-
 // 这里测试写死
 const float strength = 0.5;
 // 800.0 代表长和宽
-const vec2 singleStepOffset = vec2(1.0/ 800.0, 1.0/ 800.0);
+const vec2 singleStepOffset = vec2(1.0 / 800.0, 1.0 / 800.0);
+
+const highp vec3 W = vec3(0.299, 0.587, 0.114);
+
+const mat3 rgb2yiqMatrix = mat3(
+    0.299, 0.587, 0.114,
+    0.596, -0.275, -0.321,
+    0.212, -0.523, 0.311
+);
+
+const mat3 yiq2rgbMatrix = mat3(
+    1.0, 0.956, 0.621,
+    1.0, -0.272, -1.703,
+    1.0, -1.106, 0.0
+);
+
 
 void main()
 {
-    float threshold = 0.0;
-    //pic1
     vec4 oralColor = texture(s_TextureMap, v_texCoord);
 
-    //pic2
     vec3 maxValue = vec3(0., 0., 0.);
 
-    // determine the shape of the input image
     for (int i = -2; i <= 2; i ++)
     {
         for (int j = -2; j <= 2; j ++)
@@ -40,26 +49,22 @@ void main()
             maxValue.r = max(maxValue.r, tempColor.r);
             maxValue.g = max(maxValue.g, tempColor.g);
             maxValue.b = max(maxValue.b, tempColor.b);
-            threshold  += dot(tempColor.rgb, W);
         }
     }
 
-    // dot(vec3 a ,vec3 b) 点乘得到的是两个向量a 和 b 之间的夹角的余弦值 即 cosα，范围在[-1, 1]之间，是一个标量
+    vec3 textureColor = oralColor.rgb / maxValue;
 
-    //pic3
-    float gray1 = dot(oralColor.rgb, W);
+    float gray = dot(textureColor, W);
+    float k = 0.223529;
+    float alpha = min(gray, k)/k;
 
-    //pic4
-    float gray2 = dot(maxValue, W);
+    textureColor = textureColor * alpha + (1.0 - alpha) * oralColor.rgb;
 
-    //pic5
-    float contour = gray1 / gray2;
+    vec3 yiqColor = textureColor * rgb2yiqMatrix;
 
-    threshold = threshold / 25.0;
+    yiqColor.r = max(0.0, min(1.0, pow(gray, strength)));
 
-    float alpha = max(1.0, gray1 > threshold ? 1.0 : (gray1 / threshold));
+    textureColor = yiqColor * yiq2rgbMatrix;
 
-    float result = contour * alpha + (1.0 - alpha) * gray1;
-
-    outColor = vec4(vec3(result, result, result), oralColor.w);
+    outColor = vec4(textureColor, oralColor.w);
 } 

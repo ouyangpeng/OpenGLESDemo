@@ -133,11 +133,15 @@
         android:title="素描"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_shader26"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="蜡笔"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_shader23"
         android:icon="@drawable/ic_aspect_sample"
         android:title="怀旧"
         app:showAsAction="never" />
-
     <item
         android:id="@+id/action_shader24"
         android:icon="@drawable/ic_aspect_sample"

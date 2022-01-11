@@ -152,6 +152,9 @@ void EGLRender::Init(JNIEnv *env, jobject assetManager) {
     // 动态网格
     m_fShaderStrs[25] = GLUtils::openTextFile(
             "fragment/fragment_shader_egl_dynamic_grid.glsl");
+    // 蜡笔
+    m_fShaderStrs[26] = GLUtils::openTextFile(
+            "fragment/fragment_shader_egl_crayon.glsl");
 
 
     // 创建并初始化图像纹理
