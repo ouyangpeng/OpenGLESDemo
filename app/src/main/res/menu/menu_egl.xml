@@ -123,4 +123,9 @@
         android:icon="@drawable/ic_aspect_sample"
         android:title="十六分屏"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shader22"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="素描"
+        app:showAsAction="never" />
 </menu>

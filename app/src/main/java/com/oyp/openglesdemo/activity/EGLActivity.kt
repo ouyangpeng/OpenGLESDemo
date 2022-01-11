@@ -83,6 +83,7 @@ class EGLActivity : AppCompatActivity() {
             R.id.action_shader19 -> shaderIndex = 19
             R.id.action_shader20 -> shaderIndex = 20
             R.id.action_shader21 -> shaderIndex = 21
+            R.id.action_shader22 -> shaderIndex = 22
             // 处理返回按钮
             android.R.id.home-> finish()
             else -> {

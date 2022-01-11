@@ -14,7 +14,7 @@
 #include <GLES2/gl2ext.h>
 #include <GLUtils.h>
 
-#define EGL_FEATURE_NUM 22
+#define EGL_FEATURE_NUM 30
 
 #define EGL_VERTEX_POS_LOC  0
 #define EGL_TEXTURE_POS_LOC 1
