@@ -133,4 +133,10 @@
         android:icon="@drawable/ic_aspect_sample"
         android:title="怀旧"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_shader24"
+        android:icon="@drawable/ic_aspect_sample"
+        android:title="流年"
+        app:showAsAction="never" />
 </menu>
