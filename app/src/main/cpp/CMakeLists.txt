@@ -54,25 +54,18 @@ include_directories(
 #自定义搜索规则
 file(GLOB src-files
         ${CMAKE_SOURCE_DIR}/*.cpp
-        ${CMAKE_SOURCE_DIR}/*.h
 
         ${CMAKE_SOURCE_DIR}/*/*.cpp
-        ${CMAKE_SOURCE_DIR}/*/*.h
 
         ${CMAKE_SOURCE_DIR}/*/*/*.cpp
-        ${CMAKE_SOURCE_DIR}/*/*/*.h
 
         ${CMAKE_SOURCE_DIR}/*/*/*/*.cpp
-        ${CMAKE_SOURCE_DIR}/*/*/*/*.h
 
         ${CMAKE_SOURCE_DIR}/*/*/*/*/*.cpp
-        ${CMAKE_SOURCE_DIR}/*/*/*/*/*.h
 
         ${CMAKE_SOURCE_DIR}/*/*/*/*/*/*.cpp
-        ${CMAKE_SOURCE_DIR}/*/*/*/*/*/*.h
 
         ${CMAKE_SOURCE_DIR}/*/*/*/*/*/*/*.cpp
-        ${CMAKE_SOURCE_DIR}/*/*/*/*/*/*/*.h
 )
 
 
