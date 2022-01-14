@@ -14,6 +14,11 @@
 + [https://github.com/ouyangpeng/OpenGLESDemo](https://github.com/ouyangpeng/OpenGLESDemo)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/7b8061e9d8934f1e956aed9fb6c9199f.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5a2X6IqC5Y235Yqo,size_20,color_FFFFFF,t_70,g_se,x_16)
 
+Debug APP 下载地址：
++ [【Github下载地址】](https://github.com/ouyangpeng/OpenGLESDemo/blob/master/docs/app-debug.apk)
++ [【Gitee下载地址】](https://gitee.com/ouyangpengdev/OpenGLESDemo/blob/master/docs/app-debug.apk)
+
+
 ## 1.2 项目介绍
 
 主要是将下面来源的特效，自己手动敲一遍，熟悉OpenGL ES相关API和GLSL语法以及C++语法
