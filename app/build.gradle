@@ -47,14 +47,7 @@ android {
         jvmTarget = '1.8'
     }
 
-    // https://cloud.tencent.com/developer/article/1552183
-    packagingOptions{
-        pickFirst 'lib/arm64-v8a/libassimp.so'
-        pickFirst 'lib/arm64-v8a/libopencv_java3.so'
 
-        pickFirst 'lib/armeabi-v7a/libassimp.so'
-        pickFirst 'lib/armeabi-v7a/libopencv_java3.so'
-    }
 }
 
 dependencies {

@@ -5,8 +5,8 @@
 
 cmake_minimum_required(VERSION 3.10.2)
 
-# 设置 jnilibs 目录的值，后面会引用这个变量${jnilibs}
-set(jnilibs "${CMAKE_SOURCE_DIR}/../jniLibs")
+# 设置 thirdPartyLibs 目录的值，后面会引用这个变量${thirdPartyLibs}
+set(thirdPartyLibs "${CMAKE_SOURCE_DIR}/../thirdPartyLibs")
 
 # Declares and names the project.
 
@@ -97,19 +97,19 @@ add_library(freetype STATIC IMPORTED)
 set_target_properties(freetype
         PROPERTIES
         IMPORTED_LOCATION
-        ${jnilibs}/${CMAKE_ANDROID_ARCH_ABI}/libfreetype.a)
+        ${thirdPartyLibs}/${CMAKE_ANDROID_ARCH_ABI}/libfreetype.a)
 
 add_library(assimp SHARED IMPORTED )
 set_target_properties(assimp
         PROPERTIES
         IMPORTED_LOCATION
-        ${jnilibs}/${CMAKE_ANDROID_ARCH_ABI}/libassimp.so)
+        ${thirdPartyLibs}/${CMAKE_ANDROID_ARCH_ABI}/libassimp.so)
 
 add_library(opencv_java3 SHARED IMPORTED )
 set_target_properties(opencv_java3
         PROPERTIES
         IMPORTED_LOCATION
-        ${jnilibs}/${CMAKE_ANDROID_ARCH_ABI}/libopencv_java3.so)
+        ${thirdPartyLibs}/${CMAKE_ANDROID_ARCH_ABI}/libopencv_java3.so)
 
 set(third-party-libs
     freetype
