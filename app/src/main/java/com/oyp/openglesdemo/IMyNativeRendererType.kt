@@ -103,4 +103,7 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_3D_MODEL                                           = SAMPLE_TYPE + 84
     const val SAMPLE_TYPE_KEY_AIR_HOCKEY                                         = SAMPLE_TYPE + 85
 
+
+    const val SAMPLE_TYPE_KEY_RECTANGLE                                          = SAMPLE_TYPE + 86
+
 }

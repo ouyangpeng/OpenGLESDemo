@@ -102,5 +102,6 @@
 #define SAMPLE_TYPE_KEY_3D_MODEL      		                        SAMPLE_TYPE + 84
 #define SAMPLE_TYPE_KEY_AIR_HOCKEY      		                    SAMPLE_TYPE + 85
 
+#define SAMPLE_TYPE_KEY_RECTANGLE                                   SAMPLE_TYPE + 86
 
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H

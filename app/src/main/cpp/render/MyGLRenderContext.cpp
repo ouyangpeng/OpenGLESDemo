@@ -66,6 +66,7 @@
 #include <GLTransitionExample.h>
 #include <Model3DSample.h>
 #include <AirHockeySample.h>
+#include <NativeRectangle.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -328,6 +329,11 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
             case SAMPLE_TYPE_KEY_AIR_HOCKEY:
                 m_pCurSample = new AirHockeySample();
                 break;
+
+            case SAMPLE_TYPE_KEY_RECTANGLE:
+                m_pCurSample = new NativeRectangle();
+                break;
+
             default:
                 m_pCurSample = nullptr;
                 break;

@@ -584,7 +584,12 @@ class MainActivity : Activity() {
         data.add(itemAirHockey)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_AIR_HOCKEY)
 
-
+        val itemHelloRectangle: MutableMap<String, Any?> = HashMap()
+        itemHelloRectangle[ITEM_IMAGE] = R.mipmap.ic_rectangle
+        itemHelloRectangle[ITEM_TITLE] = "展示一个矩形"
+        itemHelloRectangle[ITEM_SUBTITLE] = "使用VAO绘制矩形"
+        data.add(itemHelloRectangle)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_RECTANGLE)
     }
 
     companion object {
