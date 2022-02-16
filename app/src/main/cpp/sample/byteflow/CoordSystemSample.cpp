@@ -229,6 +229,7 @@ void CoordSystemSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int an
     glm::mat4 mProjection = glm::perspective(45.0f, ratio, 0.1f, 100.f);
 
     // View matrix
+    // 参考链接 https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/ 去理解摄像机
     glm::mat4 mView = glm::lookAt(
             glm::vec3(0, 0, 4), // Camera is at (0,0,1), in World Space
             glm::vec3(0, 0, 0), // and looks at the origin

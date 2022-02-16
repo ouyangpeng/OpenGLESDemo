@@ -6,6 +6,7 @@
 // https://blog.csdn.net/Kennethdroid/article/details/101220947
 // https://blog.csdn.net/Kennethdroid/article/details/101709694
 // https://ouyangpeng.blog.csdn.net/article/details/121867616
+// https://learnopengl-cn.github.io/02%20Lighting/02%20Basic%20Lighting/
 
 #include "BasicLightingSample.h"
 

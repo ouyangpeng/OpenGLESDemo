@@ -1,6 +1,8 @@
 #version 300 es
 precision mediump float;
 
+// https://learnopengl-cn.github.io/02%20Lighting/02%20Basic%20Lighting/
+
 layout(location = 0) in vec4 a_position;
 layout(location = 1) in vec2 a_texCoord;
 //当前片段法向量
@@ -33,7 +35,6 @@ void main()
     float ambientStrength = 0.1;
     // 环境光强度
     ambient = ambientStrength * lightColor;
-
 
     // ==================  Diffuse 散射光
     // 散射光最终强度 = 材质反射系数 × 散射光强度 × max(cos(入射角)，0)
