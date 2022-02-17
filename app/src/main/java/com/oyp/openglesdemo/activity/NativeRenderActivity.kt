@@ -141,6 +141,14 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                 loadRGBAImageFromAssets("texture/yangchaoyue.png")
             }
 
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_STICKER -> {
+                loadRGBAImageFromAssets("texture/yangchaoyue.png")
+                loadRGBAImageFromResWithIndex(R.mipmap.sticker_rainbow, 0)
+                loadRGBAImageFromResWithIndex(R.mipmap.sticker_rainbow, 1)
+                loadRGBAImageFromResWithIndex(R.mipmap.sticker_rainbow, 2)
+                loadRGBAImageFromResWithIndex(R.mipmap.sticker_rainbow, 3)
+            }
+
             IMyNativeRendererType.SAMPLE_TYPE_KEY_AIR_HOCKEY->{
                 val bitmap = loadRGBAImageFromRes(R.drawable.air_hockey_surface)
                 bitmap?.let {

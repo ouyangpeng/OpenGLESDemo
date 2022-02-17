@@ -67,6 +67,7 @@
 #include <Model3DSample.h>
 #include <AirHockeySample.h>
 #include <NativeRectangle.h>
+#include <StickerSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -334,6 +335,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 m_pCurSample = new NativeRectangle();
                 break;
 
+            case SAMPLE_TYPE_KEY_STICKER:
+                m_pCurSample = new StickerSample();
+                break;
             default:
                 m_pCurSample = nullptr;
                 break;
