@@ -173,11 +173,11 @@ void BlendingSample::Draw() {
     glBindTexture(GL_TEXTURE_2D, m_TextureIds[0]);
     glUniform1i(m_SamplerLoc, 0);
 
-    UpdateMatrix(m_MVPMatrix, 0, 0, 1.0, glm::vec3(-1.0f, 0.0f, -1.0f), ratio);
+    UpdateMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 1.0, glm::vec3(-1.0f, 0.0f, -1.0f), ratio);
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
-    UpdateMatrix(m_MVPMatrix, 0, 0, 1.0, glm::vec3(2.0f, 0.0f, 0.0f), ratio);
+    UpdateMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 1.0, glm::vec3(2.0f, 0.0f, 0.0f), ratio);
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
     glDrawArrays(GL_TRIANGLES, 0, 36);
     GO_CHECK_GL_ERROR()
@@ -191,7 +191,7 @@ void BlendingSample::Draw() {
     glBindTexture(GL_TEXTURE_2D, m_TextureIds[1]);
     glUniform1i(m_SamplerLoc, 0);
 
-    UpdateMatrix(m_MVPMatrix, 0, 0, 1.0, glm::vec3(0.0f, 0.0f, 0.0f), ratio);
+    UpdateMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 1.0, glm::vec3(0.0f, 0.0f, 0.0f), ratio);
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     GO_CHECK_GL_ERROR()
@@ -208,7 +208,7 @@ void BlendingSample::Draw() {
 
     //容器 sorted 根据窗户距观察者的距离进行排序
     for (auto it = sorted.rbegin(); it != sorted.rend(); ++it) {
-        UpdateMatrix(m_MVPMatrix, 0, 0, 1.0, it->second, ratio);
+        UpdateMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 1.0, it->second, ratio);
         glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }

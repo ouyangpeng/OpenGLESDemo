@@ -126,6 +126,7 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_UBO,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXT_RENDER,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_3D_MODEL,
+                    IMyNativeRendererType.SAMPLE_TYPE_KEY_BLENDING,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_SKYBOX -> {
                         Log.d(TAG, "updateTransformMatrix")
                         mRenderer.updateTransformMatrix(mXAngle, mYAngle, mCurScale, mCurScale)
