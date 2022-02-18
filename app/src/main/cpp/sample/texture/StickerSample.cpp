@@ -137,19 +137,6 @@ void StickerSample::Create() {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glBindTexture(GL_TEXTURE_2D, GL_NONE);
     }
-
-    windowsTrans.emplace_back(-0.5f, 0.0f, -0.48f);
-    windowsTrans.emplace_back(0.5f, 0.4f, 0.51f);
-    windowsTrans.emplace_back(-0.3f, 0.0f, -2.3f);
-    windowsTrans.emplace_back(0.5f, 0.8f, -0.6f);
-
-    for (auto &windowsTran : windowsTrans) {
-        GLfloat distance = std::sqrt(std::pow(windowsTran.x - 0.5f, 2.0f) +
-                                     std::pow(windowsTran.y - 1.0f, 2.0f) +
-                                     std::pow(windowsTran.z - 3.0f, 2.0f));
-        sorted[distance] = windowsTran;
-    }
-
     // 设置清除颜色
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
@@ -230,14 +217,21 @@ void StickerSample::Draw() {
     GO_CHECK_GL_ERROR()
 
     // 绘制贴纸纹理纹理
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_StickerTextureIds[0]);
-    glUniform1i(m_SamplerLoc, 0);
-    //容器 sorted 根据窗户距观察者的距离进行排序
-    for (auto it = sorted.rbegin(); it != sorted.rend(); ++it) {
-        UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 0.1, it->second, ratio);
+    for (int i = 0; i < RENDER_IMG_NUM; ++i) {
+        // 绘制贴纸纹理纹理  每张贴纸纹理不一样
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_StickerTextureIds[i]);
+        glUniform1i(m_SamplerLoc, 0);
+
+        // 每张贴纸的 都位移一点距离
+        UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 0.1,
+                        glm::vec3(0.5f + 1.0f * i,
+                                  0.5f + 1.0f * i,
+                                  0.0f),
+                        ratio);
         glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
+        GO_CHECK_GL_ERROR()
     }
 
     glBindVertexArray(0);

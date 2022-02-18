@@ -47,9 +47,6 @@ private:
     NativeImage m_StickerRenderImages[RENDER_IMG_NUM];
     glm::mat4 m_MVPMatrix;
 
-    std::vector<glm::vec3> windowsTrans;
-    std::map<GLfloat, glm::vec3> sorted;
-
     int m_AngleX;
     int m_AngleY;
     float m_ScaleX;

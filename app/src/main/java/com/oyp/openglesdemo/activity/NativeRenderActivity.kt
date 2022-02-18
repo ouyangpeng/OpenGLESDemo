@@ -143,10 +143,10 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
 
             IMyNativeRendererType.SAMPLE_TYPE_KEY_STICKER -> {
                 loadRGBAImageFromAssets("texture/yangchaoyue.png")
-                loadRGBAImageFromResWithIndex(R.mipmap.sticker_a_minute, 0)
-                loadRGBAImageFromResWithIndex(R.mipmap.sticker_a_plus, 1)
-                loadRGBAImageFromResWithIndex(R.mipmap.sticker_b_plus, 2)
-                loadRGBAImageFromResWithIndex(R.mipmap.sticker_c_plus, 3)
+                loadRGBAImageFromResWithIndex(R.mipmap.sticker_c_plus, 0)
+                loadRGBAImageFromResWithIndex(R.mipmap.sticker_b_plus, 1)
+                loadRGBAImageFromResWithIndex(R.mipmap.sticker_a_minute, 2)
+                loadRGBAImageFromResWithIndex(R.mipmap.sticker_a_plus, 3)
             }
 
             IMyNativeRendererType.SAMPLE_TYPE_KEY_AIR_HOCKEY->{
