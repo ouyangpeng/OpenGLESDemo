@@ -138,6 +138,18 @@ void StickerSample::Create() {
         glBindTexture(GL_TEXTURE_2D, GL_NONE);
     }
 
+    windowsTrans.emplace_back(-0.5f, 0.0f, -0.48f);
+    windowsTrans.emplace_back(0.5f, 0.4f, 0.51f);
+    windowsTrans.emplace_back(-0.3f, 0.0f, -2.3f);
+    windowsTrans.emplace_back(0.5f, 0.8f, -0.6f);
+
+    for (auto &windowsTran : windowsTrans) {
+        GLfloat distance = std::sqrt(std::pow(windowsTran.x - 0.5f, 2.0f) +
+                                     std::pow(windowsTran.y - 1.0f, 2.0f) +
+                                     std::pow(windowsTran.z - 3.0f, 2.0f));
+        sorted[distance] = windowsTran;
+    }
+
     // 设置清除颜色
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
@@ -171,17 +183,10 @@ void StickerSample::Draw() {
     // 清空缓冲区
     glClear(GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-//    // 启用 OpenGL ES 混合使用
-//    glEnable(GL_BLEND);
-//
-//    // 设置混合因子
-//    // 设置混合的方式，其中 sfactor 表示源因子，dfactor 表示目标因子。
-//    // GL_SRC_ALPHA 表示源因子取值为源颜色的 alpha
-//    // GL_ONE_MINUS_SRC_ALPHA 表示目标因子取值为 1- alpha（源颜色的 alpha）
-//
-//    // 操作符默认为 GL_FUNC_ADD ，即加权相加。
-//    // 混合公式变成了 源颜色向量 × alpha + 目标颜色向量 × （1- alpha）
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // 启用 OpenGL ES 混合使用
+    glEnable(GL_BLEND);
+    // 设置混合因子 混合公式变成了 源颜色向量 × alpha + 目标颜色向量 × （1- alpha）
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
     // ================================= 更新纹理 =================================
@@ -198,7 +203,8 @@ void StickerSample::Draw() {
     for (int i = 0; i < RENDER_IMG_NUM; ++i) {
         glActiveTexture(GL_TEXTURE1 + i);
         glBindTexture(GL_TEXTURE_2D, m_StickerTextureIds[i]);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_StickerRenderImages[i].width, m_StickerRenderImages[i].height,
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_StickerRenderImages[i].width,
+                     m_StickerRenderImages[i].height,
                      0, GL_RGBA,
                      GL_UNSIGNED_BYTE, m_StickerRenderImages[i].ppPlane[0]);
         glBindTexture(GL_TEXTURE_2D, GL_NONE);
@@ -211,18 +217,33 @@ void StickerSample::Draw() {
     glBindVertexArray(m_VaoId);
 
     // 旋转角度变换，更新变换矩阵
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, (float) m_Width / (float) m_Height);
+    float ratio = (float) m_Width / (float) m_Height;
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 1.0, glm::vec3(0.0f, 0.0f, 0.0f), ratio);
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
 
     // Bind the RGBA map
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
     glUniform1i(m_SamplerLoc, 0);
-
+    // 绘制原始纹理
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
+    GO_CHECK_GL_ERROR()
+
+    // 绘制贴纸纹理纹理
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_StickerTextureIds[0]);
+    glUniform1i(m_SamplerLoc, 0);
+    //容器 sorted 根据窗户距观察者的距离进行排序
+    for (auto it = sorted.rbegin(); it != sorted.rend(); ++it) {
+        UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 0.1, it->second, ratio);
+        glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
+    }
+
+    glBindVertexArray(0);
 
     // 禁用 OpenGL ES 混合使用
-//    glDisable(GL_BLEND);
+    glDisable(GL_BLEND);
 }
 
 void StickerSample::Shutdown() {
@@ -253,7 +274,7 @@ StickerSample::UpdateTransformMatrix(float rotateX, float rotateY, float scaleX,
  * @param ratio 宽高比
  * */
 void StickerSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY,
-                                        float ratio) const {
+                                    float scale, glm::vec3 transVec3, float ratio) const {
     LOGD("StickerSample::UpdateMVPMatrix angleX = %d, angleY = %d, ratio = %f", angleX, angleY,
          ratio)
     angleX = angleX % 360;
@@ -279,10 +300,10 @@ void StickerSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY
 
     // Model matrix
     glm::mat4 mModel = glm::mat4(1.0f);
-    mModel = glm::scale(mModel, glm::vec3(m_ScaleX, m_ScaleY, 1.0f));
+    mModel = glm::scale(mModel, glm::vec3(scale, scale, scale));
     mModel = glm::rotate(mModel, radiansX, glm::vec3(1.0f, 0.0f, 0.0f));
     mModel = glm::rotate(mModel, radiansY, glm::vec3(0.0f, 1.0f, 0.0f));
-    mModel = glm::translate(mModel, glm::vec3(0.0f, 0.0f, 0.0f));
+    mModel = glm::translate(mModel, transVec3);
 
     mvpMatrix = mProjection * mView * mModel;
 }

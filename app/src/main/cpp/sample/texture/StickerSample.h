@@ -31,7 +31,8 @@ public:
 
     virtual void UpdateTransformMatrix(float rotateX, float rotateY, float scaleX, float scaleY);
 
-    void UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, float ratio) const;
+    void UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY,
+                         float scale, glm::vec3 transVec3,float ratio) const;
 
 private:
     GLuint m_TextureId;
@@ -45,6 +46,9 @@ private:
     NativeImage m_RenderImage;
     NativeImage m_StickerRenderImages[RENDER_IMG_NUM];
     glm::mat4 m_MVPMatrix;
+
+    std::vector<glm::vec3> windowsTrans;
+    std::map<GLfloat, glm::vec3> sorted;
 
     int m_AngleX;
     int m_AngleY;
