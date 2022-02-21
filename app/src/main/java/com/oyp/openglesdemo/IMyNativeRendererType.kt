@@ -106,5 +106,5 @@ object IMyNativeRendererType {
 
     const val SAMPLE_TYPE_KEY_RECTANGLE                                          = SAMPLE_TYPE + 86
     const val SAMPLE_TYPE_KEY_STICKER                                            = SAMPLE_TYPE + 87
-
+    const val SAMPLE_TYPE_KEY_TIME_WATERMARK_STICKER                             = SAMPLE_TYPE + 88
 }

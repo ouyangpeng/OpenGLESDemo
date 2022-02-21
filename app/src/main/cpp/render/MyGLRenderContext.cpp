@@ -68,6 +68,7 @@
 #include <AirHockeySample.h>
 #include <NativeRectangle.h>
 #include <StickerSample.h>
+#include <TimeWatermarkStickerSample.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -337,6 +338,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
 
             case SAMPLE_TYPE_KEY_STICKER:
                 m_pCurSample = new StickerSample();
+                break;
+            case SAMPLE_TYPE_KEY_TIME_WATERMARK_STICKER:
+                m_pCurSample = new TimeWatermarkStickerSample();
                 break;
             default:
                 m_pCurSample = nullptr;

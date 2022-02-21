@@ -7,8 +7,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.*
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -25,7 +24,7 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.oyp.openglesdemo.*
-import com.oyp.openglesdemo.IMyNativeRendererType
+import com.oyp.openglesdemo.ImageFormat
 import com.oyp.openglesdemo.audio.AudioCollector
 import com.oyp.openglesdemo.render.MyNativeRenderer
 import java.io.File
@@ -134,7 +133,8 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PBO,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_TIME_TUNNEL,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO -> {
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_WATERMARK_STICKER -> {
                 // 从res目录加载图片
                 // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
                 // 从assets目录加载图片
@@ -333,7 +333,8 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_18,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_19,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_20,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_21 -> {
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TRANSITIONS_21,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_WATERMARK_STICKER-> {
                 // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
                 it.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
             }
@@ -600,18 +601,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             val bitmap: Bitmap?
             try {
                 bitmap = BitmapFactory.decodeStream(inputStream)
-                if (bitmap != null) {
-                    val bytes = bitmap.byteCount
-                    val buf = ByteBuffer.allocate(bytes)
-                    bitmap.copyPixelsToBuffer(buf)
-                    val byteArray = buf.array()
-                    it.setImageData(
-                        ImageFormat.IMAGE_FORMAT_RGBA,
-                        bitmap.width,
-                        bitmap.height,
-                        byteArray
-                    )
-                }
+                setBitmap(bitmap, it)
             } finally {
                 try {
                     inputStream.close()
@@ -651,11 +641,30 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
         }
     }
 
+    private fun setBitmap(
+        bitmap: Bitmap?,
+        renderer: MyNativeRenderer
+    ) {
+        if (bitmap != null) {
+            val bytes = bitmap.byteCount
+            val buf = ByteBuffer.allocate(bytes)
+            bitmap.copyPixelsToBuffer(buf)
+            val byteArray = buf.array()
+            renderer.setImageData(
+                ImageFormat.IMAGE_FORMAT_RGBA,
+                bitmap.width,
+                bitmap.height,
+                byteArray
+            )
+        }
+    }
+
     private fun loadRGBAImageFromResWithIndex(resId: Int, index: Int): Bitmap? {
         renderer?.let {
-            val inputStream = this.resources.openRawResource(resId)
-            val bitmap: Bitmap?
+            var inputStream: InputStream? = null
+            var bitmap: Bitmap? = null
             try {
+                inputStream = resources.openRawResource(resId)
                 bitmap = BitmapFactory.decodeStream(inputStream)
                 if (bitmap != null) {
                     val bytes = bitmap.byteCount
@@ -672,7 +681,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                 }
             } finally {
                 try {
-                    inputStream.close()
+                    inputStream?.close()
                 } catch (e: IOException) {
                     Log.e(TAG, e.stackTraceToString())
                 }
@@ -689,23 +698,12 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             try {
                 inputStream = assets.open(imagePath)
                 bitmap = BitmapFactory.decodeStream(inputStream)
-                if (bitmap != null) {
-                    val bytes = bitmap.byteCount
-                    val buf = ByteBuffer.allocate(bytes)
-                    bitmap.copyPixelsToBuffer(buf)
-                    val byteArray = buf.array()
-                    it.setImageData(
-                        ImageFormat.IMAGE_FORMAT_RGBA,
-                        bitmap.width,
-                        bitmap.height,
-                        byteArray
-                    )
-                }
+                if (bitmap != null) setBitmap(bitmap, it)
             } catch (e: IOException) {
                 Log.e(TAG, e.stackTraceToString())
             } finally {
                 try {
-                    inputStream!!.close()
+                    inputStream?.close()
                 } catch (e: IOException) {
                     Log.e(TAG, e.stackTraceToString())
                 }

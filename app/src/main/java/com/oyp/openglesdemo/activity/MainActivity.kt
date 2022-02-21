@@ -597,6 +597,13 @@ class MainActivity : Activity() {
         data.add(itemSticker)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_STICKER)
 
+        val itemTimeWatermarkSticker: MutableMap<String, Any> = HashMap()
+        itemTimeWatermarkSticker[ITEM_IMAGE] = R.mipmap.ic_time_water
+        itemTimeWatermarkSticker[ITEM_TITLE] = "时间水印贴纸"
+        itemTimeWatermarkSticker[ITEM_SUBTITLE] = "OpenGL实现一个时间水印贴纸"
+        data.add(itemTimeWatermarkSticker)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_WATERMARK_STICKER)
+
     }
 
     companion object {

@@ -2,8 +2,12 @@ package com.oyp.openglesdemo.render
 
 import android.app.Activity
 import android.content.res.AssetManager
+import android.graphics.*
 import android.opengl.GLSurfaceView
+import com.oyp.openglesdemo.CommonUtils
 import com.oyp.openglesdemo.IMyNativeRendererType
+import com.oyp.openglesdemo.ImageFormat
+import java.nio.ByteBuffer
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -91,6 +95,25 @@ class MyNativeRenderer(activity: Activity) : GLSurfaceView.Renderer, RenderActio
      * 如果什么都没画，可能会看到糟糕的闪烁效果。
      */
     override fun onDrawFrame(gl: GL10) {
+        // 提前赋值，变化水印的bitmap
+        if (mSampleType == IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_WATERMARK_STICKER) {
+            // 获取时间水印的bitmap
+            val mBitmap: Bitmap = CommonUtils.getTimeWaterBitmap()
+
+            val bytes = mBitmap.byteCount
+            val buf = ByteBuffer.allocate(bytes)
+            mBitmap.copyPixelsToBuffer(buf)
+            val byteArray = buf.array()
+            setImageDataWithIndex(
+                0,
+                ImageFormat.IMAGE_FORMAT_RGBA,
+                mBitmap.width,
+                mBitmap.height,
+                byteArray
+            )
+        }
+
+        // native层去绘制
         nativeDrawFrame()
     }
 
