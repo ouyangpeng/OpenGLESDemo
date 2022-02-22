@@ -9,7 +9,7 @@ static GLfloat vVertices[] = {
         -0.5f,  0.5f, 0.0f   // top left
 };
 
-static unsigned int indices[] = {  // note that we start from 0!
+static GLushort indices[] = {  // note that we start from 0!
         0, 1, 3,  // first Triangle
         1, 2, 3   // second Triangle
 };
@@ -51,15 +51,16 @@ void NativeRectangle::Create() {
 
     // 把顶点数组复制到缓冲中供OpenGL使用
     glBindBuffer(GL_ARRAY_BUFFER, vboIds[0]);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
-
     glEnableVertexAttribArray(VERTEX_POS_INDX);
     // 设置顶点属性指针
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+    glVertexAttribPointer(VERTEX_POS_INDX, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
+    glBindBuffer(GL_ARRAY_BUFFER, GL_NONE);
 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboIds[1]);
+    GO_CHECK_GL_ERROR()
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0);
+    glBindVertexArray(GL_NONE);
 
     // 设置清除颜色
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
@@ -72,11 +73,11 @@ void NativeRectangle::Draw() {
 
     // Bind the VAO
     glBindVertexArray(vaoId);
-
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+    GO_CHECK_GL_ERROR()
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
     GO_CHECK_GL_ERROR()
 
-    glDisableVertexAttribArray(0);
+    glBindVertexArray(0);
 }
 
 void NativeRectangle::Shutdown() {
