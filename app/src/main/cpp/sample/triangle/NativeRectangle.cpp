@@ -74,6 +74,7 @@ void NativeRectangle::Draw() {
     glBindVertexArray(vaoId);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+    GO_CHECK_GL_ERROR()
 
     glDisableVertexAttribArray(0);
 }
