@@ -1,6 +1,7 @@
 //
 // Created by OuyangPeng on 2021/12/13.
 
+#include <PointUtils.h>
 #include "TimeWatermarkStickerSample.h"
 
 static GLfloat verticesCoords[] = {
@@ -21,6 +22,13 @@ static GLushort indices[] = {
         0, 1, 2,        // 第一个三角形
         0, 2, 3         // 第二个三角形
 };
+
+//左脸颊关键点
+static float LeftCheekKeyPoint[] = {211, 363};
+//右脸颊关键点
+static float RightCheekPoint[] = {471, 365};
+//下巴关键点
+static float ChinKeyPoint[] = {336, 565};
 
 TimeWatermarkStickerSample::TimeWatermarkStickerSample() {
     m_SamplerLoc = GL_NONE;
@@ -190,9 +198,21 @@ void TimeWatermarkStickerSample::Draw() {
     glBindTexture(GL_TEXTURE_2D, m_StickerTextureId);
     glUniform1i(m_SamplerLoc, 0);
 
-    // 每张贴纸的 都位移一点距离
-    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 0.3f,
-                    glm::vec3(0.0,0.0f,0.0f),ratio);
+
+    float scaleX=(RightCheekPoint[0] - LeftCheekKeyPoint[0]) / m_RenderImage.width;
+    LOGD("TimeWatermarkStickerSample::Draw() scaleX=%f ", scaleX)
+
+    float centerPointX = (RightCheekPoint[0] + LeftCheekKeyPoint[0]) / 2 / m_RenderImage.width;
+    float centerPointY = (RightCheekPoint[1] + LeftCheekKeyPoint[1]) / 2 / m_RenderImage.height;
+    float targetPointY = centerPointY - (ChinKeyPoint[1] - centerPointY ) * 1.2 ;
+    float offsetTargetPointY =  (m_RenderImage.height / 2 - targetPointY) / (m_RenderImage.height / 2);
+    LOGD("TimeWatermarkStickerSample::Draw()  centerPointX=%f , centerPointY = %f , "
+         "targetPointY = %f, offsetTargetPointY = %f", centerPointX,centerPointY,targetPointY,offsetTargetPointY)
+
+    //贴纸位移一点距离
+    UpdateMVPMatrix(m_MVPMatrix, m_AngleX, m_AngleY, scaleX,
+                    glm::vec3(0.0f,offsetTargetPointY,0.0f),ratio);
+
     glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
     GO_CHECK_GL_ERROR()
@@ -254,7 +274,7 @@ void TimeWatermarkStickerSample::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angle
     // View matrix
     // 参考链接 https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/ 去理解摄像机
     glm::mat4 mView = glm::lookAt(
-            glm::vec3(0, 0, 2), // Camera is at (0,0,1), in World Space
+            glm::vec3(0, 0, 4), // Camera is at (0,0,1), in World Space
             glm::vec3(0, 0, 0), // and looks at the origin
             glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
     );
