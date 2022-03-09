@@ -126,6 +126,7 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_UBO,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXT_RENDER,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_3D_MODEL,
+                    IMyNativeRendererType.SAMPLE_TYPE_KEY_3D_MODEL2,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_BLENDING,
                     IMyNativeRendererType.SAMPLE_TYPE_KEY_SKYBOX -> {
                         Log.d(TAG, "updateTransformMatrix")
@@ -180,6 +181,7 @@ class MyCustomerGLSurfaceView : GLSurfaceView, ScaleGestureDetector.OnScaleGestu
             IMyNativeRendererType.SAMPLE_TYPE_KEY_BASE_LIGHT,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXT_RENDER,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_3D_MODEL,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_3D_MODEL2,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_INSTANCING -> {
                 val preSpan = detector!!.previousSpan
                 val curSpan = detector.currentSpan

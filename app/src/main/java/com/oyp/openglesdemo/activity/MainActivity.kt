@@ -575,6 +575,13 @@ class MainActivity : Activity() {
         data.add(item3DModel)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_3D_MODEL)
 
+        val item3DModel2: MutableMap<String, Any?> = HashMap()
+        item3DModel2[ITEM_IMAGE] = R.mipmap.ic_model_3d_2
+        item3DModel2[ITEM_TITLE] = "展示 3D模型2"
+        item3DModel2[ITEM_SUBTITLE] = "学习如何使用模型加载库Assimp来加载3D模型"
+        data.add(item3DModel2)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_3D_MODEL2)
+
 
         val itemAirHockey: MutableMap<String, Any?> = HashMap()
         itemAirHockey[ITEM_IMAGE] = R.mipmap.ic_airhockey

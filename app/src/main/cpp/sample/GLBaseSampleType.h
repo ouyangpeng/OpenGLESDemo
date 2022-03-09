@@ -106,4 +106,8 @@
 #define SAMPLE_TYPE_KEY_STICKER                                     SAMPLE_TYPE + 87
 #define SAMPLE_TYPE_KEY_TIME_WATERMARK_STICKER                      SAMPLE_TYPE + 88
 
+#define SAMPLE_TYPE_KEY_3D_MODEL2                                   SAMPLE_TYPE + 89
+
+
+
 #endif //OPENGLESDEMO_GLBASESAMPLETYPE_H
