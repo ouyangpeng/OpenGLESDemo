@@ -13,6 +13,8 @@
 
 using namespace std;
 
+// 参考链接： https://learnopengl-cn.github.io/03%20Model%20Loading/02%20Mesh/
+
 struct Vertex {
     // position  位置向量
     glm::vec3 Position;
@@ -31,6 +33,7 @@ struct Texture {
     unsigned int id;
     //纹理类型（diffuse纹理或者specular纹理）
     string type;
+    // 我们储存纹理的路径用于与其它纹理进行比较
     string path;
 };
 
@@ -45,7 +48,6 @@ public:
     vector<unsigned int> indices;
     //纹理
     vector<Texture> textures;
-    unsigned int VAO;
 
     /*  Functions  */
     // constructor
@@ -66,10 +68,30 @@ public:
         unsigned int specularNr = 1;
         unsigned int normalNr = 1;
         unsigned int heightNr = 1;
+
+        /**
+         * 我们需要为Mesh类定义最后一个函数，它的Draw函数。在真正渲染这个网格之前，我们需要在调用glDrawElements函数之前先绑定相应的纹理。
+         * 然而，这实际上有些困难，我们一开始并不知道这个网格（如果有的话）有多少纹理、纹理是什么类型的。
+         * 所以我们该如何在着色器中设置纹理单元和采样器呢？
+           为了解决这个问题，我们需要设定一个命名标准：
+           每个漫反射纹理被命名为texture_diffuseN，每个镜面光纹理应该被命名为texture_specularN，其中N的范围是1到纹理采样器最大允许的数字。
+           比如说我们对某一个网格有3个漫反射纹理，2个镜面光纹理，它们的纹理采样器应该之后会被调用：
+                    uniform sampler2D texture_diffuse1;
+                    uniform sampler2D texture_diffuse2;
+                    uniform sampler2D texture_diffuse3;
+                    uniform sampler2D texture_specular1;
+                    uniform sampler2D texture_specular2;
+
+          根据这个标准，我们可以在着色器中定义任意需要数量的纹理采样器，如果一个网格真的包含了（这么多）纹理，我们也能知道它们的名字是什么。
+          根据这个标准，我们也能在一个网格中处理任意数量的纹理，开发者也可以自由选择需要使用的数量，他只需要定义正确的采样器就可以了
+          （虽然定义少的话会有点浪费绑定和uniform调用）。
+         */
+
         // 遍历各个纹理，根据纹理的数量和类型确定采样器变量名
         for (unsigned int i = 0; i < textures.size(); i++) {
-            glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+            glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding  在绑定之前激活相应的纹理单元
             // retrieve texture number (the N in diffuse_textureN)
+            // 获取纹理序号（diffuse_textureN 中的 N）
             string number;
             string name = textures[i].type;
             if (name == "texture_diffuse")
@@ -82,6 +104,8 @@ public:
                 number = std::to_string(heightNr++); // transfer unsigned int to stream
 
             // now set the sampler to the correct texture unit
+            // 首先计算了每个纹理类型的N-分量，并将其拼接到纹理类型字符串上，来获取对应的uniform名称。
+            // 接下来我们查找对应的采样器，将它的位置值设置为当前激活的纹理单元，并绑定纹理。这也是我们在Draw函数中需要着色器的原因。
             glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
             // and finally bind the texture
             glBindTexture(GL_TEXTURE_2D, textures[i].id);
@@ -109,9 +133,9 @@ public:
 
 private:
     /*  Render data  */
-    unsigned int VBO, EBO;
+    unsigned int VAO,VBO, EBO;
 
-    /*  Functions    */
+    /*  Functions   初始化 */
     // initializes all the buffer objects/arrays
     void setupMesh() {
         // create buffers/arrays
