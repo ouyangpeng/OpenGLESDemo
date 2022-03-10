@@ -55,5 +55,8 @@ private:
 
     GLuint m_FrameProgramObj;
 
+    void drawContainer(float ratio);
+
+    void drawScaledUpContainer(float ratio);
 };
 #endif //OPENGLESDEMO_STENCILTESTINGSAMPLE_H

@@ -5,12 +5,27 @@
  * 参考链接：NDK OpenGL ES 3.0 开发（十一）：模板测试   https://blog.csdn.net/Kennethdroid/article/details/102533260
  * 也可以参考《OPENGL ES 3.0编程指南》 第11章第2节第2小节
  *
+ * https://learnopengl-cn.github.io/04%20Advanced%20OpenGL/02%20Stencil%20testing/
+ *
   模板测试与深度测试类似，主要作用是利用模板缓冲区(Stencil Buffer)所保存的模板值决定当前片段是否被丢弃，且发生于深度测试之前。
   模板测试一般步骤：
         1. 启用模板测试，开启模板缓冲写入glStencilMask(0xFF)；
         2. 执行渲染操作，更新模板缓冲区；
         3. 关闭模板缓冲写入glStencilMask(0x00)；
         4. 执行渲染操作，利用模板缓冲区所保存的模板值确定是否丢弃特定片段。
+
+
+物体轮廓所能做的事情正如它名字所描述的那样。我们将会为每个（或者一个）物体在它的周围创建一个很小的有色边框。
+当你想要在策略游戏中选中一个单位进行操作的，想要告诉玩家选中的是哪个单位的时候，这个效果就非常有用了。
+
+为物体创建轮廓的步骤如下：
+1. 在绘制（需要添加轮廓的）物体之前，将模板函数设置为GL_ALWAYS，每当物体的片段被渲染时，将模板缓冲更新为1。
+2. 渲染物体。
+3. 禁用模板写入以及深度测试。
+4. 将每个物体缩放一点点。
+5. 使用一个不同的片段着色器，输出一个单独的（边框）颜色。
+6. 再次绘制物体，但只在它们片段的模板值不等于1时才绘制。
+7. 再次启用模板写入和深度测试。
  */
 
 #include "StencilTestingSample.h"
@@ -193,14 +208,18 @@ void StencilTestingSample::Draw() {
     GO_CHECK_GL_ERROR()
 
     // ======================================开始模板测试============================================================
-
+    // 和深度测试一样，我们对模板缓冲应该通过还是失败，以及它应该如何影响模板缓冲，也是有一定控制的。
+    // 一共有两个函数能够用来配置模板测试：glStencilFunc和glStencilOp。
+    //
+    // glStencilFunc(GLenum func, GLint ref, GLuint mask)一共包含三个参数：
     //  func：设置模板测试操作。这个测试操作应用到已经储存的模板值和 glStencilFunc的 ref 值上，可用的选项是：
     //          GL_NEVER、GL_LEQUAL、GL_GREATER、GL_GEQUAL、GL_EQUAL、GL_NOTEQUAL、GL_ALWAYS ;
     //  ref：指定模板测试的引用值。模板缓冲区中的模板值会与这个值对比;
     //  mask：指定一个遮罩，在模板测试对比引用值和储存的模板值前，对它们进行按位与（and）操作，初始设置为 1 。
-    glStencilFunc(GL_ALWAYS, 1, 0xFF);
+    glStencilFunc(GL_ALWAYS, 1, 0xFF);  // 所有的片段都应该更新模板缓冲
     GO_CHECK_GL_ERROR()
 
+    // 但是glStencilFunc仅仅描述了OpenGL应该对模板缓冲内容做什么，而不是我们应该如何更新缓冲。这就需要glStencilOp这个函数了。
     // glStencilOp 主要用于控制更新模板缓冲区的方式。
     //      fail： 如果模板测试失败将如何更新模板值;
     //      zfail： 如果模板测试通过，但是深度测试失败时将如何更新模板值;
@@ -219,13 +238,61 @@ void StencilTestingSample::Draw() {
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
     GO_CHECK_GL_ERROR()
 
+//    glStencilMask允许我们设置一个位掩码(Bitmask)，它会与将要写入缓冲的模板值进行与(AND)运算。
+//    默认情况下设置的位掩码所有位都为1，不影响输出，
+//    但如果我们将它设置为0x00，写入缓冲的所有模板值最后都会变成0.
+//    这与深度测试中的glDepthMask(GL_FALSE)是等价的。
+//
+//    glStencilMask(0xFF); // 每一位写入模板缓冲时都保持原样
+//    glStencilMask(0x00); // 每一位在写入模板缓冲时都会变成0（禁用写入）
+
     // 0xFF == 0b11111111
     // 模板值与它进行按位与运算结果是模板值，模板缓冲可写
-    glStencilMask(0xFF);
+    glStencilMask(0xFF);    // 启用模板缓冲写入
     GO_CHECK_GL_ERROR()
 
-    // 下面开始绘制物体
+    // ================================下面开始绘制物体============================================
+    drawContainer(ratio);
+    // ====================================== 结束绘制物体============================================
 
+    // 通过使用GL_ALWAYS模板测试函数，我们保证了箱子的每个片段都会将模板缓冲的模板值更新为1。
+    // 因为片段永远会通过模板测试，在绘制片段的地方，模板缓冲会被更新为参考值。
+    // 现在模板缓冲在箱子被绘制的地方都更新为1了，我们将要绘制放大的箱子，但这次要禁用模板缓冲的写入
+    // 我们将模板函数设置为GL_NOTEQUAL，它会保证我们只绘制箱子上模板值不为1的部分，
+    // 即只绘制箱子在之前绘制的箱子之外的部分。注意我们也禁用了深度测试，让放大的箱子，即边框，不会被地板所覆盖。
+    glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+    //禁用模板写入和深度测试
+    // 0x00 == 0b00000000 == 0
+    // 模板值与它进行按位与运算结果是0，模板缓冲不可写
+    glStencilMask(0x00);    // 禁止模板缓冲的写入
+    glDisable(GL_DEPTH_TEST);
+    // ======================================结束模板测试============================================================
+
+    // ================================下面开始绘制物体轮廓 绘制红线============================================
+    drawScaledUpContainer(ratio);
+    // ====================================== 结束绘制物体轮廓 绘制红线============================================
+    // 记得要在完成之后重新启用深度缓冲。
+    //开启模板写入和深度测试
+    glStencilMask(0xFF);
+    glEnable(GL_DEPTH_TEST);
+}
+
+void StencilTestingSample::drawScaledUpContainer(float ratio){
+    glBindVertexArray(m_VaoId);
+    glUseProgram(m_FrameProgramObj);
+    //放大 1.05 倍
+    UpdateMatrix(m_MVPMatrix, m_ModelMatrix, m_AngleX, m_AngleY, 1.05,
+                 glm::vec3(0.0f, 0.0f, 0.0f), ratio);
+    //glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
+    GLUtils::setMat4(m_FrameProgramObj, "u_MVPMatrix", m_MVPMatrix);
+    //glUniformMatrix4fv(m_ModelMatrixLoc, 1, GL_FALSE, &m_ModelMatrix[0][0]);
+    GLUtils::setMat4(m_FrameProgramObj, "u_ModelMatrix", m_ModelMatrix);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    GO_CHECK_GL_ERROR()
+    glBindVertexArray(0);
+}
+
+void StencilTestingSample::drawContainer(float ratio) {
     glBindVertexArray(m_VaoId);
     glUseProgram(m_ProgramObj);
     glUniform3f(m_ViewPosLoc, 0.0f, 0.0f, 3.0f);
@@ -240,8 +307,8 @@ void StencilTestingSample::Draw() {
     glUniform3f(m_LightDirection, 0.0f, 0.0f, -1.0f);
 
     // 用于计算边缘的过度，cutOff 表示内切光角，outerCutOff 表示外切光角
-    glUniform1f(m_LightCutOff, glm::cos(glm::radians(10.5f)));
-    glUniform1f(m_LightOuterCutOff,glm::cos(glm::radians(11.5f)));
+    glUniform1f(m_LightCutOff, cos(glm::radians(10.5f)));
+    glUniform1f(m_LightOuterCutOff, cos(glm::radians(11.5f)));
 
     // 衰减系数,常数项 constant，一次项 linear 和二次项 quadratic。
     glUniform1f(m_LightConstant, 1.0f);
@@ -255,35 +322,6 @@ void StencilTestingSample::Draw() {
     glDrawArrays(GL_TRIANGLES, 0, 36);
     GO_CHECK_GL_ERROR()
     glBindVertexArray(0);
-
-    glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-
-
-    //禁用模板写入和深度测试
-    // 0x00 == 0b00000000 == 0
-    // 模板值与它进行按位与运算结果是0，模板缓冲不可写
-    glStencilMask(0x00);
-    glDisable(GL_DEPTH_TEST);
-    // ======================================结束模板测试============================================================
-
-
-    //绘制物体轮廓   绘制红线
-    glBindVertexArray(m_VaoId);
-    glUseProgram(m_FrameProgramObj);
-    //放大 1.05 倍
-    UpdateMatrix(m_MVPMatrix, m_ModelMatrix, m_AngleX, m_AngleY, 1.05,
-                 glm::vec3(0.0f, 0.0f, 0.0f), ratio);
-    //glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
-    GLUtils::setMat4(m_FrameProgramObj, "u_MVPMatrix", m_MVPMatrix);
-    //glUniformMatrix4fv(m_ModelMatrixLoc, 1, GL_FALSE, &m_ModelMatrix[0][0]);
-    GLUtils::setMat4(m_FrameProgramObj, "u_ModelMatrix", m_ModelMatrix);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    GO_CHECK_GL_ERROR()
-    glBindVertexArray(0);
-
-    //开启模板写入和深度测试
-    glStencilMask(0xFF);
-    glEnable(GL_DEPTH_TEST);
 }
 
 void StencilTestingSample::Shutdown() {
