@@ -133,7 +133,13 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TEXTURE_MAP,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PBO,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_SHADER_TOY_TIME_TUNNEL,
-            IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO,
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_FBO -> {
+                // 从res目录加载图片
+                // loadRGBAImageFromRes(R.mipmap.yangchaoyue)
+                // 从assets目录加载图片
+                loadRGBAImageFromAssets("texture/yangchaoyue.png")
+            }
+
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_WATERMARK_STICKER -> {
                 loadRGBAImageFromRes(R.mipmap.yifei)
             }

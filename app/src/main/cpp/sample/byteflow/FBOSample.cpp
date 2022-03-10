@@ -243,6 +243,7 @@ void FBOSample::Shutdown() {
 
     if (m_FboId)
     {
+        // 在完成所有的帧缓冲操作之后，不要忘记删除这个帧缓冲对象：
         glDeleteFramebuffers(1, &m_FboId);
     }
 
@@ -264,6 +265,13 @@ bool FBOSample::CreateFrameBufferObj()
     // 创建并初始化 FBO
     glGenFramebuffers(1, &m_FboId);
     // 绑定 FBO  : 设置当前帧缓冲区对象
+
+   // 在绑定到GL_FRAMEBUFFER目标之后，所有的读取和写入帧缓冲的操作将会影响当前绑定的帧缓冲。
+   // 我们也可以使用GL_READ_FRAMEBUFFER或GL_DRAW_FRAMEBUFFER，将一个帧缓冲分别绑定到读取目标或写入目标。
+   // 绑定到GL_READ_FRAMEBUFFER的帧缓冲将会使用在所有像是glReadPixels的读取操作中，
+   // 而绑定到GL_DRAW_FRAMEBUFFER的帧缓冲将会被用作渲染、清除等写入操作的目标。
+   // 大部分情况你都不需要区分它们，通常都会使用GL_FRAMEBUFFER，绑定到两个上。
+
     glBindFramebuffer(GL_FRAMEBUFFER, m_FboId);
     // 绑定 FBO 纹理
     glBindTexture(GL_TEXTURE_2D, m_FboTextureId);
@@ -277,17 +285,44 @@ bool FBOSample::CreateFrameBufferObj()
             level：多级渐远纹理的级别。我们将它保留为0。
      */
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_FboTextureId, 0);
+    //    除了颜色附件之外，我们还可以附加一个深度和模板缓冲纹理到帧缓冲对象中。
+    //    要附加深度缓冲的话，我们将附件类型设置为GL_DEPTH_ATTACHMENT。
+    //    注意纹理的格式(Format)和内部格式(Internalformat)类型将变为GL_DEPTH_COMPONENT，来反映深度缓冲的储存格式。
+    //    要附加模板缓冲的话，你要将第二个参数设置为GL_STENCIL_ATTACHMENT，并将纹理的格式设定为GL_STENCIL_INDEX。
+
+    //    也可以将深度缓冲和模板缓冲附加为一个单独的纹理。纹理的每32位数值将包含24位的深度信息和8位的模板信息。
+    //    要将深度和模板缓冲附加为一个纹理的话，我们使用GL_DEPTH_STENCIL_ATTACHMENT类型，并配置纹理的格式，
+    //    让它包含合并的深度和模板值。将一个深度和模板缓冲附加为一个纹理到帧缓冲的例子可以在下面找到:
+    //    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, 800, 600, 0,GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+    //    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
+
+
     // 分配内存大小
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
                  m_RenderImage.width, m_RenderImage.height,
                  0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
     // 检查帧缓冲FBO是否是完整的，如果不是，我们将打印错误信息。
+
+    //一个完整的帧缓冲需要满足以下的条件：
+    //    - 附加至少一个缓冲（颜色、深度或模板缓冲）。
+    //    - 至少有一个颜色附件(Attachment)。
+    //    - 所有的附件都必须是完整的（保留了内存）。
+    //    - 每个缓冲都应该有相同的样本数。
+    // 从上面的条件中可以知道，我们需要为帧缓冲创建一些附件，并将附件附加到帧缓冲上。
+    // 在完成所有的条件之后，我们可以以GL_FRAMEBUFFER为参数调用glCheckFramebufferStatus，检查帧缓冲是否完整。
+    // 它将会检测当前绑定的帧缓冲，并返回规范中这些值的其中之一。如果它返回的是GL_FRAMEBUFFER_COMPLETE，帧缓冲就是完整的了。
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER)!= GL_FRAMEBUFFER_COMPLETE) {
         LOGD("FBOSample::CreateFrameBufferObj glCheckFramebufferStatus status != GL_FRAMEBUFFER_COMPLETE");
         return false;
     }
     // 解绑纹理
     glBindTexture(GL_TEXTURE_2D, GL_NONE);
+
+    // 之后所有的渲染操作将会渲染到当前绑定帧缓冲的附件中。
+    // 由于我们的帧缓冲不是默认帧缓冲，渲染指令将不会对窗口的视觉输出有任何影响。
+    // 出于这个原因，渲染到一个不同的帧缓冲被叫做离屏渲染(Off-screen Rendering)。
+    // 要保证所有的渲染操作在主窗口中有视觉效果，我们需要再次激活默认帧缓冲，将它绑定到0。
+
     // 解绑 FBO   记得要解绑帧缓冲，保证我们不会不小心渲染到错误的帧缓冲上。
     glBindFramebuffer(GL_FRAMEBUFFER, GL_NONE);
     return true;
