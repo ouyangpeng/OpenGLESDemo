@@ -5,6 +5,7 @@
 // 可以参考链接：
 // https://www.cnblogs.com/alps/p/7112872.html
 // https://blog.csdn.net/huangzhipeng/article/details/7957233
+// https://learnopengl-cn.github.io/04%20Advanced%20OpenGL/04%20Face%20culling/
 
 #include <cstdlib>
 #include "SimpleTextureCubeMap.h"
@@ -44,8 +45,20 @@ void SimpleTextureCubeMap::Draw() {
     // Clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glCullFace(GL_BACK);
+    // 启用面剔除
     glEnable(GL_CULL_FACE);
+
+//    glCullFace函数有三个可用的选项：
+//
+//    GL_BACK：只剔除背向面。
+//    GL_FRONT：只剔除正向面。
+//    GL_FRONT_AND_BACK：剔除正向面和背向面。
+    glCullFace(GL_BACK);
+
+    // 除了需要剔除的面之外，我们也可以通过调用glFrontFace，告诉OpenGL我们希望将顺时针的面（而不是逆时针的面）定义为正向面：
+    // 默认值是GL_CCW，它代表的是逆时针的环绕顺序，
+    // 另一个选项是GL_CW，它（显然）代表的是顺时针顺序。
+    glFrontFace(GL_CCW);
 
     // Use the program object
     glUseProgram(m_ProgramObj);
