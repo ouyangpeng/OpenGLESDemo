@@ -10,11 +10,20 @@
 // Android OpenGLES2.0（十八）——轻松搞定Blend颜色混合
 // https://blog.csdn.net/junzia/article/details/76580379
 
+// https://learnopengl-cn.github.io/04%20Advanced%20OpenGL/03%20Blending/
+
 // OpenGL ES 混合
 // OpenGL ES 混合本质上是将 2 个片元的颜色进行调和，产生一个新的颜色。
 // OpenGL ES 混合发生在片元通过各项测试之后，
 // 准备进入帧缓冲区的片元和原有的片元按照特定比例加权计算出最终片元的颜色值，
 // 不再是新（源）片元直接覆盖缓冲区中的（目标）片元。
+
+
+//要想让混合在多个物体上工作，我们需要最先绘制最远的物体，最后绘制最近的物体。普通不需要混合的物体仍然可以使用深度缓冲正常绘制，所以它们不需要排序。但我们仍要保证它们在绘制（排序的）透明物体之前已经绘制完毕了。当绘制一个有不透明和透明物体的场景的时候，大体的原则如下：
+//1. 先绘制所有不透明的物体。
+//2. 对所有透明的物体排序。
+//3. 按顺序绘制所有透明的物体。
+
 
 #include "BlendingSample.h"
 
@@ -61,23 +70,14 @@ void BlendingSample::Create() {
     m_MVPMatLoc = glGetUniformLocation(m_ProgramObj, "u_MVPMatrix");
     GO_CHECK_GL_ERROR()
 
-
-    // Generate VBO Ids and load the VBOs with data
-    glGenBuffers(3, m_VboIds);
-    glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(boxVertices), boxVertices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[1]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(flatVertices), flatVertices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[2]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(windowVertices), windowVertices, GL_STATIC_DRAW);
-
     // Generate VAO Ids
     glGenVertexArrays(3, m_VaoIds);
+    // Generate VBO Ids and load the VBOs with data
+    glGenBuffers(3, m_VboIds);
 
     glBindVertexArray(m_VaoIds[0]);
     glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[0]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(boxVertices), boxVertices, GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), nullptr);
     glEnableVertexAttribArray(1);
@@ -88,6 +88,7 @@ void BlendingSample::Create() {
 
     glBindVertexArray(m_VaoIds[1]);
     glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[1]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(flatVertices), flatVertices, GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), nullptr);
     glEnableVertexAttribArray(1);
@@ -98,6 +99,7 @@ void BlendingSample::Create() {
 
     glBindVertexArray(m_VaoIds[2]);
     glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[2]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(windowVertices), windowVertices, GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), nullptr);
     glEnableVertexAttribArray(1);
@@ -116,16 +118,32 @@ void BlendingSample::Create() {
         glBindTexture(GL_TEXTURE_2D, GL_NONE);
     }
 
-    windowsTrans.emplace_back(-1.5f, 0.0f, -0.48f);
-    windowsTrans.emplace_back(1.5f, 0.0f, 0.51f);
-    windowsTrans.emplace_back(0.0f, 0.0f, 0.7f);
-    windowsTrans.emplace_back(-0.3f, 0.0f, -2.3f);
-    windowsTrans.emplace_back(0.5f, 0.0f, -0.6f);
+//    当绘制一个有不透明和透明物体的场景的时候，大体的原则如下：
+//    1. 先绘制所有不透明的物体。
+//    2. 对所有透明的物体排序。
+//    3. 按顺序绘制所有透明的物体。
 
+//    排序透明物体的一种方法是，从观察者视角获取物体的距离。
+//    接下来我们把距离和它对应的位置向量存储到一个STL库的map数据结构中。
+//    map会自动根据键值(Key)对它的值排序，所以只要我们添加了所有的位置，
+//    并以它的距离作为键，它们就会自动根据距离值排序了。
+
+    // transparent window locations
+    // --------------------------------
+    std::vector<glm::vec3> windowsTrans
+            {
+                    glm::vec3(-1.5f, 0.0f, -0.48f),
+                    glm::vec3( 1.5f, 0.0f, 0.51f),
+                    glm::vec3( 0.0f, 0.0f, 0.7f),
+                    glm::vec3(-0.3f, 0.0f, -2.3f),
+                    glm::vec3( 0.5f, 0.0f, -0.6f)
+            };
+    // sort the transparent windows before rendering
+    // ---------------------------------------------
+    // 结果就是一个排序后的容器对象，它根据distance键值从低到高储存了每个窗户的位置。
     for (auto &windowsTran : windowsTrans) {
-        GLfloat distance = std::sqrt(std::pow(windowsTran.x - 0.5f, 2.0f) +
-                                     std::pow(windowsTran.y - 1.0f, 2.0f) +
-                                     std::pow(windowsTran.z - 3.0f, 2.0f));
+        glm::vec3 position = glm::vec3(2.0f,2.0f,2.0f);
+        GLfloat distance = glm::length(position - windowsTran);
         sorted[distance] = windowsTran;
     }
 }
@@ -156,7 +174,6 @@ void BlendingSample::Draw() {
     glEnable(GL_DEPTH_TEST);
     // 启用 OpenGL ES 混合使用
     glEnable(GL_BLEND);
-
     // 设置混合因子
     // 设置混合的方式，其中 sfactor 表示源因子，dfactor 表示目标因子。
     // GL_SRC_ALPHA 表示源因子取值为源颜色的 alpha
@@ -206,7 +223,11 @@ void BlendingSample::Draw() {
     glUniform1i(m_SamplerLoc, 0);
 
 
-    //容器 sorted 根据窗户距观察者的距离进行排序
+    // 容器 sorted 根据窗户距观察者的距离进行排序
+    // 之后，这次在渲染的时候，我们将以逆序（从远到近）从map中获取值，之后以正确的顺序绘制对应的窗户
+    // 我们使用了map的一个反向迭代器(Reverse Iterator)，反向遍历其中的条目，
+    // 并将每个窗户四边形位移到对应的窗户位置上。
+    // 这是排序透明物体的一个比较简单的实现，它能够修复之前的问题，现在场景看起来是这样的：
     for (auto it = sorted.rbegin(); it != sorted.rend(); ++it) {
         UpdateMatrix(m_MVPMatrix, m_AngleX, m_AngleY, 1.0, it->second, ratio);
         glUniformMatrix4fv(m_MVPMatLoc, 1, GL_FALSE, &m_MVPMatrix[0][0]);
