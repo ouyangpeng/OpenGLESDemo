@@ -76,8 +76,12 @@ void GreenScreenMatting::Create() {
     VERTEX_SHADER = GLUtils::openTextFile(
             "vertex/vertex_shader_coord_system.glsl");
     // 片段着色器
+//    FRAGMENT_SHADER = GLUtils::openTextFile(
+//            "fragment/fragment_shader_green_screen_matting.glsl");
+
     FRAGMENT_SHADER = GLUtils::openTextFile(
-            "fragment/fragment_shader_green_screen_matting.glsl");
+            "fragment/fragment_shader_green_screen_matting2.glsl");
+
     m_ProgramObj = GLUtils::createProgram(&VERTEX_SHADER, &FRAGMENT_SHADER);
     if (m_ProgramObj == GL_NONE) {
         LOGE("GreenScreenMatting::Init m_ProgramObj == GL_NONE")

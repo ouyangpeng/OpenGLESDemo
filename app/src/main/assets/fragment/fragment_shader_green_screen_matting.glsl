@@ -1,6 +1,4 @@
 #version 300 es
-#extension GL_OES_EGL_image_external: require
-
 // 参考 https://www.jianshu.com/p/159744875386
 
 precision mediump float;
