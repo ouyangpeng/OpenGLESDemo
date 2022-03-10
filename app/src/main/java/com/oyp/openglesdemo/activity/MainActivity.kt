@@ -611,6 +611,13 @@ class MainActivity : Activity() {
         data.add(itemTimeWatermarkSticker)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_WATERMARK_STICKER)
 
+
+        val itemGreenScreenMatting: MutableMap<String, Any> = HashMap()
+        itemGreenScreenMatting[ITEM_IMAGE] = R.mipmap.ic_green_screen
+        itemGreenScreenMatting[ITEM_TITLE] = "绿幕抠图"
+        itemGreenScreenMatting[ITEM_SUBTITLE] = "OpenGL实现一个绿幕抠图效果"
+        data.add(itemGreenScreenMatting)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_GREEN_SCREEN_MATTING)
     }
 
     companion object {

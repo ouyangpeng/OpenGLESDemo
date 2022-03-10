@@ -110,4 +110,5 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_TIME_WATERMARK_STICKER                             = SAMPLE_TYPE + 88
 
     const val SAMPLE_TYPE_KEY_3D_MODEL2                                          = SAMPLE_TYPE + 89
+    const val SAMPLE_TYPE_KEY_GREEN_SCREEN_MATTING                               = SAMPLE_TYPE + 90
 }

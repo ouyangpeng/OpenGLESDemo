@@ -70,6 +70,7 @@
 #include <StickerSample.h>
 #include <TimeWatermarkStickerSample.h>
 #include <Model3DSample2.h>
+#include <GreenScreenMatting.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -345,6 +346,10 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_TIME_WATERMARK_STICKER:
                 m_pCurSample = new TimeWatermarkStickerSample();
+                break;
+
+            case SAMPLE_TYPE_KEY_GREEN_SCREEN_MATTING:
+                m_pCurSample = new GreenScreenMatting();
                 break;
             default:
                 m_pCurSample = nullptr;

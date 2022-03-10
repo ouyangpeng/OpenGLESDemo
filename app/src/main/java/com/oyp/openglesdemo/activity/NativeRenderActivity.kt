@@ -144,6 +144,10 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                 loadRGBAImageFromRes(R.mipmap.yifei)
             }
 
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_GREEN_SCREEN_MATTING ->{
+                loadRGBAImageFromRes(R.mipmap.green_screen)
+            }
+
             IMyNativeRendererType.SAMPLE_TYPE_KEY_STICKER -> {
                 loadRGBAImageFromAssets("texture/yangchaoyue.png")
                 loadRGBAImageFromResWithIndex(R.mipmap.sticker_c_plus, 0)
