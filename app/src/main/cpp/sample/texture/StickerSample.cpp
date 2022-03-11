@@ -128,7 +128,7 @@ void StickerSample::Create() {
     glBindTexture(GL_TEXTURE_2D, GL_NONE);
 
     // 贴图纹理
-    glGenTextures(RENDER_IMG_NUM, m_StickerTextureIds);
+    glGenTextures(STICKER_RENDER_IMG_NUM, m_StickerTextureIds);
     for (unsigned int m_StickerTextureId : m_StickerTextureIds) {
         glBindTexture(GL_TEXTURE_2D, m_StickerTextureId);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -187,7 +187,7 @@ void StickerSample::Draw() {
     glBindTexture(GL_TEXTURE_2D, GL_NONE);
 
     // 更新贴纸纹理纹理
-    for (int i = 0; i < RENDER_IMG_NUM; ++i) {
+    for (int i = 0; i < STICKER_RENDER_IMG_NUM; ++i) {
         glActiveTexture(GL_TEXTURE1 + i);
         glBindTexture(GL_TEXTURE_2D, m_StickerTextureIds[i]);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_StickerRenderImages[i].width,
@@ -217,7 +217,7 @@ void StickerSample::Draw() {
     GO_CHECK_GL_ERROR()
 
     // 绘制贴纸纹理纹理
-    for (int i = 0; i < RENDER_IMG_NUM; ++i) {
+    for (int i = 0; i < STICKER_RENDER_IMG_NUM; ++i) {
         // 绘制贴纸纹理纹理  每张贴纸纹理不一样
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, m_StickerTextureIds[i]);

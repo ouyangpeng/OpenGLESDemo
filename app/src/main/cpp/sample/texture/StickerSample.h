@@ -10,7 +10,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <GLBaseSample.h>
 
-#define RENDER_IMG_NUM 4
+#define STICKER_RENDER_IMG_NUM 4
 
 class StickerSample : public GLBaseSample {
 
@@ -36,7 +36,7 @@ public:
 
 private:
     GLuint m_TextureId;
-    GLuint m_StickerTextureIds[RENDER_IMG_NUM];
+    GLuint m_StickerTextureIds[STICKER_RENDER_IMG_NUM];
     GLint m_SamplerLoc;
     GLint m_MVPMatLoc;
 
@@ -44,7 +44,7 @@ private:
     GLuint m_VboIds[3];
 
     NativeImage m_RenderImage;
-    NativeImage m_StickerRenderImages[RENDER_IMG_NUM];
+    NativeImage m_StickerRenderImages[STICKER_RENDER_IMG_NUM];
     glm::mat4 m_MVPMatrix;
 
     int m_AngleX;
