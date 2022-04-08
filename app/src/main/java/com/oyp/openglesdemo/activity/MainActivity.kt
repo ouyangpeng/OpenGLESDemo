@@ -327,6 +327,15 @@ class MainActivity : Activity() {
         data.add(itemCoordSystem)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_COORD_SYSTEM)
 
+
+        val itemRotateTexture: MutableMap<String, Any> = HashMap()
+        itemRotateTexture[ITEM_IMAGE] = R.mipmap.ic_luna
+        itemRotateTexture[ITEM_TITLE] = "对纹理旋转"
+        itemRotateTexture[ITEM_SUBTITLE] = "旋转图片，保证旋转的时候图像不变形"
+        data.add(itemRotateTexture)
+        typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_ROTATE_TEXTURE)
+
+
         val itemBasicLight: MutableMap<String, Any> = HashMap()
         itemBasicLight[ITEM_IMAGE] = R.mipmap.ic_basic_lightings
         itemBasicLight[ITEM_TITLE] = "学习光照基础"

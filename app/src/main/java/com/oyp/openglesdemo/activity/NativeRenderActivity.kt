@@ -140,6 +140,11 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
                 loadRGBAImageFromAssets("texture/yangchaoyue.png")
             }
 
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_ROTATE_TEXTURE ->{
+                loadRGBAImageFromRes(R.mipmap.luna)
+            }
+
+
             IMyNativeRendererType.SAMPLE_TYPE_KEY_TIME_WATERMARK_STICKER -> {
                 loadRGBAImageFromRes(R.mipmap.yifei)
             }
@@ -298,6 +303,7 @@ class NativeRenderActivity : Activity(), AudioCollector.Callback, SensorEventLis
 
         when (type) {
             // 这几个类型需要不停绘制，所以渲染模式设置为RENDERMODE_CONTINUOUSLY
+            IMyNativeRendererType.SAMPLE_TYPE_KEY_ROTATE_TEXTURE,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_CUBE_SIMPLE_VERTEX_SHADER,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM,
             IMyNativeRendererType.SAMPLE_TYPE_KEY_PARTICLE_SYSTEM_TRANSFORM_FEEDBACK,

@@ -112,4 +112,5 @@ object IMyNativeRendererType {
     const val SAMPLE_TYPE_KEY_3D_MODEL2                                          = SAMPLE_TYPE + 89
     const val SAMPLE_TYPE_KEY_GREEN_SCREEN_MATTING                               = SAMPLE_TYPE + 90
     const val SAMPLE_TYPE_KEY_GREEN_SCREEN_MATTING_MIX                           = SAMPLE_TYPE + 91
+    const val SAMPLE_TYPE_KEY_ROTATE_TEXTURE                                     = SAMPLE_TYPE + 92
 }

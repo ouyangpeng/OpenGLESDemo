@@ -72,6 +72,7 @@
 #include <Model3DSample2.h>
 #include <GreenScreenMatting.h>
 #include <GreenScreenMattingMix.h>
+#include <RotateTexture.h>
 
 // 自定义异常
 // 参考 https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR60-CPP.+Exception+objects+must+be+nothrow+copy+constructible
@@ -354,6 +355,9 @@ void MyGLRenderContext::SetRenderType(int sampleCategoryType, int renderSampleTy
                 break;
             case SAMPLE_TYPE_KEY_GREEN_SCREEN_MATTING_MIX:
                 m_pCurSample = new GreenScreenMattingMix();
+                break;
+            case SAMPLE_TYPE_KEY_ROTATE_TEXTURE:
+                m_pCurSample = new RotateTexture();
                 break;
             default:
                 m_pCurSample = nullptr;
