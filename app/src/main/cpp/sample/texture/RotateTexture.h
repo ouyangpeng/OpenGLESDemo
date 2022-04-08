@@ -39,9 +39,6 @@ private:
 
     float getDeltaTime();
 
-    void
-    UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, int angleZ, float scale, glm::vec3 transVec3);
-
     float translateToRadianAngle(int rotateAngle);
 
     void updateVertexCoordinates();

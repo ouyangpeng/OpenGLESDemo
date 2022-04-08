@@ -236,25 +236,6 @@ void RotateTexture::update(float deltaTime) {
     angle += (deltaTime * 40.0f);
 }
 
-
-void RotateTexture::UpdateMVPMatrix(glm::mat4 &mvpMatrix, int angleX, int angleY, int angleZ,
-                                    float scale, glm::vec3 transVec3) {
-    //转化为弧度角
-    auto radiansX = translateToRadianAngle(angleX);
-    auto radiansY = translateToRadianAngle(angleY);
-    auto radiansZ = translateToRadianAngle(angleZ);
-
-    // Model matrix
-    glm::mat4 mModel = glm::mat4(1.0f);
-    mModel = glm::scale(mModel, glm::vec3(scale, scale, scale));
-    mModel = glm::rotate(mModel, radiansX, glm::vec3(1.0f, 0.0f, 0.0f));
-    mModel = glm::rotate(mModel, radiansY, glm::vec3(0.0f, 1.0f, 0.0f));
-    mModel = glm::rotate(mModel, radiansZ, glm::vec3(0.0f, 0.0f, 1.0f));
-    mModel = glm::translate(mModel, transVec3);
-
-    mvpMatrix = mModel;
-}
-
 float RotateTexture::translateToRadianAngle(int rotateAngle) {
     // 最多360度
     rotateAngle = rotateAngle % 360;
