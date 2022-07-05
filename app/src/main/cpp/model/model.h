@@ -332,7 +332,11 @@ private:
             if (!skip) {   // if texture hasn't been loaded already, load it
                 Texture texture;
                 // 我们接下来使用另外一个叫做TextureFromFile的工具函数，它将会（用stb_image.h）加载一个纹理并返回该纹理的ID。
-                texture.id = ImageLoader::TextureFromFile(str.C_Str(), this->directory);
+                // todo 注意stb_image 不支持png 32位的  否则那个3D模型加载那个 杏子 apricot 模型 会完全灰色
+                // texture.id = ImageLoader::TextureFromFile(str.C_Str(), this->directory);
+
+                // 使用 OpenCV 对图片进行解码
+                texture.id =TextureFromFile(str.C_Str(), this->directory);
                 texture.type = typeName;
                 texture.path = str.C_Str();
                 textures.push_back(texture);
@@ -344,48 +348,48 @@ private:
         return textures;
     }
 
-//
-//    // 在 native 层加载纹理的时候，我们使用 OpenCV 对图片进行解码，然后生成纹理对象：
-//    unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false) {
-//        string filename = string(path);
-//        filename = directory + '/' + filename;
-//
-//        unsigned int textureID;
-//        glGenTextures(1, &textureID);
-//
-//        int width, height, nrComponents;
-//        unsigned char *data = nullptr;
-//
-//        // load the texture using OpenCV
-//        LOGD("TextureFromFile Loading texture %s", filename.c_str())
-//
-//        // 使用 OpenCV 对图片进行解码
-//        cv::Mat textureImage = cv::imread(filename);
-//        if (!textureImage.empty()) {
-//            hasTexture = true;
-//            // OpenCV 默认解码成 BGR 格式，这里转换为 RGB
-//            // opencv reads textures in BGR format, change to RGB for GL
-//            cv::cvtColor(textureImage, textureImage, CV_BGR2RGB);
-//            // opencv reads image from top-left, while GL expects it from bottom-left
-//            // vertically flip the image
-//            //cv::flip(textureImage, textureImage, 0);
-//
-//            glBindTexture(GL_TEXTURE_2D, textureID);
-//            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureImage.cols,
-//                         textureImage.rows, 0, GL_RGB, GL_UNSIGNED_BYTE,
-//                         textureImage.data);
-//            glGenerateMipmap(GL_TEXTURE_2D);
-//            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-//            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//            GO_CHECK_GL_ERROR()
-//        } else {
-//            LOGD("TextureFromFile Texture failed to load at path: %s", path)
-//        }
-//
-//        return textureID;
-//    }
+
+    // 在 native 层加载纹理的时候，我们使用 OpenCV 对图片进行解码，然后生成纹理对象：
+    unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false) {
+        string filename = string(path);
+        filename = directory + '/' + filename;
+
+        unsigned int textureID;
+        glGenTextures(1, &textureID);
+
+        int width, height, nrComponents;
+        unsigned char *data = nullptr;
+
+        // load the texture using OpenCV
+        LOGD("TextureFromFile Loading texture %s", filename.c_str())
+
+        // 使用 OpenCV 对图片进行解码
+        cv::Mat textureImage = cv::imread(filename);
+        if (!textureImage.empty()) {
+            hasTexture = true;
+            // OpenCV 默认解码成 BGR 格式，这里转换为 RGB
+            // opencv reads textures in BGR format, change to RGB for GL
+            cv::cvtColor(textureImage, textureImage, CV_BGR2RGB);
+            // opencv reads image from top-left, while GL expects it from bottom-left
+            // vertically flip the image
+            //cv::flip(textureImage, textureImage, 0);
+
+            glBindTexture(GL_TEXTURE_2D, textureID);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureImage.cols,
+                         textureImage.rows, 0, GL_RGB, GL_UNSIGNED_BYTE,
+                         textureImage.data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            GO_CHECK_GL_ERROR()
+        } else {
+            LOGD("TextureFromFile Texture failed to load at path: %s", path)
+        }
+
+        return textureID;
+    }
 };
 
 #endif
