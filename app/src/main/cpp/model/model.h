@@ -18,6 +18,7 @@
 #include <opencv2/opencv.hpp>
 #include "mesh.h"
 #include <LogUtils.h>
+#include <image/ImageLoader.h>
 
 using namespace std;
 
@@ -104,7 +105,7 @@ private:
 
         // Assimp提供了很多有用的后期处理指令，你可以在这里链接中找到全部的指令。  http://assimp.sourceforge.net/lib_html/postprocess_8h.html
         // 实际上使用Assimp加载模型是非常容易的（你也可以看到）。困难的是之后使用返回的场景对象将加载的数据转换到一个Mesh对象的数组。
-        const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs |
+        const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs |
                                                        aiProcess_CalcTangentSpace);
         DEBUG_LOGCATE()
         // check for errors
@@ -198,12 +199,13 @@ private:
 
             updateMaxMinXyz(vector);
 
-            // normals 处理法线
-            vector.x = mesh->mNormals[i].x;
-            vector.y = mesh->mNormals[i].y;
-            vector.z = mesh->mNormals[i].z;
-            vertex.Normal = vector;
-
+            if(mesh->HasNormals()){
+                // normals 处理法线
+                vector.x = mesh->mNormals[i].x;
+                vector.y = mesh->mNormals[i].y;
+                vector.z = mesh->mNormals[i].z;
+                vertex.Normal = vector;
+            }
 
             // texture coordinates 处理纹理坐标
             // 纹理坐标的处理也大体相似，但Assimp允许一个模型在一个顶点上有最多8个不同的纹理坐标，
@@ -216,21 +218,21 @@ private:
                 vec.x = mesh->mTextureCoords[0][i].x;
                 vec.y = mesh->mTextureCoords[0][i].y;
                 vertex.TexCoords = vec;
+
+                // tangent
+                vector.x = mesh->mTangents[i].x;
+                vector.y = mesh->mTangents[i].y;
+                vector.z = mesh->mTangents[i].z;
+                vertex.Tangent = vector;
+
+                // bitangent
+                vector.x = mesh->mBitangents[i].x;
+                vector.y = mesh->mBitangents[i].y;
+                vector.z = mesh->mBitangents[i].z;
+                vertex.Bitangent = vector;
+                vertices.push_back(vertex);
             } else
                 vertex.TexCoords = glm::vec2(0.0f, 0.0f);
-
-            // tangent
-            vector.x = mesh->mTangents[i].x;
-            vector.y = mesh->mTangents[i].y;
-            vector.z = mesh->mTangents[i].z;
-            vertex.Tangent = vector;
-
-            // bitangent
-            vector.x = mesh->mBitangents[i].x;
-            vector.y = mesh->mBitangents[i].y;
-            vector.z = mesh->mBitangents[i].z;
-            vertex.Bitangent = vector;
-            vertices.push_back(vertex);
         }
 
         // 处理顶点索引
@@ -330,7 +332,7 @@ private:
             if (!skip) {   // if texture hasn't been loaded already, load it
                 Texture texture;
                 // 我们接下来使用另外一个叫做TextureFromFile的工具函数，它将会（用stb_image.h）加载一个纹理并返回该纹理的ID。
-                texture.id = TextureFromFile(str.C_Str(), this->directory);
+                texture.id = ImageLoader::TextureFromFile(str.C_Str(), this->directory);
                 texture.type = typeName;
                 texture.path = str.C_Str();
                 textures.push_back(texture);
@@ -342,47 +344,48 @@ private:
         return textures;
     }
 
-    // 在 native 层加载纹理的时候，我们使用 OpenCV 对图片进行解码，然后生成纹理对象：
-    unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false) {
-        string filename = string(path);
-        filename = directory + '/' + filename;
-
-        unsigned int textureID;
-        glGenTextures(1, &textureID);
-
-        int width, height, nrComponents;
-        unsigned char *data = nullptr;
-
-        // load the texture using OpenCV
-        LOGD("TextureFromFile Loading texture %s", filename.c_str())
-
-        // 使用 OpenCV 对图片进行解码
-        cv::Mat textureImage = cv::imread(filename);
-        if (!textureImage.empty()) {
-            hasTexture = true;
-            // OpenCV 默认解码成 BGR 格式，这里转换为 RGB
-            // opencv reads textures in BGR format, change to RGB for GL
-            cv::cvtColor(textureImage, textureImage, CV_BGR2RGB);
-            // opencv reads image from top-left, while GL expects it from bottom-left
-            // vertically flip the image
-            //cv::flip(textureImage, textureImage, 0);
-
-            glBindTexture(GL_TEXTURE_2D, textureID);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureImage.cols,
-                         textureImage.rows, 0, GL_RGB, GL_UNSIGNED_BYTE,
-                         textureImage.data);
-            glGenerateMipmap(GL_TEXTURE_2D);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            GO_CHECK_GL_ERROR()
-        } else {
-            LOGD("TextureFromFile Texture failed to load at path: %s", path)
-        }
-
-        return textureID;
-    }
+//
+//    // 在 native 层加载纹理的时候，我们使用 OpenCV 对图片进行解码，然后生成纹理对象：
+//    unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false) {
+//        string filename = string(path);
+//        filename = directory + '/' + filename;
+//
+//        unsigned int textureID;
+//        glGenTextures(1, &textureID);
+//
+//        int width, height, nrComponents;
+//        unsigned char *data = nullptr;
+//
+//        // load the texture using OpenCV
+//        LOGD("TextureFromFile Loading texture %s", filename.c_str())
+//
+//        // 使用 OpenCV 对图片进行解码
+//        cv::Mat textureImage = cv::imread(filename);
+//        if (!textureImage.empty()) {
+//            hasTexture = true;
+//            // OpenCV 默认解码成 BGR 格式，这里转换为 RGB
+//            // opencv reads textures in BGR format, change to RGB for GL
+//            cv::cvtColor(textureImage, textureImage, CV_BGR2RGB);
+//            // opencv reads image from top-left, while GL expects it from bottom-left
+//            // vertically flip the image
+//            //cv::flip(textureImage, textureImage, 0);
+//
+//            glBindTexture(GL_TEXTURE_2D, textureID);
+//            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureImage.cols,
+//                         textureImage.rows, 0, GL_RGB, GL_UNSIGNED_BYTE,
+//                         textureImage.data);
+//            glGenerateMipmap(GL_TEXTURE_2D);
+//            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+//            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//            GO_CHECK_GL_ERROR()
+//        } else {
+//            LOGD("TextureFromFile Texture failed to load at path: %s", path)
+//        }
+//
+//        return textureID;
+//    }
 };
 
 #endif

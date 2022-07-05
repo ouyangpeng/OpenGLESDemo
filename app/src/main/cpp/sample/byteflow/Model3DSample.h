@@ -5,7 +5,6 @@
 #ifndef OPENGLESDEMO_MODEL3DSAMPLE_H
 #define OPENGLESDEMO_MODEL3DSAMPLE_H
 
-#include <glm/gtc/matrix_transform.hpp>
 #include <GLBaseSample.h>
 #include <shader.h>
 #include <model.h>
