@@ -56,11 +56,54 @@ public:
 
 	// Print some OpenGL info
 	static void printGLInfo(){
+        LOGI("===== Here are some information of your device =====");
 		printGLString("Version", GL_VERSION);
 		printGLString("GLSL Version", GL_SHADING_LANGUAGE_VERSION);
 		printGLString("Vendor", GL_VENDOR);
 		printGLString("Renderer", GL_RENDERER);
 		printGLString("Extensions", GL_EXTENSIONS);
+
+		GLint iParam[2];
+		glGetIntegerv(GL_MAX_VERTEX_UNIFORM_VECTORS, iParam);
+		LOGI("Max Vertex Uniform Vectors: %d", iParam[0]);
+		
+		glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_VECTORS, iParam);
+		LOGI("Max Fragment Uniform Vectors : %d", iParam[0]);
+
+		glGetIntegerv(GL_MAX_VARYING_VECTORS, iParam);
+		LOGI("Max Varying Vectors: %d", iParam[0]);
+
+		glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, iParam);
+		LOGI("Max Texture Image Units : %d", iParam[0]);
+
+		glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, iParam);
+		LOGI("Max Combined Texture Image Units : %d", iParam[0]);
+
+		glGetIntegerv(GL_MAX_TEXTURE_SIZE, iParam);
+		LOGI("Max Texture Size : %d", iParam[0]);
+
+		glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, iParam);
+		LOGI("Max Vertex Attribs: %d", iParam[0]);
+
+		glGetIntegerv(GL_MAX_VIEWPORT_DIMS, iParam);
+		LOGI("Max Viewport Dims : [%d, %d]", iParam[0], iParam[1]);
+
+		glGetIntegerv(GL_MAX_RENDERBUFFER_SIZE, iParam);
+		LOGI("Max Render Buffer Size: %d", iParam[0]);
+
+		glGetIntegerv(GL_STENCIL_BITS, iParam);
+		LOGI("Stencil Buffer Bits : %d", iParam[0]);
+
+		glGetIntegerv(GL_ALIASED_POINT_SIZE_RANGE, iParam);
+		LOGI("Point Size Range: [%d, %d]", iParam[0], iParam[1]);
+
+		glGetIntegerv(GL_ALIASED_LINE_WIDTH_RANGE, iParam);
+		LOGI("Line Width Range: [%d, %d]", iParam[0], iParam[1]);
+
+		glGetIntegerv(GL_DEPTH_BITS, iParam);
+		LOGI("Depth Bits: %d", iParam[0]);
+
+        LOGI("===== Information end =====");
 	}
 
 	static void setBool(GLuint programId, const std::string &name, bool value) {
