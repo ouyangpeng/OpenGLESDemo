@@ -584,6 +584,8 @@ class MainActivity : Activity() {
         data.add(item3DModel)
         typeMapping.put(i++, IMyNativeRendererType.SAMPLE_TYPE_KEY_3D_MODEL)
 
+        // 此模型原版本的Y坐标是反的，经过修复之后将Y坐标翻转才正常显示
+        // 详情参考博客：https://blog.csdn.net/ouyang_peng/article/details/128918611
         val item3DModel2: MutableMap<String, Any?> = HashMap()
         item3DModel2[ITEM_IMAGE] = R.mipmap.ic_model_3d_2
         item3DModel2[ITEM_TITLE] = "展示 3D模型2"
